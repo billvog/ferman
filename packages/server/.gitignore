@@ -1,0 +1,18 @@
+# ides
+.idea/
+.vscode/
+
+# node
+node_modules/
+dist/
+
+# redis
+dump.rdb
+
+# other
+.DS_Store
+tmp/
+temp/
+
+# enviroment variables
+.env

@@ -1,0 +1,14 @@
+fragment FullUser on User {
+  id
+  uid
+  username
+  email
+  emailHash
+  createdAt
+  followingStatus
+  followerCount
+  followingCount
+  profile {
+    ...FullProfile
+  }
+}
