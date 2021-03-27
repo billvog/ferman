@@ -1,7 +1,6 @@
 {
    "name": "@ferman/server",
    "version": "0.0.1",
-   "description": "Ferman, the center of posts.",
    "devDependencies": {
       "@types/connect-redis": "^0.0.16",
       "@types/express-session": "^1.17.3",
