@@ -1,0 +1,14 @@
+fragment FullPost on Post {
+  id
+  title
+  body
+  points
+  commentsCount
+  likeStatus
+  createdAt
+  creator {
+    id
+    uid
+    username
+  }
+}

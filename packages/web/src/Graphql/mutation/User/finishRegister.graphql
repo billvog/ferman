@@ -1,0 +1,14 @@
+mutation FinishRegister(
+  $token: String!
+  $options: RegisterInput!
+  $password: String!
+) {
+  finishRegister(token: $token, options: $options, password: $password) {
+    error {
+      ...FieldError
+    }
+    user {
+      ...FullUser
+    }
+  }
+}

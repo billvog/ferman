@@ -1,0 +1,10 @@
+query ViewComment($id: Int!) {
+  viewComment(id: $id) {
+    parent {
+      ...FullComment
+    }
+    replies {
+      ...FullComment
+    }
+  }
+}

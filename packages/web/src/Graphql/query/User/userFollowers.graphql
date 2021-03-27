@@ -1,0 +1,5 @@
+query UserFollowers($userId: Int!) {
+  userFollowers(userId: $userId) {
+    ...FullUser
+  }
+}
