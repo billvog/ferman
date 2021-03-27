@@ -1,5 +1,6 @@
 node_modules
 .DS_Store
 dump.rdb
+dist
 
 old-web/
