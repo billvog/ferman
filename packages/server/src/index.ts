@@ -62,6 +62,7 @@ import { Like } from "./entity/Like";
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
+    logger: "simple-console",
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migration/*")],
     entities: [User, Profile, Follow, Post, Like, Comment],

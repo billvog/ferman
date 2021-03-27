@@ -1,4 +1,4 @@
 {
   "private": true,
-  "workspaces": ["packages/web", "packages/server", "packages/common"]
+  "workspaces": ["packages/web", "packages/server", "packages/common", "packages/controller"]
 }
