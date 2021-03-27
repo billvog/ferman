@@ -30,14 +30,14 @@ import { User } from "../entity/User";
 import { isAuth, isNotAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
 import { sendEmail } from "../utils/sendEmail";
-import { validateBirthdate } from "../validators/ProfileValidator";
-import {
-  validateEmail,
-  validatePassword,
-  validateUid,
-  validateUsername,
-} from "../validators/UserValidator";
 import { FieldError } from "./FieldError";
+import {
+  ForgotPasswordValidationSchema,
+  LoginValidationSchema,
+  RegisterValidationSchema,
+  ResetPasswordValidationSchema,
+  USER_PASSWORD_SHAPE,
+} from "@ferman/common";
 
 @ObjectType()
 class UserErrorResponse {
@@ -289,25 +289,14 @@ export class UserResolver {
     @Arg("options", () => LoginInput) options: LoginInput,
     @Ctx() { req }: MyContext
   ): Promise<UserErrorResponse> {
-    // trim variables
-    options.email = options.email.trim().toLocaleLowerCase();
-
-    // validate email
-    const emailValidation = validateEmail(options.email);
-    if (emailValidation) {
+    try {
+      const validation = await LoginValidationSchema.validate(options);
+      options = validation;
+    } catch (error) {
       return {
         error: {
-          ...emailValidation,
-        },
-      };
-    }
-
-    // validate password
-    const passwordValidation = validatePassword(options.password);
-    if (passwordValidation) {
-      return {
-        error: {
-          ...passwordValidation,
+          field: error.path,
+          message: error.errors[0],
         },
       };
     }
@@ -348,15 +337,25 @@ export class UserResolver {
     @Arg("options", () => RegisterInput) options: RegisterInput,
     @Ctx() { redis }: MyContext
   ): Promise<FieldError | null> {
-    // trim variables
-    options.uid = options.uid.trim();
-    options.username = options.username.trim();
-    options.email = options.email.trim().toLocaleLowerCase();
+    try {
+      const validation = await RegisterValidationSchema.validate({
+        uid: options.uid,
+        username: options.username,
+        email: options.email,
+        birthdate: options.birthdate,
+      });
 
-    // validate uid
-    const uidValidation = validateUid(options.uid);
-    if (uidValidation) {
-      return uidValidation;
+      options = {
+        uid: validation.uid,
+        username: validation.username,
+        email: validation.email,
+        birthdate: validation.birthdate!.toISOString(),
+      };
+    } catch (error) {
+      return {
+        field: error.path,
+        message: error.errors[0],
+      };
     }
 
     // check for taken uid
@@ -367,12 +366,6 @@ export class UserResolver {
       };
     }
 
-    // validate username
-    const usernameValidation = validateUsername(options.username);
-    if (usernameValidation) {
-      return usernameValidation;
-    }
-
     // check for taken username
     if (await User.findOne({ where: { username: options.username } })) {
       return {
@@ -381,24 +374,12 @@ export class UserResolver {
       };
     }
 
-    // validate email
-    const emailValidation = validateEmail(options.email);
-    if (emailValidation) {
-      return emailValidation;
-    }
-
     // check for taken email
     if (await User.findOne({ where: { email: options.email } })) {
       return {
         field: "email",
         message: "Email already registed",
       };
-    }
-
-    // validate password
-    const birthdateValidation = validateBirthdate(options.birthdate);
-    if (birthdateValidation) {
-      return birthdateValidation;
     }
 
     // generate token
@@ -459,13 +440,25 @@ export class UserResolver {
       };
     }
 
-    // trim variables
-    options.uid = options.uid.trim();
-    options.username = options.username.trim();
-    options.email = options.email.trim().toLocaleLowerCase();
+    let validation: any;
+    try {
+      validation = await RegisterValidationSchema.validate({
+        uid: options.uid,
+        username: options.username,
+        email: options.email,
+        birthdate: options.birthdate,
+      });
+    } catch (error) {
+      return {
+        error: {
+          field: error.path,
+          message: error.errors[0],
+        },
+      };
+    }
 
     // validate register token
-    if (foundToken !== options.email) {
+    if (foundToken !== validation.email) {
       return {
         error: {
           field: "token",
@@ -475,31 +468,15 @@ export class UserResolver {
       };
     }
 
-    // validate uid
-    const uidValidation = validateUid(options.uid);
-    if (uidValidation) {
-      return {
-        error: uidValidation,
-      };
-    }
-
     // check for taken uid
-    if (await User.findOne({ where: { uid: options.uid } })) {
+    if (await User.findOne({ where: { uid: validation.uid } })) {
       return {
         error: { field: "uid", message: "Uid already used" },
       };
     }
 
-    // validate username
-    const usernameValidation = validateUsername(options.username);
-    if (usernameValidation) {
-      return {
-        error: usernameValidation,
-      };
-    }
-
     // check for taken username
-    if (await User.findOne({ where: { username: options.username } })) {
+    if (await User.findOne({ where: { username: validation.username } })) {
       return {
         error: {
           field: "username",
@@ -508,30 +485,27 @@ export class UserResolver {
       };
     }
 
-    // validate birthdate
-    const birthdateValidation = validateBirthdate(options.birthdate);
-    if (birthdateValidation) {
-      return {
-        error: birthdateValidation,
-      };
-    }
-
     // validate password
-    const passwordValidation = validatePassword(password);
-    if (passwordValidation) {
+    let validatedPassword;
+    try {
+      validatedPassword = await USER_PASSWORD_SHAPE.validate(password);
+    } catch (error) {
       return {
-        error: passwordValidation,
+        error: {
+          field: error.path,
+          message: error.errors[0],
+        },
       };
     }
 
     // create password hash
-    const hashedPassword = await hash(password);
+    const hashedPassword = await hash(validatedPassword);
 
     // create user
     const user = User.create({
-      uid: options.uid,
-      username: options.username,
-      email: options.email,
+      uid: validation.uid,
+      username: validation.username,
+      email: validation.email,
       password: hashedPassword,
     });
 
@@ -543,7 +517,7 @@ export class UserResolver {
       await tm.insert(Profile, {
         userId: insertedUser.id,
         bio: "",
-        birthdate: options.birthdate,
+        birthdate: validation.birthdate,
         showBirthdate: false,
         location: "",
       });
@@ -567,11 +541,15 @@ export class UserResolver {
     @Arg("email") email: string,
     @Ctx() { redis }: MyContext
   ): Promise<FieldError | null> {
-    // validate email
-    const emailValidation = validateEmail(email);
-    if (emailValidation) {
+    try {
+      const validation = await ForgotPasswordValidationSchema.validate({
+        email,
+      });
+      email = validation.email;
+    } catch (error) {
       return {
-        ...emailValidation,
+        field: error.path,
+        message: error.errors[0],
       };
     }
 
@@ -616,11 +594,14 @@ export class UserResolver {
     @Arg("token") token: string,
     @Ctx() { redis }: MyContext
   ): Promise<FieldError | null> {
-    // validate password
-    const passwordValidation = validatePassword(password);
-    if (passwordValidation) {
+    try {
+      await ResetPasswordValidationSchema.validate({
+        password,
+      });
+    } catch (error) {
       return {
-        ...passwordValidation,
+        field: error.path,
+        message: error.errors[0],
       };
     }
 
