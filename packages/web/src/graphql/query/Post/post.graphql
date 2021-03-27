@@ -1,5 +1,0 @@
-query Post($id: String!) {
-  post(id: $id) {
-    ...FullPost
-  }
-}

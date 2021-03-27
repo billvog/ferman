@@ -1,8 +1,0 @@
-mutation LikePost($postId: String!) {
-  like(postId: $postId) {
-    error
-    post {
-      ...FullPost
-    }
-  }
-}

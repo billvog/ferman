@@ -1,6 +1,0 @@
-fragment FullProfile on Profile {
-  bio
-  location
-  birthdate
-  showBirthdate
-}
