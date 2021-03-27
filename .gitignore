@@ -1,6 +1,9 @@
-node_modules
-.DS_Store
-dump.rdb
+# nodejs
 dist
+node_modules
 
-old-web/
+# misc
+.DS_Store
+
+# redis
+dump.rdb
