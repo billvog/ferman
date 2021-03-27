@@ -23,6 +23,7 @@ import {
   useValidateRegisterTokenMutation,
 } from "../../generated/graphql";
 import { withMyApollo } from "../../utils/withMyApollo";
+import { RegisterValidationSchema } from "../../../../common/dist";
 
 const Register = ({}) => {
   const toast = useToast();
@@ -77,6 +78,7 @@ const Register = ({}) => {
         </Alert>
       ) : (
         <Formik
+          validationSchema={RegisterValidationSchema}
           initialValues={{
             uid: "",
             username: "",

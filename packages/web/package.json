@@ -23,7 +23,8 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "react-process-string": "^1.2.0"
+    "react-process-string": "^1.2.0",
+    "@ferman/common": "1.0.0"
   },
   "license": "MIT",
   "devDependencies": {
