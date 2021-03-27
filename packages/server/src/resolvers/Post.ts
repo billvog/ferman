@@ -1,6 +1,6 @@
 import { Post } from "../entity/Post";
 import { isAuth } from "../middleware/isAuth";
-import { validateBody, validateTitle } from "../validators/PostValidator";
+import { validateBody, validateTitle } from "../validation/PostValidator";
 import {
   Arg,
   Ctx,

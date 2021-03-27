@@ -14,8 +14,7 @@ import { Profile } from "../entity/Profile";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
-import { ValidateBio, ValidateLocation } from "../validators/ProfileValidator";
-import { validateUsername } from "../validators/UserValidator";
+import { ProfileValidationSchema } from "../validation/ProfileShema";
 import { FieldError } from "./FieldError";
 
 @ObjectType()
@@ -74,12 +73,20 @@ export class ProfileResolver {
       throw new Error("Profile not found");
     }
 
-    // validate username
-    const usernameValidation = validateUsername(options.username);
-    if (usernameValidation) {
+    // validate
+    try {
+      const validation = await ProfileValidationSchema.validate(options);
+      options = {
+        bio: validation.bio!,
+        location: validation.location!,
+        showBirthdate: validation.showBirthdate!,
+        username: validation.username!,
+      };
+    } catch (error) {
       return {
         error: {
-          ...usernameValidation,
+          field: error.path,
+          message: error.errors[0],
         },
       };
     }
@@ -93,22 +100,6 @@ export class ProfileResolver {
           field: "username",
           message: "Username already taken",
         },
-      };
-    }
-
-    // validate bio
-    const bioValidation = ValidateBio(options.bio);
-    if (bioValidation) {
-      return {
-        error: bioValidation,
-      };
-    }
-
-    // validate location
-    const locationValidation = ValidateLocation(options.location);
-    if (locationValidation) {
-      return {
-        error: locationValidation,
       };
     }
 

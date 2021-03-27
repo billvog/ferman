@@ -16,7 +16,7 @@ import { Post } from "../entity/Post";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
-import { validateCommentText } from "../validators/PostValidator";
+import { validateCommentText } from "../validation/PostValidator";
 import { FieldError } from "./FieldError";
 
 @ObjectType()

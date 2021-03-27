@@ -37,7 +37,7 @@ import {
   RegisterValidationSchema,
   ResetPasswordValidationSchema,
   USER_PASSWORD_SHAPE,
-} from "@ferman/common";
+} from "../validation/UserSchema";
 
 @ObjectType()
 class UserErrorResponse {
