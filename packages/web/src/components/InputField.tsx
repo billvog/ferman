@@ -40,10 +40,10 @@ export const InputField: React.FC<InputFieldProps> = ({
     FieldComponent = Textarea;
   }
 
-  const [field, { error }] = useField(props);
+  const [field, { error, touched }] = useField(props);
 
   return (
-    <FormControl isInvalid={!!error}>
+    <FormControl isInvalid={!!error && touched}>
       <FormLabel htmlFor={field.name}>
         <Flex align="center">
           {label}
@@ -84,7 +84,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       {helperText && (
         <FormHelperText fontSize={12}>{helperText}</FormHelperText>
       )}
-      {error && <FormErrorMessage>{error}</FormErrorMessage>}
+      {error && touched && <FormErrorMessage>{error}</FormErrorMessage>}
     </FormControl>
   );
 };

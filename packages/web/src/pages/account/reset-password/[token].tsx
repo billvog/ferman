@@ -16,9 +16,9 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useResetPasswordMutation } from "../../../generated/graphql";
-import { InputField } from "../../../components/InputField";
-import { Layout } from "../../../components/Layout";
-import { withMyApollo } from "../../../utils/withMyApollo";
+import { InputField } from "../../../Components/InputField";
+import { Layout } from "../../../Components/Layout";
+import { withMyApollo } from "../../../Utils/withMyApollo";
 
 const ResetPassword: NextPage = ({}) => {
   const toast = useToast();

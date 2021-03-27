@@ -4,7 +4,7 @@ import { FullPostFragment, FullUserFragment } from "../generated/graphql";
 import { PostActionButtons } from "./PostActionButtons";
 import NextLink from "next/link";
 import moment from "moment";
-import { richBodyText } from "../utils/richBodyText";
+import { richBodyText } from "../Utils/richBodyText";
 
 interface PostProps {
   me: FullUserFragment | null;

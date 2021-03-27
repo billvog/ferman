@@ -12,10 +12,10 @@ import {
 import { Form, Formik } from "formik";
 import NextLink from "next/link";
 import React, { useState } from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
+import { InputField } from "../../Components/InputField";
+import { Layout } from "../../Components/Layout";
 import { useForgotPasswordMutation } from "../../generated/graphql";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { withMyApollo } from "../../Utils/withMyApollo";
 
 interface ForgotPasswordProps {}
 

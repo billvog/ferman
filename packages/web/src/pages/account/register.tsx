@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
+import { InputField } from "../../Components/InputField";
+import { Layout } from "../../Components/Layout";
 import NextLink from "next/link";
 import {
   MeDocument,
@@ -22,7 +22,7 @@ import {
   useRegisterMutation,
   useValidateRegisterTokenMutation,
 } from "../../generated/graphql";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { withMyApollo } from "../../Utils/withMyApollo";
 import { RegisterValidationSchema } from "../../../../common/dist";
 
 const Register = ({}) => {
@@ -171,7 +171,7 @@ const Register = ({}) => {
             }
           }}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, validateOnBlur }) => (
             <Form>
               {!!message && (
                 <Alert status="success" mb={3}>

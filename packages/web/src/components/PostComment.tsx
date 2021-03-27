@@ -4,7 +4,7 @@ import { FullCommentFragment, FullUserFragment } from "../generated/graphql";
 import NextLink from "next/link";
 import { CommentActionButtons } from "./CommentActionButtons";
 import moment from "moment";
-import { richBodyText } from "../utils/richBodyText";
+import { richBodyText } from "../Utils/richBodyText";
 
 interface PostCommentProps {
   me: FullUserFragment | null;

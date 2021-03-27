@@ -3,11 +3,11 @@ import { Button, Flex, Stack } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/spinner";
 import { useRouter } from "next/router";
 import React from "react";
-import { ErrorText } from "../../../../components/ErrorText";
-import { Layout } from "../../../../components/Layout";
-import { PostComment } from "../../../../components/PostComment";
+import { ErrorText } from "../../../../Components/ErrorText";
+import { Layout } from "../../../../Components/Layout";
+import { PostComment } from "../../../../Components/PostComment";
 import { useMeQuery, useViewCommentQuery } from "../../../../generated/graphql";
-import { withMyApollo } from "../../../../utils/withMyApollo";
+import { withMyApollo } from "../../../../Utils/withMyApollo";
 
 const ViewComment = ({}) => {
   const router = useRouter();

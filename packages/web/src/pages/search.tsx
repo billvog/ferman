@@ -10,13 +10,13 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { ErrorText } from "../components/ErrorText";
-import { Layout } from "../components/Layout";
-import { Post } from "../components/Post";
-import { SearchField } from "../components/SearchField";
+import { ErrorText } from "../Components/ErrorText";
+import { Layout } from "../Components/Layout";
+import { Post } from "../Components/Post";
+import { SearchField } from "../Components/SearchField";
 import { useMeQuery, usePostsLazyQuery } from "../generated/graphql";
-import { withMyApollo } from "../utils/withMyApollo";
-import { isServer } from "../utils/isServer";
+import { withMyApollo } from "../Utils/withMyApollo";
+import { isServer } from "../Utils/isServer";
 import { useRouter } from "next/router";
 
 const SearchTips = () => {

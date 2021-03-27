@@ -10,19 +10,19 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { Layout } from "../../../components/Layout";
+import { Layout } from "../../../Components/Layout";
 import {
   useCommentsQuery,
   useMeQuery,
   useUserQuery,
 } from "../../../generated/graphql";
-import { useGetPostFromUrl } from "../../../utils/useGetPostFromUrl";
-import { withMyApollo } from "../../../utils/withMyApollo";
-import { Post } from "../../../components/Post";
+import { useGetPostFromUrl } from "../../../Utils/useGetPostFromUrl";
+import { withMyApollo } from "../../../Utils/withMyApollo";
+import { Post } from "../../../Components/Post";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { ErrorText } from "../../../components/ErrorText";
-import { UserCard } from "../../../components/UserCard";
-import { PostComment } from "../../../components/PostComment";
+import { ErrorText } from "../../../Components/ErrorText";
+import { UserCard } from "../../../Components/UserCard";
+import { PostComment } from "../../../Components/PostComment";
 
 const ViewPost = ({}) => {
   const router = useRouter();

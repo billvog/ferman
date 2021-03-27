@@ -1,12 +1,12 @@
 import { Box, Button, Flex, Heading, Link, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
+import { InputField } from "../../Components/InputField";
+import { Layout } from "../../Components/Layout";
 import NextLink from "next/link";
 import { MeDocument, MeQuery, useLoginMutation } from "../../generated/graphql";
 import { useRouter } from "next/router";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { withMyApollo } from "../../Utils/withMyApollo";
 
 interface LoginProps {}
 

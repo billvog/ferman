@@ -3,12 +3,12 @@ import { Divider, Heading, Link, Text } from "@chakra-ui/layout";
 import { Box, Button, Spinner, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { Layout } from "../../components/Layout";
+import { Layout } from "../../Components/Layout";
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { withMyApollo } from "../../Utils/withMyApollo";
 import NextLink from "next/link";
-import { UserCard } from "../../components/UserCard";
-import { ErrorText } from "../../components/ErrorText";
+import { UserCard } from "../../Components/UserCard";
+import { ErrorText } from "../../Components/ErrorText";
 import moment from "moment";
 import { SettingsIcon } from "@chakra-ui/icons";
 

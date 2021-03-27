@@ -4,11 +4,11 @@ import { Spinner } from "@chakra-ui/spinner";
 import { Formik, Form } from "formik";
 import router from "next/router";
 import React from "react";
-import { ErrorText } from "../../components/ErrorText";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
+import { ErrorText } from "../../Components/ErrorText";
+import { InputField } from "../../Components/InputField";
+import { Layout } from "../../Components/Layout";
 import { useMeQuery, useUpdateProfileMutation } from "../../generated/graphql";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { withMyApollo } from "../../Utils/withMyApollo";
 import moment from "moment";
 
 const EditProfile = ({}) => {

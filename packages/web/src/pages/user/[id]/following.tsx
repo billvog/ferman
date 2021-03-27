@@ -10,12 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { ErrorText } from "../../../components/ErrorText";
-import { Layout } from "../../../components/Layout";
-import { UserCard } from "../../../components/UserCard";
+import { ErrorText } from "../../../Components/ErrorText";
+import { Layout } from "../../../Components/Layout";
+import { UserCard } from "../../../Components/UserCard";
 import { useFollowingUsersQuery, useMeQuery } from "../../../generated/graphql";
-import { useGetUserFromUrl } from "../../../utils/useGetUserFromUrl";
-import { withMyApollo } from "../../../utils/withMyApollo";
+import { useGetUserFromUrl } from "../../../Utils/useGetUserFromUrl";
+import { withMyApollo } from "../../../Utils/withMyApollo";
 
 const UserFollowing = ({}) => {
   const router = useRouter();

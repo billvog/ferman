@@ -1,7 +1,7 @@
 import { Box, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
 import React from "react";
-import { Layout } from "../../components/Layout";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { Layout } from "../../Components/Layout";
+import { withMyApollo } from "../../Utils/withMyApollo";
 
 const TermsOfService = ({}) => {
   return (

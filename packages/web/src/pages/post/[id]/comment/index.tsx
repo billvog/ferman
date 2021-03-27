@@ -2,11 +2,11 @@ import { Button, Heading, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
-import { InputField } from "../../../../components/InputField";
-import { Layout } from "../../../../components/Layout";
+import { InputField } from "../../../../Components/InputField";
+import { Layout } from "../../../../Components/Layout";
 import { useCommentPostMutation } from "../../../../generated/graphql";
-import { useGetStringId } from "../../../../utils/useGetStringId";
-import { withMyApollo } from "../../../../utils/withMyApollo";
+import { useGetStringId } from "../../../../Utils/useGetStringId";
+import { withMyApollo } from "../../../../Utils/withMyApollo";
 
 const NewComment = ({}) => {
   const router = useRouter();

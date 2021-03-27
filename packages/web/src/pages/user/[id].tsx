@@ -9,13 +9,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-import { ErrorText } from "../../components/ErrorText";
-import { Layout } from "../../components/Layout";
-import { Post } from "../../components/Post";
-import { UserCard } from "../../components/UserCard";
+import { ErrorText } from "../../Components/ErrorText";
+import { Layout } from "../../Components/Layout";
+import { Post } from "../../Components/Post";
+import { UserCard } from "../../Components/UserCard";
 import { useMeQuery, usePostsQuery } from "../../generated/graphql";
-import { useGetUserFromUrl } from "../../utils/useGetUserFromUrl";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { useGetUserFromUrl } from "../../Utils/useGetUserFromUrl";
+import { withMyApollo } from "../../Utils/withMyApollo";
 
 const User = ({}) => {
   const { data: meData, loading: meLoading } = useMeQuery({

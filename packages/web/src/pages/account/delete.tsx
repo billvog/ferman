@@ -13,11 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
+import { InputField } from "../../Components/InputField";
+import { Layout } from "../../Components/Layout";
 import NextLink from "next/link";
 import { useDeleteAccountMutation } from "../../generated/graphql";
-import { withMyApollo } from "../../utils/withMyApollo";
+import { withMyApollo } from "../../Utils/withMyApollo";
 import { useApolloClient } from "@apollo/client";
 
 const DeleteAcount = ({}) => {

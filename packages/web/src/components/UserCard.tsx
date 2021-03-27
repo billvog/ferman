@@ -16,7 +16,7 @@ import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
 import { ImLocation2 } from "react-icons/im";
 import { FaBirthdayCake } from "react-icons/fa";
 import NextLink from "next/link";
-import { richBodyText } from "../utils/richBodyText";
+import { richBodyText } from "../Utils/richBodyText";
 import moment from "moment";
 
 interface UserCardProps {

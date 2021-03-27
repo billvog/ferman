@@ -10,9 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/spinner";
 import React from "react";
-import { Layout } from "../../../components/Layout";
+import { Layout } from "../../../Components/Layout";
 import { useMeQuery } from "../../../generated/graphql";
-import { withMyApollo } from "../../../utils/withMyApollo";
+import { withMyApollo } from "../../../Utils/withMyApollo";
 import NextLink from "next/link";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
