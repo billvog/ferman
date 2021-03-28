@@ -1,0 +1,5 @@
+query User($id: Int, $uid: String) {
+  user(id: $id, uid: $uid) {
+    ...FullUser
+  }
+}

@@ -1,0 +1,10 @@
+mutation CommentPost($options: CommentInput!, $id: String!, $parentId: Int) {
+  createComment(options: $options, id: $id, parentId: $parentId) {
+    error {
+      ...FieldError
+    }
+    comment {
+      ...FullComment
+    }
+  }
+}
