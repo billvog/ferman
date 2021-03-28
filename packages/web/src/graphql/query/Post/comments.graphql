@@ -1,5 +1,0 @@
-query Comments($postId: String!) {
-  comments(postId: $postId) {
-    ...FullComment
-  }
-}

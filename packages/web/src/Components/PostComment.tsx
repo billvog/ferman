@@ -1,10 +1,10 @@
 import { Box, Link, chakra, Text, Flex } from "@chakra-ui/react";
 import React from "react";
-import { FullCommentFragment, FullUserFragment } from "../generated/graphql";
+import { FullCommentFragment, FullUserFragment } from "@ferman/controller";
 import NextLink from "next/link";
 import { CommentActionButtons } from "./CommentActionButtons";
 import moment from "moment";
-import { richBodyText } from "../Utils/richBodyText";
+import { richBodyText } from "../utils/richBodyText";
 
 interface PostCommentProps {
   me: FullUserFragment | null;

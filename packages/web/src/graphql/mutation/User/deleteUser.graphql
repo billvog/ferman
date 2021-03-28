@@ -1,6 +1,0 @@
-mutation DeleteAccount($password: String!) {
-  deleteAccount(password: $password) {
-    field
-    message
-  }
-}

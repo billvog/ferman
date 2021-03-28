@@ -18,7 +18,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { DeleteIcon, EditIcon, ChatIcon, LinkIcon } from "@chakra-ui/icons";
+import { DeleteIcon, ChatIcon } from "@chakra-ui/icons";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { HiDotsHorizontal } from "react-icons/hi";
 import {
@@ -26,7 +26,7 @@ import {
   FullUserFragment,
   useDeletePostMutation,
   useLikePostMutation,
-} from "../generated/graphql";
+} from "@ferman/controller";
 
 interface PostActionButtonsProps {
   post: FullPostFragment;

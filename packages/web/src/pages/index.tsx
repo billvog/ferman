@@ -9,12 +9,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-import { Layout } from "../Components/Layout";
-import { useMeQuery, usePostsQuery } from "../generated/graphql";
+import { Layout } from "../components/Layout";
+import { useMeQuery, usePostsQuery } from "@ferman/controller";
 import NextLink from "next/link";
-import { withMyApollo } from "../Utils/withMyApollo";
-import { Post } from "../Components/Post";
-import { ErrorText } from "../Components/ErrorText";
+import { withMyApollo } from "../utils/withMyApollo";
+import { Post } from "../components/Post";
+import { ErrorText } from "../components/ErrorText";
 import { SearchIcon } from "@chakra-ui/icons";
 
 const Index = () => {

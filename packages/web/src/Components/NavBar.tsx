@@ -2,7 +2,7 @@ import { Box, Heading, Link, Text } from "@chakra-ui/layout";
 import { Flex, Spinner } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
-import { useMeQuery } from "../generated/graphql";
+import { useMeQuery } from "@ferman/controller";
 
 interface NavBarProps {}
 

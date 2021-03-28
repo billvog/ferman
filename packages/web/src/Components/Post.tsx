@@ -1,10 +1,10 @@
-import { Box, Link, Heading, chakra, Text, Divider } from "@chakra-ui/react";
+import { Box, Link, Heading, chakra, Text } from "@chakra-ui/react";
 import React from "react";
-import { FullPostFragment, FullUserFragment } from "../generated/graphql";
+import { FullPostFragment, FullUserFragment } from "@ferman/controller";
 import { PostActionButtons } from "./PostActionButtons";
 import NextLink from "next/link";
 import moment from "moment";
-import { richBodyText } from "../Utils/richBodyText";
+import { richBodyText } from "../utils/richBodyText";
 
 interface PostProps {
   me: FullUserFragment | null;

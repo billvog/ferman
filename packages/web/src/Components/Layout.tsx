@@ -2,7 +2,7 @@ import { Box, Spinner, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useMeQuery } from "../generated/graphql";
+import { useMeQuery } from "@ferman/controller";
 import { NavBar } from "./NavBar";
 import { Wrapper, WrapperSize } from "./Wrapper";
 

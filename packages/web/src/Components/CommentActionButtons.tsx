@@ -1,32 +1,32 @@
-import { EditIcon, DeleteIcon, CloseIcon, ChatIcon } from "@chakra-ui/icons";
+import { ChatIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
+  Box,
+  Button,
+  chakra,
   Flex,
   IconButton,
-  Box,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  useToast,
-  Text,
-  Button,
+  Link,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  chakra,
-  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import React from "react";
-import { HiDotsHorizontal } from "react-icons/hi";
 import {
   FullCommentFragment,
   FullUserFragment,
   useDeleteCommentMutation,
-} from "../generated/graphql";
+} from "@ferman/controller";
 import NextLink from "next/link";
+import React from "react";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 interface CommentActionButtonsProps {
   comment: FullCommentFragment;

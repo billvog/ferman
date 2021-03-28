@@ -11,12 +11,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { FullUserFragment, useFollowUserMutation } from "../generated/graphql";
+import { FullUserFragment, useFollowUserMutation } from "@ferman/controller";
 import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
 import { ImLocation2 } from "react-icons/im";
 import { FaBirthdayCake } from "react-icons/fa";
 import NextLink from "next/link";
-import { richBodyText } from "../Utils/richBodyText";
+import { richBodyText } from "../utils/richBodyText";
 import moment from "moment";
 
 interface UserCardProps {
