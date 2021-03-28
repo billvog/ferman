@@ -14,7 +14,7 @@ import { Profile } from "../entity/Profile";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
-import { ProfileValidationSchema } from "../validation/ProfileShema";
+import { ProfileValidationSchema } from "@ferman/common";
 import { FieldError } from "./FieldError";
 
 @ObjectType()

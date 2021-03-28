@@ -16,7 +16,7 @@ import { Post } from "../entity/Post";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
-import { validateCommentText } from "../validation/PostValidator";
+import { COMMENT_TEXT_SHAPE } from "@ferman/common";
 import { FieldError } from "./FieldError";
 
 @ObjectType()
@@ -128,11 +128,16 @@ export class PostCommentResolver {
       throw new Error("Post not found");
     }
 
-    // validate text
-    const textValidation = validateCommentText(options.text);
-    if (textValidation) {
+    // validate
+    try {
+      const validation = await COMMENT_TEXT_SHAPE.validate(options.text);
+      options.text = validation;
+    } catch (error) {
       return {
-        error: textValidation,
+        error: {
+          field: "text",
+          message: error.message,
+        },
       };
     }
 

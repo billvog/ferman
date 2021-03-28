@@ -1,6 +1,6 @@
 import { Post } from "../entity/Post";
 import { isAuth } from "../middleware/isAuth";
-import { validateBody, validateTitle } from "../validation/PostValidator";
+import { PostValidationSchema } from "@ferman/common";
 import {
   Arg,
   Ctx,
@@ -236,22 +236,15 @@ export class PostResolver {
       throw new Error("User not found");
     }
 
-    // validate title
-    const titleValidation = validateTitle(options.title);
-    if (titleValidation) {
+    // validate
+    try {
+      const validation = await PostValidationSchema.validate(options);
+      options = validation;
+    } catch (error) {
       return {
         error: {
-          ...titleValidation,
-        },
-      };
-    }
-
-    // validate body
-    const bodyValidation = validateBody(options.body);
-    if (bodyValidation) {
-      return {
-        error: {
-          ...bodyValidation,
+          field: error.path,
+          message: error.errors[0],
         },
       };
     }

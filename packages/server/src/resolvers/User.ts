@@ -36,8 +36,8 @@ import {
   LoginValidationSchema,
   RegisterValidationSchema,
   ResetPasswordValidationSchema,
-  USER_PASSWORD_SHAPE,
-} from "../validation/UserSchema";
+  PASSWORD_SHAPE,
+} from "@ferman/common";
 
 @ObjectType()
 class UserErrorResponse {
@@ -488,7 +488,7 @@ export class UserResolver {
     // validate password
     let validatedPassword;
     try {
-      validatedPassword = await USER_PASSWORD_SHAPE.validate(password);
+      validatedPassword = await PASSWORD_SHAPE.validate(password);
     } catch (error) {
       return {
         error: {

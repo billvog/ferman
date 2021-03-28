@@ -1,0 +1,29 @@
+{
+  "name": "ferman",
+  "version": "1.0.0",
+  "repository": "git@github.com:billvog/ferman.git",
+  "author": "billvog <billvog04@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**",
+      "**/react-native-typescript-transformer",
+      "**/react-native-typescript-transformer/**",
+      "**/metro-bundler-config-yarn-workspaces",
+      "**/metro-bundler-config-yarn-workspaces/**"
+    ]
+  },
+  "scripts": {
+    "build:server": "lerna run build --scope{@ferman/common,@ferman/server}"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
