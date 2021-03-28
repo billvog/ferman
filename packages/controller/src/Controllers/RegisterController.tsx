@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import MyMessage from "../Types/MyMessage";
 import {
   MeDocument,
   MeQuery,
@@ -20,8 +21,7 @@ export interface RegisterFormValues {
 interface RegisterControllerProps {
   children: (data: {
     submit: (values: RegisterFormValues) => Promise<any>;
-    message: string;
-    error: boolean;
+    message: MyMessage | null;
     phase: RegisterPhase;
     done: boolean;
   }) => JSX.Element | null;
@@ -30,8 +30,7 @@ interface RegisterControllerProps {
 export const RegisterController: React.FC<RegisterControllerProps> = ({
   children,
 }) => {
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState(false);
+  const [message, setMessage] = useState<MyMessage | null>(null);
   const [phase, setPhase] = useState<RegisterPhase>(0);
   const [done, setDone] = useState(false);
 
@@ -63,8 +62,10 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       });
 
       if (!data) {
-        setError(true);
-        setMessage("Internal server error");
+        setMessage({
+          type: "error",
+          text: "Internal server error",
+        });
         return null;
       }
 
@@ -75,10 +76,11 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       }
 
       setPhase(1);
-      setError(false);
-      setMessage(
-        "An email has been sent to the email address you've given. There, are instructions on how to continue setting up your account."
-      );
+      setMessage({
+        type: "success",
+        text:
+          "An email has been sent to the email address you've given. There, are instructions on how to continue setting up your account.",
+      });
     } else if (phase === 1) {
       const { data } = await validateToken({
         variables: {
@@ -87,12 +89,11 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       });
 
       if (!data?.validateRegisterToken) {
-        setError(true);
-        setMessage("Invalid token provided");
+        setMessage({ type: "error", text: "Invalid token provided" });
         return null;
       }
 
-      setMessage("");
+      setMessage(null);
       return setPhase(2);
     } else if (phase === 2) {
       const { data } = await finishRegister({
@@ -109,8 +110,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       });
 
       if (!data) {
-        setError(true);
-        setMessage("Internal server error");
+        setMessage({ type: "error", text: "Internal server error" });
         return null;
       }
 
@@ -127,7 +127,6 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
   return children({
     submit,
     message,
-    error,
     phase,
     done,
   });
