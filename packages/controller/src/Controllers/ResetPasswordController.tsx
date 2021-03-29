@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import { ErrorMap } from "../Types/ErrorMap";
 import { useResetPasswordMutation } from "../generated/graphql";
-import MyMessage from "../Types/MyMessage";
+import { MyMessage } from "../Types/MyMessage";
 
-interface ResetPasswordFormValues {
+export interface ResetPasswordFormValues {
   password: string;
 }
+
 interface ResetPasswordControllerProps {
   token: string;
   children: (data: {
-    submit: (values: ResetPasswordFormValues) => Promise<any>;
+    submit: (values: ResetPasswordFormValues) => Promise<ErrorMap | null>;
     message: MyMessage | null;
     done: boolean;
   }) => JSX.Element | null;

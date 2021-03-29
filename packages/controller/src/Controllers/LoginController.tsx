@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MeDocument, MeQuery, useLoginMutation } from "../generated/graphql";
-import MyMessage from "../Types/MyMessage";
+import { ErrorMap } from "../Types/ErrorMap";
+import { MyMessage } from "../Types/MyMessage";
 
 export interface LoginFormValues {
   email: string;
@@ -9,7 +10,7 @@ export interface LoginFormValues {
 
 interface LoginControllerProps {
   children: (data: {
-    submit: (values: LoginFormValues) => Promise<any>;
+    submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
     message: MyMessage | null;
     done: boolean;
   }) => JSX.Element | null;

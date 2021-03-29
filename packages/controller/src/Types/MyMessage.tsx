@@ -1,4 +1,4 @@
-export default interface MyMessage {
+export interface MyMessage {
   type: "success" | "error";
   text: string;
 }

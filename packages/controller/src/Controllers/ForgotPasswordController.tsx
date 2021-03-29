@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import { ErrorMap } from "src/Types/ErrorMap";
 import { useForgotPasswordMutation } from "../generated/graphql";
-import MyMessage from "../Types/MyMessage";
+import { MyMessage } from "../Types/MyMessage";
 
-interface ForgotPasswordFormValues {
+export interface ForgotPasswordFormValues {
   email: string;
 }
 
 interface ForgotPasswordControllerProps {
   children: (data: {
-    submit: (values: ForgotPasswordFormValues) => Promise<any>;
+    submit: (values: ForgotPasswordFormValues) => Promise<ErrorMap | null>;
     message: MyMessage | null;
   }) => JSX.Element | null;
 }
@@ -43,6 +44,7 @@ export const ForgotPasswordController: React.FC<ForgotPasswordControllerProps> =
       text:
         "If a user exists with this email, an email has been sent with instructions.",
     });
+    return null;
   };
 
   return children({

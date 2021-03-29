@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MyMessage from "../Types/MyMessage";
+import { MyMessage } from "../Types/MyMessage";
 import {
   MeDocument,
   MeQuery,
@@ -7,6 +7,7 @@ import {
   useRegisterMutation,
   useValidateRegisterTokenMutation,
 } from "../generated/graphql";
+import { ErrorMap } from "../Types/ErrorMap";
 
 export type RegisterPhase = 0 | 1 | 2;
 export interface RegisterFormValues {
@@ -20,7 +21,7 @@ export interface RegisterFormValues {
 
 interface RegisterControllerProps {
   children: (data: {
-    submit: (values: RegisterFormValues) => Promise<any>;
+    submit: (values: RegisterFormValues) => Promise<ErrorMap | null>;
     message: MyMessage | null;
     phase: RegisterPhase;
     done: boolean;
@@ -94,7 +95,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       }
 
       setMessage(null);
-      return setPhase(2);
+      setPhase(2);
     } else if (phase === 2) {
       const { data } = await finishRegister({
         variables: {
@@ -122,6 +123,8 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
 
       setDone(true);
     }
+
+    return null;
   };
 
   return children({
