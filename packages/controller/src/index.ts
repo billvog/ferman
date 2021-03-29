@@ -3,6 +3,7 @@ export * from "./Controllers/LoginController";
 export * from "./Controllers/ForgotPasswordController";
 export * from "./Controllers/ResetPasswordController";
 export * from "./Controllers/UpdateProfileController";
+export * from "./Controllers/PostController";
 export * from "./Types/MyMessage";
 export * from "./Types/ErrorMap";
 export * from "./generated/graphql";
