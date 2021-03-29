@@ -3,18 +3,16 @@ import { Divider, Heading, Link, Text } from "@chakra-ui/layout";
 import { Box, Button, Spinner, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import { Layout } from "../../Components/Layout";
-import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
-import { withMyApollo } from "../../Utils/withMyApollo";
+import { Layout } from "../../components/Layout";
+import { useLogoutMutation, useMeQuery } from "@ferman/controller";
+import { withMyApollo } from "../../utils/withMyApollo";
 import NextLink from "next/link";
-import { UserCard } from "../../Components/UserCard";
-import { ErrorText } from "../../Components/ErrorText";
+import { UserCard } from "../../components/UserCard";
+import { ErrorText } from "../../components/ErrorText";
 import moment from "moment";
 import { SettingsIcon } from "@chakra-ui/icons";
 
-interface MyAccountProps {}
-
-const MyAccount: React.FC<MyAccountProps> = ({}) => {
+const MyAccount = () => {
   const toast = useToast();
   const router = useRouter();
   const apolloClient = useApolloClient();
@@ -50,12 +48,6 @@ const MyAccount: React.FC<MyAccountProps> = ({}) => {
               .
             </Link>
           </Text>
-          <NextLink href={`/account/settings`}>
-            <Button colorScheme="telegram" fontWeight="600" size="sm">
-              <SettingsIcon mr={2} />
-              Settings
-            </Button>
-          </NextLink>
           <NextLink href={`/user/${meData.me.uid}`}>
             <Button
               ml={2}

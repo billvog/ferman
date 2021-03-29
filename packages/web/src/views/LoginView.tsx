@@ -18,7 +18,6 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   isSubmitting,
 }) => {
   const router = useRouter();
-
   if (done) {
     router.push("/");
   }

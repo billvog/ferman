@@ -6,6 +6,7 @@ export default class Document extends NextDocument {
       <Html>
         <Head />
         <body>
+          <noscript>You need javascript enabled to use this app.</noscript>
           <Main />
           <NextScript />
         </body>
