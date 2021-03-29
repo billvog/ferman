@@ -14,7 +14,7 @@ import { Profile } from "../entity/Profile";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
-import { ProfileValidationSchema } from "@ferman/common";
+import { UpdateProfileValidationSchema } from "@ferman/common";
 import { FieldError } from "./FieldError";
 
 @ObjectType()
@@ -75,7 +75,7 @@ export class ProfileResolver {
 
     // validate
     try {
-      const validation = await ProfileValidationSchema.validate(options);
+      const validation = await UpdateProfileValidationSchema.validate(options);
       options = {
         bio: validation.bio!,
         location: validation.location!,
