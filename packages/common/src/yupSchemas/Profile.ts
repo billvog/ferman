@@ -19,10 +19,9 @@ export const BIRTHDATE_SHAPE = yup
   );
 export const SHOWBIRTHDATE_SHAPE = yup.boolean();
 
-export const ProfileValidationSchema = yup.object().shape({
+export const UpdateProfileValidationSchema = yup.object().shape({
   username: USERNAME_SHAPE,
   bio: BIO_SHAPE,
   location: LOCATION_SHAPE,
-  birthdate: BIRTHDATE_SHAPE,
   showBirthdate: SHOWBIRTHDATE_SHAPE,
 });
