@@ -6,10 +6,13 @@ const LocationLengthMessage = "Length must be up to 30";
 const BirthdateLimitMessage =
   "You must be at least 13 years old to use our services.";
 
-export const BIO_SHAPE = yup.string().max(160, BioLengthMessage).trim();
+export const BioMax = 160;
+export const LocationMax = 30;
+
+export const BIO_SHAPE = yup.string().max(BioMax, BioLengthMessage).trim();
 export const LOCATION_SHAPE = yup
   .string()
-  .max(30, LocationLengthMessage)
+  .max(LocationMax, LocationLengthMessage)
   .trim();
 export const BIRTHDATE_SHAPE = yup
   .date()

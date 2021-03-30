@@ -8,17 +8,22 @@ const UsernameLengthMessage = "Length must be between 6 and 32";
 const EmailInvalidMessage = "Please enter a valid email";
 const PasswordLengthMessage = "Length must be at least 6";
 
+export const UidMin = 2;
+export const UidMax = 20;
+export const UsernameMin = 6;
+export const UsernameMax = 32;
+
 export const UID_SHAPE = yup
   .string()
-  .min(2, UidLengthMessage)
-  .max(20, UidLengthMessage)
+  .min(UidMin, UidLengthMessage)
+  .max(UidMax, UidLengthMessage)
   .required()
   .trim()
   .matches(/^([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9])$/, UidRegexMessage);
 export const USERNAME_SHAPE = yup
   .string()
-  .min(6, UsernameLengthMessage)
-  .max(32, UsernameLengthMessage)
+  .min(UsernameMin, UsernameLengthMessage)
+  .max(UsernameMax, UsernameLengthMessage)
   .required()
   .trim();
 export const EMAIL_SHAPE = yup
