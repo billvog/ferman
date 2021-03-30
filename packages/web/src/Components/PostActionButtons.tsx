@@ -3,6 +3,7 @@ import {
   Button,
   chakra,
   Flex,
+  Icon,
   IconButton,
   Menu,
   MenuButton,
@@ -56,7 +57,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   return (
     <>
-      <Box p=".2rem" bg="whitesmoke" borderBottomRadius="inherit">
+      <Box p=".15rem" bg="whitesmoke" borderBottomRadius="inherit">
         <Flex justifyContent="space-between" fontSize={14}>
           <Flex align="center">
             <Box>
@@ -83,12 +84,12 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                   }
                 }}
               >
-                <LikeIconComponent size="16px" />
+                <LikeIconComponent size="14px" />
                 <chakra.span ml={2}>{post.points}</chakra.span>
               </Button>
             </Box>
             <Box borderLeftWidth={1} ml={1} pl={4}>
-              <ChatIcon mr={2} color="burlywood" />
+              <Icon mr={2} as={ChatIcon} color="burlywood" w={3} h={3} />
               <chakra.span color="dimgrey" fontSize={12} fontWeight="600">
                 {post.commentsCount}
               </chakra.span>

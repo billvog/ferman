@@ -3,9 +3,8 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Heading, Text } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 import React from "react";
-import { ErrorText } from "../Components/ErrorText";
-import { Layout } from "../Components/Layout";
-import { withMyApollo } from "../Utils/withMyApollo";
+import { Layout } from "../components/Layout";
+import { withMyApollo } from "../utils/withMyApollo";
 
 const NotFoundPage = ({}) => {
   const router = useRouter();
@@ -25,6 +24,4 @@ const NotFoundPage = ({}) => {
   );
 };
 
-export default withMyApollo({
-  ssr: false,
-})(NotFoundPage);
+export default withMyApollo()(NotFoundPage);

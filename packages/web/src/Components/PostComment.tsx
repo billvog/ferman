@@ -19,24 +19,24 @@ export const PostComment: React.FC<PostCommentProps> = ({
 }) => {
   return (
     <Box borderWidth="1px" borderRadius="md">
-      <Box p={2} px={3}>
+      <Box p={1} px={2}>
         <Flex justifyContent="space-between" align="center">
           <Flex align="center" color="mainDarkBlue">
-            <chakra.span fontWeight="bold" fontSize={14}>
+            <chakra.span fontWeight="bold" fontSize={13}>
               {comment.user.username}
             </chakra.span>
-            <chakra.span fontSize={13} fontWeight="400" ml="1.5">
+            <chakra.span fontSize={12} fontWeight="400" ml="1.5">
               @
               <NextLink href={`/user/${comment.user.uid}`}>
                 <Link>{comment.user.uid}</Link>
               </NextLink>
             </chakra.span>
           </Flex>
-          <chakra.span ml={2} fontSize={12}>
+          <chakra.span ml={2} fontSize={11}>
             {moment(parseFloat(comment.createdAt)).fromNow()}
           </chakra.span>
         </Flex>
-        <Text fontSize={14} whiteSpace="pre-wrap">
+        <Text fontSize={12} whiteSpace="pre-wrap">
           {richBodyText(comment.text)}
         </Text>
       </Box>

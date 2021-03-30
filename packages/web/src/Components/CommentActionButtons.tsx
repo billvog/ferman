@@ -4,6 +4,7 @@ import {
   Button,
   chakra,
   Flex,
+  Icon,
   IconButton,
   Link,
   Menu,
@@ -60,7 +61,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
           <Box ml={2}>
             <NextLink href={`/post/${comment.postId}/comment/${comment.id}`}>
               <Link>
-                <ChatIcon mr={2} width="13px" color="burlywood" />
+                <Icon as={ChatIcon} mr={2} color="burlywood" w={3} h={3} />
                 <chakra.span color="dimgrey" fontSize={12} fontWeight="600">
                   {comment.repliesCount}
                 </chakra.span>

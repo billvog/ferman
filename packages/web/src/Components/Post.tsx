@@ -15,7 +15,7 @@ interface PostProps {
 export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
   return (
     <Box mb={6} borderWidth="1px" borderRadius="xl">
-      <Box p={4} pb={3}>
+      <Box p={3} pb={2}>
         <NextLink href={`/post/${post.id}`}>
           <Link>
             <Heading fontSize={16} color="mainDarkBlue">
@@ -23,7 +23,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
             </Heading>
           </Link>
         </NextLink>
-        <Text mt={1} fontSize={14} whiteSpace="pre-wrap">
+        <Text mt={1} fontSize={13} whiteSpace="pre-wrap">
           {richBodyText(post.body)}
         </Text>
         <Text mt={2} fontSize="11" color="grey">

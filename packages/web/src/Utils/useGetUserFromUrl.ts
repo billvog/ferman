@@ -1,4 +1,4 @@
-import { useUserQuery } from "../generated/graphql";
+import { useUserQuery } from "@ferman/controller";
 import { useGetStringId } from "./useGetStringId";
 
 export const useGetUserFromUrl = () => {

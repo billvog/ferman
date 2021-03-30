@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, Reference } from "@apollo/client";
 import { withApollo as createWithApollo } from "next-apollo";
-import { PaginatedPosts } from "../generated/graphql";
+import { PaginatedPosts } from "@ferman/controller";
 import { isServer } from "./isServer";
 
 const createApolloClient = (ctx: any) => {

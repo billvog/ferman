@@ -45,7 +45,7 @@ export const UserCard: React.FC<UserCardProps> = ({
         <Flex>
           <Avatar src={`https://www.gravatar.com/avatar/${user.emailHash}`} />
           <Box ml={3}>
-            <Text fontWeight="700" fontSize={14}>
+            <Text fontWeight="700" fontSize={13}>
               {user.username}
             </Text>
             <Text fontSize={12}>
@@ -58,13 +58,17 @@ export const UserCard: React.FC<UserCardProps> = ({
               <Box>
                 <NextLink href={`/user/${user.uid}/followers`}>
                   <Link>
-                    {user.followerCount} follower
+                    <chakra.b>{user.followerCount} </chakra.b>
+                    follower
                     {user.followerCount !== 1 && "s"}
                   </Link>
                 </NextLink>{" "}
                 ·{" "}
                 <NextLink href={`/user/${user.uid}/following`}>
-                  <Link>{user.followingCount} follows</Link>
+                  <Link>
+                    <chakra.b>{user.followingCount}</chakra.b> follow
+                    {user.followingCount !== 1 && "s"}
+                  </Link>
                 </NextLink>
               </Box>
             </Text>
@@ -74,16 +78,16 @@ export const UserCard: React.FC<UserCardProps> = ({
           {me &&
             (me.id === user.id ? (
               <NextLink href="/account/edit-profile">
-                <Button borderWidth={1} p=".5rem" height="25px" fontSize={11}>
+                <Button p=".5rem" height="25px" fontSize={11}>
                   <EditIcon />
                   <chakra.span ml={2}>Edit</chakra.span>
                 </Button>
               </NextLink>
             ) : (
               <Button
-                p=".35rem"
-                height="25px"
-                fontSize="small"
+                p=".4rem"
+                height="22px"
+                fontSize={12}
                 colorScheme={user.followingStatus ? "red" : "blue"}
                 onClick={async () => {
                   const { data } = await followUser({
@@ -122,7 +126,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               p={2}
               px={3}
               borderTopWidth={1}
-              fontSize={13}
+              fontSize={11}
               fontWeight="600"
               whiteSpace="pre-wrap"
               color={!!user.profile?.bio ? "grey" : "lightgrey"}

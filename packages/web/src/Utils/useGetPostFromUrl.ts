@@ -1,4 +1,4 @@
-import { usePostQuery } from "../generated/graphql";
+import { usePostQuery } from "@ferman/controller";
 import { useGetStringId } from "./useGetStringId";
 
 export const useGetPostFromUrl = () => {

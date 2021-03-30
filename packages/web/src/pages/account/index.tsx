@@ -49,13 +49,7 @@ const MyAccount = () => {
             </Link>
           </Text>
           <NextLink href={`/user/${meData.me.uid}`}>
-            <Button
-              ml={2}
-              colorScheme=""
-              bg="lightseagreen"
-              fontWeight="600"
-              size="sm"
-            >
+            <Button ml={2} colorScheme="telegram" fontWeight="600" size="sm">
               My Profile
             </Button>
           </NextLink>
@@ -86,20 +80,22 @@ const MyAccount = () => {
               Private Information
             </Heading>
             <Text fontSize={12} color="grey" mb={2}>
-              This data are not visible in the public.
+              These information are not visible in the public.
             </Text>
-            <Text>Email: {meData.me.email}</Text>
-            <Text>
-              Date of birth:{" "}
-              {moment(parseFloat(meData.me.profile!.birthdate)).format(
-                "MMM Do YYYY"
-              )}
-            </Text>
-            <Text>
-              Created date:{" "}
-              {moment(parseFloat(meData.me.createdAt)).format(
-                "MMMM Do YYYY, h:mm:ss a"
-              )}
+            <Text fontSize={13}>
+              <Text>Email: {meData.me.email}</Text>
+              <Text>
+                Date of birth:{" "}
+                {moment(parseFloat(meData.me.profile!.birthdate)).format(
+                  "MMM Do YYYY"
+                )}
+              </Text>
+              <Text>
+                Created date:{" "}
+                {moment(parseFloat(meData.me.createdAt)).format(
+                  "MMMM Do YYYY, h:mm:ss a"
+                )}
+              </Text>
             </Text>
           </Box>
           <Divider my={4} />
