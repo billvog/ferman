@@ -9,27 +9,28 @@ import {
   Heading,
   Link,
 } from "@chakra-ui/react";
-import { RegisterFormValues, RegisterPhase } from "@ferman/controller";
+import {
+  ErrorMap,
+  MyMessage,
+  RegisterFormValues,
+  RegisterPhase,
+} from "@ferman/controller";
 import { Form, FormikErrors, FormikProps, withFormik } from "formik";
 import React, { useState } from "react";
 import { Layout } from "../components/Layout";
 import NextLink from "next/link";
-import { RegisterValidationSchema } from "@ferman/common";
+import { RegisterValidationSchema, UidMax, UsernameMax } from "@ferman/common";
 import { InputField } from "../components/InputField";
 
 interface RegisterViewProps {
-  submit: (
-    values: RegisterFormValues
-  ) => Promise<FormikErrors<RegisterFormValues> | null>;
-  message: string;
-  error: boolean;
+  submit: (values: RegisterFormValues) => Promise<ErrorMap | null>;
+  message: MyMessage | null;
   phase: RegisterPhase;
   done: boolean;
 }
 
 const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
   message,
-  error,
   phase,
   done,
   isSubmitting,
@@ -66,18 +67,13 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
         </Alert>
       ) : (
         <Form>
-          {!!message && (
-            <Alert status={error ? "error" : "success"} mb={3}>
+          {message && (
+            <Alert status={message.type} mb={3}>
               <AlertIcon />
-              {message}
+              {message.text}
             </Alert>
           )}
-          <Heading
-            mb={2}
-            fontSize={30}
-            color="mainDarkBlue"
-            fontFamily="cursive"
-          >
+          <Heading mb={2} fontSize={30} color="mainDarkBlue">
             {phase === 0
               ? "Sign up"
               : phase === 1
@@ -93,7 +89,7 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
                 name="uid"
                 placeholder="Enter uid"
                 type="text"
-                maxLength={20}
+                maxLength={UidMax}
                 helperText="How others will search you. Choose it carefully, because you won't have the abillity to change it after is set."
               />
               <Box mt={4}>
@@ -102,7 +98,7 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
                   name="username"
                   placeholder="Enter username"
                   type="text"
-                  maxLength={32}
+                  maxLength={UsernameMax}
                   helperText="Your real name, will be displayed in your profile."
                 />
               </Box>

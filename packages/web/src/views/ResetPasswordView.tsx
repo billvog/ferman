@@ -7,10 +7,13 @@ import {
   Link,
   Heading,
   Box,
-  Flex,
 } from "@chakra-ui/react";
 import { ResetPasswordValidationSchema } from "@ferman/common";
-import { MyMessage, ResetPasswordFormValues } from "@ferman/controller";
+import {
+  ErrorMap,
+  MyMessage,
+  ResetPasswordFormValues,
+} from "@ferman/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React, { useState } from "react";
 import { InputField } from "../components/InputField";
@@ -18,7 +21,7 @@ import { Layout } from "../components/Layout";
 import NextLink from "next/link";
 
 interface ResetPasswordViewProps {
-  submit: (values: ResetPasswordFormValues) => Promise<any>;
+  submit: (values: ResetPasswordFormValues) => Promise<ErrorMap | null>;
   done: boolean;
   message: MyMessage | null;
 }
@@ -64,12 +67,7 @@ const C: React.FC<
               {message.text}
             </Alert>
           )}
-          <Heading
-            mb={2}
-            fontSize={30}
-            color="mainDarkBlue"
-            fontFamily="cursive"
-          >
+          <Heading mb={2} fontSize={30} color="mainDarkBlue">
             Reset password
           </Heading>
           <InputField

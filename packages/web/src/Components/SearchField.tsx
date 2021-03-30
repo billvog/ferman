@@ -1,8 +1,8 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Flex, Input, IconButton } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormik } from "formik";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface SearchFieldProps {
   initialValue?: string;
@@ -16,45 +16,59 @@ export const SearchField: React.FC<SearchFieldProps> = ({
   isLoading,
 }) => {
   const router = useRouter();
-  return (
-    <Formik initialValues={{ searchQuery: initialValue }} onSubmit={onSubmit}>
-      {({ values, handleChange, isSubmitting }) => (
-        <Form>
-          <Flex mb={4}>
-            <Input
-              name="searchQuery"
-              borderRightRadius={0}
-              placeholder="Search keywords, @mentions"
-              value={values.searchQuery}
-              onChange={(e) => {
-                handleChange(e);
-                if (router.pathname === "/search") {
-                  router.replace({
-                    query: !!e.currentTarget.value
-                      ? {
-                          query: e.currentTarget.value,
-                        }
-                      : {},
-                  });
-                }
-              }}
-            />
-            <IconButton
-              aria-label="search"
-              icon={<SearchIcon />}
-              fontSize={15}
-              colorScheme=""
-              bg="brown"
-              borderLeftRadius={0}
-              borderLeftWidth={0}
-              isLoading={
-                typeof isLoading === "boolean" ? isLoading : isSubmitting
+  const formik = useFormik({
+    initialValues: {
+      searchQuery: initialValue,
+    },
+    onSubmit: (values) => {
+      if (router.pathname === "/search") {
+        router.replace({
+          query: !!formik.values.searchQuery
+            ? {
+                query: formik.values.searchQuery,
               }
-              type="submit"
-            />
-          </Flex>
-        </Form>
-      )}
-    </Formik>
+            : {},
+        });
+      }
+
+      return onSubmit(values);
+    },
+  });
+
+  useEffect(() => {
+    if (
+      router.query.query &&
+      router.query.query !== formik.values.searchQuery
+    ) {
+      formik.setFieldValue("searchQuery", router.query.query);
+      formik.submitForm();
+    }
+  }, [router.query.query]);
+
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <Flex mb={4}>
+        <Input
+          name="searchQuery"
+          borderRightRadius={0}
+          placeholder="Search keywords, @mentions"
+          value={formik.values.searchQuery}
+          onChange={formik.handleChange}
+        />
+        <IconButton
+          aria-label="search"
+          icon={<SearchIcon />}
+          fontSize={13}
+          colorScheme=""
+          bg="brown"
+          borderLeftRadius={0}
+          borderLeftWidth={0}
+          isLoading={
+            typeof isLoading === "boolean" ? isLoading : formik.isSubmitting
+          }
+          type="submit"
+        />
+      </Flex>
+    </form>
   );
 };

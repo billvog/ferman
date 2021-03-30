@@ -10,7 +10,6 @@ import NextLink from "next/link";
 import { UserCard } from "../../components/UserCard";
 import { ErrorText } from "../../components/ErrorText";
 import moment from "moment";
-import { SettingsIcon } from "@chakra-ui/icons";
 
 const MyAccount = () => {
   const toast = useToast();
@@ -25,7 +24,7 @@ const MyAccount = () => {
 
   return (
     <Layout size="lg" title="My Account – Ferman" isAuth>
-      <Heading mb={4} color="mainDarkBlue" fontFamily="cursive">
+      <Heading mb={4} color="mainDarkBlue">
         My Account
       </Heading>
       {meLoading ? (

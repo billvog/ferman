@@ -60,7 +60,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
         <Flex justifyContent="space-between" align="center">
           <Box ml={2}>
             <NextLink href={`/post/${comment.postId}/comment/${comment.id}`}>
-              <Link>
+              <Link title="View replies">
                 <Icon as={ChatIcon} mr={2} color="burlywood" w={3} h={3} />
                 <chakra.span color="dimgrey" fontSize={12} fontWeight="600">
                   {comment.repliesCount}

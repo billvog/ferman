@@ -1,5 +1,5 @@
 import { Heading, Box, Flex, Button, Link } from "@chakra-ui/react";
-import { LoginFormValues } from "@ferman/controller";
+import { ErrorMap, LoginFormValues } from "@ferman/controller";
 import { Form, FormikErrors, FormikProps, withFormik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
@@ -9,7 +9,7 @@ import NextLink from "next/link";
 import { LoginValidationSchema } from "@ferman/common";
 
 interface LoginViewProps {
-  submit: (values: LoginFormValues) => Promise<FormikErrors<LoginFormValues>>;
+  submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
   done: boolean;
 }
 
@@ -25,7 +25,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   return (
     <Layout size="sm" title="Sign in – Ferman" isNotAuth>
       <Form>
-        <Heading mb={2} fontSize={30} color="mainDarkBlue" fontFamily="cursive">
+        <Heading mb={2} fontSize={30} color="mainDarkBlue">
           Sign in
         </Heading>
         <InputField

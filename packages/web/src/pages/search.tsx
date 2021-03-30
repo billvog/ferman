@@ -72,7 +72,7 @@ const SearchPost = () => {
   return (
     <Layout size="xl" title="Search – Ferman">
       <Box>
-        <Heading color="mainDarkBlue" mb={2} fontFamily="cursive">
+        <Heading color="mainDarkBlue" mb={2}>
           Search
         </Heading>
         <SearchField

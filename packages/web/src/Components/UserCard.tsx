@@ -78,7 +78,14 @@ export const UserCard: React.FC<UserCardProps> = ({
           {me &&
             (me.id === user.id ? (
               <NextLink href="/account/edit-profile">
-                <Button p=".5rem" height="25px" fontSize={11}>
+                <Button
+                  p=".45rem"
+                  height="22px"
+                  fontSize={11}
+                  colorScheme=""
+                  bg="brown"
+                  as={Link}
+                >
                   <EditIcon />
                   <chakra.span ml={2}>Edit</chakra.span>
                 </Button>

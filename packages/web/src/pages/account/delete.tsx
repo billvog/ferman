@@ -75,12 +75,7 @@ const DeleteAcount = ({}) => {
         >
           {({ isSubmitting }) => (
             <Form>
-              <Heading
-                mb={2}
-                fontSize={30}
-                color="mainDarkBlue"
-                fontFamily="cursive"
-              >
+              <Heading mb={2} fontSize={30} color="mainDarkBlue">
                 Delete Your Account
               </Heading>
               <InputField

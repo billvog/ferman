@@ -76,7 +76,7 @@ const ViewPost = ({}) => {
               />
             </Box>
             <Flex mt={9} mb={2} justifyContent="space-between" align="center">
-              <Text fontSize={16}>
+              <Text fontSize={14}>
                 Comments{" "}
                 {!!commentsData?.comments?.length &&
                   `(${commentsData?.comments?.length})`}

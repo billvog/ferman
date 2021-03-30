@@ -10,7 +10,7 @@ const NotFoundPage = ({}) => {
   const router = useRouter();
   return (
     <Layout title="404 – Ferman">
-      <Heading fontFamily="cursive" mb={4} color="brown">
+      <Heading mb={4} color="brown">
         Error 404 – Page not found
       </Heading>
       <Text>

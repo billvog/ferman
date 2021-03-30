@@ -40,9 +40,7 @@ const Index = () => {
   return (
     <Layout size="xl" title="Feed – Ferman">
       <Flex mb={4} justifyContent="space-between" align="center">
-        <Heading color="mainDarkBlue" fontFamily="cursive">
-          Feed
-        </Heading>
+        <Heading color="mainDarkBlue">Feed</Heading>
         <Box>
           <NextLink href="/search">
             <IconButton
@@ -51,6 +49,7 @@ const Index = () => {
               colorScheme=""
               bg="brown"
               color="white"
+              size="sm"
             />
           </NextLink>
           {meData?.me && (
@@ -61,6 +60,7 @@ const Index = () => {
                 bg="saddlebrown"
                 color="white"
                 ml={2}
+                size="sm"
               >
                 post now
               </Button>

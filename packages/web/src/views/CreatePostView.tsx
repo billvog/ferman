@@ -1,4 +1,5 @@
 import { Heading, Box, Button, Alert, AlertIcon } from "@chakra-ui/react";
+import { BodyMax, TitleMax } from "@ferman/common";
 import { ErrorMap, MyMessage, PostFormValues } from "@ferman/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
@@ -25,7 +26,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
             {message.text}
           </Alert>
         )}
-        <Heading mb={2} fontSize={30} color="mainDarkBlue" fontFamily="cursive">
+        <Heading mb={2} fontSize={30} color="mainDarkBlue">
           Create Post
         </Heading>
         <InputField
@@ -33,7 +34,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
           name="title"
           placeholder="Enter title"
           type="text"
-          maxLength={60}
+          maxLength={TitleMax}
         />
         <Box mt={4}>
           <InputField
@@ -42,7 +43,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
             name="body"
             placeholder="Text..."
             type="text"
-            maxLength={1000}
+            maxLength={BodyMax}
           />
         </Box>
         <Box mt={4}>

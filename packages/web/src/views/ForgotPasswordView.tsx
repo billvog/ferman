@@ -6,7 +6,11 @@ import {
   Heading,
   Link,
 } from "@chakra-ui/react";
-import { ForgotPasswordFormValues, MyMessage } from "@ferman/controller";
+import {
+  ErrorMap,
+  ForgotPasswordFormValues,
+  MyMessage,
+} from "@ferman/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
 import { InputField } from "../components/InputField";
@@ -15,7 +19,7 @@ import { Layout } from "../components/Layout";
 import { ForgotPasswordValidationSchema } from "@ferman/common";
 
 interface ForgotPasswordViewProps {
-  submit: (values: ForgotPasswordFormValues) => Promise<any>;
+  submit: (values: ForgotPasswordFormValues) => Promise<ErrorMap | null>;
   message: MyMessage | null;
 }
 
@@ -31,7 +35,7 @@ const C: React.FC<
             {message.text}
           </Alert>
         )}
-        <Heading mb={2} fontSize={30} color="mainDarkBlue" fontFamily="cursive">
+        <Heading mb={2} fontSize={30} color="mainDarkBlue">
           Forgot password
         </Heading>
         <InputField

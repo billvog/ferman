@@ -9,8 +9,17 @@ import {
   Link,
   useToast,
 } from "@chakra-ui/react";
-import { UpdateProfileValidationSchema } from "@ferman/common";
-import { MyMessage, UpdateProfileFormValues } from "@ferman/controller";
+import {
+  BioMax,
+  LocationMax,
+  UpdateProfileValidationSchema,
+  UsernameMax,
+} from "@ferman/common";
+import {
+  ErrorMap,
+  MyMessage,
+  UpdateProfileFormValues,
+} from "@ferman/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import moment from "moment";
 import { NextRouter, withRouter } from "next/router";
@@ -19,7 +28,7 @@ import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
 
 type EditProfileViewProps = {
-  submit: (values: UpdateProfileFormValues) => Promise<any>;
+  submit: (values: UpdateProfileFormValues) => Promise<ErrorMap | null>;
   myInitialValues: UpdateProfileFormValues & { birthdate: string };
   message: MyMessage | null;
   router: NextRouter;
@@ -54,7 +63,7 @@ const C: React.FC<
             {message.text}
           </Alert>
         )}
-        <Heading mb={2} fontSize={30} color="mainDarkBlue" fontFamily="cursive">
+        <Heading mb={2} fontSize={30} color="mainDarkBlue">
           Edit Profile
         </Heading>
         <InputField
@@ -62,7 +71,7 @@ const C: React.FC<
           name="username"
           placeholder="Enter username"
           type="text"
-          maxLength={32}
+          maxLength={UsernameMax}
         />
         <Box mt={4}>
           <InputField
@@ -71,7 +80,7 @@ const C: React.FC<
             placeholder="Enter Bio..."
             type="text"
             textarea={true}
-            maxLength={160}
+            maxLength={BioMax}
           />
         </Box>
         <Box mt={4}>
@@ -79,7 +88,7 @@ const C: React.FC<
             label="Location"
             name="location"
             placeholder="Enter Location"
-            maxLength={30}
+            maxLength={LocationMax}
           />
         </Box>
         <Box mt={4}>
