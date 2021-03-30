@@ -132,18 +132,20 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                   likes will be removed as well.
                 </Text>
               </ModalBody>
-              <ModalFooter pt={2}>
+              <ModalFooter pt={4}>
                 <Button
                   mr={2}
                   fontSize={14}
                   colorScheme="blue"
                   onClick={onDeleteModalClose}
+                  size="sm"
                 >
                   Cancel
                 </Button>
                 <Button
                   colorScheme="red"
                   fontSize={14}
+                  size="sm"
                   onClick={async () => {
                     const response = await deletePost({
                       variables: {

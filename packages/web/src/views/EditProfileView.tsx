@@ -93,25 +93,28 @@ const C: React.FC<
         </Box>
         <Box mt={4}>
           <InputField
-            label="Birthdate"
+            label="Date of Birth"
             name="birthdate"
             value={moment(parseFloat(myInitialValues.birthdate)).format(
               "MMMM Do YYYY"
             )}
             defaultValue={1}
             disabled
+            helperText="This field cannot change."
           />
-          <Checkbox
-            size="sm"
-            colorScheme="blue"
-            color="grey"
-            mt={1}
-            defaultChecked={myInitialValues.showBirthdate}
-            name="showBirthdate"
-            onChange={handleChange}
-          >
-            Show birthdate to everyone
-          </Checkbox>
+          <Box mt={2}>
+            <Checkbox
+              size="sm"
+              colorScheme="blue"
+              color="grey"
+              mt={1}
+              defaultChecked={myInitialValues.showBirthdate}
+              name="showBirthdate"
+              onChange={handleChange}
+            >
+              Show birthdate to everyone
+            </Checkbox>
+          </Box>
         </Box>
         <Flex mt={4} justifyContent="space-between" align="center">
           <Button type="submit" isLoading={isSubmitting}>

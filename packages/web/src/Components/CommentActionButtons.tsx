@@ -73,6 +73,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
               <Menu>
                 <MenuButton>
                   <IconButton
+                    h={7}
                     aria-label="more options"
                     icon={<HiDotsHorizontal size="12px" />}
                     size="sm"
@@ -99,16 +100,18 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                       Are you sure you want to remove this comment?
                     </Text>
                   </ModalBody>
-                  <ModalFooter pt={2}>
+                  <ModalFooter pt={4}>
                     <Button
                       mr={2}
                       colorScheme="blue"
                       onClick={onDeleteModalClose}
+                      size="sm"
                     >
                       Close
                     </Button>
                     <Button
                       colorScheme="red"
+                      size="sm"
                       onClick={async () => {
                         const response = await deleteComment({
                           variables: {
