@@ -23,7 +23,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
   onFinish,
   children,
 }) => {
-  const [message, setMessage] = useState<MyMessage | null>();
+  const [message, setMessage] = useState<MyMessage | null>(null);
   const [commentPost] = useCommentPostMutation();
 
   const submit = async (values: CommentFormValues) => {
