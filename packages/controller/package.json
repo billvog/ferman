@@ -1,9 +1,11 @@
 {
-  "name": "@ferman/controller",
+  "name": "@ferman-pkgs/controller",
   "version": "1.0.0",
+  "author": "billvog <billvog04@gmail.com>",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "license": "MIT",
+  "description": "Client-side implementation of the Ferman Api (ferman.ga)",
   "scripts": {
     "build": "rm -rf dist && tsc",
     "gen": "graphql-codegen --config codegen.yml"
@@ -22,5 +24,8 @@
     "graphql": "^15.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -5,13 +5,11 @@
   "author": "billvog <billvog04@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*"
-
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
-    "build:server": "lerna run build --scope={@ferman/common,@ferman/server}",
-    "build:web": "lerna run build --scope={@ferman/common,@ferman/controller,@ferman/web} && yarn --cwd packages/web export"
+    "postinstall": "yarn run build:server",
+    "build:server": "lerna run build --scope={@ferman-pkgs/common,@ferman/server}",
+    "build:web": "lerna run build --scope={@ferman-pkgs/common,@ferman-pkgs/controller,@ferman/web}"
   },
   "devDependencies": {
     "lerna": "^4.0.0"

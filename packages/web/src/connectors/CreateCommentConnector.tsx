@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
-import { CommentController } from "@ferman/controller";
+import { CommentController } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
 import { CreateCommentView } from "../views/CreateCommentView";

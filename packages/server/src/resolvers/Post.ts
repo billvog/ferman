@@ -1,6 +1,6 @@
 import { Post } from "../entity/Post";
 import { isAuth } from "../middleware/isAuth";
-import { PostValidationSchema } from "@ferman/common";
+import { PostValidationSchema } from "@ferman-pkgs/common";
 import {
   Arg,
   Ctx,

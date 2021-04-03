@@ -1,6 +1,6 @@
 import React from "react";
 import { RegisterView } from "../views/RegisterView";
-import { RegisterController } from "@ferman/controller";
+import { RegisterController } from "@ferman-pkgs/controller";
 
 interface RegisterConnectorProps {}
 

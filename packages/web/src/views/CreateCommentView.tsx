@@ -3,8 +3,8 @@ import {
   CommentMax,
   CommentValidationSchema,
   COMMENT_TEXT_SHAPE,
-} from "@ferman/common";
-import { CommentFormValues, ErrorMap } from "@ferman/controller";
+} from "@ferman-pkgs/common";
+import { CommentFormValues, ErrorMap } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import router from "next/router";
 import React from "react";

@@ -13,7 +13,7 @@ import React from "react";
 import { ErrorText } from "../../../components/ErrorText";
 import { Layout } from "../../../components/Layout";
 import { UserCard } from "../../../components/UserCard";
-import { useFollowingUsersQuery, useMeQuery } from "@ferman/controller";
+import { useFollowingUsersQuery, useMeQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 

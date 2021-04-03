@@ -14,12 +14,16 @@ import {
   MyMessage,
   RegisterFormValues,
   RegisterPhase,
-} from "@ferman/controller";
+} from "@ferman-pkgs/controller";
 import { Form, FormikErrors, FormikProps, withFormik } from "formik";
 import React, { useState } from "react";
 import { Layout } from "../components/Layout";
 import NextLink from "next/link";
-import { RegisterValidationSchema, UidMax, UsernameMax } from "@ferman/common";
+import {
+  RegisterValidationSchema,
+  UidMax,
+  UsernameMax,
+} from "@ferman-pkgs/common";
 import { InputField } from "../components/InputField";
 
 interface RegisterViewProps {

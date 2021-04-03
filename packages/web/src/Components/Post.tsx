@@ -1,6 +1,6 @@
 import { Box, Link, Heading, chakra, Text } from "@chakra-ui/react";
 import React from "react";
-import { FullPostFragment, FullUserFragment } from "@ferman/controller";
+import { FullPostFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import { PostActionButtons } from "./PostActionButtons";
 import NextLink from "next/link";
 import moment from "moment";

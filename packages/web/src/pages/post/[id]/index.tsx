@@ -11,7 +11,11 @@ import {
 import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../../components/Layout";
-import { useCommentsQuery, useMeQuery, useUserQuery } from "@ferman/controller";
+import {
+  useCommentsQuery,
+  useMeQuery,
+  useUserQuery,
+} from "@ferman-pkgs/controller";
 import { useGetPostFromUrl } from "../../../utils/useGetPostFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { Post } from "../../../components/Post";

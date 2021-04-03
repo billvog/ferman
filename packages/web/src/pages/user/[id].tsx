@@ -13,7 +13,7 @@ import { ErrorText } from "../../components/ErrorText";
 import { Layout } from "../../components/Layout";
 import { Post } from "../../components/Post";
 import { UserCard } from "../../components/UserCard";
-import { useMeQuery, usePostsQuery } from "@ferman/controller";
+import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../utils/withMyApollo";
 

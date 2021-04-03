@@ -4,7 +4,7 @@ import { Box, Button, Spinner, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../components/Layout";
-import { useLogoutMutation, useMeQuery } from "@ferman/controller";
+import { useLogoutMutation, useMeQuery } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../../utils/withMyApollo";
 import NextLink from "next/link";
 import { UserCard } from "../../components/UserCard";

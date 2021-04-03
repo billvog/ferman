@@ -14,12 +14,12 @@ import {
   LocationMax,
   UpdateProfileValidationSchema,
   UsernameMax,
-} from "@ferman/common";
+} from "@ferman-pkgs/common";
 import {
   ErrorMap,
   MyMessage,
   UpdateProfileFormValues,
-} from "@ferman/controller";
+} from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import moment from "moment";
 import { NextRouter, withRouter } from "next/router";

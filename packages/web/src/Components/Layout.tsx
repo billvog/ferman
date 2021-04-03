@@ -2,7 +2,7 @@ import { Box, Spinner, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useMeQuery } from "@ferman/controller";
+import { useMeQuery } from "@ferman-pkgs/controller";
 import { NavBar } from "./NavBar";
 import { Wrapper, WrapperSize } from "./Wrapper";
 import NProgress from "nprogress";

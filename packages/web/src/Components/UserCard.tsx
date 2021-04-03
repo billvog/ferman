@@ -11,7 +11,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { FullUserFragment, useFollowUserMutation } from "@ferman/controller";
+import {
+  FullUserFragment,
+  useFollowUserMutation,
+} from "@ferman-pkgs/controller";
 import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
 import { ImLocation2 } from "react-icons/im";
 import { FaBirthdayCake } from "react-icons/fa";

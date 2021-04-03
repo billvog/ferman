@@ -1,4 +1,4 @@
-import { PostController } from "@ferman/controller";
+import { PostController } from "@ferman-pkgs/controller";
 import React from "react";
 import { CreatePostView } from "../views/CreatePostView";
 

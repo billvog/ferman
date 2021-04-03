@@ -8,12 +8,12 @@ import {
   Heading,
   Box,
 } from "@chakra-ui/react";
-import { ResetPasswordValidationSchema } from "@ferman/common";
+import { ResetPasswordValidationSchema } from "@ferman-pkgs/common";
 import {
   ErrorMap,
   MyMessage,
   ResetPasswordFormValues,
-} from "@ferman/controller";
+} from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React, { useState } from "react";
 import { InputField } from "../components/InputField";

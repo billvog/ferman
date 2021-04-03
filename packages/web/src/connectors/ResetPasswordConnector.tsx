@@ -1,4 +1,4 @@
-import { ResetPasswordController } from "@ferman/controller";
+import { ResetPasswordController } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
 import { ResetPasswordView } from "../views/ResetPasswordView";

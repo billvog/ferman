@@ -1,4 +1,4 @@
-import { usePostQuery } from "@ferman/controller";
+import { usePostQuery } from "@ferman-pkgs/controller";
 import { useGetStringId } from "./useGetStringId";
 
 export const useGetPostFromUrl = () => {

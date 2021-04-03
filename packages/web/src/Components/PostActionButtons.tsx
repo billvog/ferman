@@ -27,7 +27,7 @@ import {
   FullUserFragment,
   useDeletePostMutation,
   useLikePostMutation,
-} from "@ferman/controller";
+} from "@ferman-pkgs/controller";
 
 interface PostActionButtonsProps {
   post: FullPostFragment;

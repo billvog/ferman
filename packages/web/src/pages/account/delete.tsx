@@ -16,7 +16,7 @@ import React, { useState } from "react";
 import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
 import NextLink from "next/link";
-import { useDeleteAccountMutation } from "@ferman/controller";
+import { useDeleteAccountMutation } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../../utils/withMyApollo";
 import { useApolloClient } from "@apollo/client";
 

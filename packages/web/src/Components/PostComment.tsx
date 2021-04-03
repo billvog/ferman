@@ -1,6 +1,6 @@
 import { Box, Link, chakra, Text, Flex } from "@chakra-ui/react";
 import React from "react";
-import { FullCommentFragment, FullUserFragment } from "@ferman/controller";
+import { FullCommentFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import NextLink from "next/link";
 import { CommentActionButtons } from "./CommentActionButtons";
 import moment from "moment";

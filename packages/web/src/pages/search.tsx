@@ -14,7 +14,7 @@ import { ErrorText } from "../components/ErrorText";
 import { Layout } from "../components/Layout";
 import { Post } from "../components/Post";
 import { SearchField } from "../components/SearchField";
-import { useMeQuery, usePostsLazyQuery } from "@ferman/controller";
+import { useMeQuery, usePostsLazyQuery } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../utils/withMyApollo";
 import { useRouter } from "next/router";
 

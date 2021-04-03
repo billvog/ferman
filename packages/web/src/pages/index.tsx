@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Layout } from "../components/Layout";
-import { useMeQuery, usePostsQuery } from "@ferman/controller";
+import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
 import NextLink from "next/link";
 import { withMyApollo } from "../utils/withMyApollo";
 import { Post } from "../components/Post";

@@ -1,4 +1,4 @@
-import { LoginController } from "@ferman/controller";
+import { LoginController } from "@ferman-pkgs/controller";
 import React from "react";
 import { LoginView } from "../views/LoginView";
 

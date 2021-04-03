@@ -1,4 +1,4 @@
-import { ForgotPasswordController } from "@ferman/controller";
+import { ForgotPasswordController } from "@ferman-pkgs/controller";
 import React from "react";
 import { ForgotPasswordView } from "../views/ForgotPasswordView";
 

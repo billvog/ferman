@@ -1,5 +1,6 @@
 {
-  "name": "@ferman/common",
+  "name": "@ferman-pkgs/common",
+  "author": "billvog <billvog04@gmail.com>",
   "version": "1.0.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -13,5 +14,9 @@
   },
   "dependencies": {
     "yup": "^0.32.9"
+  },
+  "description": "Common package for Ferman (ferman.ga)",
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,6 +1,6 @@
 import { Heading, Box, Button, Alert, AlertIcon } from "@chakra-ui/react";
-import { BodyMax, TitleMax } from "@ferman/common";
-import { ErrorMap, MyMessage, PostFormValues } from "@ferman/controller";
+import { BodyMax, TitleMax } from "@ferman-pkgs/common";
+import { ErrorMap, MyMessage, PostFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";

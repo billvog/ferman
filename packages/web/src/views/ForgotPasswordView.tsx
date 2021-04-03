@@ -10,13 +10,13 @@ import {
   ErrorMap,
   ForgotPasswordFormValues,
   MyMessage,
-} from "@ferman/controller";
+} from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
 import { InputField } from "../components/InputField";
 import NextLink from "next/link";
 import { Layout } from "../components/Layout";
-import { ForgotPasswordValidationSchema } from "@ferman/common";
+import { ForgotPasswordValidationSchema } from "@ferman-pkgs/common";
 
 interface ForgotPasswordViewProps {
   submit: (values: ForgotPasswordFormValues) => Promise<ErrorMap | null>;

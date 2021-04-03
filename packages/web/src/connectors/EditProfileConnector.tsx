@@ -1,5 +1,5 @@
 import { Spinner } from "@chakra-ui/spinner";
-import { UpdateProfileController } from "@ferman/controller";
+import { UpdateProfileController } from "@ferman-pkgs/controller";
 import React from "react";
 import { EditProfileView } from "../views/EditProfileView";
 

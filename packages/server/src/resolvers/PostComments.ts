@@ -16,7 +16,7 @@ import { Post } from "../entity/Post";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
-import { COMMENT_TEXT_SHAPE } from "@ferman/common";
+import { COMMENT_TEXT_SHAPE } from "@ferman-pkgs/common";
 import { FieldError } from "./FieldError";
 
 @ObjectType()

@@ -6,7 +6,7 @@ import React from "react";
 import { ErrorText } from "../../../../components/ErrorText";
 import { Layout } from "../../../../components/Layout";
 import { PostComment } from "../../../../components/PostComment";
-import { useMeQuery, useViewCommentQuery } from "@ferman/controller";
+import { useMeQuery, useViewCommentQuery } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../../../../utils/withMyApollo";
 
 const ViewComment = ({}) => {

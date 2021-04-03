@@ -1,12 +1,12 @@
 import { Heading, Box, Flex, Button, Link } from "@chakra-ui/react";
-import { ErrorMap, LoginFormValues } from "@ferman/controller";
+import { ErrorMap, LoginFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikErrors, FormikProps, withFormik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
 import NextLink from "next/link";
-import { LoginValidationSchema } from "@ferman/common";
+import { LoginValidationSchema } from "@ferman-pkgs/common";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;

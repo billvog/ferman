@@ -1,4 +1,4 @@
-import { useUserQuery } from "@ferman/controller";
+import { useUserQuery } from "@ferman-pkgs/controller";
 import { useGetStringId } from "./useGetStringId";
 
 export const useGetUserFromUrl = () => {

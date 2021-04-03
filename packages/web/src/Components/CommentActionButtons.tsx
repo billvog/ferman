@@ -24,7 +24,7 @@ import {
   FullCommentFragment,
   FullUserFragment,
   useDeleteCommentMutation,
-} from "@ferman/controller";
+} from "@ferman-pkgs/controller";
 import NextLink from "next/link";
 import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -117,7 +117,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                           variables: {
                             id: comment.id,
                           },
-                          update: (cache) => {
+                          update: (cache, {}) => {
                             if (comment.parentId)
                               cache.evict({
                                 id: "Comment:" + comment.parentId,
