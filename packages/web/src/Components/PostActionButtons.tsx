@@ -57,7 +57,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   return (
     <>
-      <Box p=".15rem" bg="whitesmoke" borderBottomRadius="inherit">
+      <Box p=".05rem" bg="whitesmoke" borderBottomRadius="inherit">
         <Flex justifyContent="space-between" fontSize={14}>
           <Flex align="center">
             <Box>

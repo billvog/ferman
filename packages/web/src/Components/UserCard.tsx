@@ -133,8 +133,8 @@ export const UserCard: React.FC<UserCardProps> = ({
           {!!user.profile?.bio && (
             <Text
               mt={1}
-              p={2}
-              px={3}
+              p="1.5"
+              px={2}
               borderTopWidth={1}
               fontSize={11}
               fontWeight="600"
@@ -146,12 +146,11 @@ export const UserCard: React.FC<UserCardProps> = ({
           )}
           <Flex
             direction="column"
-            mt={1}
             p={2}
             px={3}
             borderBottomRadius="inherit"
             borderTopWidth={1}
-            fontSize={12}
+            fontSize={11}
             fontWeight="500"
           >
             <Flex align="center" color="brown">

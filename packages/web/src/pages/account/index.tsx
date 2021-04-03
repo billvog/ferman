@@ -48,7 +48,7 @@ const MyAccount = () => {
             </Link>
           </Text>
           <NextLink href={`/user/${meData.me.uid}`}>
-            <Button ml={2} colorScheme="telegram" fontWeight="600" size="sm">
+            <Button colorScheme="telegram" fontWeight="600" size="sm">
               My Profile
             </Button>
           </NextLink>
@@ -100,7 +100,9 @@ const MyAccount = () => {
           <Divider my={4} />
           <Box>
             <NextLink href="/account/delete">
-              <Button colorScheme="red">Delete Account</Button>
+              <Button colorScheme="red" size="sm">
+                Delete Account
+              </Button>
             </NextLink>
             <Text fontSize={12} color="grey" mt={2}>
               This will completely remove your account and anything that's

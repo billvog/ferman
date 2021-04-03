@@ -18,8 +18,8 @@ export const PostComment: React.FC<PostCommentProps> = ({
   onDelete,
 }) => {
   return (
-    <Box borderWidth="1px" borderRadius="md">
-      <Box p={1} px={2}>
+    <Box borderWidth="1px" borderRadius="xl">
+      <Box p="1.5" px={2}>
         <Flex justifyContent="space-between" align="center">
           <Flex align="center" color="mainDarkBlue">
             <chakra.span fontWeight="bold" fontSize={13}>
@@ -32,7 +32,7 @@ export const PostComment: React.FC<PostCommentProps> = ({
               </NextLink>
             </chakra.span>
           </Flex>
-          <chakra.span ml={2} fontSize={11}>
+          <chakra.span ml={2} fontSize={11} fontWeight="500" color="gray">
             {moment(parseFloat(comment.createdAt)).fromNow()}
           </chakra.span>
         </Flex>

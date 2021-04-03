@@ -52,7 +52,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
   return (
     <>
       <Box
-        p=".1rem"
+        p=".05rem"
         bg="whitesmoke"
         borderTopWidth={1}
         borderBottomRadius="inherit"

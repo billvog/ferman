@@ -1,10 +1,15 @@
 import { Box, Spinner, useToast } from "@chakra-ui/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useMeQuery } from "@ferman/controller";
 import { NavBar } from "./NavBar";
 import { Wrapper, WrapperSize } from "./Wrapper";
+import NProgress from "nprogress";
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 interface LayoutProps {
   title?: string;
@@ -44,12 +49,6 @@ export const Layout: React.FC<LayoutProps> = ({
     if (isAuth) {
       if (!loading && !data?.me) {
         router.replace("/account/login?next=" + router.pathname);
-        toast({
-          title: "Not Authenticated",
-          description: "Authentication required to access this page",
-          status: "error",
-          duration: 5000,
-        });
       } else if (!loading && data?.me) {
         setOk(true);
       }
@@ -58,13 +57,6 @@ export const Layout: React.FC<LayoutProps> = ({
     if (isNotAuth) {
       if (!loading && data?.me) {
         router.replace("/");
-        toast({
-          title: "Authenticated",
-          description:
-            "Cannot access this page unless you're not authenticated",
-          status: "error",
-          duration: 5000,
-        });
       } else if (!loading && !data?.me) {
         setOk(true);
       }
@@ -80,6 +72,10 @@ export const Layout: React.FC<LayoutProps> = ({
         <meta
           name="description"
           content="Ferman, the modern saloon. Here you can publish small post & share them with the world!"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"
         />
       </Head>
       <NavBar />
