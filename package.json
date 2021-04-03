@@ -5,26 +5,13 @@
   "author": "billvog <billvog04@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/common",
-      "packages/server",
-      "packages/controller",
-      "packages/web"
-    ],
-    "nohoist": [
-      "**/react-native",
-      "**/react-native/**",
-      "**/expo",
-      "**/expo/**",
-      "**/react-native-typescript-transformer",
-      "**/react-native-typescript-transformer/**",
-      "**/metro-bundler-config-yarn-workspaces",
-      "**/metro-bundler-config-yarn-workspaces/**"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+
+  ],
   "scripts": {
-    "build:server": "lerna run build --scope={@ferman/common,@ferman/server}"
+    "build:server": "lerna run build --scope={@ferman/common,@ferman/server}",
+    "build:web": "lerna run build --scope={@ferman/common,@ferman/controller,@ferman/web} && yarn --cwd packages/web export"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
