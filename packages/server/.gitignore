@@ -16,3 +16,4 @@ temp/
 
 # enviroment variables
 .env
+.env.prod

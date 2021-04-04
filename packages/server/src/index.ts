@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import "dotenv-safe/config";
+require("dotenv-safe").config();
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -66,6 +66,12 @@ import { Like } from "./entity/Like";
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migration/*")],
     entities: [User, Profile, Follow, Post, Like, Comment],
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
   });
 
   if (__prod__) {

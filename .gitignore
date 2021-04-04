@@ -7,5 +7,3 @@ node_modules
 
 # redis
 dump.rdb
-# Local Netlify folder
-.netlify

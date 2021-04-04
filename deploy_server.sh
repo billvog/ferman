@@ -1,9 +1,20 @@
 #!/bin/bash
+
 echo Compiling packages...
 yarn build:server
-echo Building docker image...
-docker build -t billvog/ferman:latest .
-echo Pushing image to Docker Hub...
-docker push billvog/ferman:latest
-echo Deploy image to dokku...
-ssh -i ~/.ssh/ferman-master.pem ubuntu@api.ferman.ga "sudo docker pull billvog/ferman:latest && sudo docker tag billvog/ferman:latest dokku/api:latest && dokku deploy api latest"
+
+echo Building image...
+# I have an Macbook with M1, so, I use
+# docker's buildx to build my image for amd64
+# which is supported by heroku
+# For it to work run: docker buildx create --use
+docker buildx build --platform linux/amd64 -t billvog/ferman:latest . --load
+
+echo Tagging image...
+docker tag billvog/ferman:latest registry.heroku.com/ferman/web
+
+echo Pushing image to Heroku...
+docker push registry.heroku.com/ferman/web
+
+echo Releasing image...
+heroku container:release web
