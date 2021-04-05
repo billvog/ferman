@@ -260,6 +260,8 @@ export class UserResolver {
   // LOGGED USER
   @Query(() => User, { nullable: true })
   async me(@Ctx() { req }: MyContext): Promise<User | null> {
+    console.log(req.session.userId);
+
     if (typeof req.session.userId === "undefined") {
       return null;
     }
@@ -285,6 +287,7 @@ export class UserResolver {
 
   // LOGIN
   @Mutation(() => UserErrorResponse)
+  @UseMiddleware(isNotAuth)
   async login(
     @Arg("options", () => LoginInput) options: LoginInput,
     @Ctx() { req }: MyContext
@@ -333,6 +336,7 @@ export class UserResolver {
 
   // REGISTER PHASE ONE
   @Mutation(() => FieldError, { nullable: true })
+  @UseMiddleware(isNotAuth)
   async register(
     @Arg("options", () => RegisterInput) options: RegisterInput,
     @Ctx() { redis }: MyContext
@@ -405,6 +409,7 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isNotAuth)
   async validateRegisterToken(
     @Arg("token") token: string,
     @Ctx() { redis }: MyContext
@@ -420,6 +425,7 @@ export class UserResolver {
   }
 
   @Mutation(() => UserErrorResponse)
+  @UseMiddleware(isNotAuth)
   async finishRegister(
     @Arg("options", () => RegisterInput) options: RegisterInput,
     @Arg("password") password: string,

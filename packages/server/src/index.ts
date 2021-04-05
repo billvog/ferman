@@ -44,14 +44,15 @@ import { Like } from "./entity/Like";
     session({
       name: SESSION_COOKIE_NAME,
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 year
         httpOnly: true,
         sameSite: "lax",
-        secure: __prod__,
+        // secure: __prod__,
+        secure: false,
         domain: __prod__ ? ".ferman.ga" : undefined,
       },
       store: new RedisStore({ client: redis }),
-      secret: process.env.SESSION_SECRET || "adnaskjdnkjasn",
+      secret: process.env.SESSION_SECRET,
       saveUninitialized: false,
       resave: false,
     })
@@ -74,8 +75,8 @@ import { Like } from "./entity/Like";
     },
   });
 
+  // update database on prod
   if (__prod__) {
-    // update database
     await conn.runMigrations();
   }
 
@@ -103,6 +104,6 @@ import { Like } from "./entity/Like";
 
   // start server
   app.listen(process.env.PORT, () => {
-    console.log("listening at:", process.env.PORT);
+    console.log("Listening at:", process.env.PORT);
   });
 })();
