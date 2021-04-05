@@ -1,5 +1,5 @@
-import { Box, Heading, Link, Text } from "@chakra-ui/layout";
-import { Flex, Spinner } from "@chakra-ui/react";
+import NavbarStyles from "../css/navbar.module.css";
+import { Spinner } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
 import { useMeQuery } from "@ferman-pkgs/controller";
@@ -12,52 +12,46 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   });
 
   return (
-    <Flex
-      zIndex={2}
-      position="sticky"
-      top={-1}
-      p={4}
-      bg="burlywood"
-      color="#334963"
-    >
-      <Flex
-        justifyContent="space-between"
-        flex={1}
-        m="auto"
-        align="center"
-        maxW="xl"
-      >
-        <Box>
-          <Heading fontFamily="cursive">
-            <NextLink href="/">Ferman's</NextLink>
-          </Heading>
-        </Box>
-        <Box>
+    <div className={NavbarStyles.navbar}>
+      <div className={NavbarStyles.container}>
+        <div className={NavbarStyles.leftWrapper}>
+          <NextLink href="/">
+            <div className={NavbarStyles.heading}>Ferman's</div>
+          </NextLink>
+        </div>
+        <div className={NavbarStyles.rightWrapper}>
           {meLoading ? (
             <Spinner />
           ) : meError || !meData?.me ? (
             <>
               <NextLink href="/account/login">
-                <Link>Login</Link>
+                <span className="link">Login</span>
               </NextLink>
               <NextLink href="/account/register">
-                <Link ml={4}>Register</Link>
+                <span className="link" style={{ marginLeft: 12 }}>
+                  Register
+                </span>
               </NextLink>
             </>
           ) : (
-            <Flex>
+            <div className={NavbarStyles.loggedInBox}>
               <NextLink href="/account/">
-                <Flex cursor="pointer" direction="column" textAlign="right">
-                  <Text fontWeight="600">{meData.me.username}</Text>
-                  <Text fontSize={13} color="indianred">
-                    @<Link fontWeight="700">{meData.me.uid}</Link>
-                  </Text>
-                </Flex>
+                <div className={NavbarStyles.UsernameWrapper}>
+                  <span className={NavbarStyles.username}>
+                    {meData.me.username}
+                  </span>
+                  <span className={NavbarStyles.uid}>
+                    @
+                    <span className="link" style={{ fontWeight: 600 }}>
+                      {meData.me.uid}
+                    </span>
+                  </span>
+                </div>
               </NextLink>
-            </Flex>
+            </div>
           )}
-        </Box>
-      </Flex>
-    </Flex>
+        </div>
+      </div>
+    </div>
   );
 };

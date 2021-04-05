@@ -52,7 +52,7 @@ import { Like } from "./entity/Like";
         domain: __prod__ ? ".ferman.ga" : undefined,
       },
       store: new RedisStore({ client: redis }),
-      secret: process.env.SESSION_SECRET,
+      secret: process.env.SESSION_SECRET as string,
       saveUninitialized: false,
       resave: false,
     })
@@ -67,12 +67,14 @@ import { Like } from "./entity/Like";
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migration/*")],
     entities: [User, Profile, Follow, Post, Like, Comment],
-    ssl: true,
-    extra: {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    },
+    ssl: __prod__,
+    extra: __prod__
+      ? {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        }
+      : undefined,
   });
 
   // update database on prod

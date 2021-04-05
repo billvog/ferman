@@ -1,0 +1,20 @@
+.button {
+  user-select: none;
+  border: 0;
+  border-radius: 7px;
+  font-size: 11pt;
+  background-color: hsl(0, 59%, 41%);
+  color: #f8f8f8;
+  padding: 8px 12px;
+  line-height: 1.2;
+  outline: none;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: hsl(0, 59%, 51%);
+}
+
+.button:active {
+  background-color: hsl(0, 59%, 61%);
+}

@@ -1,3 +1,4 @@
+import LayoutStyles from "../css/layout.module.css";
 import { Box, Spinner, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
@@ -27,7 +28,6 @@ export const Layout: React.FC<LayoutProps> = ({
   isAuth,
   isNotAuth,
 }) => {
-  const toast = useToast();
   const [ok, setOk] = useState(false);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export const Layout: React.FC<LayoutProps> = ({
   }, [data, loading, router]);
 
   return (
-    <Box>
+    <div className={LayoutStyles.container}>
       <Head>
         <title>{title || "Ferman – Welcome at Ferman's"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -80,6 +80,6 @@ export const Layout: React.FC<LayoutProps> = ({
       </Head>
       <NavBar />
       <Wrapper size={size}>{ok ? children : <Spinner />}</Wrapper>
-    </Box>
+    </div>
   );
 };

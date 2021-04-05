@@ -1,0 +1,15 @@
+.container {
+  display: block;
+}
+
+.wrapper {
+  padding: 1.25rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.wrapper h1 {
+  margin-bottom: 2pt;
+  font-size: 30px;
+  color: var(--main-dark);
+}

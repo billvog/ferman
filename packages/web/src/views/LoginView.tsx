@@ -1,12 +1,13 @@
-import { Heading, Box, Flex, Button, Link } from "@chakra-ui/react";
+import FormStyles from "../css/form.module.css";
 import { ErrorMap, LoginFormValues } from "@ferman-pkgs/controller";
-import { Form, FormikErrors, FormikProps, withFormik } from "formik";
+import { Form, FormikProps, withFormik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
 import NextLink from "next/link";
 import { LoginValidationSchema } from "@ferman-pkgs/common";
+import { MyButton } from "../components/MyButton";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
@@ -25,46 +26,38 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   return (
     <Layout size="sm" title="Sign in – Ferman" isNotAuth>
       <Form>
-        <Heading mb={2} fontSize={30} color="mainDarkBlue">
-          Sign in
-        </Heading>
+        <h1>Sign in</h1>
         <InputField
           label="Email"
           name="email"
           placeholder="Enter email"
           type="email"
         />
-        <Box mt={4}>
-          <InputField
-            label="Password"
-            name="password"
-            placeholder="Enter password"
-            type="password"
-          />
-        </Box>
-        <Box mt={4}>
-          <Flex justifyContent="space-between" align="center" mb={2}>
-            <Button
-              type="submit"
-              isLoading={isSubmitting}
-              isDisabled={isSubmitting}
-            >
-              Sign in
-            </Button>
-            <Box>
-              <NextLink href="/account/register">
-                <Link color="grey">or Sign up</Link>
-              </NextLink>
-            </Box>
-          </Flex>
-          <Box>
-            <Link color="grey" fontSize={14}>
-              <NextLink href="/account/forgot-password">
-                Forgot Password? Reset
-              </NextLink>
-            </Link>
-          </Box>
-        </Box>
+        <InputField
+          label="Password"
+          name="password"
+          placeholder="Enter password"
+          type="password"
+        />
+        <div className={FormStyles.submitSection}>
+          <MyButton type="submit" isLoading={isSubmitting}>
+            Sign in
+          </MyButton>
+          <div>
+            <NextLink href="/account/register">
+              <span className="link" style={{ color: "grey" }}>
+                or Sign up
+              </span>
+            </NextLink>
+          </div>
+        </div>
+        <div>
+          <NextLink href="/account/forgot-password">
+            <span className="link" style={{ color: "grey", fontSize: 14 }}>
+              Forgot Password? Reset
+            </span>
+          </NextLink>
+        </div>
       </Form>
     </Layout>
   );

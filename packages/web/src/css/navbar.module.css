@@ -1,0 +1,46 @@
+.navbar {
+  display: flex;
+  z-index: 2;
+  position: sticky;
+  top: -1px;
+  padding: 10px;
+  background-color: burlywood;
+  color: #334963;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  margin: auto;
+  align-items: center;
+  max-width: 560px;
+}
+
+.navbar .container .heading {
+  font-size: 36px;
+  font-weight: 600;
+  font-family: cursive;
+  color: #334963 !important;
+  cursor: pointer;
+}
+
+.navbar .container .loggedInBox {
+  display: flex;
+}
+
+.navbar .container .loggedInBox .UsernameWrapper {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  text-align: right;
+}
+
+.navbar .container .loggedInBox .UsernameWrapper .username {
+  font-weight: 600;
+}
+
+.navbar .container .loggedInBox .UsernameWrapper .uid {
+  font-size: 13;
+  color: indianred;
+}

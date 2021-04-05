@@ -1,0 +1,69 @@
+.formControl {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.formControl.invalid .input,
+.formControl.invalid .input:hover {
+  border-color: var(--red);
+}
+
+.formControl .labelWrapper {
+  font-size: 11.5pt;
+  color: dimgrey;
+  user-select: none;
+}
+
+.formControl .labelWrapper .labelContent {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 6px 0;
+}
+
+.formControl .labelWrapper .labelContent .labelCountText {
+  color: grey;
+  font-size: 11pt;
+  margin-left: 8px;
+}
+
+.formControl .input {
+  font-family: system-ui;
+  position: relative;
+  width: 100%;
+  outline: 0;
+  border: 0;
+  transition: all 0.2s ease 0s;
+  font-size: 11pt;
+  padding: 10px 12px;
+  background-color: var(--light-grey);
+  border-radius: 7px;
+  border: 2px solid transparent;
+}
+
+.formControl .input:disabled {
+  opacity: 0.8;
+}
+
+.formControl .input:enabled:hover,
+.formControl .input:enabled:focus {
+  background-color: var(--grey);
+}
+
+.formControl .input:enabled:focus {
+  border-color: rgb(49, 130, 206);
+}
+
+/* form submit section */
+.submitSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+/* errors */
+.formControl .errorContainer {
+  color: var(--red);
+  margin-top: 5px;
+  font-size: 10pt;
+}
