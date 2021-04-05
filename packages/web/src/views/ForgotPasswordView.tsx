@@ -6,6 +6,7 @@ import {
   Heading,
   Link,
 } from "@chakra-ui/react";
+import FormStyles from "../css/form.module.css";
 import {
   ErrorMap,
   ForgotPasswordFormValues,
@@ -17,6 +18,8 @@ import { InputField } from "../components/InputField";
 import NextLink from "next/link";
 import { Layout } from "../components/Layout";
 import { ForgotPasswordValidationSchema } from "@ferman-pkgs/common";
+import { MyButton } from "../components/MyButton";
+import { MyAlert } from "../components/MyAlert";
 
 interface ForgotPasswordViewProps {
   submit: (values: ForgotPasswordFormValues) => Promise<ErrorMap | null>;
@@ -27,35 +30,30 @@ const C: React.FC<
   ForgotPasswordViewProps & FormikProps<ForgotPasswordFormValues>
 > = ({ isSubmitting, message }) => {
   return (
-    <Layout title="Forgot Password – Ferman" isNotAuth>
+    <Layout title="Forgot Password – Ferman" isNotAuth size="sm">
       <Form>
         {message && (
-          <Alert status={message.type} mb={3}>
-            <AlertIcon />
-            {message.text}
-          </Alert>
+          <div style={{ marginBottom: 8 }}>
+            <MyAlert type={message.type}>{message.text}</MyAlert>
+          </div>
         )}
-        <Heading mb={2} fontSize={30} color="mainDarkBlue">
-          Forgot password
-        </Heading>
+        <h1>Forgot password</h1>
         <InputField
           label="Email"
           name="email"
           placeholder="Enter your email"
           type="email"
         />
-        <Flex justifyContent="space-between" align="center" mt={4}>
-          <Button
-            type="submit"
-            isLoading={isSubmitting}
-            isDisabled={isSubmitting}
-          >
+        <div className={FormStyles.submitSection}>
+          <MyButton type="submit" isLoading={isSubmitting}>
             Send
-          </Button>
-          <Link color="grey">
-            <NextLink href="/account/login">or Sign in</NextLink>
-          </Link>
-        </Flex>
+          </MyButton>
+          <NextLink href="/account/login">
+            <span className="link" style={{ color: "grey" }}>
+              or Sign in
+            </span>
+          </NextLink>
+        </div>
       </Form>
     </Layout>
   );
