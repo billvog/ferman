@@ -1,14 +1,4 @@
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Button,
-  Checkbox,
-  Flex,
-  Heading,
-  Link,
-  useToast,
-} from "@chakra-ui/react";
+import FormStyles from "../css/form.module.css";
 import {
   BioMax,
   LocationMax,
@@ -26,6 +16,10 @@ import { NextRouter, withRouter } from "next/router";
 import React, { useEffect } from "react";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
+import { toast } from "react-toastify";
+import { MyAlert } from "../components/MyAlert";
+import { MyButton } from "../components/MyButton";
+import { MyCheckbox } from "../components/MyCheckbox";
 
 type EditProfileViewProps = {
   submit: (values: UpdateProfileFormValues) => Promise<ErrorMap | null>;
@@ -37,20 +31,13 @@ type EditProfileViewProps = {
 const C: React.FC<
   EditProfileViewProps & FormikProps<UpdateProfileFormValues>
 > = ({ myInitialValues, message, isSubmitting, router, handleChange }) => {
-  const toast = useToast();
-
   useEffect(() => {
     if (!message) {
       return;
     }
 
     if (message.type === "success") {
-      toast({
-        title: "Success",
-        status: message.type,
-        description: message.text,
-        duration: 5000,
-      });
+      toast.success(message.text);
     }
   }, [message]);
 
@@ -58,14 +45,11 @@ const C: React.FC<
     <Layout title="Edit Profile – Ferman" size="md" isAuth>
       <Form>
         {message && message.type === "error" && (
-          <Alert status={message.type}>
-            <AlertIcon />
-            {message.text}
-          </Alert>
+          <div style={{ marginBottom: 8 }}>
+            <MyAlert type={message.type}>{message.text}</MyAlert>
+          </div>
         )}
-        <Heading mb={2} fontSize={30} color="mainDarkBlue">
-          Edit Profile
-        </Heading>
+        <h1>Edit Profile</h1>
         <InputField
           label="Username"
           name="username"
@@ -73,57 +57,47 @@ const C: React.FC<
           type="text"
           maxLength={UsernameMax}
         />
-        <Box mt={4}>
-          <InputField
-            label="Bio"
-            name="bio"
-            placeholder="Enter Bio..."
-            type="text"
-            textarea={true}
-            maxLength={BioMax}
-          />
-        </Box>
-        <Box mt={4}>
-          <InputField
-            label="Location"
-            name="location"
-            placeholder="Enter Location"
-            maxLength={LocationMax}
-          />
-        </Box>
-        <Box mt={4}>
-          <InputField
-            label="Date of Birth"
-            name="birthdate"
-            value={moment(parseFloat(myInitialValues.birthdate)).format(
-              "MMMM Do YYYY"
-            )}
-            defaultValue={1}
-            disabled
-            helperText="This field cannot change."
-          />
-          <Box mt={2}>
-            <Checkbox
-              size="sm"
-              colorScheme="blue"
-              color="grey"
-              mt={1}
-              defaultChecked={myInitialValues.showBirthdate}
-              name="showBirthdate"
-              onChange={handleChange}
-            >
-              Show birthdate to everyone
-            </Checkbox>
-          </Box>
-        </Box>
-        <Flex mt={4} justifyContent="space-between" align="center">
-          <Button type="submit" isLoading={isSubmitting}>
+        <InputField
+          label="Bio"
+          name="bio"
+          placeholder="Enter Bio..."
+          type="text"
+          textarea={true}
+          maxLength={BioMax}
+        />
+        <InputField
+          label="Location"
+          name="location"
+          placeholder="Enter Location"
+          maxLength={LocationMax}
+        />
+        <InputField
+          label="Date of Birth"
+          name="birthdate"
+          value={moment(parseFloat(myInitialValues.birthdate)).format(
+            "MMMM Do YYYY"
+          )}
+          defaultValue={1}
+          disabled
+          helperText="This field cannot change."
+        />
+        <MyCheckbox
+          label="Show birthdate to everyone"
+          name="showBirthdate"
+          defaultChecked={myInitialValues.showBirthdate}
+        />
+        <div className={FormStyles.submitSection}>
+          <MyButton type="submit" isLoading={isSubmitting}>
             Update
-          </Button>
-          <Link color="grey" onClick={router.back}>
+          </MyButton>
+          <span
+            className="link"
+            style={{ color: "grey" }}
+            onClick={router.back}
+          >
             or Go Back
-          </Link>
-        </Flex>
+          </span>
+        </div>
       </Form>
     </Layout>
   );

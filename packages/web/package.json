@@ -27,7 +27,8 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "react-process-string": "^1.2.0"
+    "react-process-string": "^1.2.0",
+    "react-toastify": "^7.0.3"
   },
   "license": "MIT",
   "devDependencies": {

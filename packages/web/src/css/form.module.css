@@ -3,6 +3,17 @@
   margin-bottom: 10px;
 }
 
+.formControl.checkboxControl {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 1;
+  margin: 12px 0;
+  background-color: var(--light-grey);
+  padding: 12px 14px;
+  border-radius: 7px;
+}
+
 .formControl.invalid .input,
 .formControl.invalid .input:hover {
   border-color: var(--red);
@@ -21,6 +32,11 @@
   margin: 12px 0 6px 0;
 }
 
+.formControl.checkboxControl .labelWrapper .labelContent {
+  margin: 0 10px 0 0;
+  font-size: 10.5pt;
+}
+
 .formControl .labelWrapper .labelContent .labelCountText {
   color: #acacac;
   font-size: 9pt;
@@ -33,12 +49,16 @@
   width: 100%;
   outline: 0;
   border: 0;
-  transition: all 0.2s ease 0s;
+  transition: background-color 0.2s ease;
   font-size: 11pt;
   padding: 10px 12px;
   background-color: var(--light-grey);
   border-radius: 7px;
   border: 2px solid transparent;
+}
+
+.formControl textarea.input {
+  resize: vertical;
 }
 
 .formControl .input:disabled {

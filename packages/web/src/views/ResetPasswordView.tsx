@@ -1,13 +1,4 @@
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  Button,
-  Link,
-  Heading,
-  Box,
-} from "@chakra-ui/react";
+import FormStyles from "../css/form.module.css";
 import { ResetPasswordValidationSchema } from "@ferman-pkgs/common";
 import {
   ErrorMap,
@@ -19,6 +10,8 @@ import React, { useState } from "react";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
 import NextLink from "next/link";
+import { MyAlert } from "../components/MyAlert";
+import { MyButton } from "../components/MyButton";
 
 interface ResetPasswordViewProps {
   submit: (values: ResetPasswordFormValues) => Promise<ErrorMap | null>;
@@ -36,40 +29,26 @@ const C: React.FC<
   return (
     <Layout size="sm" title="Reset Password – Ferman" isNotAuth>
       {done ? (
-        <Alert
-          status="success"
-          variant="subtle"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          height="250px"
-        >
-          <AlertIcon boxSize="40px" mr={0} />
-          <AlertTitle mt={4} mb={1} fontSize="lg">
-            Your password has been reset!
-          </AlertTitle>
-          <AlertDescription maxWidth="sm">
+        <MyAlert type="success">
+          <h2>Your password has been reset!</h2>
+          <p>
             We're happy to announce you that your password has been reset!{" "}
             <br />
             <NextLink href="/account/login">
-              <Button as={Link} colorScheme="green" mt={5}>
+              <MyButton colorScheme="success" style={{ marginTop: 10 }}>
                 Sign in
-              </Button>
+              </MyButton>
             </NextLink>
-          </AlertDescription>
-        </Alert>
+          </p>
+        </MyAlert>
       ) : (
         <Form>
           {message && (
-            <Alert status={message.type} mb={3}>
-              <AlertIcon />
-              {message.text}
-            </Alert>
+            <div style={{ marginBottom: 8 }}>
+              <MyAlert type={message.type}>{message.text}</MyAlert>
+            </div>
           )}
-          <Heading mb={2} fontSize={30} color="mainDarkBlue">
-            Reset password
-          </Heading>
+          <h1>Reset password</h1>
           <InputField
             label="Password"
             name="password"
@@ -81,11 +60,11 @@ const C: React.FC<
               showPassword: showPwd,
             }}
           />
-          <Box mt={4}>
-            <Button type="submit" isLoading={isSubmitting}>
+          <div className={FormStyles.submitSection}>
+            <MyButton type="submit" isLoading={isSubmitting}>
               Reset
-            </Button>
-          </Box>
+            </MyButton>
+          </div>
         </Form>
       )}
     </Layout>

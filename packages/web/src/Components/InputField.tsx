@@ -76,7 +76,12 @@ export const InputField: React.FC<InputFieldProps> = ({
           type={passwordOptions.showPassword ? "text" : "password"}
         />
       ) : textarea ? (
-        <textarea {...field} {...props} id={field.name} />
+        <textarea
+          {...field}
+          {...props}
+          id={field.name}
+          className={FormStyles.input}
+        />
       ) : (
         <input
           {...field}
