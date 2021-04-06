@@ -1,14 +1,7 @@
 import FormStyles from "../css/form.module.css";
-import {
-  Input,
-  FormErrorMessage,
-  FormHelperText,
-  InputGroup,
-  Button,
-  InputRightElement,
-} from "@chakra-ui/react";
 import { useField } from "formik";
 import React, { InputHTMLAttributes } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 type InputFieldProps = InputHTMLAttributes<
   HTMLInputElement | HTMLTextAreaElement
@@ -35,10 +28,6 @@ export const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const [field, { error, touched }] = useField(props);
 
-  if (error) {
-    console.log(error);
-  }
-
   return (
     <div
       className={`${FormStyles.formControl} ${
@@ -47,33 +36,45 @@ export const InputField: React.FC<InputFieldProps> = ({
     >
       <label className={FormStyles.labelWrapper} htmlFor={field.name}>
         <div className={FormStyles.labelContent}>
-          {label}
-          {props.maxLength && (
-            <span className={FormStyles.labelCountText}>
-              {field.value.length}/{props.maxLength}
-            </span>
+          <div>
+            {label}
+            {props.maxLength && (
+              <span className={FormStyles.labelCountText}>
+                {field.value.length}/{props.maxLength}
+              </span>
+            )}
+          </div>
+          {passwordOptions && (
+            <div>
+              <button
+                className={FormStyles.togglePassword}
+                onClick={passwordOptions.handlePwdToggle}
+                type="button"
+              >
+                {passwordOptions.showPassword ? (
+                  <>
+                    <span style={{ marginRight: 5 }}>Hide</span>
+                    <AiOutlineEyeInvisible />
+                  </>
+                ) : (
+                  <>
+                    <span style={{ marginRight: 5 }}>Show</span>
+                    <AiOutlineEye />
+                  </>
+                )}
+              </button>
+            </div>
           )}
         </div>
       </label>
       {passwordOptions?.isPassword ? (
-        <InputGroup size="md">
-          <Input
-            {...field}
-            {...props}
-            pr="4.5rem"
-            type={passwordOptions.showPassword ? "text" : "password"}
-            placeholder="Enter password"
-          />
-          <InputRightElement width="4.5rem">
-            <Button
-              h="1.75rem"
-              size="sm"
-              onClick={passwordOptions.handlePwdToggle}
-            >
-              {passwordOptions.showPassword ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
+        <input
+          {...field}
+          {...props}
+          id={field.name}
+          className={FormStyles.input}
+          type={passwordOptions.showPassword ? "text" : "password"}
+        />
       ) : textarea ? (
         <textarea {...field} {...props} id={field.name} />
       ) : (
@@ -84,9 +85,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           className={FormStyles.input}
         />
       )}
-      {helperText && (
-        <FormHelperText fontSize={12}>{helperText}</FormHelperText>
-      )}
+      {helperText && <div className={FormStyles.helperText}>{helperText}</div>}
       {error && touched && (
         <div className={FormStyles.errorContainer}>{error}</div>
       )}

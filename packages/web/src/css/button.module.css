@@ -1,4 +1,5 @@
 .button {
+  position: relative;
   user-select: none;
   border: 0;
   border-radius: 7px;
@@ -8,13 +9,76 @@
   padding: 8px 12px;
   line-height: 1.2;
   outline: none;
+  transition: 0.1s ease-in-out;
 }
 
-.button:hover {
+.button:enabled:hover {
   cursor: pointer;
   background-color: hsl(0, 59%, 51%);
 }
 
-.button:active {
+.button:enabled:active {
   background-color: hsl(0, 59%, 61%);
+}
+
+.button:disabled {
+  opacity: 0.75;
+}
+
+.button.loading .content {
+  visibility: hidden;
+}
+
+/* loading */
+.button.loading::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 2.5px solid transparent;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: loading-button-spinner 1s linear infinite;
+}
+
+@keyframes loading-button-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* success color sheme */
+.button.success {
+  background-color: var(--success-dark);
+  color: white;
+}
+
+.button.success:enabled:hover {
+  background-color: var(--success-hover);
+}
+
+.button.success:enabled:active {
+  background-color: var(--success-active);
+}
+
+/* error color sheme */
+.button.error {
+  background-color: var(--error-dark);
+  color: white;
+}
+
+.button.error:enabled:hover {
+  background-color: var(--error-hover);
+}
+
+.button.error:enabled:active {
+  background-color: var(--error-active);
 }

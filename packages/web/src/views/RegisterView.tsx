@@ -1,21 +1,11 @@
-import { Box } from "@chakra-ui/layout";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Button,
-  Flex,
-  Heading,
-  Link,
-} from "@chakra-ui/react";
+import FormStyles from "../css/form.module.css";
 import {
   ErrorMap,
   MyMessage,
   RegisterFormValues,
   RegisterPhase,
 } from "@ferman-pkgs/controller";
-import { Form, FormikErrors, FormikProps, withFormik } from "formik";
+import { Form, FormikProps, withFormik } from "formik";
 import React, { useState } from "react";
 import { Layout } from "../components/Layout";
 import NextLink from "next/link";
@@ -25,6 +15,8 @@ import {
   UsernameMax,
 } from "@ferman-pkgs/common";
 import { InputField } from "../components/InputField";
+import { MyAlert } from "../components/MyAlert";
+import { MyButton } from "../components/MyButton";
 
 interface RegisterViewProps {
   submit: (values: RegisterFormValues) => Promise<ErrorMap | null>;
@@ -46,38 +38,26 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
   return (
     <Layout size="md" title="Sign up – Ferman" isNotAuth>
       {done ? (
-        <Alert
-          status="success"
-          variant="subtle"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          height="250px"
-        >
-          <AlertIcon boxSize="40px" mr={0} />
-          <AlertTitle mt={4} mb={1} fontSize="lg">
-            Your account is finally ready!
-          </AlertTitle>
-          <AlertDescription maxWidth="sm">
+        <MyAlert type="success">
+          <h2>Your account is finally ready!</h2>
+          <p>
             We're happy to announce you that your account is ready! What are you
             waiting for? Start posting! <br />
             <NextLink href="/">
-              <Button as={Link} colorScheme="green" mt={5}>
+              <MyButton colorScheme="success" style={{ marginTop: 10 }}>
                 Start
-              </Button>
+              </MyButton>
             </NextLink>
-          </AlertDescription>
-        </Alert>
+          </p>
+        </MyAlert>
       ) : (
         <Form>
           {message && (
-            <Alert status={message.type} mb={3}>
-              <AlertIcon />
-              {message.text}
-            </Alert>
+            <div style={{ marginBottom: 8 }}>
+              <MyAlert type={message.type}>{message.text}</MyAlert>
+            </div>
           )}
-          <Heading mb={2} fontSize={30} color="mainDarkBlue">
+          <h1>
             {phase === 0
               ? "Sign up"
               : phase === 1
@@ -85,7 +65,7 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
               : phase === 2
               ? "Set your password"
               : null}
-          </Heading>
+          </h1>
           {phase === 0 ? (
             <>
               <InputField
@@ -96,42 +76,38 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
                 maxLength={UidMax}
                 helperText="How others will search you. Choose it carefully, because you won't have the abillity to change it after is set."
               />
-              <Box mt={4}>
-                <InputField
-                  label="Username"
-                  name="username"
-                  placeholder="Enter username"
-                  type="text"
-                  maxLength={UsernameMax}
-                  helperText="Your real name, will be displayed in your profile."
-                />
-              </Box>
-              <Box mt={4}>
-                <InputField
-                  label="Email"
-                  name="email"
-                  placeholder="Enter email"
-                  type="email"
-                />
-              </Box>
-              <Box mt={4}>
-                <InputField
-                  label="Date of birth"
-                  name="birthdate"
-                  type="date"
-                  helperText="This won't be visible to the public."
-                />
-              </Box>
-              <Flex mt={4} justifyContent="space-between" align="center">
-                <Button type="submit" isLoading={isSubmitting}>
+              <InputField
+                label="Username"
+                name="username"
+                placeholder="Enter username"
+                type="text"
+                maxLength={UsernameMax}
+                helperText="Your real name, will be displayed in your profile."
+              />
+              <InputField
+                label="Email"
+                name="email"
+                placeholder="Enter email"
+                type="email"
+              />
+              <InputField
+                label="Date of birth"
+                name="birthdate"
+                type="date"
+                helperText="This won't be visible to the public."
+              />
+              <div className={FormStyles.submitSection}>
+                <MyButton type="submit" isLoading={isSubmitting}>
                   Continue
-                </Button>
-                <Box>
+                </MyButton>
+                <div>
                   <NextLink href="/account/login">
-                    <Link color="grey">or Sign in</Link>
+                    <span className="link" style={{ color: "grey" }}>
+                      or Sign in
+                    </span>
                   </NextLink>
-                </Box>
-              </Flex>
+                </div>
+              </div>
             </>
           ) : phase === 1 ? (
             <>
@@ -142,9 +118,9 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
                 type="text"
                 helperText="This code has been sent to the email you have provided."
               />
-              <Button type="submit" isLoading={isSubmitting} mt={4}>
+              <MyButton type="submit" isLoading={isSubmitting}>
                 Continue
-              </Button>
+              </MyButton>
             </>
           ) : phase === 2 ? (
             <>
@@ -159,9 +135,9 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
                   showPassword: showPwd,
                 }}
               />
-              <Button type="submit" isLoading={isSubmitting} mt={4}>
+              <MyButton type="submit" isLoading={isSubmitting}>
                 Finish
-              </Button>
+              </MyButton>
             </>
           ) : null}
         </Form>
