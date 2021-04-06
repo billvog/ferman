@@ -1,3 +1,4 @@
+import FeedStyles from "../css/feed.module.css";
 import {
   Box,
   Button,
@@ -16,6 +17,9 @@ import { withMyApollo } from "../utils/withMyApollo";
 import { Post } from "../components/Post";
 import { ErrorText } from "../components/ErrorText";
 import { SearchIcon } from "@chakra-ui/icons";
+import { MyButton } from "../components/MyButton";
+import { MyIconButton } from "../components/MyIconButton";
+import { MySpinner } from "../components/MySpinner";
 
 const Index = () => {
   const { data: meData, loading: meLoading } = useMeQuery({
@@ -38,38 +42,29 @@ const Index = () => {
   });
 
   return (
-    <Layout size="xl" title="Feed – Ferman">
-      <Flex mb={4} justifyContent="space-between" align="center">
-        <Heading color="mainDarkBlue">Feed</Heading>
-        <Box>
+    <Layout size="lg" title="Feed – Ferman">
+      <div className={FeedStyles.header}>
+        <h1 color="mainDarkBlue">Feed</h1>
+        <div>
           <NextLink href="/search">
-            <IconButton
-              aria-label="search posts"
-              icon={<SearchIcon />}
-              colorScheme=""
-              bg="brown"
-              color="white"
-              size="sm"
-            />
+            <MyIconButton icon={<SearchIcon />} />
           </NextLink>
           {meData?.me && (
             <NextLink href="/post">
-              <Button
-                as={Link}
-                colorScheme=""
-                bg="saddlebrown"
-                color="white"
-                ml={2}
-                size="sm"
+              <MyButton
+                style={{
+                  marginLeft: 8,
+                  backgroundColor: "saddlebrown",
+                }}
               >
                 post now
-              </Button>
+              </MyButton>
             </NextLink>
           )}
-        </Box>
-      </Flex>
+        </div>
+      </div>
       {(postsLoading && !postsData) || !postsData || meLoading ? (
-        <Spinner />
+        <MySpinner />
       ) : postsError && !postsData ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (

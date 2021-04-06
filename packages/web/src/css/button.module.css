@@ -10,15 +10,15 @@
   line-height: 1.2;
   outline: none;
   transition: 0.1s ease-in-out;
+  cursor: pointer;
 }
 
 .button:enabled:hover {
-  cursor: pointer;
-  background-color: hsl(0, 59%, 51%);
+  opacity: 0.9;
 }
 
 .button:enabled:active {
-  background-color: hsl(0, 59%, 61%);
+  opacity: 0.8;
 }
 
 .button:disabled {
@@ -61,24 +61,8 @@
   color: white;
 }
 
-.button.success:enabled:hover {
-  background-color: var(--success-hover);
-}
-
-.button.success:enabled:active {
-  background-color: var(--success-active);
-}
-
 /* error color sheme */
 .button.error {
   background-color: var(--error-dark);
   color: white;
-}
-
-.button.error:enabled:hover {
-  background-color: var(--error-hover);
-}
-
-.button.error:enabled:active {
-  background-color: var(--error-active);
 }

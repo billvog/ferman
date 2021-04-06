@@ -16,7 +16,11 @@ export const MyButton: React.FC<MyButtonProps> = ({
     <button
       className={`${ButtonStyles.button} ${
         isLoading ? ButtonStyles.loading : ""
-      } ${ButtonStyles[colorScheme as any]}`}
+      } ${
+        typeof colorScheme !== "undefined"
+          ? ButtonStyles[colorScheme as any]
+          : ""
+      }`}
       {...props}
       disabled={isLoading}
     >
