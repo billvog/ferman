@@ -4,6 +4,8 @@
   border: 0;
   border-radius: 7px;
   font-size: 11pt;
+  font-weight: 600;
+  font-family: inherit;
   background-color: hsl(0, 59%, 41%);
   color: #f8f8f8;
   padding: 8px 12px;
@@ -55,13 +57,19 @@
   }
 }
 
-/* success color sheme */
+/* grey color scheme */
+.button.grey {
+  background-color: var(--grey);
+  color: dimgrey;
+}
+
+/* success color scheme */
 .button.success {
   background-color: var(--success-dark);
   color: white;
 }
 
-/* error color sheme */
+/* error color scheme */
 .button.error {
   background-color: var(--error-dark);
   color: white;

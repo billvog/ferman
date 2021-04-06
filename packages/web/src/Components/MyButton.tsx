@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes } from "react";
 
 type MyButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean;
-  colorScheme?: "normal" | "success" | "error";
+  colorScheme?: "normal" | "grey" | "success" | "error";
 };
 
 export const MyButton: React.FC<MyButtonProps> = ({

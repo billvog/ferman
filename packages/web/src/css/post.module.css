@@ -1,0 +1,32 @@
+.container {
+  margin-bottom: 8px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+}
+
+.contentContainer {
+  padding: 6px 12px;
+}
+
+.postTitle {
+  color: var(--main-dark);
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.postContent {
+  margin-top: 2px;
+  font-size: 9pt;
+  white-space: pre-wrap;
+}
+
+.postHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.postCreator {
+  font-size: 8pt;
+  color: #a0a0a0;
+}

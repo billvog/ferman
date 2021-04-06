@@ -1,14 +1,3 @@
-import FeedStyles from "../css/feed.module.css";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  IconButton,
-  Link,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
 import React from "react";
 import { Layout } from "../components/Layout";
 import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
@@ -20,6 +9,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { MyButton } from "../components/MyButton";
 import { MyIconButton } from "../components/MyIconButton";
 import { MySpinner } from "../components/MySpinner";
+import styled from "styled-components";
 
 const Index = () => {
   const { data: meData, loading: meLoading } = useMeQuery({
@@ -43,7 +33,7 @@ const Index = () => {
 
   return (
     <Layout size="lg" title="Feed – Ferman">
-      <div className={FeedStyles.header}>
+      <Header>
         <h1 color="mainDarkBlue">Feed</h1>
         <div>
           <NextLink href="/search">
@@ -62,23 +52,26 @@ const Index = () => {
             </NextLink>
           )}
         </div>
-      </div>
+      </Header>
       {(postsLoading && !postsData) || !postsData || meLoading ? (
         <MySpinner />
       ) : postsError && !postsData ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <Box>
-          <Text>There are no posts...</Text>
-        </Box>
+        <NoPostsContainer>
+          <div>There are no posts...</div>
+        </NoPostsContainer>
       ) : (
-        postsData.posts.posts.map((post) => (
-          <Post key={post.id} post={post} me={meData?.me || null} />
-        ))
+        <PostsContainer>
+          {postsData.posts.posts.map((post) => (
+            <Post key={post.id} post={post} me={meData?.me || null} />
+          ))}
+        </PostsContainer>
       )}
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
-        <Flex justifyContent="center">
-          <Button
+        <LoadMoreContainer>
+          <MyButton
+            colorScheme="grey"
             isLoading={postsLoading}
             onClick={() => {
               fetchMorePosts!({
@@ -90,11 +83,33 @@ const Index = () => {
             }}
           >
             load more
-          </Button>
-        </Flex>
+          </MyButton>
+        </LoadMoreContainer>
       )}
     </Layout>
   );
 };
 
 export default withMyApollo({ ssr: true })(Index);
+
+// Styles
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const LoadMoreContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const PostsContainer = styled.div`
+  margin-top: 10px;
+`;
+
+const NoPostsContainer = styled.div`
+  color: #b0b0b0;
+  font-family: inherit;
+`;

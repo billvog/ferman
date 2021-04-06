@@ -17,6 +17,7 @@ import {
 import { InputField } from "../components/InputField";
 import { MyAlert } from "../components/MyAlert";
 import { MyButton } from "../components/MyButton";
+import styled from "styled-components";
 
 interface RegisterViewProps {
   submit: (values: RegisterFormValues) => Promise<ErrorMap | null>;
@@ -102,8 +103,8 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
                 </MyButton>
                 <div>
                   <NextLink href="/account/login">
-                    <span className="link" style={{ color: "grey" }}>
-                      or Sign in
+                    <span className="link">
+                      <OrSignInLink>or Sign in</OrSignInLink>
                     </span>
                   </NextLink>
                 </div>
@@ -161,3 +162,9 @@ export const RegisterView = withFormik<RegisterViewProps, RegisterFormValues>({
     if (errors) setErrors(errors);
   },
 })(C);
+
+// Styles
+const OrSignInLink = styled.div`
+  color: grey;
+  font-size: 15px;
+`;
