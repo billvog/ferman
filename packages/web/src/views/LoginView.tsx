@@ -1,7 +1,6 @@
 import FormStyles from "../css/form.module.css";
 import { ErrorMap, LoginFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
-import { useRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
@@ -12,18 +11,11 @@ import styled from "styled-components";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
-  done: boolean;
 }
 
 const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
-  done,
   isSubmitting,
 }) => {
-  const router = useRouter();
-  if (done) {
-    router.push("/");
-  }
-
   return (
     <Layout size="sm" title="Sign in – Ferman" isNotAuth>
       <Form>

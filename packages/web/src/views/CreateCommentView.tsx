@@ -1,15 +1,10 @@
-import { Heading, Button } from "@chakra-ui/react";
-import {
-  CommentMax,
-  CommentValidationSchema,
-  COMMENT_TEXT_SHAPE,
-} from "@ferman-pkgs/common";
+import { CommentMax, CommentValidationSchema } from "@ferman-pkgs/common";
 import { CommentFormValues, ErrorMap } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
-import router from "next/router";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
+import { MyButton } from "../components/MyButton";
 
 interface CreateCommentViewProps {
   submit: (values: CommentFormValues) => Promise<ErrorMap | null>;
@@ -22,9 +17,7 @@ export const C: React.FC<
   return (
     <Layout title="Create Comment – Ferman" isAuth>
       <Form>
-        <Heading mb={2} fontSize={30} color="mainDarkBlue">
-          {reply ? "Reply comment" : "Comment"}
-        </Heading>
+        <h1>{reply ? "Reply comment" : "Comment"}</h1>
         <InputField
           label="Text"
           name="text"
@@ -32,9 +25,9 @@ export const C: React.FC<
           textarea
           maxLength={CommentMax}
         />
-        <Button type="submit" mt={2} isLoading={isSubmitting}>
+        <MyButton type="submit" isLoading={isSubmitting}>
           {reply ? "Reply" : "Comment"}
-        </Button>
+        </MyButton>
       </Form>
     </Layout>
   );

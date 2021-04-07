@@ -1,10 +1,19 @@
 import { LoginController } from "@ferman-pkgs/controller";
+import { useRouter } from "next/router";
 import React from "react";
 import { LoginView } from "../views/LoginView";
 
 interface LoginConnectorProps {}
 export const LoginConnector: React.FC<LoginConnectorProps> = ({}) => {
+  const router = useRouter();
+
+  const finished = () => {
+    router.push("/");
+  };
+
   return (
-    <LoginController>{(props) => <LoginView {...props} />}</LoginController>
+    <LoginController onFinish={finished}>
+      {(props) => <LoginView {...props} />}
+    </LoginController>
   );
 };

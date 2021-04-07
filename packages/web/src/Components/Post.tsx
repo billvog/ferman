@@ -20,7 +20,7 @@ export const Post: React.FC<PostProps> = ({
   clickable = false,
   onDelete,
 }) => {
-  const PostWrapperComponent = clickable ? NextLink : React.Fragment;
+  const PostWrapperComponent: any = clickable ? NextLink : React.Fragment;
 
   return (
     <div className={PostStyles.container}>

@@ -31,16 +31,6 @@ type EditProfileViewProps = {
 const C: React.FC<
   EditProfileViewProps & FormikProps<UpdateProfileFormValues>
 > = ({ myInitialValues, message, isSubmitting, router, handleChange }) => {
-  useEffect(() => {
-    if (!message) {
-      return;
-    }
-
-    if (message.type === "success") {
-      toast.success(message.text);
-    }
-  }, [message]);
-
   return (
     <Layout title="Edit Profile – Ferman" size="md" isAuth>
       <Form>
