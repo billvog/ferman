@@ -12,15 +12,13 @@ import { withMyApollo } from "../../../../utils/withMyApollo";
 const ViewComment = ({}) => {
   const router = useRouter();
   const id =
-    typeof router.query.commentId === "string"
-      ? parseInt(router.query.commentId)
-      : -1;
+    typeof router.query.commentId === "string" ? router.query.commentId : "";
 
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
   });
   const { data: commentData, loading: commentLoading } = useViewCommentQuery({
-    skip: id === -1,
+    skip: typeof id !== "string",
     variables: {
       id,
     },

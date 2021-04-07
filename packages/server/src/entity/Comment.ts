@@ -1,13 +1,12 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { Post } from "./Post";
 import { User } from "./User";
@@ -16,8 +15,8 @@ import { User } from "./User";
 @Entity("comments")
 export class Comment extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Field()
   @Column()
@@ -42,9 +41,9 @@ export class Comment extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Field(() => Int, { nullable: true })
-  @Column({ type: "int", default: null })
-  parentId: number | null;
+  @Field(() => String, { nullable: true })
+  @Column({ type: "text", default: null })
+  parentId: string | null;
 
   @Field()
   repliesCount: number;
@@ -58,4 +57,9 @@ export class Comment extends BaseEntity {
     onDelete: "CASCADE",
   })
   parent: Comment;
+
+  @BeforeInsert()
+  private generateId() {
+    this.id = (Date.now() * this.userId).toString();
+  }
 }

@@ -27,7 +27,7 @@ export const Post: React.FC<PostProps> = ({
       <div className={PostStyles.contentContainer}>
         <div>
           <CreateAvatar
-            src={`https://www.gravatar.com/avatar/${post.creator.emailHash}`}
+            src={`https://www.gravatar.com/avatar/${post.creator.md5}`}
           ></CreateAvatar>
         </div>
         <div style={{ flex: 1 }}>

@@ -3,7 +3,7 @@ fragment FullUser on User {
   uid
   username
   email
-  emailHash
+  md5
   createdAt
   followingStatus
   followerCount

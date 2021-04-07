@@ -43,7 +43,6 @@ export const CreatePostView = withRouter(
   withFormik<CreatePostViewProps, PostFormValues>({
     validationSchema: PostValidationSchema,
     mapPropsToValues: () => ({
-      title: "",
       body: "",
     }),
     handleSubmit: async (values, { setErrors, props }) => {

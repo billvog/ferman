@@ -16,13 +16,13 @@ export type Scalars = {
 
 export type Comment = {
   __typename?: 'Comment';
-  id: Scalars['Float'];
+  id: Scalars['String'];
   userId: Scalars['Float'];
   user: User;
   postId: Scalars['String'];
   text: Scalars['String'];
   createdAt: Scalars['String'];
-  parentId?: Maybe<Scalars['Int']>;
+  parentId?: Maybe<Scalars['String']>;
   repliesCount: Scalars['Float'];
 };
 
@@ -150,13 +150,13 @@ export type MutationUpdateProfileArgs = {
 
 export type MutationCreateCommentArgs = {
   options: CommentInput;
-  parentId?: Maybe<Scalars['Int']>;
+  parentId?: Maybe<Scalars['String']>;
   id: Scalars['String'];
 };
 
 
 export type MutationDeleteCommentArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 export type PaginatedPosts = {
@@ -190,7 +190,7 @@ export type PostResponse = {
 export type Profile = {
   __typename?: 'Profile';
   userId: Scalars['Float'];
-  emailHash: Scalars['String'];
+  md5: Scalars['String'];
   bio: Scalars['String'];
   location: Scalars['String'];
   birthdate: Scalars['String'];
@@ -259,7 +259,7 @@ export type QueryCommentsArgs = {
 
 
 export type QueryViewCommentArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -280,7 +280,7 @@ export type User = {
   followingStatus?: Maybe<Scalars['Boolean']>;
   followerCount: Scalars['Float'];
   followingCount: Scalars['Float'];
-  emailHash: Scalars['String'];
+  md5: Scalars['String'];
   profile?: Maybe<Profile>;
 };
 
@@ -309,7 +309,7 @@ export type FullPostFragment = (
   & Pick<Post, 'id' | 'body' | 'points' | 'commentsCount' | 'likeStatus' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'uid' | 'username' | 'emailHash'>
+    & Pick<User, 'id' | 'uid' | 'username' | 'md5'>
   ) }
 );
 
@@ -320,7 +320,7 @@ export type FullProfileFragment = (
 
 export type FullUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'emailHash' | 'createdAt' | 'followingStatus' | 'followerCount' | 'followingCount'>
+  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'md5' | 'createdAt' | 'followingStatus' | 'followerCount' | 'followingCount'>
   & { profile?: Maybe<(
     { __typename?: 'Profile' }
     & FullProfileFragment
@@ -330,7 +330,7 @@ export type FullUserFragment = (
 export type CommentPostMutationVariables = Exact<{
   options: CommentInput;
   id: Scalars['String'];
-  parentId?: Maybe<Scalars['Int']>;
+  parentId?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -368,7 +368,7 @@ export type CreatePostMutation = (
 );
 
 export type DeleteCommentMutationVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['String'];
 }>;
 
 
@@ -601,7 +601,7 @@ export type PostsQuery = (
 );
 
 export type ViewCommentQueryVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['String'];
 }>;
 
 
@@ -703,7 +703,7 @@ export const FullPostFragmentDoc = gql`
     id
     uid
     username
-    emailHash
+    md5
   }
 }
     `;
@@ -721,7 +721,7 @@ export const FullUserFragmentDoc = gql`
   uid
   username
   email
-  emailHash
+  md5
   createdAt
   followingStatus
   followerCount
@@ -732,7 +732,7 @@ export const FullUserFragmentDoc = gql`
 }
     ${FullProfileFragmentDoc}`;
 export const CommentPostDocument = gql`
-    mutation CommentPost($options: CommentInput!, $id: String!, $parentId: Int) {
+    mutation CommentPost($options: CommentInput!, $id: String!, $parentId: String) {
   createComment(options: $options, id: $id, parentId: $parentId) {
     error {
       ...FieldError
@@ -812,7 +812,7 @@ export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutati
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
 export const DeleteCommentDocument = gql`
-    mutation DeleteComment($id: Int!) {
+    mutation DeleteComment($id: String!) {
   deleteComment(id: $id)
 }
     `;
@@ -1375,7 +1375,7 @@ export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
 export const ViewCommentDocument = gql`
-    query ViewComment($id: Int!) {
+    query ViewComment($id: String!) {
   viewComment(id: $id) {
     parent {
       ...FullComment

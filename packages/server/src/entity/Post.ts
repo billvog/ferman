@@ -47,7 +47,7 @@ export class Post extends BaseEntity {
   @Field(() => Boolean, { nullable: true }) likeStatus: boolean | null;
 
   @BeforeInsert()
-  private beforeInsert() {
+  private generateId() {
     this.id = (Date.now() * this.creatorId).toString();
   }
 }

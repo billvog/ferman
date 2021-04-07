@@ -1,8 +1,10 @@
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/global.css";
 
 function MyApp({ Component, pageProps }: any) {
+  toast.configure();
+
   return (
     <>
       <ToastContainer
@@ -13,7 +15,6 @@ function MyApp({ Component, pageProps }: any) {
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
-        draggable
         pauseOnHover
       />
       <Component {...pageProps} />

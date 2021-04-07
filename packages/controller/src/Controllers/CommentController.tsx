@@ -30,7 +30,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
     const { data, errors } = await commentPost({
       variables: {
         id: postId,
-        parentId: typeof reply === "string" ? parseInt(reply) : null,
+        parentId: typeof reply === "string" ? reply : null,
         options: values,
       },
       update: (cache) => {

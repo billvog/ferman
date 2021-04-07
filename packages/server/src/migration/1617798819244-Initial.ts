@@ -1,15 +1,15 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Initial1616411566758 implements MigrationInterface {
-    name = 'Initial1616411566758'
+export class Initial1617798819244 implements MigrationInterface {
+    name = 'Initial1617798819244'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "follows" ("userId" integer NOT NULL, "followingUserId" integer NOT NULL, CONSTRAINT "PK_6358aca0e663e34c6b74fd90857" PRIMARY KEY ("userId", "followingUserId"))`);
-        await queryRunner.query(`CREATE TABLE "profiles" ("userId" integer NOT NULL, "bio" character varying NOT NULL, "location" character varying NOT NULL DEFAULT '', "birthdate" TIMESTAMP NOT NULL DEFAULT '"2021-03-22T11:12:46.889Z"', "showBirthdate" boolean NOT NULL DEFAULT false, CONSTRAINT "PK_315ecd98bd1a42dcf2ec4e2e985" PRIMARY KEY ("userId"))`);
+        await queryRunner.query(`CREATE TABLE "profiles" ("userId" integer NOT NULL, "bio" character varying NOT NULL, "location" character varying NOT NULL, "birthdate" TIMESTAMP NOT NULL, "showBirthdate" boolean NOT NULL DEFAULT false, CONSTRAINT "PK_315ecd98bd1a42dcf2ec4e2e985" PRIMARY KEY ("userId"))`);
         await queryRunner.query(`CREATE TABLE "users" ("id" SERIAL NOT NULL, "uid" character varying NOT NULL, "username" character varying NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "profileUserId" integer, CONSTRAINT "UQ_6e20ce1edf0678a09f1963f9587" UNIQUE ("uid"), CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "REL_7da77968af7f79a98e4b28bb9d" UNIQUE ("profileUserId"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "likes" ("userId" integer NOT NULL, "postId" character varying NOT NULL, CONSTRAINT "PK_74b9b8cd79a1014e50135f266fe" PRIMARY KEY ("userId", "postId"))`);
-        await queryRunner.query(`CREATE TABLE "posts" ("id" character varying NOT NULL, "title" character varying NOT NULL, "body" character varying NOT NULL, "creatorId" integer NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_2829ac61eff60fcec60d7274b9e" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "comments" ("id" SERIAL NOT NULL, "userId" integer NOT NULL, "postId" character varying NOT NULL, "text" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "parentId" integer DEFAULT null, "repliesId" integer, CONSTRAINT "PK_8bf68bc960f2b69e818bdb90dcb" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "posts" ("id" character varying NOT NULL, "body" character varying NOT NULL, "creatorId" integer NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_2829ac61eff60fcec60d7274b9e" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "comments" ("id" character varying NOT NULL, "userId" integer NOT NULL, "postId" character varying NOT NULL, "text" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "parentId" character varying DEFAULT null, "repliesId" character varying, CONSTRAINT "PK_8bf68bc960f2b69e818bdb90dcb" PRIMARY KEY ("id"))`);
         await queryRunner.query(`ALTER TABLE "follows" ADD CONSTRAINT "FK_eeb492da6894abf2e0acceb53f2" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "follows" ADD CONSTRAINT "FK_3f82ac6baee4d2efd2359899c9f" FOREIGN KEY ("followingUserId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "users" ADD CONSTRAINT "FK_7da77968af7f79a98e4b28bb9d4" FOREIGN KEY ("profileUserId") REFERENCES "profiles"("userId") ON DELETE NO ACTION ON UPDATE NO ACTION`);

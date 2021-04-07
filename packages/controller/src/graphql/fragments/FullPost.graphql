@@ -9,6 +9,6 @@ fragment FullPost on Post {
     id
     uid
     username
-    emailHash
+    md5
   }
 }

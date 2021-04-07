@@ -100,14 +100,16 @@
 .togglePassword {
   display: flex;
   align-items: center;
-  line-height: 1;
+  line-height: 1.5;
   border: 0;
   outline: 0;
   background-color: transparent;
-  color: #f0f0f0;
+  color: white;
+  font-family: inherit;
+  font-weight: 600;
   cursor: pointer;
-  background-color: var(--main-dark);
-  padding: 4px 6px;
+  background-color: burlywood;
+  padding: 2px 6px;
   font-size: 11px;
   border-radius: 7px;
 }

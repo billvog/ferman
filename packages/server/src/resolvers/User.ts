@@ -88,9 +88,9 @@ export class UserResolver {
     return "";
   }
 
-  // EMAIL FOR GRAVATAR
+  // MD5 EMAIL HASH FOR GRAVATAR
   @FieldResolver(() => String)
-  emailHash(@Root() user: User) {
+  md5(@Root() user: User) {
     return createHash("md5").update(user.email).digest("hex");
   }
 

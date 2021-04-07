@@ -47,7 +47,7 @@ export const UserCard: React.FC<UserCardProps> = ({
       <Flex p={2} justifyContent="space-between">
         <Flex>
           <Avatar
-            src={`https://www.gravatar.com/avatar/${user.emailHash}`}
+            src={`https://www.gravatar.com/avatar/${user.md5}`}
             borderRadius={15}
           />
           <Box ml={3}>

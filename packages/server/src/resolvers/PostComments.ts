@@ -67,7 +67,7 @@ export class PostCommentResolver {
   // GET COMMENT WITH REPLIES
   @Query(() => CommentWithReplies)
   async viewComment(
-    @Arg("id", () => Int) id: number
+    @Arg("id", () => String) id: string
   ): Promise<CommentWithReplies> {
     const parent = ((await getConnection().query(
       `
@@ -113,7 +113,7 @@ export class PostCommentResolver {
   @UseMiddleware(isAuth)
   async createComment(
     @Arg("id", () => String) id: string,
-    @Arg("parentId", () => Int, { nullable: true }) parentId: number | null,
+    @Arg("parentId", () => String, { nullable: true }) parentId: string | null,
     @Arg("options", () => CommentInput) options: CommentInput,
     @Ctx() { req }: MyContext
   ): Promise<CommentResponse> {
@@ -162,7 +162,7 @@ export class PostCommentResolver {
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   async deleteComment(
-    @Arg("id", () => Int) id: number,
+    @Arg("id", () => String) id: string,
     @Ctx() { req }: MyContext
   ): Promise<Boolean> {
     const comment = await Comment.findOne({

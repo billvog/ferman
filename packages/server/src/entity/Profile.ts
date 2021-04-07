@@ -9,7 +9,7 @@ export class Profile extends BaseEntity {
   userId: number;
 
   @Field()
-  emailHash: string;
+  md5: string;
 
   @Field()
   @Column()
