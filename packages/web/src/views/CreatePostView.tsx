@@ -1,11 +1,12 @@
-import { Heading, Box, Button, Alert, AlertIcon } from "@chakra-ui/react";
-import { BodyMax, TitleMax } from "@ferman-pkgs/common";
+import { BodyMax, PostValidationSchema } from "@ferman-pkgs/common";
 import { ErrorMap, MyMessage, PostFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
+import { MyAlert } from "../components/MyAlert";
+import { MyButton } from "../components/MyButton";
 
 interface CreatePostViewProps {
   submit: (values: PostFormValues) => Promise<ErrorMap | null>;
@@ -20,37 +21,19 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
   return (
     <Layout title="Create Post – Ferman" isAuth>
       <Form>
-        {message && (
-          <Alert status={message.type}>
-            <AlertIcon />
-            {message.text}
-          </Alert>
-        )}
-        <Heading mb={2} fontSize={30} color="mainDarkBlue">
-          Create Post
-        </Heading>
+        {message && <MyAlert type={message.type}>{message.text}</MyAlert>}
+        <h1>Create Post</h1>
         <InputField
-          label="Title"
-          name="title"
-          placeholder="Enter title"
+          textarea
+          label="Body"
+          name="body"
+          placeholder="Text..."
           type="text"
-          maxLength={TitleMax}
+          maxLength={BodyMax}
         />
-        <Box mt={4}>
-          <InputField
-            textarea
-            label="Body"
-            name="body"
-            placeholder="Text..."
-            type="text"
-            maxLength={BodyMax}
-          />
-        </Box>
-        <Box mt={4}>
-          <Button type="submit" isLoading={isSubmitting}>
-            Post
-          </Button>
-        </Box>
+        <MyButton type="submit" isLoading={isSubmitting}>
+          Post
+        </MyButton>
       </Form>
     </Layout>
   );
@@ -58,6 +41,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
 
 export const CreatePostView = withRouter(
   withFormik<CreatePostViewProps, PostFormValues>({
+    validationSchema: PostValidationSchema,
     mapPropsToValues: () => ({
       title: "",
       body: "",

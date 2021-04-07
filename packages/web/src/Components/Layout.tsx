@@ -13,7 +13,11 @@ Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 interface LayoutProps {
+  // head options
   title?: string;
+  description?: string;
+  author?: string;
+  // layout options
   size?: WrapperSize;
   // auth options
   isAuth?: boolean;
@@ -22,7 +26,11 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
+  // head options
   title,
+  description,
+  author,
+  // layout options
   size = "md",
   // auth options
   isAuth,
@@ -71,8 +79,13 @@ export const Layout: React.FC<LayoutProps> = ({
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta
           name="description"
-          content="Ferman, the modern saloon. Here you can publish small post & share them with the world!"
+          content={
+            !!description
+              ? `${description} – Ferman`
+              : "Ferman, the modern saloon. Here you can publish small post & share them with the world!"
+          }
         />
+        {!!author && <meta name="author" content={author} />}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"

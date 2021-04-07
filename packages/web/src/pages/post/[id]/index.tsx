@@ -1,13 +1,3 @@
-import {
-  Box,
-  Spinner,
-  IconButton,
-  Stack,
-  Button,
-  Link,
-  Flex,
-  Text,
-} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../../components/Layout";
@@ -23,6 +13,10 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { ErrorText } from "../../../components/ErrorText";
 import { UserCard } from "../../../components/UserCard";
 import { PostComment } from "../../../components/PostComment";
+import { MyIconButton } from "../../../components/MyIconButton";
+import styled from "styled-components";
+import { MyButton } from "../../../components/MyButton";
+import { MySpinner } from "../../../components/MySpinner";
 
 const ViewPost = ({}) => {
   const router = useRouter();
@@ -45,10 +39,15 @@ const ViewPost = ({}) => {
   });
 
   return (
-    <Layout title={`${postData?.post?.title || "Post"} – Ferman`} size="xl">
-      <Box>
+    <Layout
+      title={`${userData?.user?.username}: “${postData?.post?.body}” – Ferman`}
+      description={postData?.post?.body}
+      author={userData?.user?.username}
+      size="lg"
+    >
+      <div>
         {(postLoading && !postData) || userLoading || meLoading ? (
-          <Spinner />
+          <MySpinner />
         ) : !postData?.post ? (
           <ErrorText>Post not found (404)</ErrorText>
         ) : !userData?.user ? (
@@ -56,78 +55,89 @@ const ViewPost = ({}) => {
         ) : !postData || !userData ? (
           <ErrorText>Internal server error (500)</ErrorText>
         ) : (
-          <Box>
-            <Box mb={4}>
-              <IconButton
-                aria-label="go back"
+          <div>
+            <BackButtonContainer>
+              <MyIconButton
                 icon={<ArrowBackIcon />}
                 onClick={() => router.back()}
               />
-            </Box>
-            <Box mb={4}>
-              <UserCard
-                me={meData?.me || null}
-                user={userData.user}
-                minimal={true}
-              />
-            </Box>
-            <Box>
+            </BackButtonContainer>
+            <div>
               <Post
                 key={postData.post.id}
                 post={postData.post}
                 me={meData?.me || null}
                 onDelete={() => router.back()}
               />
-            </Box>
-            <Flex mt={9} mb={2} justifyContent="space-between" align="center">
-              <Text fontSize={14}>
-                Comments{" "}
+            </div>
+            <CreateCommentContainer>
+              <CommentsCounterText>
+                <b>Comments</b>{" "}
                 {!!commentsData?.comments?.length &&
                   `(${commentsData?.comments?.length})`}
-              </Text>
+              </CommentsCounterText>
               {meData?.me && (
-                <Button
-                  as={Link}
-                  colorScheme=""
-                  bg="saddlebrown"
-                  p={3}
-                  height="30px"
-                  fontSize={14}
+                <MyButton
+                  style={{ backgroundColor: "saddlebrown" }}
                   onClick={() => {
                     router.push(`/post/${postData.post?.id}/comment`);
                   }}
                 >
                   comment
-                </Button>
+                </MyButton>
               )}
-            </Flex>
-            <Box>
-              <Stack>
-                {commentsLoading && !commentsData ? (
-                  <Spinner />
-                ) : !commentsData ? (
-                  <ErrorText>Cannot load comments.</ErrorText>
-                ) : commentsData.comments?.length === 0 ? (
-                  <Text fontSize={14} color="grey">
-                    There no comments...
-                  </Text>
-                ) : (
-                  commentsData.comments?.map((comment) => (
+            </CreateCommentContainer>
+            <div>
+              {commentsLoading && !commentsData ? (
+                <MySpinner />
+              ) : !commentsData ? (
+                <ErrorText>Internal server error.</ErrorText>
+              ) : commentsData.comments?.length === 0 ? (
+                <NoCommentsText>There no comments...</NoCommentsText>
+              ) : (
+                <CommentsContainer>
+                  {commentsData.comments?.map((comment) => (
                     <PostComment
                       key={comment.id}
                       comment={comment}
                       me={meData?.me || null}
                     />
-                  ))
-                )}
-              </Stack>
-            </Box>
-          </Box>
+                  ))}
+                </CommentsContainer>
+              )}
+            </div>
+          </div>
         )}
-      </Box>
+      </div>
     </Layout>
   );
 };
 export default withMyApollo({
   ssr: true,
 })(ViewPost);
+
+const BackButtonContainer = styled.div`
+  margin-bottom: 12px;
+`;
+
+const CommentsCounterText = styled.span`
+  font-family: inherit;
+  font-size: 11pt;
+  color: dimgrey;
+`;
+
+const CreateCommentContainer = styled.div`
+  display: flex;
+  margin-top: 24px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const NoCommentsText = styled.div`
+  font-size: 10pt;
+  color: grey;
+`;
+
+const CommentsContainer = styled.div`
+  margin-top: 12px;
+`;
