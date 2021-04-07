@@ -168,7 +168,6 @@ export type PaginatedPosts = {
 export type Post = {
   __typename?: 'Post';
   id: Scalars['String'];
-  title: Scalars['String'];
   body: Scalars['String'];
   creatorId: Scalars['Float'];
   creator: User;
@@ -179,7 +178,6 @@ export type Post = {
 };
 
 export type PostInput = {
-  title: Scalars['String'];
   body: Scalars['String'];
 };
 
@@ -308,10 +306,10 @@ export type FullCommentFragment = (
 
 export type FullPostFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'title' | 'body' | 'points' | 'commentsCount' | 'likeStatus' | 'createdAt'>
+  & Pick<Post, 'id' | 'body' | 'points' | 'commentsCount' | 'likeStatus' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'uid' | 'username'>
+    & Pick<User, 'id' | 'uid' | 'username' | 'emailHash'>
   ) }
 );
 
@@ -696,7 +694,6 @@ export const FullCommentFragmentDoc = gql`
 export const FullPostFragmentDoc = gql`
     fragment FullPost on Post {
   id
-  title
   body
   points
   commentsCount
@@ -706,6 +703,7 @@ export const FullPostFragmentDoc = gql`
     id
     uid
     username
+    emailHash
   }
 }
     `;

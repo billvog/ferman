@@ -4,7 +4,6 @@ import { useCreatePostMutation } from "../generated/graphql";
 import { MyMessage } from "../Types/MyMessage";
 
 export interface PostFormValues {
-  title: string;
   body: string;
 }
 
