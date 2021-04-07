@@ -69,7 +69,12 @@ const C: React.FC<
           )}
           defaultValue={1}
           disabled
-          helperText="This field cannot change."
+          helperText={
+            <span>
+              This field cannot change. If you typed it wrong, please{" "}
+              <a href="mailto:support@ferman.ga">contact us</a>.
+            </span>
+          }
         />
         <MyCheckbox
           label="Show birthdate to everyone"

@@ -25,6 +25,11 @@
   cursor: pointer;
 }
 
+.navbar .container .notLoggedInBox {
+  font-family: inherit;
+  font-weight: 500;
+}
+
 .navbar .container .loggedInBox {
   display: flex;
 }

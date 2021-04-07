@@ -5,12 +5,15 @@ import {
   RegisterFormValues,
   RegisterPhase,
 } from "@ferman-pkgs/controller";
-import { Form, FormikProps, withFormik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Layout } from "../components/Layout";
 import NextLink from "next/link";
 import {
-  RegisterValidationSchema,
+  RegisterFourValidationSchema,
+  RegisterOneValidationSchema,
+  RegisterThreeValidationSchema,
+  RegisterTwoValidationSchema,
   UidMax,
   UsernameMax,
 } from "@ferman-pkgs/common";
@@ -20,17 +23,19 @@ import { MyButton } from "../components/MyButton";
 import styled from "styled-components";
 
 interface RegisterViewProps {
+  storedInitialValues?: RegisterFormValues;
   submit: (values: RegisterFormValues) => Promise<ErrorMap | null>;
   message: MyMessage | null;
   phase: RegisterPhase;
   done: boolean;
 }
 
-const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
+export const RegisterView: React.FC<RegisterViewProps> = ({
+  storedInitialValues,
+  submit,
   message,
   phase,
   done,
-  isSubmitting,
 }) => {
   // toggle show/hide password
   const [showPwd, setShowPwd] = useState(false);
@@ -52,116 +57,190 @@ const C: React.FC<RegisterViewProps & FormikProps<RegisterFormValues>> = ({
           </p>
         </MyAlert>
       ) : (
-        <Form>
-          {message && (
-            <div style={{ marginBottom: 8 }}>
-              <MyAlert type={message.type}>{message.text}</MyAlert>
-            </div>
-          )}
-          <h1>
-            {phase === 0
-              ? "Sign up"
+        <Formik
+          validationSchema={() =>
+            phase === 0
+              ? RegisterOneValidationSchema
               : phase === 1
-              ? "Fill in the code"
+              ? RegisterTwoValidationSchema
               : phase === 2
-              ? "Set your password"
-              : null}
-          </h1>
-          {phase === 0 ? (
-            <>
-              <InputField
-                label="User Id"
-                name="uid"
-                placeholder="Enter uid"
-                type="text"
-                maxLength={UidMax}
-                helperText="How others will search you. Choose it carefully, because you won't have the abillity to change it after is set."
-              />
-              <InputField
-                label="Username"
-                name="username"
-                placeholder="Enter username"
-                type="text"
-                maxLength={UsernameMax}
-                helperText="Your real name, will be displayed in your profile."
-              />
-              <InputField
-                label="Email"
-                name="email"
-                placeholder="Enter email"
-                type="email"
-              />
-              <InputField
-                label="Date of birth"
-                name="birthdate"
-                type="date"
-                helperText="This won't be visible to the public."
-              />
-              <div className={FormStyles.submitSection}>
-                <MyButton type="submit" isLoading={isSubmitting}>
-                  Continue
-                </MyButton>
-                <div>
-                  <NextLink href="/account/login">
-                    <span className="link">
-                      <OrSignInLink>or Sign in</OrSignInLink>
-                    </span>
-                  </NextLink>
+              ? RegisterThreeValidationSchema
+              : phase === 3
+              ? RegisterFourValidationSchema
+              : null
+          }
+          initialValues={{
+            uid: storedInitialValues?.uid || "",
+            username: storedInitialValues?.username || "",
+            email: storedInitialValues?.email || "",
+            birthdate: storedInitialValues?.birthdate || "",
+            code: storedInitialValues?.code || "",
+            password: "",
+          }}
+          onSubmit={async (values, { setErrors }) => {
+            const errors = await submit(values);
+            if (errors) setErrors(errors);
+            else if (phase <= 1) {
+              // save form values
+              localStorage.setItem(
+                "stored.InitialRegisterValues",
+                JSON.stringify(values)
+              );
+
+              // save register phase
+              localStorage.setItem(
+                "stored.InitialRegisterPhase",
+                (phase + 1).toString()
+              );
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {message && (
+                <div style={{ marginBottom: 8 }}>
+                  <MyAlert type={message.type}>{message.text}</MyAlert>
                 </div>
-              </div>
-            </>
-          ) : phase === 1 ? (
-            <>
-              <InputField
-                label="Code"
-                name="code"
-                placeholder="Enter code"
-                type="text"
-                helperText="This code has been sent to the email you have provided."
-              />
-              <MyButton type="submit" isLoading={isSubmitting}>
-                Continue
-              </MyButton>
-            </>
-          ) : phase === 2 ? (
-            <>
-              <InputField
-                label="Password"
-                name="password"
-                placeholder="Enter password"
-                type={showPwd ? "text" : "password"}
-                passwordOptions={{
-                  handlePwdToggle: handleTogglePwd,
-                  isPassword: true,
-                  showPassword: showPwd,
-                }}
-              />
-              <MyButton type="submit" isLoading={isSubmitting}>
-                Finish
-              </MyButton>
-            </>
-          ) : null}
-        </Form>
+              )}
+              <h1>
+                {phase === 0
+                  ? "Sign up"
+                  : phase === 1
+                  ? "Verify your email"
+                  : phase === 2
+                  ? "Set your password"
+                  : phase === 3
+                  ? "Is everything okey?"
+                  : null}
+              </h1>
+              {phase === 0 ? (
+                <>
+                  <InputField
+                    label="User Id"
+                    name="uid"
+                    placeholder="Enter uid"
+                    type="text"
+                    maxLength={UidMax}
+                    helperText="How others will search you. Choose it carefully, because you won't have the abillity to change it after is set."
+                  />
+                  <InputField
+                    label="Username"
+                    name="username"
+                    placeholder="Enter username"
+                    type="text"
+                    maxLength={UsernameMax}
+                    helperText="Your real name, will be displayed in your profile."
+                  />
+                  <InputField
+                    label="Email"
+                    name="email"
+                    placeholder="Enter email"
+                    type="email"
+                  />
+                  <InputField
+                    label="Date of birth"
+                    name="birthdate"
+                    type="date"
+                    helperText="This won't be visible to the public."
+                  />
+                  <div className={FormStyles.submitSection}>
+                    <MyButton type="submit" isLoading={isSubmitting}>
+                      Continue
+                    </MyButton>
+                    <div>
+                      <NextLink href="/account/login">
+                        <span className="link">
+                          <OrSignInLink>or Sign in</OrSignInLink>
+                        </span>
+                      </NextLink>
+                    </div>
+                  </div>
+                </>
+              ) : phase === 1 ? (
+                <>
+                  <InputField
+                    label="6-Digit Code"
+                    name="code"
+                    placeholder="Enter code"
+                    type="text"
+                    helperText="A 6-digit code has been sent to the email you have provided."
+                  />
+                  <MyButton type="submit" isLoading={isSubmitting}>
+                    Continue
+                  </MyButton>
+                </>
+              ) : phase === 2 ? (
+                <>
+                  <InputField
+                    label="Password"
+                    name="password"
+                    placeholder="Enter password"
+                    type={showPwd ? "text" : "password"}
+                    passwordOptions={{
+                      handlePwdToggle: handleTogglePwd,
+                      isPassword: true,
+                      showPassword: showPwd,
+                    }}
+                  />
+                  <MyButton type="submit" isLoading={isSubmitting}>
+                    Continue
+                  </MyButton>
+                </>
+              ) : phase === 3 ? (
+                <>
+                  <InputField
+                    label="User Id"
+                    name="uid"
+                    placeholder="Enter uid"
+                    type="text"
+                    maxLength={UidMax}
+                    helperText="How others will search you. Choose it carefully, because you won't have the abillity to change it after is set."
+                  />
+                  <InputField
+                    label="Username"
+                    name="username"
+                    placeholder="Enter username"
+                    type="text"
+                    maxLength={UsernameMax}
+                    helperText="Your real name, will be displayed in your profile."
+                  />
+                  <InputField
+                    label="Email"
+                    name="email"
+                    placeholder="Enter email"
+                    type="email"
+                    disabled
+                    helperText="This field cannot change now."
+                  />
+                  <InputField
+                    label="Date of birth"
+                    name="birthdate"
+                    type="date"
+                    helperText="This won't be visible to the public."
+                  />
+                  <InputField
+                    label="Password"
+                    name="password"
+                    placeholder="Enter password"
+                    type={showPwd ? "text" : "password"}
+                    passwordOptions={{
+                      handlePwdToggle: handleTogglePwd,
+                      isPassword: true,
+                      showPassword: showPwd,
+                    }}
+                  />
+                  <MyButton type="submit" isLoading={isSubmitting}>
+                    Finish
+                  </MyButton>
+                </>
+              ) : null}
+            </Form>
+          )}
+        </Formik>
       )}
     </Layout>
   );
 };
-
-export const RegisterView = withFormik<RegisterViewProps, RegisterFormValues>({
-  validationSchema: RegisterValidationSchema,
-  mapPropsToValues: () => ({
-    uid: "",
-    username: "",
-    email: "",
-    birthdate: "",
-    code: "",
-    password: "",
-  }),
-  handleSubmit: async (values, { setErrors, props }) => {
-    const errors = await props.submit(values);
-    if (errors) setErrors(errors);
-  },
-})(C);
 
 // Styles
 const OrSignInLink = styled.div`

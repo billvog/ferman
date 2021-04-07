@@ -9,7 +9,7 @@ type InputFieldProps = InputHTMLAttributes<
   label: string;
   name: string;
   textarea?: boolean;
-  helperText?: string;
+  helperText?: string | JSX.Element;
   // password field options
   passwordOptions?: {
     isPassword: boolean;

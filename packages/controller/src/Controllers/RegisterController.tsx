@@ -8,8 +8,9 @@ import {
   useValidateRegisterTokenMutation,
 } from "../generated/graphql";
 import { ErrorMap } from "../Types/ErrorMap";
+import { PASSWORD_SHAPE } from "@ferman-pkgs/common";
 
-export type RegisterPhase = 0 | 1 | 2;
+export type RegisterPhase = 0 | 1 | 2 | 3;
 export interface RegisterFormValues {
   uid: string;
   username: string;
@@ -20,6 +21,7 @@ export interface RegisterFormValues {
 }
 
 interface RegisterControllerProps {
+  initialPhase: RegisterPhase;
   children: (data: {
     submit: (values: RegisterFormValues) => Promise<ErrorMap | null>;
     message: MyMessage | null;
@@ -30,9 +32,10 @@ interface RegisterControllerProps {
 
 export const RegisterController: React.FC<RegisterControllerProps> = ({
   children,
+  initialPhase,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
-  const [phase, setPhase] = useState<RegisterPhase>(0);
+  const [phase, setPhase] = useState<RegisterPhase>(initialPhase);
   const [done, setDone] = useState(false);
 
   const [register] = useRegisterMutation();
@@ -97,6 +100,8 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       setMessage(null);
       setPhase(2);
     } else if (phase === 2) {
+      setPhase(3);
+    } else if (phase === 3) {
       const { data } = await finishRegister({
         variables: {
           password: values.password,

@@ -23,7 +23,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           {meLoading ? (
             <Spinner />
           ) : meError || !meData?.me ? (
-            <>
+            <div className={NavbarStyles.notLoggedInBox}>
               <NextLink href="/account/login">
                 <span className="link">Login</span>
               </NextLink>
@@ -32,7 +32,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
                   Register
                 </span>
               </NextLink>
-            </>
+            </div>
           ) : (
             <div className={NavbarStyles.loggedInBox}>
               <NextLink href="/account/">

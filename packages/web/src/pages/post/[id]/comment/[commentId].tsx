@@ -8,6 +8,9 @@ import { Layout } from "../../../../components/Layout";
 import { PostComment } from "../../../../components/PostComment";
 import { useMeQuery, useViewCommentQuery } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../../../../utils/withMyApollo";
+import { MySpinner } from "../../../../components/MySpinner";
+import styled from "styled-components";
+import { MyButton } from "../../../../components/MyButton";
 
 const ViewComment = ({}) => {
   const router = useRouter();
@@ -26,39 +29,32 @@ const ViewComment = ({}) => {
 
   return (
     <Layout
-      title={`${
-        commentData?.viewComment.parent.user
-          ? commentData.viewComment.parent.user.uid + "'s comment"
-          : "Comment & Replies"
-      } – Ferman`}
+      title={`${commentData?.viewComment.parent.user.username}: "${commentData?.viewComment.parent.text}" – Ferman`}
     >
       {commentLoading || meLoading ? (
-        <Spinner />
+        <MySpinner />
       ) : !commentData || !meData ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : (
-        <>
-          <Box>
+        <div>
+          <div>
             <PostComment
               comment={commentData.viewComment.parent}
               me={meData.me || null}
               onDelete={router.back}
             />
-          </Box>
-          <Flex mt={9} mb={2} justifyContent="space-between" align="center">
-            <Text fontSize={16}>
-              Replies{" "}
+          </div>
+          <CreateReplyContainer>
+            <RepliesCounterText>
+              <b>Replies</b>{" "}
               {!!commentData?.viewComment?.replies &&
                 `(${commentData?.viewComment?.replies.length})`}
-            </Text>
+            </RepliesCounterText>
             {meData?.me && (
-              <Button
-                as={Link}
-                colorScheme=""
-                bg="saddlebrown"
-                p={3}
-                height="30px"
-                fontSize={14}
+              <MyButton
+                style={{
+                  backgroundColor: "saddlebrown",
+                }}
                 onClick={() => {
                   router.push(
                     `/post/${commentData.viewComment.parent.postId}/comment?reply=${commentData.viewComment.parent.id}`
@@ -66,27 +62,27 @@ const ViewComment = ({}) => {
                 }}
               >
                 reply
-              </Button>
+              </MyButton>
             )}
-          </Flex>
+          </CreateReplyContainer>
           <Box>
             <Stack>
               {commentData.viewComment?.replies.length === 0 ? (
-                <Text fontSize={14} color="grey">
-                  There no replies...
-                </Text>
+                <NoCommentsText>There no replies...</NoCommentsText>
               ) : (
-                commentData.viewComment.replies?.map((comment) => (
-                  <PostComment
-                    key={comment.id}
-                    comment={comment}
-                    me={meData?.me || null}
-                  />
-                ))
+                <RepliesContainer>
+                  {commentData.viewComment.replies?.map((comment) => (
+                    <PostComment
+                      key={comment.id}
+                      comment={comment}
+                      me={meData?.me || null}
+                    />
+                  ))}
+                </RepliesContainer>
               )}
             </Stack>
           </Box>
-        </>
+        </div>
       )}
     </Layout>
   );
@@ -95,3 +91,25 @@ const ViewComment = ({}) => {
 export default withMyApollo({
   ssr: true,
 })(ViewComment);
+
+const RepliesCounterText = styled.span`
+  font-family: inherit;
+  font-size: 11pt;
+  color: dimgrey;
+`;
+
+const CreateReplyContainer = styled.div`
+  display: flex;
+  margin-top: 24px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const NoCommentsText = styled.div`
+  font-size: 10pt;
+  color: grey;
+`;
+
+const RepliesContainer = styled.div`
+  margin-top: 12px;
+`;
