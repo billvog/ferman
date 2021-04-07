@@ -30,7 +30,7 @@ export const Post: React.FC<PostProps> = ({
             src={`https://www.gravatar.com/avatar/${post.creator.emailHash}`}
           ></CreateAvatar>
         </div>
-        <div>
+        <div style={{ flex: 1 }}>
           <div className={PostStyles.postHeader}>
             <div className={PostStyles.postCreator}>
               <CreatorUsernameSpan>{post.creator.username}</CreatorUsernameSpan>

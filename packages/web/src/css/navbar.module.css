@@ -37,10 +37,12 @@
 }
 
 .navbar .container .loggedInBox .UsernameWrapper .username {
+  font-family: inherit;
   font-weight: 600;
+  font-size: 12pt;
 }
 
 .navbar .container .loggedInBox .UsernameWrapper .uid {
-  font-size: 13;
+  font-size: 9pt;
   color: indianred;
 }

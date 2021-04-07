@@ -71,7 +71,6 @@ const Index = () => {
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
         <LoadMoreContainer>
           <MyButton
-            colorScheme="grey"
             isLoading={postsLoading}
             onClick={() => {
               fetchMorePosts!({

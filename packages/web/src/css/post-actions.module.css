@@ -40,6 +40,15 @@
   text-shadow: 0px 0px 10px red;
 }
 
+.pointsCount {
+  margin-left: 6px;
+}
+
+.liked .pointsCount {
+  font-weight: 700;
+  font-family: inherit;
+}
+
 .leftSection .repliesContainer {
   border-left: 1px solid #e6e6e6;
   margin-left: 12px;
@@ -51,8 +60,8 @@
 }
 
 .repliesContainer span.repliesCount {
-  margin-left: 4px;
+  margin-left: 6px;
   color: dimgrey;
-  font-weight: 600;
+  font-weight: 500;
   font-family: inherit;
 }

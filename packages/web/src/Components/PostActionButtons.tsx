@@ -59,7 +59,11 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
   }
 
   return (
-    <div className={PostActionsStyles.container}>
+    <div
+      className={`${PostActionsStyles.container} ${
+        post.likeStatus ? PostActionsStyles.liked : ""
+      }`}
+    >
       <div className={PostActionsStyles.actionsWrapper}>
         <div className={PostActionsStyles.leftSection}>
           <div>
@@ -84,7 +88,9 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
               }}
             >
               <LikeIconComponent size="14px" />
-              <span style={{ marginLeft: 4 }}>{post.points}</span>
+              <span className={PostActionsStyles.pointsCount}>
+                {post.points}
+              </span>
             </button>
           </div>
           <div className={PostActionsStyles.repliesContainer}>
