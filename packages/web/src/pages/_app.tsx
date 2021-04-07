@@ -1,26 +1,19 @@
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/global.css";
 
 function MyApp({ Component, pageProps }: any) {
-  toast.configure();
+  toast.configure({
+    position: "top-right",
+    autoClose: 3500,
+    hideProgressBar: true,
+    newestOnTop: true,
+    closeOnClick: true,
+    rtl: false,
+    pauseOnHover: true,
+  });
 
-  return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        pauseOnHover
-      />
-      <Component {...pageProps} />
-      <ToastContainer />
-    </>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;
