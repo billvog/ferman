@@ -25,8 +25,6 @@ import { Comment } from "../entity/Comment";
 @InputType()
 class PostInput {
   @Field()
-  title: string;
-  @Field()
   body: string;
 }
 
@@ -144,12 +142,9 @@ export class PostResolver {
           }
         );
       } else {
-        qb.andWhere(
-          `lower(p.title) like lower(:query) or lower(p.body) like lower(:query)`,
-          {
-            query: `%${query}%`,
-          }
-        );
+        qb.andWhere(`lower(p.body) like lower(:query)`, {
+          query: `%${query}%`,
+        });
       }
     }
 
@@ -251,7 +246,6 @@ export class PostResolver {
 
     // create post
     const post = Post.create({
-      title: options.title,
       body: options.body,
       creatorId: req.session.userId,
     });

@@ -22,10 +22,6 @@ export class Post extends BaseEntity {
 
   @Field()
   @Column()
-  title: string;
-
-  @Field()
-  @Column()
   body: string;
 
   @Field()
