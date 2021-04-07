@@ -101,6 +101,8 @@ const ViewPost = ({}) => {
                       key={comment.id}
                       comment={comment}
                       me={meData?.me || null}
+                      clickable
+                      marginBottom={12}
                     />
                   ))}
                 </CommentsContainer>

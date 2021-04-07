@@ -19,25 +19,29 @@ export const UID_SHAPE = yup
   .max(UidMax, UidLengthMessage)
   .required()
   .trim()
-  .matches(/^([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9])$/, UidRegexMessage);
+  .matches(/^([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9])$/, UidRegexMessage)
+  .label("Uid");
 export const USERNAME_SHAPE = yup
   .string()
   .min(UsernameMin, UsernameLengthMessage)
   .max(UsernameMax, UsernameLengthMessage)
   .required()
-  .trim();
+  .trim()
+  .label("Username");
 export const EMAIL_SHAPE = yup
   .string()
   .max(255)
   .required()
   .trim()
   .lowercase()
-  .email(EmailInvalidMessage);
+  .email(EmailInvalidMessage)
+  .label("Email");
 export const PASSWORD_SHAPE = yup
   .string()
   .min(6, PasswordLengthMessage)
   .max(255)
-  .required();
+  .required()
+  .label("Password");
 
 export const LoginValidationSchema = yup.object().shape({
   email: EMAIL_SHAPE,
@@ -54,6 +58,7 @@ export const RegisterValidationSchema = yup.object().shape({
 export const ForgotPasswordValidationSchema = yup.object().shape({
   email: EMAIL_SHAPE,
 });
+
 export const ResetPasswordValidationSchema = yup.object().shape({
   password: PASSWORD_SHAPE,
 });

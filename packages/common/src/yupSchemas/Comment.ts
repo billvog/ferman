@@ -10,7 +10,8 @@ export const COMMENT_TEXT_SHAPE = yup
   .min(CommentMin, TextLengthMessage)
   .max(CommentMax, TextLengthMessage)
   .required()
-  .trim();
+  .trim()
+  .label("Text");
 
 export const CommentValidationSchema = yup.object().shape({
   text: COMMENT_TEXT_SHAPE,

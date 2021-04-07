@@ -9,17 +9,23 @@ const BirthdateLimitMessage =
 export const BioMax = 160;
 export const LocationMax = 30;
 
-export const BIO_SHAPE = yup.string().max(BioMax, BioLengthMessage).trim();
+export const BIO_SHAPE = yup
+  .string()
+  .max(BioMax, BioLengthMessage)
+  .trim()
+  .label("Bio");
 export const LOCATION_SHAPE = yup
   .string()
   .max(LocationMax, LocationLengthMessage)
-  .trim();
+  .trim()
+  .label("Location");
 export const BIRTHDATE_SHAPE = yup
   .date()
   .max(
     new Date(new Date(0).setFullYear(new Date().getFullYear() - 13)),
     BirthdateLimitMessage
-  );
+  )
+  .label("Birthday");
 export const SHOWBIRTHDATE_SHAPE = yup.boolean();
 
 export const UpdateProfileValidationSchema = yup.object().shape({

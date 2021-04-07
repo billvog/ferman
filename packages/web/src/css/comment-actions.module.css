@@ -1,0 +1,31 @@
+.container {
+  padding: 7px;
+  background-color: whitesmoke;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+
+.actionsWrapper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8pt;
+  line-height: 1;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.leftSection .repliesContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.repliesContainer span.repliesCount {
+  margin-left: 6px;
+  color: dimgrey;
+  font-weight: 500;
+  font-family: inherit;
+}
