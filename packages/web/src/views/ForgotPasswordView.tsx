@@ -1,11 +1,3 @@
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Flex,
-  Heading,
-  Link,
-} from "@chakra-ui/react";
 import FormStyles from "../css/form.module.css";
 import {
   ErrorMap,

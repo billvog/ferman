@@ -9,10 +9,20 @@
   background-color: hsl(0, 59%, 41%);
   color: #f8f8f8;
   padding: 8px 12px;
-  line-height: 1.2;
   outline: none;
   transition: 0.1s ease-in-out;
   cursor: pointer;
+}
+
+.button .content {
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.button.small {
+  font-size: 9pt;
+  padding: 4px 8px;
 }
 
 .button:enabled:hover {

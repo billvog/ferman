@@ -1,15 +1,4 @@
-import { CalendarIcon, EditIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Box,
-  Button,
-  chakra,
-  Flex,
-  Icon,
-  Link,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import UserCardStyles from "../css/user-card.module.css";
 import React from "react";
 import {
   FullUserFragment,
@@ -18,9 +7,14 @@ import {
 import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
 import { ImLocation2 } from "react-icons/im";
 import { FaBirthdayCake } from "react-icons/fa";
+import { AiFillCalendar } from "react-icons/ai";
+import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
 import { richBodyText } from "../utils/richBodyText";
 import moment from "moment";
+import { MyButton } from "./MyButton";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface UserCardProps {
   user: FullUserFragment;
@@ -33,7 +27,7 @@ export const UserCard: React.FC<UserCardProps> = ({
   me,
   minimal = false,
 }) => {
-  const toast = useToast();
+  const router = useRouter();
 
   const [followUser] = useFollowUserMutation();
 
@@ -43,65 +37,59 @@ export const UserCard: React.FC<UserCardProps> = ({
   }
 
   return (
-    <Box mb={2} bg="whitesmoke" borderRadius="xl" color="mainDarkBlue">
-      <Flex p={2} justifyContent="space-between">
-        <Flex>
-          <Avatar
+    <div className={UserCardStyles.container}>
+      <div className={UserCardStyles.mainSection}>
+        <div className={UserCardStyles.leftSection}>
+          <img
+            className={UserCardStyles.userAvatar}
             src={`https://www.gravatar.com/avatar/${user.md5}`}
-            borderRadius={15}
           />
-          <Box ml={3}>
-            <Text fontWeight="700" fontSize={13}>
-              {user.username}
-            </Text>
-            <Text fontSize={12}>
-              @
-              <Link>
-                <NextLink href={`/user/${user.uid}`}>{user.uid}</NextLink>
-              </Link>
-            </Text>
-            <Text fontSize={12}>
-              <Box>
-                <NextLink href={`/user/${user.uid}/followers`}>
-                  <Link>
-                    <chakra.b>{user.followerCount} </chakra.b>
-                    follower
-                    {user.followerCount !== 1 && "s"}
-                  </Link>
-                </NextLink>{" "}
-                ·{" "}
-                <NextLink href={`/user/${user.uid}/following`}>
-                  <Link>
-                    <chakra.b>{user.followingCount}</chakra.b> follow
-                    {user.followingCount !== 1 && "s"}
-                  </Link>
-                </NextLink>
-              </Box>
-            </Text>
-          </Box>
-        </Flex>
-        <Box>
+          <div className={UserCardStyles.userInfo}>
+            <NextLink href={`/user/${user.uid}`}>
+              <div className={UserCardStyles.usernameContainer}>
+                <div className={UserCardStyles.username}>{user.username}</div>
+                <div className={UserCardStyles.uid}>@{user.uid}</div>
+              </div>
+            </NextLink>
+            <div className={UserCardStyles.followContainer}>
+              <NextLink href={`/user/${user.uid}/followers`}>
+                <span className="link">
+                  <b>{user.followerCount} </b>
+                  follower
+                  {user.followerCount !== 1 && "s"}
+                </span>
+              </NextLink>{" "}
+              ·{" "}
+              <NextLink href={`/user/${user.uid}/following`}>
+                <span className="link">
+                  <b>{user.followingCount}</b> follow
+                  {user.followingCount !== 1 && "s"}
+                </span>
+              </NextLink>
+            </div>
+          </div>
+        </div>
+        <div>
           {me &&
             (me.id === user.id ? (
-              <NextLink href="/account/edit-profile">
-                <Button
-                  p=".45rem"
-                  height="22px"
-                  fontSize={11}
-                  colorScheme=""
-                  bg="brown"
-                  as={Link}
-                >
-                  <EditIcon />
-                  <chakra.span ml={2}>Edit</chakra.span>
-                </Button>
-              </NextLink>
+              <MyButton
+                size="small"
+                style={{
+                  backgroundColor: "brown",
+                }}
+                onClick={() => router.push("/account/edit-profile")}
+              >
+                <FiEdit2 />
+                <span style={{ marginLeft: 6 }}>Edit</span>
+              </MyButton>
             ) : (
-              <Button
-                p=".4rem"
-                height="22px"
-                fontSize={12}
-                colorScheme={user.followingStatus ? "red" : "blue"}
+              <MyButton
+                size="small"
+                style={{
+                  backgroundColor: user.followingStatus
+                    ? "var(--error)"
+                    : "var(--blue)",
+                }}
                 onClick={async () => {
                   const { data } = await followUser({
                     variables: {
@@ -114,81 +102,60 @@ export const UserCard: React.FC<UserCardProps> = ({
                     data.followUser.error ||
                     !data.followUser.users
                   ) {
-                    return toast({
-                      title: "Error",
-                      description: "Internal server error",
-                      status: "error",
-                      duration: 5000,
-                    });
+                    return toast.error("Internal server error");
                   }
                 }}
               >
                 <UserFollowIcon />
-                <chakra.span ml={2}>
+                <span style={{ marginLeft: 6 }}>
                   {user.followingStatus ? "Unfollow" : "Follow"}
-                </chakra.span>
-              </Button>
+                </span>
+              </MyButton>
             ))}
-        </Box>
-      </Flex>
+        </div>
+      </div>
       {!minimal && (
         <>
           {!!user.profile?.bio && (
-            <Text
-              mt={1}
-              p="1.5"
-              px={2}
-              borderTopWidth={1}
-              fontSize={11}
-              fontWeight="600"
-              whiteSpace="pre-wrap"
-              color={!!user.profile?.bio ? "grey" : "lightgrey"}
-            >
+            <div className={UserCardStyles.bioContainer}>
               {richBodyText(user.profile?.bio)}
-            </Text>
+            </div>
           )}
-          <Flex
-            direction="column"
-            p={2}
-            px={3}
-            borderBottomRadius="inherit"
-            borderTopWidth={1}
-            fontSize={11}
-            fontWeight="500"
-          >
-            <Flex align="center" color="brown">
-              <CalendarIcon mr={2} />
-              <Text>
+          <div className={UserCardStyles.additionalInfoContainer}>
+            <div className={UserCardStyles.infoItem} style={{ color: "brown" }}>
+              <AiFillCalendar className={UserCardStyles.icon} />
+              <span>
                 Joined:{" "}
-                <chakra.b>
-                  {moment(parseFloat(user.createdAt)).format("MMMM YYYY")}
-                </chakra.b>
-              </Text>
-            </Flex>
+                <b>{moment(parseFloat(user.createdAt)).format("MMMM YYYY")}</b>
+              </span>
+            </div>
             {!!user.profile?.location && (
-              <Flex align="center">
-                <Icon as={ImLocation2} mr={2} />
-                <Text>
-                  Location: <chakra.b>{user.profile!.location}</chakra.b>
-                </Text>
-              </Flex>
+              <div className={UserCardStyles.infoItem}>
+                <ImLocation2 className={UserCardStyles.icon} />
+                <span>
+                  Location: <b>{user.profile!.location}</b>
+                </span>
+              </div>
             )}
             {user.profile?.showBirthdate && (
-              <Flex align="center" color="cornflowerblue">
-                <Icon as={FaBirthdayCake} mr={2} />
-                <Text>
+              <div
+                className={UserCardStyles.infoItem}
+                style={{ color: "cornflowerblue" }}
+              >
+                <FaBirthdayCake className={UserCardStyles.icon} />
+                <span>
                   Birthday:{" "}
-                  <chakra.b>
+                  <b>
                     {moment(parseFloat(user.profile.birthdate)).format(
                       "MMM Do YYYY"
                     )}
-                  </chakra.b>
-                </Text>
-              </Flex>
+                  </b>
+                </span>
+              </div>
             )}
-          </Flex>
+          </div>
         </>
       )}
-    </Box>
+    </div>
   );
 };

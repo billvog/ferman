@@ -80,19 +80,6 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           onSubmit={async (values, { setErrors }) => {
             const errors = await submit(values);
             if (errors) setErrors(errors);
-            else if (phase <= 1) {
-              // save form values
-              localStorage.setItem(
-                "stored.InitialRegisterValues",
-                JSON.stringify(values)
-              );
-
-              // save register phase
-              localStorage.setItem(
-                "stored.InitialRegisterPhase",
-                (phase + 1).toString()
-              );
-            }
           }}
         >
           {({ isSubmitting }) => (

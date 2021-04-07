@@ -76,6 +76,7 @@ const ViewComment = ({}) => {
                       key={comment.id}
                       comment={comment}
                       me={meData?.me || null}
+                      clickable
                     />
                   ))}
                 </RepliesContainer>

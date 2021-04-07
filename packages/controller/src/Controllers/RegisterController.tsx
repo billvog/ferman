@@ -126,7 +126,26 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
         };
       }
 
+      // remove stored values from localStorage
+      localStorage.removeItem("stored.InitialRegisterValues");
+      localStorage.removeItem("stored.InitialRegisterPhase");
+
       setDone(true);
+      return null;
+    }
+
+    if (phase <= 1) {
+      // save form values
+      localStorage.setItem(
+        "stored.InitialRegisterValues",
+        JSON.stringify(values)
+      );
+
+      // save register phase
+      localStorage.setItem(
+        "stored.InitialRegisterPhase",
+        (phase + 1).toString()
+      );
     }
 
     return null;

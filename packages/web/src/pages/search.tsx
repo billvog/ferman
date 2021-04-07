@@ -73,7 +73,7 @@ const SearchPost = () => {
   }, []);
 
   return (
-    <Layout size="xl" title="Search – Ferman">
+    <Layout size="lg" title="Search – Ferman">
       <div>
         <h1>Search</h1>
         <SearchField

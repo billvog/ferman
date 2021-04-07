@@ -1,0 +1,82 @@
+.container {
+  background-color: whitesmoke;
+  border-radius: 10px;
+  color: dimgray;
+}
+
+.container .mainSection {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.container .mainSection .leftSection {
+  display: flex;
+}
+
+.container .mainSection .leftSection .userAvatar {
+  border-radius: 35%;
+  width: 46px;
+  height: 46px;
+}
+
+.container .mainSection .leftSection .userInfo {
+  margin-left: 8px;
+}
+
+.userInfo .usernameContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.userInfo .usernameContainer .username {
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 10.5pt;
+}
+
+.userInfo .usernameContainer .username::after {
+  content: "·";
+  margin: 0 4px;
+  color: grey;
+}
+
+.userInfo .usernameContainer .uid {
+  font-size: 9pt;
+}
+
+.userInfo .followContainer {
+  font-size: 9pt;
+}
+
+.bioContainer {
+  font-size: 9.5pt;
+  border-top: 1px solid #e4e4e4;
+  white-space: pre-wrap;
+  padding: 5px 8px;
+  color: grey;
+}
+
+.additionalInfoContainer {
+  display: flex;
+  font-size: 8.5pt;
+  border-top: 1px solid #e4e4e4;
+  padding: 5px 8px;
+  flex-direction: column;
+}
+
+.additionalInfoContainer .infoItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.additionalInfoContainer .infoItem:last-child {
+  margin-bottom: 0;
+}
+
+.additionalInfoContainer .infoItem .icon {
+  margin-right: 4px;
+}

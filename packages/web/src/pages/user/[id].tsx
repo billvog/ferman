@@ -38,7 +38,7 @@ const User = ({}) => {
   });
 
   return (
-    <Layout title={`${userData?.user?.username || "Post"} – Ferman`} size="xl">
+    <Layout title={`${userData?.user?.username || "Post"} – Ferman`} size="lg">
       <Box>
         {userLoading || meLoading || (postsLoading && !postsData) ? (
           <Spinner />

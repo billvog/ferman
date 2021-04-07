@@ -26,29 +26,28 @@ export const Post: React.FC<PostProps> = ({
     <div className={PostStyles.container}>
       <div className={PostStyles.contentContainer}>
         <div>
-          <CreateAvatar
+          <img
+            className={PostStyles.postCreatorAvatar}
             src={`https://www.gravatar.com/avatar/${post.creator.md5}`}
-          ></CreateAvatar>
+          ></img>
         </div>
         <div style={{ flex: 1 }}>
           <div className={PostStyles.postHeader}>
-            <div className={PostStyles.postCreator}>
-              <NextLink href={`/user/${post.creator.uid}`}>
-                <CreatorContainer>
-                  <CreatorUsernameSpan>
-                    {post.creator.username}
-                  </CreatorUsernameSpan>
-                  <CreateUidSpan>
-                    <span>
-                      @<span className="link">{post.creator.uid}</span>
-                    </span>
-                  </CreateUidSpan>
-                </CreatorContainer>
-              </NextLink>
-              <CreatedAtSpan>
-                {moment.utc(parseFloat(post.createdAt)).local().fromNow()}
-              </CreatedAtSpan>
-            </div>
+            <NextLink href={`/user/${post.creator.uid}`}>
+              <div className={PostStyles.postCreatorContainer}>
+                <CreatorUsernameSpan>
+                  {post.creator.username}
+                </CreatorUsernameSpan>
+                <CreateUidSpan>
+                  <span>
+                    @<span className="link">{post.creator.uid}</span>
+                  </span>
+                </CreateUidSpan>
+              </div>
+            </NextLink>
+            <CreatedAtSpan>
+              {moment.utc(parseFloat(post.createdAt)).local().fromNow()}
+            </CreatedAtSpan>
           </div>
           <PostWrapperComponent href={`/post/${post.id}`}>
             <div
@@ -76,30 +75,18 @@ const AfterMiddleDotSeperator = css`
   }
 `;
 
-const CreateAvatar = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 35%;
-  margin-right: 12px;
-`;
-
-const CreatorContainer = styled.div`
-  cursor: pointer;
-`;
-
 const CreatorUsernameSpan = styled.span`
   color: #444444;
   font-weight: 600;
   font-family: inherit;
-  font-size: 9pt;
   ${AfterMiddleDotSeperator}
 `;
 
 const CreateUidSpan = styled.span`
-  font-size: inherit;
+  font-size: 8pt;
   ${AfterMiddleDotSeperator}
 `;
 
 const CreatedAtSpan = styled.span`
-  font-size: inherit;
+  font-size: 8pt;
 `;

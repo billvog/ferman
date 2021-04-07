@@ -41,6 +41,7 @@ export const richBodyText = (body: string): any => {
 const CommonTextStyles = css`
   font-family: inherit;
   font-weight: 600;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }

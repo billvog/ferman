@@ -4,23 +4,21 @@ import React, { ButtonHTMLAttributes } from "react";
 type MyButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean;
   colorScheme?: "normal" | "grey" | "success" | "error";
+  size?: "normal" | "small";
 };
 
 export const MyButton: React.FC<MyButtonProps> = ({
   isLoading,
   children,
   colorScheme = "normal",
+  size = "normal",
   ...props
 }) => {
   return (
     <button
       className={`${ButtonStyles.button} ${
         isLoading ? ButtonStyles.loading : ""
-      } ${
-        typeof colorScheme !== "undefined"
-          ? ButtonStyles[colorScheme as any]
-          : ""
-      }`}
+      } ${ButtonStyles[colorScheme as any]} ${ButtonStyles[size as any]}`}
       {...props}
       disabled={isLoading}
     >

@@ -34,7 +34,8 @@ import { FieldError } from "./FieldError";
 import {
   ForgotPasswordValidationSchema,
   LoginValidationSchema,
-  RegisterValidationSchema,
+  RegisterOneValidationSchema,
+  RegisterFourValidationSchema,
   ResetPasswordValidationSchema,
   PASSWORD_SHAPE,
 } from "@ferman-pkgs/common";
@@ -260,8 +261,6 @@ export class UserResolver {
   // LOGGED USER
   @Query(() => User, { nullable: true })
   async me(@Ctx() { req }: MyContext): Promise<User | null> {
-    console.log(req.session.userId);
-
     if (typeof req.session.userId === "undefined") {
       return null;
     }
@@ -342,7 +341,7 @@ export class UserResolver {
     @Ctx() { redis }: MyContext
   ): Promise<FieldError | null> {
     try {
-      const validation = await RegisterValidationSchema.validate({
+      const validation = await RegisterOneValidationSchema.validate({
         uid: options.uid,
         username: options.username,
         email: options.email,
@@ -448,11 +447,13 @@ export class UserResolver {
 
     let validation: any;
     try {
-      validation = await RegisterValidationSchema.validate({
+      validation = await RegisterFourValidationSchema.validate({
         uid: options.uid,
         username: options.username,
         email: options.email,
         birthdate: options.birthdate,
+        code: token,
+        password: password,
       });
     } catch (error) {
       return {

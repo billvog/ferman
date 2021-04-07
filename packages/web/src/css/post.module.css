@@ -9,22 +9,26 @@
   display: flex;
 }
 
-.postCreator {
-  display: flex;
-  align-items: flex-start;
-  font-size: 8pt;
-  line-height: 1.5;
-  color: #a0a0a0;
+.postCreatorAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 35%;
+  margin-right: 12px;
+}
+
+.postCreatorContainer {
+  cursor: pointer;
 }
 
 .postContent {
-  margin-top: 2px;
   font-size: 9pt;
   white-space: pre-wrap;
 }
 
 .postHeader {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 4px;
+  align-items: center;
+  font-size: 10pt;
+  line-height: 1.5;
+  color: #a0a0a0;
 }
