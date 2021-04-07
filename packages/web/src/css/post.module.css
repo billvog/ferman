@@ -5,13 +5,16 @@
 }
 
 .contentContainer {
-  padding: 6px 12px;
+  padding: 12px 12px 6px 12px;
+  display: flex;
 }
 
-.postTitle {
-  color: var(--main-dark);
-  font-size: 12pt;
-  font-weight: bold;
+.postCreator {
+  display: flex;
+  align-items: flex-start;
+  font-size: 8pt;
+  line-height: 1.5;
+  color: #a0a0a0;
 }
 
 .postContent {
@@ -24,9 +27,4 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 4px;
-}
-
-.postCreator {
-  font-size: 8pt;
-  color: #a0a0a0;
 }

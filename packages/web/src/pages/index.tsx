@@ -64,7 +64,7 @@ const Index = () => {
       ) : (
         <PostsContainer>
           {postsData.posts.posts.map((post) => (
-            <Post key={post.id} post={post} me={meData?.me || null} />
+            <Post key={post.id} post={post} me={meData?.me || null} clickable />
           ))}
         </PostsContainer>
       )}
