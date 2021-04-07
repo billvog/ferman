@@ -1,8 +1,11 @@
+import FormStyles from "../css/form.module.css";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Flex, Input, IconButton } from "@chakra-ui/react";
 import { Form, Formik, useFormik } from "formik";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import styled from "styled-components";
+import { MyIconButton } from "./MyIconButton";
 
 interface SearchFieldProps {
   initialValue?: string;
@@ -47,28 +50,44 @@ export const SearchField: React.FC<SearchFieldProps> = ({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Flex mb={4}>
-        <Input
-          name="searchQuery"
-          borderRightRadius={0}
-          placeholder="Search keywords, @mentions"
-          value={formik.values.searchQuery}
-          onChange={formik.handleChange}
-        />
-        <IconButton
+      <Container>
+        <div className={`${FormStyles.formControl}`}>
+          <input
+            className={FormStyles.input}
+            name="searchQuery"
+            placeholder="Search keywords, @mentions"
+            value={formik.values.searchQuery}
+            onChange={formik.handleChange}
+            style={{
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: 0,
+              height: 40,
+            }}
+          />
+        </div>
+        <MyIconButton
           aria-label="search"
           icon={<SearchIcon />}
-          fontSize={13}
-          colorScheme=""
-          bg="brown"
-          borderLeftRadius={0}
-          borderLeftWidth={0}
+          style={{
+            backgroundColor: "indianred",
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+            height: 40,
+            width: 40,
+          }}
           isLoading={
             typeof isLoading === "boolean" ? isLoading : formik.isSubmitting
           }
           type="submit"
         />
-      </Flex>
+      </Container>
     </form>
   );
 };
+
+// Styles
+const Container = styled.div`
+  display: flex;
+  margin-bottom: 4px;
+  line-height: 1.5;
+`;

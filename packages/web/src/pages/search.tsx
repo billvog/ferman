@@ -17,17 +17,20 @@ import { SearchField } from "../components/SearchField";
 import { useMeQuery, usePostsLazyQuery } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../utils/withMyApollo";
 import { useRouter } from "next/router";
+import { MySpinner } from "../components/MySpinner";
+import styled from "styled-components";
+import { MyButton } from "../components/MyButton";
 
 const SearchTips = () => {
   return (
-    <Box mt={2} color="grey">
+    <SearchTipsContainer>
       <chakra.span fontWeight="600">Search Tips</chakra.span> <br />
       <UnorderedList>
         <ListItem>Be careful of wrong syntax or misspelled words</ListItem>
         <ListItem>Be more precise</ListItem>
         <ListItem>Use keywords</ListItem>
       </UnorderedList>
-    </Box>
+    </SearchTipsContainer>
   );
 };
 
@@ -71,10 +74,8 @@ const SearchPost = () => {
 
   return (
     <Layout size="xl" title="Search – Ferman">
-      <Box>
-        <Heading color="mainDarkBlue" mb={2}>
-          Search
-        </Heading>
+      <div>
+        <h1>Search</h1>
         <SearchField
           initialValue={(router.query.query as string) || ""}
           isLoading={postsLoading}
@@ -88,35 +89,35 @@ const SearchPost = () => {
             });
           }}
         />
-      </Box>
+      </div>
       {(postsQueryCalled && ((postsLoading && !postsData) || !postsData)) ||
       meLoading ? (
-        <Spinner />
+        <MySpinner />
       ) : postsError && !postsData && !postsQueryCalled ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : !postsData ? (
-        <Box>
-          <Text color="grey" fontSize={16}>
+        <div>
+          <NotifyTipText>
             Enter keywords, #hashtags or @mentions in the search filed to get
             some results.
-          </Text>
+          </NotifyTipText>
           {SearchTips()}
-        </Box>
+        </div>
       ) : postsData.posts.posts.length === 0 ? (
-        <Box>
-          <Text color="grey" fontSize={16}>
+        <div>
+          <NotifyTipText>
             We found nothing matching the given terms.
-          </Text>
+          </NotifyTipText>
           {SearchTips()}
-        </Box>
+        </div>
       ) : (
         postsData.posts.posts.map((post) => (
-          <Post key={post.id} post={post} me={meData?.me || null} />
+          <Post key={post.id} post={post} me={meData?.me || null} clickable />
         ))
       )}
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
-        <Flex justifyContent="center">
-          <Button
+        <LoadMoreContainer>
+          <MyButton
             isLoading={postsLoading}
             onClick={() => {
               fetchMorePosts!({
@@ -128,13 +129,31 @@ const SearchPost = () => {
             }}
           >
             load more
-          </Button>
-        </Flex>
+          </MyButton>
+        </LoadMoreContainer>
       )}
     </Layout>
   );
 };
 
 export default withMyApollo({
-  ssr: true,
+  ssr: false,
 })(SearchPost);
+
+// Styles
+const NotifyTipText = styled.div`
+  color: grey;
+  font-size: 10.5pt;
+`;
+
+const LoadMoreContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const SearchTipsContainer = styled.div`
+  margin-top: 4px;
+  color: grey;
+  font-size: 10.5pt;
+`;
