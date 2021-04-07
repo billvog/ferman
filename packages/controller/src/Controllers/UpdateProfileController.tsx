@@ -11,6 +11,7 @@ export interface UpdateProfileFormValues {
 }
 
 interface UpdateProfileControllerProps {
+  onFinish: () => any;
   children: (data: {
     submit: (values: UpdateProfileFormValues) => Promise<ErrorMap | null>;
     initialValues: (UpdateProfileFormValues & { birthdate: string }) | null;
@@ -20,6 +21,7 @@ interface UpdateProfileControllerProps {
 
 export const UpdateProfileController: React.FC<UpdateProfileControllerProps> = ({
   children,
+  onFinish,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
   const [updateProfile] = useUpdateProfileMutation();
@@ -28,8 +30,6 @@ export const UpdateProfileController: React.FC<UpdateProfileControllerProps> = (
   });
 
   const submit = async (values: UpdateProfileFormValues) => {
-    console.log(values);
-
     const { data } = await updateProfile({
       variables: {
         options: values,
@@ -50,11 +50,7 @@ export const UpdateProfileController: React.FC<UpdateProfileControllerProps> = (
       };
     }
 
-    // redirect
-    setMessage({
-      type: "success",
-      text: "Profile updated",
-    });
+    onFinish();
     return null;
   };
 

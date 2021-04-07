@@ -9,15 +9,16 @@ export interface LoginFormValues {
 }
 
 interface LoginControllerProps {
+  onFinish: () => any;
   children: (data: {
     submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
     message: MyMessage | null;
-    done: boolean;
   }) => JSX.Element | null;
 }
 
 export const LoginController: React.FC<LoginControllerProps> = ({
   children,
+  onFinish,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
   const [done, setDone] = useState(false);
@@ -54,13 +55,12 @@ export const LoginController: React.FC<LoginControllerProps> = ({
       };
     }
 
-    setDone(true);
+    onFinish();
     return null;
   };
 
   return children({
     submit,
     message,
-    done,
   });
 };
