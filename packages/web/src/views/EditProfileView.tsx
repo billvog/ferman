@@ -71,7 +71,14 @@ const C: React.FC<
           helperText={
             <span>
               This field cannot change. If you typed it wrong, please{" "}
-              <a href="mailto:support@ferman.ga">contact us</a>.
+              <a
+                href="mailto:support@ferman.ga"
+                className="link"
+                style={{ color: "var(--blue)" }}
+              >
+                contact us
+              </a>
+              .
             </span>
           }
         />

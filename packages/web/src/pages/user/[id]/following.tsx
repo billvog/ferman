@@ -57,6 +57,7 @@ const UserFollowing = ({}) => {
                     key={follow.id}
                     me={meData.me || null}
                     user={follow}
+                    marginBottom={10}
                   />
                 ))
               )}

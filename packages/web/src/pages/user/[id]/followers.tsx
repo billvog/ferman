@@ -60,6 +60,7 @@ const UserFollowers = ({}) => {
                     me={meData.me || null}
                     user={follower}
                     minimal
+                    marginBottom={10}
                   />
                 ))
               )}

@@ -23,6 +23,7 @@
 .postContent {
   font-size: 9pt;
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .postHeader {

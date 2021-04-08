@@ -20,12 +20,14 @@ interface UserCardProps {
   user: FullUserFragment;
   me: FullUserFragment | null;
   minimal?: boolean;
+  marginBottom?: number;
 }
 
 export const UserCard: React.FC<UserCardProps> = ({
   user,
   me,
   minimal = false,
+  marginBottom = 0,
 }) => {
   const router = useRouter();
 
@@ -37,7 +39,12 @@ export const UserCard: React.FC<UserCardProps> = ({
   }
 
   return (
-    <div className={UserCardStyles.container}>
+    <div
+      className={UserCardStyles.container}
+      style={{
+        marginBottom,
+      }}
+    >
       <div className={UserCardStyles.mainSection}>
         <div className={UserCardStyles.leftSection}>
           <img
@@ -88,7 +95,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 style={{
                   backgroundColor: user.followingStatus
                     ? "var(--error)"
-                    : "var(--blue)",
+                    : "var(--light-blue)",
                 }}
                 onClick={async () => {
                   const { data } = await followUser({

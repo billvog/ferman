@@ -56,6 +56,7 @@
   font-size: 9.5pt;
   border-top: 1px solid #e4e4e4;
   white-space: pre-wrap;
+  word-break: break-word;
   padding: 5px 8px;
   color: grey;
 }

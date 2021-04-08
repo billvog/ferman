@@ -4,6 +4,7 @@
   --light-grey: hsl(208, 20%, 95%);
   --red: hsl(0, 100%, 60%);
   --blue: hsl(224, 98%, 56%);
+  --light-blue: hsl(197, 86%, 45%);
   --error: hsl(360, 100%, 70%);
   --error-dark: hsl(360, 100%, 50%);
   --error-hover: hsl(360, 100%, 53%);
@@ -26,6 +27,7 @@ body {
   margin: 0;
   padding: 0;
   line-height: 1.5;
+  color: #303030;
 }
 
 *::placeholder {
