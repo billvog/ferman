@@ -24,32 +24,32 @@ export const Post: React.FC<PostProps> = ({
 
   return (
     <div className={PostStyles.container}>
-      <div className={PostStyles.contentContainer}>
-        <div>
-          <img
-            className={PostStyles.postCreatorAvatar}
-            src={`https://www.gravatar.com/avatar/${post.creator.md5}`}
-          ></img>
-        </div>
-        <div style={{ flex: 1 }}>
-          <div className={PostStyles.postHeader}>
-            <NextLink href={`/user/${post.creator.uid}`}>
-              <div className={PostStyles.postCreatorContainer}>
-                <CreatorUsernameSpan>
-                  {post.creator.username}
-                </CreatorUsernameSpan>
-                <CreateUidSpan>
-                  <span>
-                    @<span className="link">{post.creator.uid}</span>
-                  </span>
-                </CreateUidSpan>
-              </div>
-            </NextLink>
-            <CreatedAtSpan>
-              {moment.utc(parseFloat(post.createdAt)).local().fromNow()}
-            </CreatedAtSpan>
+      <PostWrapperComponent href={`/post/${post.id}`}>
+        <div className={PostStyles.contentContainer}>
+          <div>
+            <img
+              className={PostStyles.postCreatorAvatar}
+              src={`https://www.gravatar.com/avatar/${post.creator.md5}`}
+            ></img>
           </div>
-          <PostWrapperComponent href={`/post/${post.id}`}>
+          <div style={{ flex: 1 }}>
+            <div className={PostStyles.postHeader}>
+              <NextLink href={`/user/${post.creator.uid}`}>
+                <div className={PostStyles.postCreatorContainer}>
+                  <CreatorUsernameSpan>
+                    {post.creator.username}
+                  </CreatorUsernameSpan>
+                  <CreateUidSpan>
+                    <span>
+                      @<span className="link">{post.creator.uid}</span>
+                    </span>
+                  </CreateUidSpan>
+                </div>
+              </NextLink>
+              <CreatedAtSpan>
+                {moment.utc(parseFloat(post.createdAt)).local().fromNow()}
+              </CreatedAtSpan>
+            </div>
             <div
               className={PostStyles.postContent}
               style={{
@@ -58,9 +58,9 @@ export const Post: React.FC<PostProps> = ({
             >
               {richBodyText(post.body)}
             </div>
-          </PostWrapperComponent>
+          </div>
         </div>
-      </div>
+      </PostWrapperComponent>
       <PostActionButtons post={post} me={me} onDelete={onDelete} />
     </div>
   );

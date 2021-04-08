@@ -1,13 +1,3 @@
-import {
-  Box,
-  Button,
-  chakra,
-  Divider,
-  Flex,
-  Heading,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
 import React from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { Layout } from "../../components/Layout";
@@ -16,6 +6,9 @@ import { UserCard } from "../../components/UserCard";
 import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../utils/withMyApollo";
+import { MySpinner } from "../../components/MySpinner";
+import styled from "styled-components";
+import { MyButton } from "../../components/MyButton";
 
 const User = ({}) => {
   const { data: meData, loading: meLoading } = useMeQuery({
@@ -39,54 +32,48 @@ const User = ({}) => {
 
   return (
     <Layout title={`${userData?.user?.username || "Post"} – Ferman`} size="lg">
-      <Box>
+      <div>
         {userLoading || meLoading || (postsLoading && !postsData) ? (
-          <Spinner />
+          <MySpinner />
         ) : !userData?.user ? (
           <ErrorText>User not found (404)</ErrorText>
         ) : !userData || !meData || !postsData ? (
           <ErrorText>Internal server error (500)</ErrorText>
         ) : (
-          <Box>
-            <Box mb={6}>
+          <div>
+            <UserCardContainer>
               <UserCard user={userData.user} me={meData.me || null} />
-            </Box>
-            <Divider mb={4} />
-            <Box>
-              <Heading
-                fontSize={24}
-                color="mainDarkBlue"
-                fontWeight="normal"
-                mb={4}
-              >
+            </UserCardContainer>
+            <Divider />
+            <PostsContainer>
+              <PostsCounterTitle>
                 {postsData.posts.posts.length > 0 ? (
-                  <Text>
-                    <chakra.span fontWeight="bold">
-                      {userData.user.username}'s
-                    </chakra.span>{" "}
-                    posts
-                  </Text>
+                  <div>
+                    <b>{userData.user.username}'s</b> posts
+                  </div>
                 ) : (
-                  <Text>
-                    <chakra.span fontWeight="bold">
-                      {userData.user.username}
-                    </chakra.span>{" "}
-                    has no posts
-                  </Text>
+                  <div>
+                    <b>{userData.user.username}</b> has no posts
+                  </div>
                 )}
-              </Heading>
+              </PostsCounterTitle>
               {postsData.posts.posts.map((post) => (
-                <Post key={post.id} post={post} me={meData.me || null} />
+                <Post
+                  key={post.id}
+                  post={post}
+                  me={meData.me || null}
+                  clickable
+                />
               ))}
-            </Box>
-          </Box>
+            </PostsContainer>
+          </div>
         )}
         {postsData?.posts.posts && postsData?.posts?.hasMore && (
-          <Flex justifyContent="center">
-            <Button
+          <LoadMoreContainer>
+            <MyButton
               isLoading={postsLoading}
               onClick={() => {
-                fetchMorePosts({
+                fetchMorePosts!({
                   variables: {
                     ...postsVariables,
                     skip: postsData.posts.posts.length,
@@ -95,10 +82,10 @@ const User = ({}) => {
               }}
             >
               load more
-            </Button>
-          </Flex>
+            </MyButton>
+          </LoadMoreContainer>
         )}
-      </Box>
+      </div>
     </Layout>
   );
 };
@@ -106,3 +93,27 @@ const User = ({}) => {
 export default withMyApollo({
   ssr: true,
 })(User);
+
+// Styles
+const UserCardContainer = styled.div`
+  margin-bottom: 12px;
+`;
+
+const Divider = styled.div`
+  border-top: 1px solid #f0f0f0;
+  margin: 22px 5px 10px 5px;
+`;
+
+const PostsContainer = styled.div``;
+
+const PostsCounterTitle = styled.h1`
+  font-size: 16pt !important;
+  font-weight: 400;
+  margin-bottom: 8px !important;
+`;
+
+const LoadMoreContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;

@@ -8,8 +8,16 @@
   width: 100%;
 }
 
-.wrapper h1 {
+.wrapper h1,
+.wrapper h2 {
   margin-bottom: 2pt;
-  font-size: 30px;
   color: var(--main-dark);
+}
+
+.wrapper h1 {
+  font-size: 30px;
+}
+
+.wrapper h2 {
+  font-size: 24px;
 }
