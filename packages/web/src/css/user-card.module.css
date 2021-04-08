@@ -1,7 +1,7 @@
 .container {
   background-color: whitesmoke;
   border-radius: 10px;
-  color: dimgray;
+  color: var(--main-dark);
 }
 
 .container .mainSection {
@@ -34,7 +34,7 @@
 .userInfo .usernameContainer .username {
   font-weight: 700;
   font-family: inherit;
-  font-size: 10.5pt;
+  font-size: 9.5pt;
 }
 
 .userInfo .usernameContainer .username::after {
@@ -45,6 +45,7 @@
 
 .userInfo .usernameContainer .uid {
   font-size: 9pt;
+  line-height: 1.75;
 }
 
 .userInfo .followContainer {

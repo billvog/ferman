@@ -1,27 +1,34 @@
-import { Button } from "@chakra-ui/button";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Heading, Text } from "@chakra-ui/layout";
+import { IoMdArrowBack } from "react-icons/io";
 import { useRouter } from "next/router";
 import React from "react";
+import styled from "styled-components";
 import { Layout } from "../components/Layout";
+import { MyButton } from "../components/MyButton";
 import { withMyApollo } from "../utils/withMyApollo";
 
 const NotFoundPage = ({}) => {
   const router = useRouter();
   return (
-    <Layout title="404 – Ferman">
-      <Heading mb={4} color="brown">
-        Error 404 – Page not found
-      </Heading>
-      <Text>
+    <Layout title="404 – Ferman" size="sm">
+      <h1>Page not found</h1>
+      <MessageText>
         The page you're trying to reach, doesn't exist. <br />
         You've been redirected somewhere safe.
-      </Text>
-      <Button mt={4} onClick={router.back} colorScheme="red">
-        <ArrowBackIcon mr={2} /> Back
-      </Button>
+      </MessageText>
+      <MyButton onClick={router.back}>
+        <IoMdArrowBack />
+        <span style={{ marginLeft: 6 }}>Back</span>
+      </MyButton>
     </Layout>
   );
 };
 
 export default withMyApollo()(NotFoundPage);
+
+// Styles
+const MessageText = styled.div`
+  color: grey;
+  font-size: 10.5pt;
+  font-weight: 500;
+  margin-bottom: 10px;
+`;
