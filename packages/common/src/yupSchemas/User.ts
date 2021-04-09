@@ -42,7 +42,7 @@ export const PASSWORD_SHAPE = yup
   .max(255)
   .required()
   .label("Password");
-export const REGISTER_CODE_SHAPE = yup.string().required().label("Code");
+export const AUTH_CODE_SHAPE = yup.string().required().label("Code");
 
 // Login
 export const LoginValidationSchema = yup.object().shape({
@@ -59,7 +59,7 @@ export const RegisterOneValidationSchema = yup.object().shape({
 });
 
 export const RegisterTwoValidationSchema = yup.object().shape({
-  code: REGISTER_CODE_SHAPE,
+  code: AUTH_CODE_SHAPE,
 });
 
 export const RegisterThreeValidationSchema = yup.object().shape({
@@ -71,7 +71,21 @@ export const RegisterFourValidationSchema = yup.object().shape({
   username: USERNAME_SHAPE,
   email: EMAIL_SHAPE,
   birthdate: BIRTHDATE_SHAPE,
-  code: REGISTER_CODE_SHAPE,
+  code: AUTH_CODE_SHAPE,
+  password: PASSWORD_SHAPE,
+});
+
+// Account Delete
+export const AccountDeletionOne = yup.object().shape({
+  code: AUTH_CODE_SHAPE,
+});
+
+export const AccountDeletionTwo = yup.object().shape({
+  password: PASSWORD_SHAPE,
+});
+
+export const AccountDeletionThree = yup.object().shape({
+  code: AUTH_CODE_SHAPE,
   password: PASSWORD_SHAPE,
 });
 
