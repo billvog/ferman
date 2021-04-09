@@ -6,4 +6,5 @@ export const FRONTEND_URL = __prod__
 
 // TOKEN PREFIXES
 export const PROCEED_REGISTER_TOKEN_PREFIX = "proceed-register:";
+export const PROCEED_ACC_DEL_TOKEN_PREFIX = "proceed-account-deletion:";
 export const FORGOT_PWD_TOKEN_PREFIX = "forgot-password:";

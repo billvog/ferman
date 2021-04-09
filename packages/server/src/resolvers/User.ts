@@ -22,6 +22,7 @@ import {
   FORGOT_PWD_TOKEN_PREFIX,
   FRONTEND_URL,
   SESSION_COOKIE_NAME,
+  PROCEED_ACC_DEL_TOKEN_PREFIX,
 } from "../constants";
 import { Follow } from "../entity/Follow";
 import { Post } from "../entity/Post";
@@ -650,16 +651,82 @@ export class UserResolver {
     return null;
   }
 
-  // DELETE USER
+  // DELETE USER – 1 PHASE
   @Mutation(() => FieldError, { nullable: true })
   @UseMiddleware(isAuth)
-  async deleteAccount(
-    @Arg("password") password: string,
-    @Ctx() { req, res }: MyContext
+  async deleteAccountRequest(
+    @Ctx() { req, redis }: MyContext
   ): Promise<FieldError | null> {
     const user = await User.findOne(req.session.userId);
     if (!user) {
       throw new Error("User not found");
+    }
+
+    // generate token
+    const token = uniqid.time();
+
+    // store token in redis
+    await redis.set(
+      `${PROCEED_ACC_DEL_TOKEN_PREFIX}${token}`,
+      user.id,
+      "px",
+      1000 * 60 * 15 // 15 minutes
+    );
+
+    await sendEmail(
+      user.email,
+      "Account Deletion Request for Ferman",
+      `
+      <p>
+      A request for deleting your account on ferman (ferman.ga) has been submited and accepted.
+      </p>
+      <p>
+      Copy and pasted this <code>${token}</code> to proceed.
+      </p>
+      `
+    );
+
+    return null;
+  }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async validateAccDelToken(
+    @Arg("token") token: string,
+    @Ctx() { redis, req }: MyContext
+  ) {
+    const foundToken = await redis.get(
+      `${PROCEED_ACC_DEL_TOKEN_PREFIX}${token}`
+    );
+    if (!foundToken || parseInt(foundToken) !== req.session.userId) {
+      return false;
+    }
+
+    return true;
+  }
+
+  // DELETE USER – 2 PHASE
+  @Mutation(() => FieldError, { nullable: true })
+  @UseMiddleware(isAuth)
+  async deleteAccountFinal(
+    @Arg("token") token: string,
+    @Arg("password") password: string,
+    @Ctx() { req, res, redis }: MyContext
+  ): Promise<FieldError | null> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // validate code
+    const foundToken = await redis.get(
+      `${PROCEED_ACC_DEL_TOKEN_PREFIX}${token}`
+    );
+    if (!foundToken || parseInt(foundToken) !== user.id) {
+      return {
+        field: "code",
+        message: "Incorrect code given.",
+      };
     }
 
     // validate password
