@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { MyMessage } from "../Types/MyMessage";
+import { MyMessage } from "../../Types/MyMessage";
 import {
   MeDocument,
   MeQuery,
   useFinishRegisterMutation,
   useRegisterMutation,
   useValidateRegisterTokenMutation,
-} from "../generated/graphql";
-import { ErrorMap } from "../Types/ErrorMap";
-import { PASSWORD_SHAPE } from "@ferman-pkgs/common";
+} from "../../generated/graphql";
+import { ErrorMap } from "../../Types/ErrorMap";
 
 export type RegisterPhase = 0 | 1 | 2 | 3;
 export interface RegisterFormValues {

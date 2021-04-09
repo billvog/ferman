@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { MeDocument, MeQuery, useLoginMutation } from "../generated/graphql";
-import { ErrorMap } from "../Types/ErrorMap";
-import { MyMessage } from "../Types/MyMessage";
+import { MeDocument, MeQuery, useLoginMutation } from "../../generated/graphql";
+import { ErrorMap } from "../../Types/ErrorMap";
+import { MyMessage } from "../../Types/MyMessage";
 
 export interface LoginFormValues {
   email: string;

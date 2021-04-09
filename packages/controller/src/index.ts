@@ -1,10 +1,17 @@
-export * from "./Controllers/RegisterController";
-export * from "./Controllers/LoginController";
-export * from "./Controllers/ForgotPasswordController";
-export * from "./Controllers/ResetPasswordController";
-export * from "./Controllers/UpdateProfileController";
-export * from "./Controllers/PostController";
-export * from "./Controllers/CommentController";
+// User Controller
+export * from "./Controllers/User/RegisterController";
+export * from "./Controllers/User/LoginController";
+export * from "./Controllers/User/ForgotPasswordController";
+export * from "./Controllers/User/ResetPasswordController";
+export * from "./Controllers/User/UpdateProfileController";
+
+// Post Controller
+export * from "./Controllers/Post/PostController";
+export * from "./Controllers/Post/CommentController";
+
+// Custom Types
 export * from "./Types/MyMessage";
 export * from "./Types/ErrorMap";
+
+// Graphql Hooks
 export * from "./generated/graphql";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { MyMessage } from "../Types/MyMessage";
-import { useMeQuery, useUpdateProfileMutation } from "../generated/graphql";
-import { ErrorMap } from "../Types/ErrorMap";
+import { MyMessage } from "../../Types/MyMessage";
+import { useMeQuery, useUpdateProfileMutation } from "../../generated/graphql";
+import { ErrorMap } from "../../Types/ErrorMap";
 
 export interface UpdateProfileFormValues {
   username: string;

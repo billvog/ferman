@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ErrorMap } from "../Types/ErrorMap";
-import { MyMessage } from "../Types/MyMessage";
-import { useCommentPostMutation } from "../generated/graphql";
+import { ErrorMap } from "../../Types/ErrorMap";
+import { MyMessage } from "../../Types/MyMessage";
+import { useCommentPostMutation } from "../../generated/graphql";
 
 export interface CommentFormValues {
   text: string;

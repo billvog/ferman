@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ErrorMap } from "../Types/ErrorMap";
-import { useResetPasswordMutation } from "../generated/graphql";
-import { MyMessage } from "../Types/MyMessage";
+import { ErrorMap } from "../../Types/ErrorMap";
+import { useResetPasswordMutation } from "../../generated/graphql";
+import { MyMessage } from "../../Types/MyMessage";
 
 export interface ResetPasswordFormValues {
   password: string;
