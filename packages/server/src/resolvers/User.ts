@@ -652,14 +652,14 @@ export class UserResolver {
   }
 
   // DELETE USER – 1 PHASE
-  @Mutation(() => FieldError, { nullable: true })
+  @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
   async deleteAccountRequest(
     @Ctx() { req, redis }: MyContext
-  ): Promise<FieldError | null> {
+  ): Promise<boolean> {
     const user = await User.findOne(req.session.userId);
     if (!user) {
-      throw new Error("User not found");
+      return false;
     }
 
     // generate token
@@ -686,7 +686,7 @@ export class UserResolver {
       `
     );
 
-    return null;
+    return true;
   }
 
   @Mutation(() => Boolean)
