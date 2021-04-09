@@ -727,7 +727,7 @@ export class UserResolver {
     if (!foundToken || parseInt(foundToken) !== user.id) {
       return {
         field: "code",
-        message: "Incorrect code given.",
+        message: "Incorrect code given",
       };
     }
 
