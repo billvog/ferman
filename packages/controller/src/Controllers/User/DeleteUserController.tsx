@@ -14,6 +14,7 @@ export interface DeleteUserFormValues {
 }
 
 interface DeleteUserControllerProps {
+  onFinish: () => any;
   children: (data: {
     submit: (values: DeleteUserFormValues) => Promise<ErrorMap | null>;
     message: MyMessage | null;
@@ -23,6 +24,7 @@ interface DeleteUserControllerProps {
 }
 
 export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
+  onFinish,
   children,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
@@ -71,6 +73,7 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
       }
 
       setPhase(2);
+      setMessage(null);
     } else if (phase === 2) {
       const { data } = await deleteUserFinal({
         variables: {
@@ -94,6 +97,7 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
       }
 
       setDone(true);
+      onFinish();
     }
 
     return null;
