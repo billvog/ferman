@@ -7,7 +7,7 @@ import {
 } from "@ferman-pkgs/controller";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Layout } from "../components/Layout";
+import { Layout } from "../../components/Layout";
 import NextLink from "next/link";
 import {
   RegisterFourValidationSchema,
@@ -17,9 +17,9 @@ import {
   UidMax,
   UsernameMax,
 } from "@ferman-pkgs/common";
-import { InputField } from "../components/InputField";
-import { MyAlert } from "../components/MyAlert";
-import { MyButton } from "../components/MyButton";
+import { InputField } from "../../components/InputField";
+import { MyAlert } from "../../components/MyAlert";
+import { MyButton } from "../../components/MyButton";
 import styled from "styled-components";
 
 interface RegisterViewProps {

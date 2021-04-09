@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { CommentController } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
-import { CreateCommentView } from "../views/CreateCommentView";
+import { CreateCommentView } from "../../views/Post/CreateCommentView";
 
 interface CreateCommentConnectorProps {}
 export const CreateCommentConnector: React.FC<CreateCommentConnectorProps> = ({}) => {

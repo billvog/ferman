@@ -7,11 +7,11 @@ import {
 } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React, { useState } from "react";
-import { InputField } from "../components/InputField";
-import { Layout } from "../components/Layout";
+import { InputField } from "../../components/InputField";
+import { Layout } from "../../components/Layout";
 import NextLink from "next/link";
-import { MyAlert } from "../components/MyAlert";
-import { MyButton } from "../components/MyButton";
+import { MyAlert } from "../../components/MyAlert";
+import { MyButton } from "../../components/MyButton";
 
 interface ResetPasswordViewProps {
   submit: (values: ResetPasswordFormValues) => Promise<ErrorMap | null>;

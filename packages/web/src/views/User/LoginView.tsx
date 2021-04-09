@@ -2,11 +2,11 @@ import FormStyles from "../css/form.module.css";
 import { ErrorMap, LoginFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
-import { InputField } from "../components/InputField";
-import { Layout } from "../components/Layout";
+import { InputField } from "../../components/InputField";
+import { Layout } from "../../components/Layout";
 import NextLink from "next/link";
 import { LoginValidationSchema } from "@ferman-pkgs/common";
-import { MyButton } from "../components/MyButton";
+import { MyButton } from "../../components/MyButton";
 import styled from "styled-components";
 
 interface LoginViewProps {

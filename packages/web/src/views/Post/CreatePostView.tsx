@@ -3,10 +3,10 @@ import { ErrorMap, MyMessage, PostFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
-import { InputField } from "../components/InputField";
-import { Layout } from "../components/Layout";
-import { MyAlert } from "../components/MyAlert";
-import { MyButton } from "../components/MyButton";
+import { InputField } from "../../components/InputField";
+import { Layout } from "../../components/Layout";
+import { MyAlert } from "../../components/MyAlert";
+import { MyButton } from "../../components/MyButton";
 
 interface CreatePostViewProps {
   submit: (values: PostFormValues) => Promise<ErrorMap | null>;

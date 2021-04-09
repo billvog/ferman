@@ -6,12 +6,12 @@ import {
 } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
-import { InputField } from "../components/InputField";
+import { InputField } from "../../components/InputField";
 import NextLink from "next/link";
-import { Layout } from "../components/Layout";
+import { Layout } from "../../components/Layout";
 import { ForgotPasswordValidationSchema } from "@ferman-pkgs/common";
-import { MyButton } from "../components/MyButton";
-import { MyAlert } from "../components/MyAlert";
+import { MyButton } from "../../components/MyButton";
+import { MyAlert } from "../../components/MyAlert";
 
 interface ForgotPasswordViewProps {
   submit: (values: ForgotPasswordFormValues) => Promise<ErrorMap | null>;

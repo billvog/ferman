@@ -1,9 +1,9 @@
 import { UpdateProfileController } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
-import { MySpinner } from "../components/MySpinner";
+import { MySpinner } from "../../components/MySpinner";
 import { toast } from "react-toastify";
-import { EditProfileView } from "../views/EditProfileView";
+import { EditProfileView } from "../../views/User/EditProfileView";
 
 interface EditProfileConnectorProps {}
 export const EditProfileConnector: React.FC<EditProfileConnectorProps> = ({}) => {

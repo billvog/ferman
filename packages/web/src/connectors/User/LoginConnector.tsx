@@ -1,7 +1,7 @@
 import { LoginController } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
-import { LoginView } from "../views/LoginView";
+import { LoginView } from "../../views/User/LoginView";
 
 interface LoginConnectorProps {}
 export const LoginConnector: React.FC<LoginConnectorProps> = ({}) => {

@@ -2,9 +2,9 @@ import { CommentMax, CommentValidationSchema } from "@ferman-pkgs/common";
 import { CommentFormValues, ErrorMap } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
-import { InputField } from "../components/InputField";
-import { Layout } from "../components/Layout";
-import { MyButton } from "../components/MyButton";
+import { InputField } from "../../components/InputField";
+import { Layout } from "../../components/Layout";
+import { MyButton } from "../../components/MyButton";
 
 interface CreateCommentViewProps {
   submit: (values: CommentFormValues) => Promise<ErrorMap | null>;

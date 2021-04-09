@@ -1,6 +1,6 @@
 import { ForgotPasswordController } from "@ferman-pkgs/controller";
 import React from "react";
-import { ForgotPasswordView } from "../views/ForgotPasswordView";
+import { ForgotPasswordView } from "../../views/User/ForgotPasswordView";
 
 interface ForgotPasswordConnectorProps {}
 export const ForgotPasswordConnector: React.FC<ForgotPasswordConnectorProps> = ({}) => {

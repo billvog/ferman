@@ -48,13 +48,17 @@ const MyAccount = () => {
             </a>
             .
           </GravatarInfo>
-          <MyButton onClick={() => router.push(`/user/${meData?.me?.uid}`)}>
+          <MyButton
+            onClick={() => router.push(`/user/${meData?.me?.uid}`)}
+            style={{
+              backgroundColor: "sandybrown",
+            }}
+          >
             My Profile
           </MyButton>
           <MyButton
             style={{
               marginLeft: 6,
-              backgroundColor: "burlywood",
             }}
             onClick={async () => {
               const reponse = await logout();
