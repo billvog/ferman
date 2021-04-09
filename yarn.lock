@@ -592,22 +592,6 @@
     ts-node "^9"
     tslib "^2"
 
-"@ferman-pkgs/common@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ferman-pkgs/common/-/common-1.0.0.tgz#ea81cd1a38562058074f1f4bca5ab1d922e4a6a9"
-  integrity sha512-nuf/En4a0+WpLIrFfgSh04JgUum3uw+Xdr5sobMwQmSlzinCHgifg+DK8lMygIFzzKXp4XmHQ7sc02vszrMP3A==
-  dependencies:
-    yup "^0.32.9"
-
-"@ferman-pkgs/controller@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ferman-pkgs/controller/-/controller-1.0.0.tgz#72541acee10030c0e31920593c1c2046026ccb2c"
-  integrity sha512-MJma6UyT0xnVUXGiBWaGl3HwiaI03fMB2X3AfhJ5RZJmbaZXkosWvOUbYBGxGL9GvCasTAjp1etKw0TZuEc2lw==
-  dependencies:
-    graphql "^15.5.0"
-    react "^17.0.1"
-    react-dom "^17.0.1"
-
 "@graphql-codegen/cli@^1.21.3":
   version "1.21.3"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-1.21.3.tgz#3506c5d019c6995be1927bd4d9c67a739fafe5e6"

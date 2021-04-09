@@ -30,7 +30,6 @@
 .alert.error {
   background-color: hsl(360, 100%, 70%);
   color: white;
-  color: hsl(34, 57%, 30%);
 }
 
 .alert.error .alertIcon {

@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }: any) {
     closeOnClick: true,
     rtl: false,
     pauseOnHover: true,
+    toastClassName: "toast-component",
   });
 
   return <Component {...pageProps} />;

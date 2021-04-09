@@ -116,7 +116,6 @@ export const EditProfileView = withRouter(
     handleSubmit: async (values, { setErrors, props }) => {
       const errors = await props.submit(values);
       if (errors) setErrors(errors);
-      else props.router.back();
     },
   })(C)
 );
