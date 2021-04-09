@@ -1,5 +1,4 @@
 import LayoutStyles from "../css/layout.module.css";
-import { Box, Spinner, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import { useMeQuery } from "@ferman-pkgs/controller";
 import { NavBar } from "./NavBar";
 import { Wrapper, WrapperSize } from "./Wrapper";
 import NProgress from "nprogress";
+import { MySpinner } from "./MySpinner";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -92,7 +92,7 @@ export const Layout: React.FC<LayoutProps> = ({
         />
       </Head>
       <NavBar />
-      <Wrapper size={size}>{ok ? children : <Spinner />}</Wrapper>
+      <Wrapper size={size}>{ok ? children : <MySpinner />}</Wrapper>
     </div>
   );
 };

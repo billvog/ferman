@@ -1,8 +1,8 @@
 import NavbarStyles from "../css/navbar.module.css";
-import { Spinner } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
 import { useMeQuery } from "@ferman-pkgs/controller";
+import { MySpinner } from "./MySpinner";
 
 interface NavBarProps {}
 
@@ -21,7 +21,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         </div>
         <div className={NavbarStyles.rightWrapper}>
           {meLoading ? (
-            <Spinner />
+            <MySpinner />
           ) : meError || !meData?.me ? (
             <div className={NavbarStyles.notLoggedInBox}>
               <NextLink href="/account/login">

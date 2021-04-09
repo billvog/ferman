@@ -27,82 +27,84 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
   done,
 }) => {
   return (
-    <Layout size="sm" title="Delete Account – Ferman" isAuth>
-      {done ? (
-        <MyAlert type="success">
-          <h2>Your account is deleted!</h2>
-          <p>Your account is finaly deleted. Hope we see you again!</p>
-        </MyAlert>
-      ) : (
-        <Formik
-          initialValues={{ code: "", password: "" }}
-          onSubmit={async (values, { setErrors }) => {
-            const errors = await submit(values);
-            if (errors) setErrors(errors);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              {message && (
-                <div style={{ marginBottom: 8 }}>
-                  <MyAlert type={message.type}>{message.text}</MyAlert>
-                </div>
-              )}
-              <h1>
-                {phase === 0
-                  ? "Delete Your Account"
-                  : phase === 1
-                  ? "Verify your email"
-                  : phase === 2
-                  ? "Verify your identity"
-                  : null}
-              </h1>
-              {phase === 0 ? (
-                <>
-                  <MakeSubmitGuideText>
-                    Deleting your account, requires you to pass a two-factor
-                    authentication process to proove you are the owner of this
-                    account.
-                  </MakeSubmitGuideText>
-                  <MyButton type="submit" isLoading={isSubmitting}>
-                    Submit Request
-                  </MyButton>
-                </>
-              ) : phase === 1 ? (
-                <>
-                  <InputField
-                    label="Code"
-                    name="code"
-                    placeholder="Enter 6-digit code"
-                    helperText="Enter the 6-digit code sent to your email."
-                  />
-                  <div className={FormStyles.submitSection}>
-                    <MyButton type="submit" isLoading={isSubmitting}>
-                      Continue
-                    </MyButton>
+    <>
+      <Layout size="md" title="Delete Account – Ferman" isAuth>
+        {done ? (
+          <MyAlert type="success">
+            <h2>Your account is deleted!</h2>
+            <p>Your account is finaly deleted. Hope we see you again!</p>
+          </MyAlert>
+        ) : (
+          <Formik
+            initialValues={{ code: "", password: "" }}
+            onSubmit={async (values, { setErrors }) => {
+              const errors = await submit(values);
+              if (errors) setErrors(errors);
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                {message && (
+                  <div style={{ marginBottom: 8 }}>
+                    <MyAlert type={message.type}>{message.text}</MyAlert>
                   </div>
-                </>
-              ) : phase === 2 ? (
-                <>
-                  <InputField
-                    label="Password"
-                    name="password"
-                    placeholder="Enter your password"
-                    type="password"
-                    helperText="Enter your password to prove your identity."
-                  />
-                  <div className={FormStyles.submitSection}>
+                )}
+                <h1>
+                  {phase === 0
+                    ? "Delete Your Account"
+                    : phase === 1
+                    ? "Verify your email"
+                    : phase === 2
+                    ? "Verify your identity"
+                    : null}
+                </h1>
+                {phase === 0 ? (
+                  <>
+                    <MakeSubmitGuideText>
+                      Deleting your account, requires you to pass a two-factor
+                      authentication process to proove you are the owner of this
+                      account.
+                    </MakeSubmitGuideText>
                     <MyButton type="submit" isLoading={isSubmitting}>
-                      Finish
+                      Submit Request
                     </MyButton>
-                  </div>
-                </>
-              ) : null}
-            </Form>
-          )}
-        </Formik>
-      )}
-    </Layout>
+                  </>
+                ) : phase === 1 ? (
+                  <>
+                    <InputField
+                      label="Code"
+                      name="code"
+                      placeholder="Enter 6-digit code"
+                      helperText="Enter the 6-digit code sent to your email."
+                    />
+                    <div className={FormStyles.submitSection}>
+                      <MyButton type="submit" isLoading={isSubmitting}>
+                        Continue
+                      </MyButton>
+                    </div>
+                  </>
+                ) : phase === 2 ? (
+                  <>
+                    <InputField
+                      label="Password"
+                      name="password"
+                      placeholder="Enter your password"
+                      type="password"
+                      helperText="Enter your password to prove your identity."
+                    />
+                    <div className={FormStyles.submitSection}>
+                      <MyButton type="submit" isLoading={isSubmitting}>
+                        Finish
+                      </MyButton>
+                    </div>
+                  </>
+                ) : null}
+              </Form>
+            )}
+          </Formik>
+        )}
+      </Layout>
+    </>
   );
 };
 
