@@ -73,6 +73,7 @@ const ViewComment = ({}) => {
                     comment={comment}
                     me={meData?.me || null}
                     clickable
+                    marginBottom={10}
                   />
                 ))}
               </RepliesContainer>

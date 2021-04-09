@@ -1,5 +1,4 @@
 import CommentStyles from "../css/comment.module.css";
-import { Box, Link, chakra, Text, Flex } from "@chakra-ui/react";
 import React from "react";
 import { FullCommentFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import NextLink from "next/link";

@@ -40,6 +40,8 @@ import {
   ResetPasswordValidationSchema,
   PASSWORD_SHAPE,
 } from "@ferman-pkgs/common";
+import { Like } from "../entity/Like";
+import { Comment } from "../entity/Comment";
 
 @ObjectType()
 class UserErrorResponse {
@@ -742,6 +744,8 @@ export class UserResolver {
       // delete account
       await getConnection().transaction(async (tm) => {
         await tm.delete(Post, { creatorId: user.id });
+        await tm.delete(Like, { userId: user.id });
+        await tm.delete(Comment, { userId: user.id });
         await tm.delete(Follow, { userId: user.id });
         await tm.delete(Follow, { followingUserId: user.id });
         await tm.delete(Profile, { userId: user.id });

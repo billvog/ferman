@@ -35,3 +35,11 @@
 .alert.error .alertIcon {
   color: white;
 }
+
+.alert.success h2 {
+  color: var(--success-dark);
+}
+
+.alert.error h2 {
+  color: var(white);
+}
