@@ -1,7 +1,6 @@
 import FormStyles from "../css/form.module.css";
-import { SearchIcon } from "@chakra-ui/icons";
-import { Flex, Input, IconButton } from "@chakra-ui/react";
-import { Form, Formik, useFormik } from "formik";
+import { BsSearch } from "react-icons/bs";
+import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import styled from "styled-components";
@@ -67,13 +66,14 @@ export const SearchField: React.FC<SearchFieldProps> = ({
         </div>
         <MyIconButton
           aria-label="search"
-          icon={<SearchIcon />}
+          icon={<BsSearch />}
           style={{
             backgroundColor: "indianred",
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
             height: 40,
-            width: 40,
+            width: 45,
+            lineHeight: 0.8,
           }}
           isLoading={
             typeof isLoading === "boolean" ? isLoading : formik.isSubmitting

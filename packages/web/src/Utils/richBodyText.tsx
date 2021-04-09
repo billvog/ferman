@@ -1,4 +1,3 @@
-import { Link, Text } from "@chakra-ui/layout";
 import NextLink from "next/link";
 import processString from "react-process-string";
 import styled, { css } from "styled-components";
@@ -34,7 +33,7 @@ export const richBodyText = (body: string): any => {
     },
   ];
 
-  return <Text>{processString(config)(body)}</Text>;
+  return <div>{processString(config)(body)}</div>;
 };
 
 // Styles

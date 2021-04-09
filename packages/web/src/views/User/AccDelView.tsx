@@ -6,12 +6,14 @@ import {
   MyMessage,
 } from "@ferman-pkgs/controller";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
 import { MyAlert } from "../../components/MyAlert";
 import { MyButton } from "../../components/MyButton";
 import styled from "styled-components";
+import Modal from "react-modal";
+import { CenteredModalOptions } from "../../utils/modalOptions";
 
 interface AccDelViewProps {
   submit: (values: DeleteUserFormValues) => Promise<ErrorMap | null>;
@@ -26,6 +28,9 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
   message,
   done,
 }) => {
+  // confirm modal
+  const [isModalOpen, setModalOpen] = useState(false);
+
   return (
     <>
       <Layout size="md" title="Delete Account – Ferman" isAuth>
@@ -42,7 +47,7 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
               if (errors) setErrors(errors);
             }}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, submitForm }) => (
               <Form>
                 {message && (
                   <div style={{ marginBottom: 8 }}>
@@ -93,10 +98,45 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                       helperText="Enter your password to prove your identity."
                     />
                     <div className={FormStyles.submitSection}>
-                      <MyButton type="submit" isLoading={isSubmitting}>
+                      <MyButton
+                        onClick={() => setModalOpen(true)}
+                        type="button"
+                        isLoading={isSubmitting}
+                      >
                         Finish
                       </MyButton>
                     </div>
+                    {/* Confirm modal */}
+                    <Modal
+                      isOpen={isModalOpen}
+                      onRequestClose={() => setModalOpen(false)}
+                      style={CenteredModalOptions}
+                      contentLabel="Confirm"
+                    >
+                      <ModalConfirmTitle>
+                        After this, there's no comeback.
+                      </ModalConfirmTitle>
+                      <ModalConfirmSubTitle>
+                        By deleting your account, all your posts, comments,
+                        follows, likes will be deleted. Any action cannot be
+                        undone and will be permanent.
+                      </ModalConfirmSubTitle>
+                      <ModalButtonContainer>
+                        <MyButton
+                          onClick={() => {
+                            setModalOpen(false);
+                            submitForm();
+                          }}
+                        >
+                          Delete My Account
+                        </MyButton>
+                        <ModalChangedMindButton
+                          onClick={() => setModalOpen(false)}
+                        >
+                          No, I changed my mind
+                        </ModalChangedMindButton>
+                      </ModalButtonContainer>
+                    </Modal>
                   </>
                 ) : null}
               </Form>
@@ -114,4 +154,37 @@ const MakeSubmitGuideText = styled.div`
   color: grey;
   margin: 10px 0;
   line-height: 1.45;
+`;
+
+// ModalStyles
+const ModalConfirmTitle = styled.div`
+  font-family: inherit;
+  font-size: 13pt;
+  font-weight: 600;
+  color: var(--main-dark);
+`;
+
+const ModalConfirmSubTitle = styled.div`
+  font-size: 10pt;
+  font-weight: 600;
+  color: brown;
+  margin-bottom: 10px;
+`;
+
+const ModalButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const ModalChangedMindButton = styled.button`
+  padding: 0;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  margin-left: 10px;
+  color: var(--main-dark);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 9pt;
+  cursor: pointer;
 `;

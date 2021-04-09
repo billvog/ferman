@@ -1,21 +1,18 @@
 import { useApolloClient } from "@apollo/client";
-import { Heading, Link, Text } from "@chakra-ui/layout";
-import { Box, Button, Spinner, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../components/Layout";
 import { useLogoutMutation, useMeQuery } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../../utils/withMyApollo";
-import NextLink from "next/link";
 import { UserCard } from "../../components/UserCard";
 import { ErrorText } from "../../components/ErrorText";
 import moment from "moment";
 import { MySpinner } from "../../components/MySpinner";
 import styled from "styled-components";
 import { MyButton } from "../../components/MyButton";
+import { toast } from "react-toastify";
 
 const MyAccount = () => {
-  const toast = useToast();
   const router = useRouter();
   const apolloClient = useApolloClient();
 
@@ -63,12 +60,7 @@ const MyAccount = () => {
             onClick={async () => {
               const reponse = await logout();
               if (!reponse.data?.logout) {
-                return toast({
-                  title: "Logout failed",
-                  description: "Internal server error (500)",
-                  status: "error",
-                  duration: 5000,
-                });
+                return toast.error("Internal server error (500)");
               }
 
               await apolloClient.resetStore();

@@ -1,26 +1,6 @@
 import PostActionsStyles from "../css/post-actions.module.css";
-import {
-  Box,
-  Button,
-  chakra,
-  Flex,
-  Icon,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
+import { toast } from "react-toastify";
 import React from "react";
-import { DeleteIcon } from "@chakra-ui/icons";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsFillChatSquareFill } from "react-icons/bs";
 import {
@@ -41,13 +21,6 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
   me,
   onDelete,
 }) => {
-  const toast = useToast();
-  const {
-    isOpen: isDeleteModalOpen,
-    onOpen: onDeleteModalOpen,
-    onClose: onDeleteModalClose,
-  } = useDisclosure();
-
   const [likePost] = useLikePostMutation();
   const [deletePost] = useDeletePostMutation();
 
@@ -76,12 +49,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                 });
 
                 if (!data || data.like.error) {
-                  return toast({
-                    title: "Error",
-                    description: "Could not like post",
-                    status: "error",
-                    duration: 5000,
-                  });
+                  return toast.error("Could not like post");
                 }
               }}
             >
@@ -121,7 +89,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
           </Menu>
         )} */}
       </div>
-      {me && me.id === post.creator.id && (
+      {/* {me && me.id === post.creator.id && (
         <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose}>
           <ModalOverlay />
           <ModalContent>
@@ -183,7 +151,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
             </ModalFooter>
           </ModalContent>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };

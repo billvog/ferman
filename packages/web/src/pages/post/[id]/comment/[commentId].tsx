@@ -1,6 +1,3 @@
-import { Box, Link, Text } from "@chakra-ui/layout";
-import { Button, Flex, Stack } from "@chakra-ui/react";
-import { Spinner } from "@chakra-ui/spinner";
 import { useRouter } from "next/router";
 import React from "react";
 import { ErrorText } from "../../../../components/ErrorText";
@@ -65,24 +62,22 @@ const ViewComment = ({}) => {
               </MyButton>
             )}
           </CreateReplyContainer>
-          <Box>
-            <Stack>
-              {commentData.viewComment?.replies.length === 0 ? (
-                <NoCommentsText>There no replies...</NoCommentsText>
-              ) : (
-                <RepliesContainer>
-                  {commentData.viewComment.replies?.map((comment) => (
-                    <PostComment
-                      key={comment.id}
-                      comment={comment}
-                      me={meData?.me || null}
-                      clickable
-                    />
-                  ))}
-                </RepliesContainer>
-              )}
-            </Stack>
-          </Box>
+          <div>
+            {commentData.viewComment?.replies.length === 0 ? (
+              <NoCommentsText>There no replies...</NoCommentsText>
+            ) : (
+              <RepliesContainer>
+                {commentData.viewComment.replies?.map((comment) => (
+                  <PostComment
+                    key={comment.id}
+                    comment={comment}
+                    me={meData?.me || null}
+                    clickable
+                  />
+                ))}
+              </RepliesContainer>
+            )}
+          </div>
         </div>
       )}
     </Layout>

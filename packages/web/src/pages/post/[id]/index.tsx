@@ -9,11 +9,8 @@ import {
 import { useGetPostFromUrl } from "../../../utils/useGetPostFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { Post } from "../../../components/Post";
-import { ArrowBackIcon } from "@chakra-ui/icons";
 import { ErrorText } from "../../../components/ErrorText";
-import { UserCard } from "../../../components/UserCard";
 import { PostComment } from "../../../components/PostComment";
-import { MyIconButton } from "../../../components/MyIconButton";
 import styled from "styled-components";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
@@ -56,12 +53,6 @@ const ViewPost = ({}) => {
           <ErrorText>Internal server error (500)</ErrorText>
         ) : (
           <div>
-            <BackButtonContainer>
-              <MyIconButton
-                icon={<ArrowBackIcon />}
-                onClick={() => router.back()}
-              />
-            </BackButtonContainer>
             <div>
               <Post
                 key={postData.post.id}
@@ -117,10 +108,6 @@ const ViewPost = ({}) => {
 export default withMyApollo({
   ssr: true,
 })(ViewPost);
-
-const BackButtonContainer = styled.div`
-  margin-bottom: 12px;
-`;
 
 const CommentsCounterText = styled.span`
   font-family: inherit;

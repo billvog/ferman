@@ -5,11 +5,11 @@ import NextLink from "next/link";
 import { withMyApollo } from "../utils/withMyApollo";
 import { Post } from "../components/Post";
 import { ErrorText } from "../components/ErrorText";
-import { SearchIcon } from "@chakra-ui/icons";
 import { MyButton } from "../components/MyButton";
 import { MyIconButton } from "../components/MyIconButton";
 import { MySpinner } from "../components/MySpinner";
 import styled from "styled-components";
+import { BsSearch } from "react-icons/bs";
 
 const Index = () => {
   const { data: meData, loading: meLoading } = useMeQuery({
@@ -37,7 +37,7 @@ const Index = () => {
         <h1 color="mainDarkBlue">Feed</h1>
         <div>
           <NextLink href="/search">
-            <MyIconButton icon={<SearchIcon />} />
+            <MyIconButton icon={<BsSearch />} style={{ lineHeight: 0.85 }} />
           </NextLink>
           {meData?.me && (
             <NextLink href="/post">

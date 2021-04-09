@@ -1,14 +1,3 @@
-import {
-  Flex,
-  Button,
-  Box,
-  Spinner,
-  chakra,
-  UnorderedList,
-  ListItem,
-  Text,
-  Heading,
-} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { ErrorText } from "../components/ErrorText";
 import { Layout } from "../components/Layout";
@@ -24,12 +13,12 @@ import { MyButton } from "../components/MyButton";
 const SearchTips = () => {
   return (
     <SearchTipsContainer>
-      <chakra.span fontWeight="600">Search Tips</chakra.span> <br />
-      <UnorderedList>
-        <ListItem>Be careful of wrong syntax or misspelled words</ListItem>
-        <ListItem>Be more precise</ListItem>
-        <ListItem>Use keywords</ListItem>
-      </UnorderedList>
+      <span>Search Tips</span> <br />
+      <ul>
+        <li>Be careful of wrong syntax or misspelled words</li>
+        <li>Be more precise</li>
+        <li>Use keywords</li>
+      </ul>
     </SearchTipsContainer>
   );
 };
