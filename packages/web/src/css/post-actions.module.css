@@ -64,3 +64,26 @@
   font-weight: 500;
   font-family: inherit;
 }
+
+.moreOptionsButton {
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: brown;
+}
+
+.deleteMenuOption {
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.deleteMenuOption span {
+  margin-left: 5px;
+}

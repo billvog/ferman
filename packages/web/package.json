@@ -12,6 +12,7 @@
     "@apollo/client": "^3.3.11",
     "@ferman-pkgs/common": "1.0.0",
     "@ferman-pkgs/controller": "1.0.0",
+    "@szhsin/react-menu": "^1.9.0",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "moment": "^2.29.1",

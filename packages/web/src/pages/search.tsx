@@ -14,7 +14,11 @@ const SearchTips = () => {
   return (
     <SearchTipsContainer>
       <span>Search Tips</span> <br />
-      <ul>
+      <ul
+        style={{
+          marginLeft: 20,
+        }}
+      >
         <li>Be careful of wrong syntax or misspelled words</li>
         <li>Be more precise</li>
         <li>Use keywords</li>

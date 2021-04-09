@@ -13,7 +13,7 @@ import { MyAlert } from "../../components/MyAlert";
 import { MyButton } from "../../components/MyButton";
 import styled from "styled-components";
 import Modal from "react-modal";
-import { CenteredModalOptions } from "../../utils/modalOptions";
+import { CenteredModalOptions, ModalStyles } from "../../utils/modalOptions";
 import { AccountDeletionOne, AccountDeletionTwo } from "@ferman-pkgs/common";
 
 interface AccDelViewProps {
@@ -121,15 +121,15 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                       style={CenteredModalOptions}
                       contentLabel="Confirm"
                     >
-                      <ModalConfirmTitle>
+                      <ModalStyles.Title>
                         After this, there's no comeback.
-                      </ModalConfirmTitle>
-                      <ModalConfirmSubTitle>
+                      </ModalStyles.Title>
+                      <ModalStyles.Message>
                         By deleting your account, all your posts, comments,
                         follows, likes will be deleted. Any action cannot be
                         undone and will be permanent.
-                      </ModalConfirmSubTitle>
-                      <ModalButtonContainer>
+                      </ModalStyles.Message>
+                      <ModalStyles.ButtonContainer>
                         <MyButton
                           onClick={() => {
                             setModalOpen(false);
@@ -138,12 +138,12 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                         >
                           Delete My Account
                         </MyButton>
-                        <ModalChangedMindButton
+                        <ModalStyles.SecondaryButton
                           onClick={() => setModalOpen(false)}
                         >
                           No, I changed my mind
-                        </ModalChangedMindButton>
-                      </ModalButtonContainer>
+                        </ModalStyles.SecondaryButton>
+                      </ModalStyles.ButtonContainer>
                     </Modal>
                   </>
                 ) : null}
@@ -162,37 +162,4 @@ const MakeSubmitGuideText = styled.div`
   color: grey;
   margin: 10px 0;
   line-height: 1.45;
-`;
-
-// ModalStyles
-const ModalConfirmTitle = styled.div`
-  font-family: inherit;
-  font-size: 13pt;
-  font-weight: 600;
-  color: var(--main-dark);
-`;
-
-const ModalConfirmSubTitle = styled.div`
-  font-size: 10pt;
-  font-weight: 600;
-  color: brown;
-  margin-bottom: 10px;
-`;
-
-const ModalButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const ModalChangedMindButton = styled.button`
-  padding: 0;
-  border: 0;
-  outline: none;
-  background-color: transparent;
-  margin-left: 10px;
-  color: var(--main-dark);
-  font-family: inherit;
-  font-weight: 500;
-  font-size: 9pt;
-  cursor: pointer;
 `;
