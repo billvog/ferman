@@ -84,11 +84,6 @@ export const AccountDeletionTwo = yup.object().shape({
   password: PASSWORD_SHAPE,
 });
 
-export const AccountDeletionThree = yup.object().shape({
-  code: AUTH_CODE_SHAPE,
-  password: PASSWORD_SHAPE,
-});
-
 // Forgot/Reset password
 export const ForgotPasswordValidationSchema = yup.object().shape({
   email: EMAIL_SHAPE,
