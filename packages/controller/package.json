@@ -1,11 +1,11 @@
 {
   "name": "@ferman-pkgs/controller",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "billvog <billvog04@gmail.com>",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "license": "MIT",
-  "description": "Client-side implementation of the Ferman Api (ferman.ga)",
+  "description": "Client-side implementation of the Ferman API",
   "scripts": {
     "build": "rm -rf dist && tsc",
     "gen": "graphql-codegen --config codegen.yml"
