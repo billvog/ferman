@@ -1,4 +1,4 @@
-import FormStyles from "../css/form.module.css";
+import FormStyles from "../../css/form.module.css";
 import {
   BioMax,
   LocationMax,

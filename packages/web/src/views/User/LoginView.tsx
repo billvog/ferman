@@ -1,4 +1,4 @@
-import FormStyles from "../css/form.module.css";
+import FormStyles from "../../css/form.module.css";
 import { ErrorMap, LoginFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
