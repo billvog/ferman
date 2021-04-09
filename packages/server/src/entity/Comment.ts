@@ -60,6 +60,6 @@ export class Comment extends BaseEntity {
 
   @BeforeInsert()
   private generateId() {
-    this.id = (Date.now() * this.userId).toString();
+    this.id = Math.random().toString().slice(2);
   }
 }
