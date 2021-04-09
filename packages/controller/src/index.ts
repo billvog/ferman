@@ -4,6 +4,7 @@ export * from "./Controllers/User/LoginController";
 export * from "./Controllers/User/ForgotPasswordController";
 export * from "./Controllers/User/ResetPasswordController";
 export * from "./Controllers/User/UpdateProfileController";
+export * from "./Controllers/User/DeleteUserController";
 
 // Post Controller
 export * from "./Controllers/Post/PostController";

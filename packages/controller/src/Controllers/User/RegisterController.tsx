@@ -92,7 +92,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       });
 
       if (!data?.validateRegisterToken) {
-        setMessage({ type: "error", text: "Invalid token provided" });
+        setMessage({ type: "error", text: "The provided code is not valid" });
         return null;
       }
 
