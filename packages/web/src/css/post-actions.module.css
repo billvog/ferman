@@ -80,7 +80,7 @@
   display: flex;
   align-items: center;
   line-height: 1;
-  font-size: 9pt;
+  font-size: var(--popupmenu-font-size);
   font-weight: 600;
 }
 
