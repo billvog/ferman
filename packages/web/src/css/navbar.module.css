@@ -20,7 +20,7 @@
 .navbar .container .heading {
   font-size: 36px;
   font-weight: 600;
-  font-family: cursive;
+  font-family: var(--cursive-font);
   color: #334963 !important;
   cursor: pointer;
 }

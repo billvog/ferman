@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
+
 :root {
   --main-dark: #334963;
   --grey: hsl(207, 16%, 90%);
@@ -13,6 +15,7 @@
   --success-dark: hsl(90, 75%, 30%);
   --success-hover: hsl(90, 75%, 33%);
   --success-active: hsl(90, 75%, 39%);
+  --cursive-font: "Kaushan Script", cursive;
 }
 
 * {
