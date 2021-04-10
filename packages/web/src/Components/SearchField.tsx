@@ -1,87 +1,59 @@
 import FormStyles from "../css/form.module.css";
-import { BsSearch } from "react-icons/bs";
-import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { MyIconButton } from "./MyIconButton";
 
 interface SearchFieldProps {
   initialValue?: string;
-  isLoading?: boolean;
-  onSubmit: (values: { searchQuery: string }) => any;
+  onSubmit: (values: { query: string }) => any;
 }
 
 export const SearchField: React.FC<SearchFieldProps> = ({
   initialValue = "",
   onSubmit,
-  isLoading,
 }) => {
   const router = useRouter();
-  const formik = useFormik({
-    initialValues: {
-      searchQuery: initialValue,
-    },
-    onSubmit: (values) => {
-      if (router.pathname === "/search") {
-        router.replace({
-          query: !!formik.values.searchQuery
-            ? {
-                query: formik.values.searchQuery,
-              }
-            : {},
-        });
-      }
 
-      return onSubmit(values);
-    },
-  });
+  const [query, setQuery] = useState(initialValue);
+  const [debouncedQuery, setDebouncedQuery] = useState("");
 
   useEffect(() => {
-    if (
-      router.query.query &&
-      router.query.query !== formik.values.searchQuery
-    ) {
-      formik.setFieldValue("searchQuery", router.query.query);
-      formik.submitForm();
+    if (router.query.query && router.query.query !== query) {
+      setQuery(router.query.query as string);
     }
   }, [router.query.query]);
 
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 500);
+
+    return () => {
+      clearTimeout(handle);
+    };
+  }, [query]);
+
+  useEffect(() => {
+    router.replace({
+      query: debouncedQuery ? debouncedQuery : undefined,
+    });
+
+    onSubmit({
+      query: debouncedQuery,
+    });
+  }, [debouncedQuery]);
+
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <Container>
-        <div className={`${FormStyles.formControl}`}>
-          <input
-            className={FormStyles.input}
-            name="searchQuery"
-            placeholder="Search keywords, @mentions"
-            value={formik.values.searchQuery}
-            onChange={formik.handleChange}
-            style={{
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-              height: 40,
-            }}
-          />
-        </div>
-        <MyIconButton
-          aria-label="search"
-          icon={<BsSearch />}
-          style={{
-            backgroundColor: "indianred",
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-            height: 40,
-            width: 45,
-            lineHeight: 0.8,
-          }}
-          isLoading={
-            typeof isLoading === "boolean" ? isLoading : formik.isSubmitting
-          }
-          type="submit"
+    <Container>
+      <div className={`${FormStyles.formControl}`}>
+        <input
+          className={FormStyles.input}
+          placeholder="Search keywords, @mentions, #hashtags"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
-      </Container>
-    </form>
+      </div>
+    </Container>
   );
 };
 

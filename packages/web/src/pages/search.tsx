@@ -68,15 +68,13 @@ const SearchPost = () => {
   return (
     <Layout size="lg" title="Search – Ferman">
       <div>
-        <h1>Search</h1>
         <SearchField
           initialValue={(router.query.query as string) || ""}
-          isLoading={postsLoading}
           onSubmit={(values) => {
             return runPostsQuery({
               variables: {
                 ...postsVariables!,
-                query: values.searchQuery,
+                query: values.query,
                 skip: null,
               },
             });
@@ -91,7 +89,7 @@ const SearchPost = () => {
       ) : !postsData ? (
         <div>
           <NotifyTipText>
-            Enter keywords, #hashtags or @mentions in the search filed to get
+            Enter keywords, #hashtags or @mentions in the search field to get
             some results.
           </NotifyTipText>
           {SearchTips()}
