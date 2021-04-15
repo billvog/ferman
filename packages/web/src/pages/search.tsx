@@ -54,7 +54,10 @@ const SearchPost = () => {
   });
 
   useEffect(() => {
-    if (typeof router.query.query === "string") {
+    if (
+      typeof router.query.query === "string" &&
+      router.query.query.length > 0
+    ) {
       runPostsQuery({
         variables: {
           ...postsVariables!,
@@ -71,13 +74,15 @@ const SearchPost = () => {
         <SearchField
           initialValue={(router.query.query as string) || ""}
           onSubmit={(values) => {
-            return runPostsQuery({
-              variables: {
-                ...postsVariables!,
-                query: values.query,
-                skip: null,
-              },
-            });
+            if (values.query.length > 0) {
+              return runPostsQuery({
+                variables: {
+                  ...postsVariables!,
+                  query: values.query,
+                  skip: null,
+                },
+              });
+            }
           }}
         />
       </div>
