@@ -111,7 +111,8 @@ export class PostResolver {
     @Arg("limit", () => Int) limit: number,
     @Arg("skip", () => Int, { nullable: true }) skip: number,
     @Arg("userId", () => Int, { nullable: true }) userId: number,
-    @Arg("query", () => String, { nullable: true }) query: string
+    @Arg("query", () => String, { nullable: true }) query: string,
+    @Ctx() { req }: MyContext
   ): Promise<PaginatedPosts> {
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
@@ -136,16 +137,25 @@ export class PostResolver {
         query = query.slice(1, query.length);
         qb.andWhere(
           `lower((select uid from users where id = p."creatorId"))
-          like lower(:query)`,
+          ilike lower(:query)`,
           {
             query: `%${query}%`,
           }
         );
       } else {
-        qb.andWhere(`lower(p.body) like lower(:query)`, {
+        qb.andWhere(`lower(p.body) ilike lower(:query)`, {
           query: `%${query}%`,
         });
       }
+    }
+
+    if (!userId && !query && req.session.userId) {
+      qb.andWhere(
+        `p."creatorId" in (select "followingUserId" from follows where "userId" = :userId)`,
+        {
+          userId: req.session.userId,
+        }
+      );
     }
 
     if (skip && skip > 0) {
