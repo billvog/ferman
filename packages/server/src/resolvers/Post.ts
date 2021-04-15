@@ -143,9 +143,11 @@ export class PostResolver {
           }
         );
       } else {
-        qb.andWhere(`lower(p.body) ilike lower(:query)`, {
-          query: `%${query}%`,
-        });
+        const formattedQuery = query.trim().replace(/ /g, " & ");
+        qb.andWhere(
+          `to_tsvector('simple', p.body) @@ to_tsquery('simple', :query)`,
+          { query: `${formattedQuery}:*` }
+        );
       }
     }
 

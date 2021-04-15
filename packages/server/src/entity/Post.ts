@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryColumn,
   BeforeInsert,
+  Index,
 } from "typeorm";
 import { Like } from "./Like";
 import { User } from "./User";
@@ -20,6 +21,7 @@ export class Post extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
+  @Index({ fulltext: true })
   @Field()
   @Column()
   body: string;

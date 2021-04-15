@@ -1,10 +1,8 @@
 web:
-  + search / remove button - auto submit after 500ms of inactivity
 
 server:
   - search / postgres full text search - sophisticated search
 
 web-server:
-  - make feed show posts from your follows.
   - - paginate comments
   - - paginate follows/ers
