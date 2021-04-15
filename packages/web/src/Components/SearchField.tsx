@@ -35,7 +35,11 @@ export const SearchField: React.FC<SearchFieldProps> = ({
 
   useEffect(() => {
     router.replace({
-      query: debouncedQuery ? debouncedQuery : undefined,
+      query: debouncedQuery
+        ? {
+            query: debouncedQuery,
+          }
+        : undefined,
     });
 
     onSubmit({
