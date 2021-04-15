@@ -1,8 +1,8 @@
 web:
 
 server:
-  - search / postgres full text search - sophisticated search
+  = more sophisticated search
 
 web-server:
-  - - paginate comments
-  - - paginate follows/ers
+  - paginate comments
+  - paginate follows/ers
