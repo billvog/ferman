@@ -23,6 +23,7 @@ import { Follow } from "./entity/Follow";
 import { Post } from "./entity/Post";
 import { Comment } from "./entity/Comment";
 import { Like } from "./entity/Like";
+import { sendEmail } from "./utils/sendEmail";
 
 (async () => {
   // setup redis
