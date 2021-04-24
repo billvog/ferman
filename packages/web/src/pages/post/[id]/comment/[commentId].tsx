@@ -26,7 +26,11 @@ const ViewComment = ({}) => {
 
   return (
     <Layout
-      title={`${commentData?.viewComment.parent.user.username}: "${commentData?.viewComment.parent.text}" – Ferman`}
+      title={
+        commentData
+          ? `${commentData?.viewComment.parent.user.username}: "${commentData?.viewComment.parent.text}" – Ferman`
+          : "Comment – Ferman"
+      }
     >
       {commentLoading || meLoading ? (
         <MySpinner />

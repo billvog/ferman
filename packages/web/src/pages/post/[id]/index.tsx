@@ -37,7 +37,11 @@ const ViewPost = ({}) => {
 
   return (
     <Layout
-      title={`${userData?.user?.username}: “${postData?.post?.body}” – Ferman`}
+      title={
+        userData && postData
+          ? `${userData?.user?.username}: “${postData?.post?.body}” – Ferman`
+          : "Post – Ferman"
+      }
       description={postData?.post?.body}
       author={userData?.user?.username}
       size="lg"
