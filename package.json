@@ -5,7 +5,9 @@
   "author": "billvog <billvog04@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build:server": "lerna run build --scope={@ferman-pkgs/common,@ferman/server}",
     "build:web": "lerna run build --scope={@ferman-pkgs/common,@ferman-pkgs/controller,@ferman/web}"

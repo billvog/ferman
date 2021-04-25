@@ -11,7 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.11",
     "@ferman-pkgs/common": "^0.0.1",
-    "@ferman-pkgs/controller": "^0.0.1",
+    "@ferman-pkgs/controller": "0.0.2",
     "@szhsin/react-menu": "^1.9.0",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
