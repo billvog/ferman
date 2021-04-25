@@ -1,6 +1,7 @@
 query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String) {
   posts(limit: $limit, skip: $skip, userId: $userId, query: $query) {
     hasMore
+    executionTime
     posts {
       ...FullPost
     }

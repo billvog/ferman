@@ -9,7 +9,12 @@ export interface PostFormValues {
 
 interface PostControllerProps {
   children: (data: {
-    submit: (values: PostFormValues) => Promise<ErrorMap | null>;
+    submit: (
+      values: PostFormValues
+    ) => Promise<{
+      postId?: string;
+      errors: ErrorMap | null;
+    }>;
     message: MyMessage | null;
   }) => JSX.Element;
 }
@@ -34,17 +39,24 @@ export const PostController: React.FC<PostControllerProps> = ({ children }) => {
         type: "error",
         text: "Internal server error",
       });
-      return null;
+      return {
+        errors: null,
+      };
     }
 
     if (response.data?.createPost.error) {
       return {
-        [response.data.createPost.error.field]:
-          response.data.createPost.error.message,
+        errors: {
+          [response.data.createPost.error.field]:
+            response.data.createPost.error.message,
+        },
       };
     }
 
-    return null;
+    return {
+      postId: response.data?.createPost.post?.id,
+      errors: null,
+    };
   };
 
   return children({

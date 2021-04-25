@@ -171,6 +171,7 @@ export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   posts: Array<Post>;
   hasMore: Scalars['Boolean'];
+  executionTime: Scalars['Float'];
 };
 
 export type Post = {
@@ -619,7 +620,7 @@ export type PostsQuery = (
   { __typename?: 'Query' }
   & { posts: (
     { __typename?: 'PaginatedPosts' }
-    & Pick<PaginatedPosts, 'hasMore'>
+    & Pick<PaginatedPosts, 'hasMore' | 'executionTime'>
     & { posts: Array<(
       { __typename?: 'Post' }
       & FullPostFragment
@@ -1425,6 +1426,7 @@ export const PostsDocument = gql`
     query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String) {
   posts(limit: $limit, skip: $skip, userId: $userId, query: $query) {
     hasMore
+    executionTime
     posts {
       ...FullPost
     }
