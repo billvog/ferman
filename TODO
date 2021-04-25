@@ -1,7 +1,5 @@
-web:
-
 server:
-  = more sophisticated search
+  - make emails look better
 
 web-server:
   - paginate comments
