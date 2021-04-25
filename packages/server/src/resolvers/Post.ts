@@ -43,6 +43,8 @@ class PaginatedPosts {
   posts: Post[];
   @Field()
   hasMore: boolean;
+  @Field()
+  executionTime: number;
 }
 
 @ObjectType()
@@ -120,8 +122,9 @@ export class PostResolver {
     const qb = getConnection()
       .getRepository(Post)
       .createQueryBuilder("p")
+      .innerJoinAndSelect("p.creator", "c")
       .orderBy('p."createdAt"', "DESC")
-      .take(realLimitPlusOne);
+      .limit(realLimitPlusOne);
 
     if (userId) {
       qb.where(
@@ -143,10 +146,18 @@ export class PostResolver {
           }
         );
       } else {
-        const formattedQuery = query.trim().replace(/ /g, " & ");
-        qb.andWhere(
-          `to_tsvector('simple', p.body) @@ to_tsquery('simple', :query)`,
-          { query: `${formattedQuery}:*` }
+        const formattedQuery = query.trim().replace(/ /g, " | ");
+        const docWithWeight = `
+          setweight(to_tsvector(c.uid || ' ' || c.username), 'A') ||
+          setweight(to_tsvector(coalesce(p.body, '')), 'C')
+        `;
+
+        qb.andWhere(`${docWithWeight} @@ plainto_tsquery(:query)`, {
+          query: `${formattedQuery}:*`,
+        });
+        qb.addOrderBy(
+          `ts_rank(${docWithWeight}, plainto_tsquery(:query))`,
+          "DESC"
         );
       }
     }
@@ -164,11 +175,15 @@ export class PostResolver {
       qb.skip(skip);
     }
 
+    const start = Date.now();
     const posts = await qb.getMany();
+    const end = Date.now();
+    const executionTime = end - start;
 
     return {
       posts: posts.slice(0, realLimit),
       hasMore: posts.length === realLimitPlusOne,
+      executionTime,
     };
   }
 
