@@ -107,9 +107,26 @@ const SearchPost = () => {
           {SearchTips()}
         </div>
       ) : (
-        postsData.posts.posts.map((post) => (
-          <Post key={post.id} post={post} me={meData?.me || null} clickable />
-        ))
+        <div>
+          <SearchInfoContainer>
+            Found {postsData?.posts.posts.length} result
+            {postsData?.posts.posts.length !== 1 ? "s" : ""} in{" "}
+            {postsData?.posts.executionTime
+              ? postsData?.posts.executionTime / 1000
+              : 0}{" "}
+            seconds
+          </SearchInfoContainer>
+          <div>
+            {postsData.posts.posts.map((post) => (
+              <Post
+                key={post.id}
+                post={post}
+                me={meData?.me || null}
+                clickable
+              />
+            ))}
+          </div>
+        </div>
       )}
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
         <LoadMoreContainer>
@@ -152,4 +169,10 @@ const SearchTipsContainer = styled.div`
   margin-top: 4px;
   color: grey;
   font-size: 10.5pt;
+`;
+
+const SearchInfoContainer = styled.div`
+  color: grey;
+  font-size: 9pt;
+  margin-bottom: 10px;
 `;

@@ -9,7 +9,12 @@ import { MyAlert } from "../../components/MyAlert";
 import { MyButton } from "../../components/MyButton";
 
 interface CreatePostViewProps {
-  submit: (values: PostFormValues) => Promise<ErrorMap | null>;
+  submit: (
+    values: PostFormValues
+  ) => Promise<{
+    postId?: string;
+    errors: ErrorMap | null;
+  }>;
   message: MyMessage | null;
   router: NextRouter;
 }
@@ -46,9 +51,9 @@ export const CreatePostView = withRouter(
       body: "",
     }),
     handleSubmit: async (values, { setErrors, props }) => {
-      const errors = await props.submit(values);
+      const { errors, postId } = await props.submit(values);
       if (errors) setErrors(errors);
-      else props.router.back();
+      else props.router.replace(`/post/${postId}`);
     },
   })(C)
 );

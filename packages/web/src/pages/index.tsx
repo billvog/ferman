@@ -34,7 +34,9 @@ const Index = () => {
   return (
     <Layout size="lg" title="Feed – Ferman">
       <Header>
-        <h1 color="mainDarkBlue">{meData?.me ? "Feed" : "Recent posts"}</h1>
+        <h1 color="mainDarkBlue">
+          {meData ? (meData?.me ? "Feed" : "Recent posts") : ""}
+        </h1>
         <div>
           <NextLink href="/search">
             <MyIconButton icon={<BsSearch />} style={{ lineHeight: 0.85 }} />

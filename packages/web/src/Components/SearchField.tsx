@@ -64,6 +64,5 @@ export const SearchField: React.FC<SearchFieldProps> = ({
 // Styles
 const Container = styled.div`
   display: flex;
-  margin-bottom: 4px;
   line-height: 1.5;
 `;
