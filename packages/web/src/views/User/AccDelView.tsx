@@ -14,7 +14,11 @@ import { MyButton } from "../../components/MyButton";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { CenteredModalOptions, ModalStyles } from "../../utils/modalOptions";
-import { AccountDeletionOne, AccountDeletionTwo } from "@ferman-pkgs/common";
+import {
+  AccountDeletionOne,
+  AccountDeletionTwo,
+  EmptySchema,
+} from "@ferman-pkgs/common";
 
 interface AccDelViewProps {
   submit: (values: DeleteUserFormValues) => Promise<ErrorMap | null>;
@@ -42,12 +46,13 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
           </MyAlert>
         ) : (
           <Formik
+            validateOnChange={false}
             validationSchema={() =>
               phase === 1
                 ? AccountDeletionOne
                 : phase === 2
                 ? AccountDeletionTwo
-                : null
+                : EmptySchema
             }
             initialValues={{ code: "", password: "" }}
             onSubmit={async (values, { setErrors }) => {

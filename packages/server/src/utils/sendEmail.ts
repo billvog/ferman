@@ -15,12 +15,13 @@ body {
   flex-direction: column;
 }
 .frmn-container {
-  padding: 36px 40px;
+  padding: 20px 26px;
   background-color: burlywood;
   color: saddlebrown;
   border-radius: 15px 15px 0 0;
 }
 .frmn-h1 { margin: 0 0 8px 0 }
+.frmn-container p:last-child { margin-bottom: 0 }
 .frmn-container code {
   background-color: brown;
   color: white;
