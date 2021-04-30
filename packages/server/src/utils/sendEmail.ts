@@ -49,8 +49,7 @@ export const sendEmail = async (to: string, subject: string, body: string) => {
       port: 587,
       auth: {
         user: "apikey",
-        pass:
-          "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",
+        pass: process.env.SENDGRID_APIKEY,
       },
     });
   } else {
