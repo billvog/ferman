@@ -65,21 +65,23 @@ export const UserCard: React.FC<UserCardProps> = ({
               <div className={UserCardStyles.username}>{user.username}</div>
               <div className={UserCardStyles.uid}>@{user.uid}</div>
             </div>
-            <div className={UserCardStyles.followContainer}>
-              <NextLink href={`/user/${user.uid}/followers`}>
-                <span className="link">
-                  <b>{user.followerCount} </b>
-                  follower
-                  {user.followerCount !== 1 && "s"}
-                </span>
-              </NextLink>
-              <NextLink href={`/user/${user.uid}/following`}>
-                <span className="link">
-                  <b>{user.followingCount}</b> follow
-                  {user.followingCount !== 1 && "s"}
-                </span>
-              </NextLink>
-            </div>
+            {!minimal && (
+              <div className={UserCardStyles.followContainer}>
+                <NextLink href={`/user/${user.uid}/followers`}>
+                  <span className="link">
+                    <b>{user.followerCount} </b>
+                    follower
+                    {user.followerCount !== 1 && "s"}
+                  </span>
+                </NextLink>
+                <NextLink href={`/user/${user.uid}/following`}>
+                  <span className="link">
+                    <b>{user.followingCount}</b> follow
+                    {user.followingCount !== 1 && "s"}
+                  </span>
+                </NextLink>
+              </div>
+            )}
           </div>
           <div className={UserCardStyles.specialActionButton}>
             {me &&

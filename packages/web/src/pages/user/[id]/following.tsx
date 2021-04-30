@@ -40,26 +40,27 @@ const UserFollowing = ({}) => {
           <ErrorText>Internal server error (500)</ErrorText>
         ) : (
           <div>
-            <TopSection>
-              <h2>{userData.user.username}'s Follows</h2>
-            </TopSection>
             <FollowsContainer>
               {userData.user.followingCount === 0 ? (
                 <NoFollowsWrapper>
-                  <Link href={`/user/${userData.user.uid}`}>
-                    <b className="link">{userData.user.username}</b>
-                  </Link>{" "}
-                  doesn't really follow anybody.
+                  <b>{userData.user.username}</b> doesn't really follow
+                  anybody...
                 </NoFollowsWrapper>
               ) : (
-                followingData.followingUsers?.map((follow) => (
-                  <UserCard
-                    key={follow.id}
-                    me={meData.me || null}
-                    user={follow}
-                    marginBottom={10}
-                  />
-                ))
+                <div>
+                  <TopSection>
+                    <h2>{userData.user.username}'s Follows</h2>
+                  </TopSection>
+                  {followingData.followingUsers?.map((follow) => (
+                    <UserCard
+                      key={follow.id}
+                      me={meData.me || null}
+                      user={follow}
+                      marginBottom={10}
+                      minimal
+                    />
+                  ))}
+                </div>
               )}
             </FollowsContainer>
           </div>
@@ -82,10 +83,9 @@ const TopSection = styled.div`
 
 const NoFollowsWrapper = styled.div`
   text-align: center;
-  background-color: #f8f8f8;
-  padding: 14px 18px;
-  color: brown;
-  border-radius: 7px;
+  font-family: inherit;
+  font-size: 13pt;
+  color: #929292;
 `;
 
 const FollowsContainer = styled.div``;

@@ -40,29 +40,29 @@ const UserFollowers = ({}) => {
           <ErrorText>Internal server error (500)</ErrorText>
         ) : (
           <div>
-            <TopSection>
-              <h2>
-                <b>{userData.user.username}'s</b> Followers
-              </h2>
-            </TopSection>
             <FollowersContainer>
               {userData.user.followerCount === 0 ? (
                 <NoFollowersWrapper>
-                  <Link href={`/user/${userData.user.uid}`}>
-                    <b className="link">{userData.user.username}</b>
-                  </Link>{" "}
-                  isn't really followed by anybody.
+                  <b>{userData.user.username}</b> isn't really followed by
+                  anybody...
                 </NoFollowersWrapper>
               ) : (
-                followersData.userFollowers?.map((follower) => (
-                  <UserCard
-                    key={follower.id}
-                    me={meData.me || null}
-                    user={follower}
-                    minimal
-                    marginBottom={10}
-                  />
-                ))
+                <div>
+                  <TopSection>
+                    <h2>
+                      <b>{userData.user.username}'s</b> Followers
+                    </h2>
+                  </TopSection>
+                  {followersData.userFollowers?.map((follower) => (
+                    <UserCard
+                      key={follower.id}
+                      me={meData.me || null}
+                      user={follower}
+                      minimal
+                      marginBottom={10}
+                    />
+                  ))}
+                </div>
               )}
             </FollowersContainer>
           </div>
@@ -85,10 +85,9 @@ const TopSection = styled.div`
 
 const NoFollowersWrapper = styled.div`
   text-align: center;
-  background-color: #f8f8f8;
-  padding: 14px 18px;
-  color: brown;
-  border-radius: 7px;
+  font-family: inherit;
+  font-size: 13pt;
+  color: #808080;
 `;
 
 const FollowersContainer = styled.div``;

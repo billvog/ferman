@@ -57,7 +57,6 @@
   display: flex;
   flex-direction: column;
   line-height: 1.15;
-  margin-bottom: 8px;
   font-family: inherit;
 }
 
@@ -72,6 +71,7 @@
 
 .userInfo .followContainer {
   font-size: 9pt;
+  margin-top: 8px;
 }
 
 .userInfo .followContainer :not(:last-child) {
