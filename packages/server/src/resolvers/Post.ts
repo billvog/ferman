@@ -116,6 +116,8 @@ export class PostResolver {
     @Arg("query", () => String, { nullable: true }) query: string,
     @Ctx() { req }: MyContext
   ): Promise<PaginatedPosts> {
+    const start = Date.now();
+
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
 
@@ -136,30 +138,19 @@ export class PostResolver {
     }
 
     if (query) {
-      if (query.charAt(0) === "@" && !userId) {
-        query = query.slice(1, query.length);
-        qb.andWhere(
-          `lower((select uid from users where id = p."creatorId"))
-          ilike lower(:query)`,
-          {
-            query: `%${query}%`,
-          }
-        );
-      } else {
-        const formattedQuery = query.trim().replace(/ /g, " | ");
-        const docWithWeight = `
+      const formattedQuery = query.trim().replace(/ /g, " | ");
+      const docWithWeight = `
           setweight(to_tsvector(c.uid || ' ' || c.username), 'A') ||
           setweight(to_tsvector(coalesce(p.body, '')), 'C')
         `;
 
-        qb.andWhere(`${docWithWeight} @@ plainto_tsquery(:query)`, {
-          query: `${formattedQuery}:*`,
-        });
-        qb.addOrderBy(
-          `ts_rank(${docWithWeight}, plainto_tsquery(:query))`,
-          "DESC"
-        );
-      }
+      qb.andWhere(`${docWithWeight} @@ plainto_tsquery(:query)`, {
+        query: `${formattedQuery}:*`,
+      });
+      qb.addOrderBy(
+        `ts_rank(${docWithWeight}, plainto_tsquery(:query))`,
+        "DESC"
+      );
     }
 
     if (!userId && !query && req.session.userId) {
@@ -175,8 +166,8 @@ export class PostResolver {
       qb.skip(skip);
     }
 
-    const start = Date.now();
     const posts = await qb.getMany();
+
     const end = Date.now();
     const executionTime = end - start;
 
