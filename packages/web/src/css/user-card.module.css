@@ -1,27 +1,56 @@
 .container {
   background-color: whitesmoke;
-  border-radius: 10px;
+  border-radius: 15px;
   color: var(--main-dark);
 }
 
 .container .mainSection {
   display: flex;
   justify-content: space-between;
-  padding: 8px;
+  flex-direction: column;
 }
 
-.container .mainSection .leftSection {
+.container .topBannerSection {
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+  backdrop-filter: blur(0px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container .topBannerSection .topBannerWrapper {
+  padding: 10px;
+  height: 80px;
+  position: relative;
+  border-radius: inherit;
+  backdrop-filter: blur(32px);
+}
+
+.container .topBannerSection .topBannerWrapper .userAvatar {
+  border-radius: 50%;
+  border: 2px solid whitesmoke;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: -25px;
+  left: 10px;
+}
+
+.container .mainSection .middleSection {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
 
-.container .mainSection .leftSection .userAvatar {
-  border-radius: 35%;
-  width: 46px;
-  height: 46px;
+.container .mainSection .middleSection .specialActionButton {
+  margin: 10px;
 }
 
-.container .mainSection .leftSection .userInfo {
-  margin-left: 8px;
+.container .mainSection .middleSection .userInfo {
+  margin-left: 10px;
+  margin-top: 25px;
 }
 
 .userInfo .usernameContainer {
@@ -57,7 +86,7 @@
   border-top: 1px solid #e4e4e4;
   white-space: pre-wrap;
   word-break: break-word;
-  padding: 5px 8px;
+  padding: 8px 10px;
   color: grey;
 }
 
@@ -65,7 +94,7 @@
   display: flex;
   font-size: 8.5pt;
   border-top: 1px solid #e4e4e4;
-  padding: 5px 8px;
+  padding: 8px 10px;
   flex-direction: column;
 }
 

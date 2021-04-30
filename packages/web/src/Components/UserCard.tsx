@@ -46,11 +46,20 @@ export const UserCard: React.FC<UserCardProps> = ({
       }}
     >
       <div className={UserCardStyles.mainSection}>
-        <div className={UserCardStyles.leftSection}>
-          <img
-            className={UserCardStyles.userAvatar}
-            src={`https://www.gravatar.com/avatar/${user.md5}`}
-          />
+        <div
+          className={UserCardStyles.topBannerSection}
+          style={{
+            backgroundImage: `url(https://www.gravatar.com/avatar/${user.md5})`,
+          }}
+        >
+          <div className={UserCardStyles.topBannerWrapper}>
+            <img
+              className={UserCardStyles.userAvatar}
+              src={`https://www.gravatar.com/avatar/${user.md5}`}
+            />
+          </div>
+        </div>
+        <div className={UserCardStyles.middleSection}>
           <div className={UserCardStyles.userInfo}>
             <NextLink href={`/user/${user.uid}`}>
               <div className={UserCardStyles.usernameContainer}>
@@ -75,50 +84,50 @@ export const UserCard: React.FC<UserCardProps> = ({
               </NextLink>
             </div>
           </div>
-        </div>
-        <div>
-          {me &&
-            (me.id === user.id ? (
-              <MyButton
-                size="small"
-                style={{
-                  backgroundColor: "brown",
-                }}
-                onClick={() => router.push("/account/edit-profile")}
-              >
-                <FiEdit2 />
-                <span style={{ marginLeft: 6 }}>Edit</span>
-              </MyButton>
-            ) : (
-              <MyButton
-                size="small"
-                style={{
-                  backgroundColor: user.followingStatus
-                    ? "var(--error)"
-                    : "var(--light-blue)",
-                }}
-                onClick={async () => {
-                  const { data } = await followUser({
-                    variables: {
-                      userId: user.id,
-                    },
-                  });
+          <div className={UserCardStyles.specialActionButton}>
+            {me &&
+              (me.id === user.id ? (
+                <MyButton
+                  size="small"
+                  style={{
+                    backgroundColor: "brown",
+                  }}
+                  onClick={() => router.push("/account/edit-profile")}
+                >
+                  <FiEdit2 />
+                  <span style={{ marginLeft: 6 }}>Edit</span>
+                </MyButton>
+              ) : (
+                <MyButton
+                  size="small"
+                  style={{
+                    backgroundColor: user.followingStatus
+                      ? "var(--error)"
+                      : "var(--light-blue)",
+                  }}
+                  onClick={async () => {
+                    const { data } = await followUser({
+                      variables: {
+                        userId: user.id,
+                      },
+                    });
 
-                  if (
-                    !data ||
-                    data.followUser.error ||
-                    !data.followUser.users
-                  ) {
-                    return toast.error("Internal server error");
-                  }
-                }}
-              >
-                <UserFollowIcon />
-                <span style={{ marginLeft: 6 }}>
-                  {user.followingStatus ? "Unfollow" : "Follow"}
-                </span>
-              </MyButton>
-            ))}
+                    if (
+                      !data ||
+                      data.followUser.error ||
+                      !data.followUser.users
+                    ) {
+                      return toast.error("Internal server error");
+                    }
+                  }}
+                >
+                  <UserFollowIcon />
+                  <span style={{ marginLeft: 6 }}>
+                    {user.followingStatus ? "Unfollow" : "Follow"}
+                  </span>
+                </MyButton>
+              ))}
+          </div>
         </div>
       </div>
       {!minimal && (
