@@ -2,5 +2,6 @@ server:
   - make emails look better
 
 web-server:
+  - make expore users (based on location, simple query to match profiles with location like given)
   - paginate comments
   - paginate follows/ers

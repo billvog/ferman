@@ -61,12 +61,10 @@ export const UserCard: React.FC<UserCardProps> = ({
         </div>
         <div className={UserCardStyles.middleSection}>
           <div className={UserCardStyles.userInfo}>
-            <NextLink href={`/user/${user.uid}`}>
-              <div className={UserCardStyles.usernameContainer}>
-                <div className={UserCardStyles.username}>{user.username}</div>
-                <div className={UserCardStyles.uid}>@{user.uid}</div>
-              </div>
-            </NextLink>
+            <div className={UserCardStyles.usernameContainer}>
+              <div className={UserCardStyles.username}>{user.username}</div>
+              <div className={UserCardStyles.uid}>@{user.uid}</div>
+            </div>
             <div className={UserCardStyles.followContainer}>
               <NextLink href={`/user/${user.uid}/followers`}>
                 <span className="link">
@@ -74,8 +72,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                   follower
                   {user.followerCount !== 1 && "s"}
                 </span>
-              </NextLink>{" "}
-              ·{" "}
+              </NextLink>
               <NextLink href={`/user/${user.uid}/following`}>
                 <span className="link">
                   <b>{user.followingCount}</b> follow
@@ -138,7 +135,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             </div>
           )}
           <div className={UserCardStyles.additionalInfoContainer}>
-            <div className={UserCardStyles.infoItem} style={{ color: "brown" }}>
+            <div className={UserCardStyles.infoItem} title="Join date">
               <AiFillCalendar className={UserCardStyles.icon} />
               <span>
                 Joined:{" "}
@@ -146,21 +143,26 @@ export const UserCard: React.FC<UserCardProps> = ({
               </span>
             </div>
             {!!user.profile?.location && (
-              <div className={UserCardStyles.infoItem}>
+              <div className={UserCardStyles.infoItem} title="Location">
                 <ImLocation2 className={UserCardStyles.icon} />
-                <span>
-                  Location: <b>{user.profile!.location}</b>
+                <span
+                  className="link"
+                  // TODO
+                  // onClick={() =>
+                  //   router.push(
+                  //     "/explore/users?location=" +
+                  //       encodeURI(user.profile!.location)
+                  //   )
+                  // }
+                >
+                  <b>{user.profile!.location}</b>
                 </span>
               </div>
             )}
             {user.profile?.showBirthdate && (
-              <div
-                className={UserCardStyles.infoItem}
-                style={{ color: "cornflowerblue" }}
-              >
+              <div className={UserCardStyles.infoItem} title="Birthday">
                 <FaBirthdayCake className={UserCardStyles.icon} />
                 <span>
-                  Birthday:{" "}
                   <b>
                     {moment(parseFloat(user.profile.birthdate)).format(
                       "MMM Do YYYY"
