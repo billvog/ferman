@@ -171,6 +171,7 @@ export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   posts: Array<Post>;
   hasMore: Scalars['Boolean'];
+  count: Scalars['Int'];
   executionTime: Scalars['Float'];
 };
 
@@ -178,6 +179,7 @@ export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   users: Array<User>;
   hasMore: Scalars['Boolean'];
+  count: Scalars['Int'];
   executionTime: Scalars['Float'];
 };
 
@@ -637,7 +639,7 @@ export type PostsQuery = (
   { __typename?: 'Query' }
   & { posts: (
     { __typename?: 'PaginatedPosts' }
-    & Pick<PaginatedPosts, 'hasMore' | 'executionTime'>
+    & Pick<PaginatedPosts, 'hasMore' | 'executionTime' | 'count'>
     & { posts: Array<(
       { __typename?: 'Post' }
       & FullPostFragment
@@ -726,7 +728,7 @@ export type UsersQuery = (
   { __typename?: 'Query' }
   & { users: (
     { __typename?: 'PaginatedUsers' }
-    & Pick<PaginatedUsers, 'hasMore' | 'executionTime'>
+    & Pick<PaginatedUsers, 'hasMore' | 'executionTime' | 'count'>
     & { users: Array<(
       { __typename?: 'User' }
       & FullUserFragment
@@ -1469,6 +1471,7 @@ export const PostsDocument = gql`
   ) {
     hasMore
     executionTime
+    count
     posts {
       ...FullPost
     }
@@ -1692,6 +1695,7 @@ export const UsersDocument = gql`
   users(limit: $limit, skip: $skip, location: $location) {
     hasMore
     executionTime
+    count
     users {
       ...FullUser
     }
