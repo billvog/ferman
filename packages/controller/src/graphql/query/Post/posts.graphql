@@ -1,5 +1,17 @@
-query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String) {
-  posts(limit: $limit, skip: $skip, userId: $userId, query: $query) {
+query Posts(
+  $limit: Int!
+  $skip: Int
+  $userId: Int
+  $query: String
+  $feedMode: Boolean
+) {
+  posts(
+    limit: $limit
+    skip: $skip
+    userId: $userId
+    query: $query
+    feedMode: $feedMode
+  ) {
     hasMore
     executionTime
     posts {

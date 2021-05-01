@@ -265,6 +265,7 @@ export type QueryUsersArgs = {
 
 
 export type QueryPostsArgs = {
+  feedMode?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
@@ -628,6 +629,7 @@ export type PostsQueryVariables = Exact<{
   skip?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['Int']>;
   query?: Maybe<Scalars['String']>;
+  feedMode?: Maybe<Scalars['Boolean']>;
 }>;
 
 
@@ -1457,8 +1459,14 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String) {
-  posts(limit: $limit, skip: $skip, userId: $userId, query: $query) {
+    query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String, $feedMode: Boolean) {
+  posts(
+    limit: $limit
+    skip: $skip
+    userId: $userId
+    query: $query
+    feedMode: $feedMode
+  ) {
     hasMore
     executionTime
     posts {
@@ -1484,6 +1492,7 @@ export const PostsDocument = gql`
  *      skip: // value for 'skip'
  *      userId: // value for 'userId'
  *      query: // value for 'query'
+ *      feedMode: // value for 'feedMode'
  *   },
  * });
  */
