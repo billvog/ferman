@@ -149,13 +149,12 @@ export const UserCard: React.FC<UserCardProps> = ({
                 <ImLocation2 className={UserCardStyles.icon} />
                 <span
                   className="link"
-                  // TODO
-                  // onClick={() =>
-                  //   router.push(
-                  //     "/explore/users?location=" +
-                  //       encodeURI(user.profile!.location)
-                  //   )
-                  // }
+                  onClick={() =>
+                    router.push(
+                      "/explore/users?location=" +
+                        encodeURI(user.profile!.location)
+                    )
+                  }
                 >
                   <b>{user.profile!.location}</b>
                 </span>

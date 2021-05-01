@@ -174,6 +174,13 @@ export type PaginatedPosts = {
   executionTime: Scalars['Float'];
 };
 
+export type PaginatedUsers = {
+  __typename?: 'PaginatedUsers';
+  users: Array<User>;
+  hasMore: Scalars['Boolean'];
+  executionTime: Scalars['Float'];
+};
+
 export type Post = {
   __typename?: 'Post';
   id: Scalars['String'];
@@ -225,6 +232,7 @@ export type Query = {
   userFollowers?: Maybe<Array<User>>;
   followingUsers?: Maybe<Array<User>>;
   user?: Maybe<User>;
+  users: PaginatedUsers;
   me?: Maybe<User>;
   posts: PaginatedPosts;
   post?: Maybe<Post>;
@@ -246,6 +254,13 @@ export type QueryFollowingUsersArgs = {
 export type QueryUserArgs = {
   uid?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryUsersArgs = {
+  location?: Maybe<Scalars['String']>;
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
 };
 
 
@@ -696,6 +711,25 @@ export type UserFollowersQuery = (
     { __typename?: 'User' }
     & FullUserFragment
   )>> }
+);
+
+export type UsersQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+  location?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UsersQuery = (
+  { __typename?: 'Query' }
+  & { users: (
+    { __typename?: 'PaginatedUsers' }
+    & Pick<PaginatedUsers, 'hasMore' | 'executionTime'>
+    & { users: Array<(
+      { __typename?: 'User' }
+      & FullUserFragment
+    )> }
+  ) }
 );
 
 export const FieldErrorFragmentDoc = gql`
@@ -1644,3 +1678,44 @@ export function useUserFollowersLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type UserFollowersQueryHookResult = ReturnType<typeof useUserFollowersQuery>;
 export type UserFollowersLazyQueryHookResult = ReturnType<typeof useUserFollowersLazyQuery>;
 export type UserFollowersQueryResult = Apollo.QueryResult<UserFollowersQuery, UserFollowersQueryVariables>;
+export const UsersDocument = gql`
+    query Users($limit: Int!, $skip: Int, $location: String) {
+  users(limit: $limit, skip: $skip, location: $location) {
+    hasMore
+    executionTime
+    users {
+      ...FullUser
+    }
+  }
+}
+    ${FullUserFragmentDoc}`;
+
+/**
+ * __useUsersQuery__
+ *
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
+ *      location: // value for 'location'
+ *   },
+ * });
+ */
+export function useUsersQuery(baseOptions: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+      }
+export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+        }
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
