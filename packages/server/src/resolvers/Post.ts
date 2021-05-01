@@ -43,6 +43,8 @@ class PaginatedPosts {
   posts: Post[];
   @Field()
   hasMore: boolean;
+  @Field(() => Int)
+  count: number;
   @Field()
   executionTime: number;
 }
@@ -172,10 +174,10 @@ export class PostResolver {
     }
 
     if (skip && skip > 0) {
-      qb.skip(skip);
+      qb.offset(skip);
     }
 
-    const posts = await qb.getMany();
+    const [posts, count] = await qb.getManyAndCount();
 
     const end = Date.now();
     const executionTime = end - start;
@@ -183,6 +185,7 @@ export class PostResolver {
     return {
       posts: posts.slice(0, realLimit),
       hasMore: posts.length === realLimitPlusOne,
+      count,
       executionTime,
     };
   }

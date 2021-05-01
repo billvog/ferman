@@ -14,7 +14,7 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { getConnection } from "typeorm";
+import { Db, getConnection } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import uniqid from "uniqid";
 import {
@@ -86,6 +86,8 @@ class PaginatedUsers {
   users: User[];
   @Field()
   hasMore: boolean;
+  @Field(() => Int)
+  count: number;
   @Field()
   executionTime: number;
 }
@@ -296,10 +298,10 @@ export class UserResolver {
     }
 
     if (skip && skip > 0) {
-      qb.skip(skip);
+      qb.offset(skip);
     }
 
-    const users = await qb.getMany();
+    const [users, count] = await qb.getManyAndCount();
 
     const end = Date.now();
     const executionTime = end - start;
@@ -307,6 +309,7 @@ export class UserResolver {
     return {
       users: users.slice(0, realLimit),
       hasMore: users.length === realLimitPlusOne,
+      count,
       executionTime,
     };
   }
