@@ -1,15 +1,4 @@
-server:
-  - make emails look better
-
 web-server:
-  - make explore users (based on location, simple query to match profiles with location like given)
+  - show location on explore users, UserCard
   - paginate comments
   - paginate follows/ers
-
-------------------------
-
-Explore users based on location sql:
-
-select * from users u
-inner join profiles p on p."userId" = u.id
-where lower(p.location) ilike lower({givenLocation})
