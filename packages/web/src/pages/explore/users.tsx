@@ -1,22 +1,20 @@
-import {
-  useMeQuery,
-  useUsersLazyQuery,
-  useUsersQuery,
-} from "@ferman-pkgs/controller";
+import { useMeQuery, useUsersLazyQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ErrorText } from "../../components/ErrorText";
 import { Layout } from "../../components/Layout";
+import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserCard } from "../../components/UserCard";
 import { withMyApollo } from "../../utils/withMyApollo";
+import randomCountry from "random-country-name";
 
 const ExploreUsers: React.FC = () => {
   const router = useRouter();
 
   const [locationQuery, setLocationQuery] = useState(
-    router.query.location as string
+    (router.query.location as string) || randomCountry.random()
   );
   const [locationDebouncedQuery, setLocationDebouncedQuery] = useState("");
 
@@ -100,7 +98,6 @@ const ExploreUsers: React.FC = () => {
       <Header>
         <h1>Find users located at</h1>
         <QueryInput
-          placeholder="Mars"
           value={locationQuery}
           onChange={(e) => setLocationQuery(e.target.value)}
         />
@@ -110,7 +107,9 @@ const ExploreUsers: React.FC = () => {
       ) : !usersData && usersQueryCalled ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : usersQueryCalled && usersData!.users.users.length === 0 ? (
-        <div>There are no users matching this query...</div>
+        <NoUsersContainer>
+          There are no users matching this query...
+        </NoUsersContainer>
       ) : usersQueryCalled ? (
         <>
           <SearchInfoContainer>
@@ -132,6 +131,23 @@ const ExploreUsers: React.FC = () => {
           ))}
         </>
       ) : null}
+      {usersData?.users.users && usersData?.users.hasMore && (
+        <LoadMoreContainer>
+          <MyButton
+            isLoading={usersLoading}
+            onClick={() => {
+              fetchMoreUsers!({
+                variables: {
+                  ...usersVariables,
+                  skip: usersData.users.users.length,
+                },
+              });
+            }}
+          >
+            load more
+          </MyButton>
+        </LoadMoreContainer>
+      )}
     </Layout>
   );
 };
@@ -160,8 +176,21 @@ const QueryInput = styled.input`
   color: var(--main-dark);
 `;
 
+const NoUsersContainer = styled.div`
+  color: red;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 10pt;
+`;
+
 const SearchInfoContainer = styled.div`
   color: grey;
   font-size: 9pt;
   margin-bottom: 15px;
+`;
+
+const LoadMoreContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;

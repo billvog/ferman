@@ -20,6 +20,7 @@
     "next-apollo": "^5.0.4",
     "next-transpile-modules": "^6.4.0",
     "nprogress": "^0.2.0",
+    "random-country-name": "^1.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
