@@ -80,6 +80,16 @@ class LoginInput {
   password: string;
 }
 
+@ObjectType()
+class PaginatedUsers {
+  @Field(() => [User])
+  users: User[];
+  @Field()
+  hasMore: boolean;
+  @Field()
+  executionTime: number;
+}
+
 @Resolver(User)
 export class UserResolver {
   // PROTECT EMAIL FIELD
@@ -259,6 +269,47 @@ export class UserResolver {
     } else {
       return null;
     }
+  }
+
+  // GET USERS
+  @Query(() => PaginatedUsers)
+  async users(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("skip", () => Int, { nullable: true }) skip: number,
+    @Arg("location", () => String, { nullable: true }) location: string
+  ): Promise<PaginatedUsers> {
+    const start = Date.now();
+
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    const qb = getConnection()
+      .getRepository(User)
+      .createQueryBuilder("u")
+      .innerJoin(Profile, "p", 'p."userId" = u.id')
+      .limit(realLimitPlusOne);
+
+    if (location) {
+      qb.where(`lower(p.location) ilike lower(:location)`, {
+        location: `%${location}%`,
+      });
+      qb.addOrderBy("p.location");
+    }
+
+    if (skip && skip > 0) {
+      qb.skip(skip);
+    }
+
+    const users = await qb.getMany();
+
+    const end = Date.now();
+    const executionTime = end - start;
+
+    return {
+      users: users.slice(0, realLimit),
+      hasMore: users.length === realLimitPlusOne,
+      executionTime,
+    };
   }
 
   // LOGGED USER
