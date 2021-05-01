@@ -1,6 +1,11 @@
-import { useMeQuery, useUsersQuery } from "@ferman-pkgs/controller";
+import {
+  useMeQuery,
+  useUsersLazyQuery,
+  useUsersQuery,
+} from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { ErrorText } from "../../components/ErrorText";
 import { Layout } from "../../components/Layout";
 import { MySpinner } from "../../components/MySpinner";
@@ -10,16 +15,26 @@ import { withMyApollo } from "../../utils/withMyApollo";
 const ExploreUsers: React.FC = () => {
   const router = useRouter();
 
+  const [locationQuery, setLocationQuery] = useState(
+    router.query.location as string
+  );
+  const [locationDebouncedQuery, setLocationDebouncedQuery] = useState("");
+
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
   });
 
-  const {
-    data: usersData,
-    loading: usersLoading,
-    fetchMore: fetchMoreUsers,
-  } = useUsersQuery({
-    skip: typeof router.query.location !== "string",
+  const [
+    runUsersQuery,
+    {
+      data: usersData,
+      loading: usersLoading,
+      fetchMore: fetchMoreUsers,
+      variables: usersVariables,
+      called: usersQueryCalled,
+    },
+  ] = useUsersLazyQuery({
+    notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
       skip: 0,
@@ -27,30 +42,86 @@ const ExploreUsers: React.FC = () => {
     },
   });
 
+  useEffect(() => {
+    if (
+      typeof router.query.location === "string" &&
+      router.query.location.length > 0
+    ) {
+      runUsersQuery({
+        variables: {
+          ...usersVariables!,
+          location: router.query.location,
+          skip: null,
+        },
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      setLocationDebouncedQuery(locationQuery);
+    }, 500);
+
+    return () => {
+      clearTimeout(handle);
+    };
+  }, [locationQuery]);
+
+  useEffect(() => {
+    router.replace({
+      query: locationDebouncedQuery
+        ? {
+            location: locationDebouncedQuery,
+          }
+        : undefined,
+    });
+
+    if (!!locationDebouncedQuery) {
+      runUsersQuery({
+        variables: {
+          ...usersVariables!,
+          location: locationDebouncedQuery,
+          skip: null,
+        },
+      });
+    }
+  }, [locationDebouncedQuery]);
+
   return (
     <Layout
-      title={`Find users in ${router.query.location} – Ferman`}
+      size="lg"
+      title={`${
+        typeof router.query.location === "string"
+          ? `Find users in ${router.query.location}`
+          : "Find users"
+      } – Ferman`}
       description={`Find users located at ${router.query.location}, find new people at your location and make new friends.s`}
     >
-      <h1>
-        Find users in{" "}
-        <span
-          style={{
-            borderBottom: "2px dotted currentColor",
-          }}
-        >
-          {router.query.location}
-        </span>
-      </h1>
+      <Header>
+        <h1>Find users located at</h1>
+        <QueryInput
+          placeholder="Mars"
+          value={locationQuery}
+          onChange={(e) => setLocationQuery(e.target.value)}
+        />
+      </Header>
       {meLoading || (usersLoading && !usersData) ? (
         <MySpinner />
-      ) : !usersData ? (
+      ) : !usersData && usersQueryCalled ? (
         <ErrorText>Internal server error (500)</ErrorText>
-      ) : usersData.users.users.length === 0 ? (
+      ) : usersQueryCalled && usersData!.users.users.length === 0 ? (
         <div>There are no users matching this query...</div>
-      ) : (
+      ) : usersQueryCalled ? (
         <>
-          {usersData.users.users.map((user) => (
+          <SearchInfoContainer>
+            Found {usersData!.users.users.length} result
+            {usersData!.users.users.length !== 1 ? "s" : ""} in{" "}
+            {usersData!.users.executionTime
+              ? usersData!.users.executionTime / 1000
+              : 0}{" "}
+            seconds
+          </SearchInfoContainer>
+          {usersData!.users.users.map((user) => (
             <UserCard
               me={meData?.me || null}
               user={user}
@@ -60,7 +131,7 @@ const ExploreUsers: React.FC = () => {
             />
           ))}
         </>
-      )}
+      ) : null}
     </Layout>
   );
 };
@@ -68,3 +139,29 @@ const ExploreUsers: React.FC = () => {
 export default withMyApollo({
   ssr: true,
 })(ExploreUsers);
+
+// Styles
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex;
+  align-items: center;
+  line-height: 0.8;
+  margin-bottom: 5px;
+`;
+
+const QueryInput = styled.input`
+  flex: 1;
+  margin-left: 9px;
+  border: 0;
+  outline: 0;
+  border-bottom: 2px dotted var(--main-dark);
+  font-size: 16pt;
+  color: var(--main-dark);
+`;
+
+const SearchInfoContainer = styled.div`
+  color: grey;
+  font-size: 9pt;
+  margin-bottom: 15px;
+`;

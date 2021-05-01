@@ -63,7 +63,12 @@ export const UserCard: React.FC<UserCardProps> = ({
           <div className={UserCardStyles.userInfo}>
             <div className={UserCardStyles.usernameContainer}>
               <div className={UserCardStyles.username}>{user.username}</div>
-              <div className={UserCardStyles.uid}>@{user.uid}</div>
+              <div className={UserCardStyles.uid}>
+                @
+                <NextLink href={`/user/${user.uid}`}>
+                  <span className="link">{user.uid}</span>
+                </NextLink>
+              </div>
             </div>
             {!minimal && (
               <div className={UserCardStyles.followContainer}>
