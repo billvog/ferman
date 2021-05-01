@@ -114,9 +114,19 @@ export class PostResolver {
     @Arg("skip", () => Int, { nullable: true }) skip: number,
     @Arg("userId", () => Int, { nullable: true }) userId: number,
     @Arg("query", () => String, { nullable: true }) query: string,
+    @Arg("feedMode", () => Boolean, { nullable: true })
+    feedMode: boolean,
     @Ctx() { req }: MyContext
   ): Promise<PaginatedPosts> {
     const start = Date.now();
+
+    if (feedMode === null || typeof feedMode === "undefined") {
+      feedMode = !userId && !query && req.session.userId ? true : false;
+    } else if (feedMode == true) {
+      if (!req.session.userId) {
+        feedMode = false;
+      }
+    }
 
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
@@ -140,10 +150,9 @@ export class PostResolver {
     if (query) {
       const formattedQuery = query.trim().replace(/ /g, " | ");
       const docWithWeight = `
-          setweight(to_tsvector(c.uid || ' ' || c.username), 'A') ||
-          setweight(to_tsvector(coalesce(p.body, '')), 'C')
-        `;
-
+        setweight(to_tsvector(c.uid || ' ' || c.username), 'A') ||
+        setweight(to_tsvector(coalesce(p.body, '')), 'C')
+      `;
       qb.andWhere(`${docWithWeight} @@ plainto_tsquery(:query)`, {
         query: `${formattedQuery}:*`,
       });
@@ -153,7 +162,7 @@ export class PostResolver {
       );
     }
 
-    if (!userId && !query && req.session.userId) {
+    if (feedMode) {
       qb.andWhere(
         `p."creatorId" in (select "followingUserId" from follows where "userId" = :userId)`,
         {
