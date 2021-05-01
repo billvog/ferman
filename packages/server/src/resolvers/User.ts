@@ -290,10 +290,9 @@ export class UserResolver {
       .limit(realLimitPlusOne);
 
     if (location) {
-      qb.where(`lower(p.location) ilike lower(:location)`, {
+      qb.andWhere(`lower(p.location) ilike lower(:location)`, {
         location: `%${location}%`,
       });
-      qb.addOrderBy("p.location");
     }
 
     if (skip && skip > 0) {
