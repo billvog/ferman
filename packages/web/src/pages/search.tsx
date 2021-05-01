@@ -13,7 +13,7 @@ import { MyButton } from "../components/MyButton";
 const SearchTips = () => {
   return (
     <SearchTipsContainer>
-      <span>Search Tips</span> <br />
+      <b>Search Tips</b> <br />
       <ul
         style={{
           marginLeft: 20,
@@ -109,8 +109,8 @@ const SearchPost = () => {
       ) : (
         <div>
           <SearchInfoContainer>
-            Found {postsData?.posts.posts.length} result
-            {postsData?.posts.posts.length !== 1 ? "s" : ""} in{" "}
+            Found {postsData?.posts.count} result
+            {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
             {postsData?.posts.executionTime
               ? postsData?.posts.executionTime / 1000
               : 0}{" "}
@@ -155,8 +155,9 @@ export default withMyApollo({
 
 // Styles
 const NotifyTipText = styled.div`
-  color: grey;
+  color: indianred;
   font-size: 10.5pt;
+  margin-top: 4px;
 `;
 
 const LoadMoreContainer = styled.div`
@@ -166,8 +167,8 @@ const LoadMoreContainer = styled.div`
 `;
 
 const SearchTipsContainer = styled.div`
-  margin-top: 4px;
-  color: grey;
+  margin-top: 8px;
+  color: darkslategrey;
   font-size: 10.5pt;
 `;
 

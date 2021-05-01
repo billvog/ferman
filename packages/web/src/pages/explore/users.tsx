@@ -113,8 +113,8 @@ const ExploreUsers: React.FC = () => {
       ) : usersQueryCalled ? (
         <>
           <SearchInfoContainer>
-            Found {usersData!.users.users.length} result
-            {usersData!.users.users.length !== 1 ? "s" : ""} in{" "}
+            Found {usersData!.users.count} result
+            {usersData!.users.count !== 1 ? "s" : ""} in{" "}
             {usersData!.users.executionTime
               ? usersData!.users.executionTime / 1000
               : 0}{" "}

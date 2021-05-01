@@ -10,6 +10,7 @@ import { MyIconButton } from "../components/MyIconButton";
 import { MySpinner } from "../components/MySpinner";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
+import { MdExplore } from "react-icons/md";
 
 const Index = () => {
   const { data: meData, loading: meLoading } = useMeQuery({
@@ -38,8 +39,17 @@ const Index = () => {
           {meData ? (meData?.me ? "Feed" : "Recent posts") : ""}
         </h1>
         <div>
+          <NextLink href="/explore/posts">
+            <MyIconButton
+              icon={<MdExplore />}
+              style={{ lineHeight: 0.85, backgroundColor: " peru" }}
+            />
+          </NextLink>
           <NextLink href="/search">
-            <MyIconButton icon={<BsSearch />} style={{ lineHeight: 0.85 }} />
+            <MyIconButton
+              icon={<BsSearch />}
+              style={{ marginLeft: 8, lineHeight: 0.85 }}
+            />
           </NextLink>
           {meData?.me && (
             <NextLink href="/post">

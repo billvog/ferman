@@ -32,7 +32,7 @@ const createApolloClient = (ctx: any) => {
               },
             },
             posts: {
-              keyArgs: ["userId", "query"],
+              keyArgs: ["userId", "query", "feedMode"],
               merge(
                 existing: PaginatedPosts | undefined,
                 incoming: PaginatedPosts
