@@ -91,16 +91,18 @@ export const UserCard: React.FC<UserCardProps> = ({
           <div className={UserCardStyles.specialActionButton}>
             {me &&
               (me.id === user.id ? (
-                <MyButton
-                  size="small"
-                  style={{
-                    backgroundColor: "brown",
-                  }}
-                  onClick={() => router.push("/account/edit-profile")}
-                >
-                  <FiEdit2 />
-                  <span style={{ marginLeft: 6 }}>Edit</span>
-                </MyButton>
+                !minimal && (
+                  <MyButton
+                    size="small"
+                    style={{
+                      backgroundColor: "brown",
+                    }}
+                    onClick={() => router.push("/account/edit-profile")}
+                  >
+                    <FiEdit2 />
+                    <span style={{ marginLeft: 6 }}>Edit</span>
+                  </MyButton>
+                )
               ) : (
                 <MyButton
                   size="small"
