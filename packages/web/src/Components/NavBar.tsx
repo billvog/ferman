@@ -1,4 +1,3 @@
-import NavbarStyles from "../css/navbar.module.css";
 import React from "react";
 import NextLink from "next/link";
 import { useMeQuery } from "@ferman-pkgs/controller";
@@ -12,39 +11,36 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   });
 
   return (
-    <div className={NavbarStyles.navbar}>
-      <div className={NavbarStyles.container}>
-        <div className={NavbarStyles.leftWrapper}>
+    <div className="flex z-10 sticky p-3 text-gray-800 bg-burlywood">
+      <div className="flex justify-between flex-1 m-auto items-center max-w-xl">
+        <div>
           <NextLink href="/">
-            <div className={NavbarStyles.heading}>Ferman's</div>
+            <div className="text-4xl font-bold font-cursive text-gray-700 cursor-pointer">
+              Ferman's
+            </div>
           </NextLink>
         </div>
-        <div className={NavbarStyles.rightWrapper}>
+        <div>
           {meLoading ? (
             <MySpinner />
           ) : meError || !meData?.me ? (
-            <div className={NavbarStyles.notLoggedInBox}>
+            <div className="font-semibold space-x-2">
               <NextLink href="/account/login">
                 <span className="link">Login</span>
               </NextLink>
               <NextLink href="/account/register">
-                <span className="link" style={{ marginLeft: 12 }}>
-                  Register
-                </span>
+                <span className="link">Register</span>
               </NextLink>
             </div>
           ) : (
-            <div className={NavbarStyles.loggedInBox}>
+            <div className="flex">
               <NextLink href="/account/">
-                <div className={NavbarStyles.UsernameWrapper}>
-                  <span className={NavbarStyles.username}>
+                <div className="flex flex-col text-right cursor-pointer">
+                  <span className="font-bold text-base leading-tight text-gray-700">
                     {meData.me.username}
                   </span>
-                  <span className={NavbarStyles.uid}>
-                    @
-                    <span className="link" style={{ fontWeight: 600 }}>
-                      {meData.me.uid}
-                    </span>
+                  <span className="text-sm font-semibold text-gray-700">
+                    @<span className="link">{meData.me.uid}</span>
                   </span>
                 </div>
               </NextLink>

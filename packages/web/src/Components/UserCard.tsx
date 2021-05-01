@@ -1,10 +1,8 @@
-import UserCardStyles from "../css/user-card.module.css";
 import React from "react";
 import {
   FullUserFragment,
   useFollowUserMutation,
 } from "@ferman-pkgs/controller";
-import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
 import { ImLocation2 } from "react-icons/im";
 import { FaBirthdayCake } from "react-icons/fa";
 import { AiFillCalendar } from "react-icons/ai";
@@ -33,37 +31,38 @@ export const UserCard: React.FC<UserCardProps> = ({
 
   const [followUser] = useFollowUserMutation();
 
-  let UserFollowIcon = AiOutlineUserAdd;
-  if (user.followingStatus) {
-    UserFollowIcon = AiOutlineUserDelete;
-  }
-
   return (
     <div
-      className={UserCardStyles.container}
+      className="bg-gray-100 rounded-xl text-gray-700 divide-y-2"
       style={{
         marginBottom,
       }}
     >
-      <div className={UserCardStyles.mainSection}>
+      <div className="flex justify-between flex-col">
         <div
-          className={UserCardStyles.topBannerSection}
+          className="w-full backdrop-filter-none rounded-t-xl bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(https://www.gravatar.com/avatar/${user.md5})`,
           }}
         >
-          <div className={UserCardStyles.topBannerWrapper}>
+          <div className="p-4 h-28 relative rounded-t-xl backdrop-filter backdrop-blur-xl">
             <img
-              className={UserCardStyles.userAvatar}
+              className="rounded-full border-4 border-solid border-gray-100 absolute top-3/4"
               src={`https://www.gravatar.com/avatar/${user.md5}`}
+              style={{
+                width: 54,
+                height: 54,
+              }}
             />
           </div>
         </div>
-        <div className={UserCardStyles.middleSection}>
-          <div className={UserCardStyles.userInfo}>
-            <div className={UserCardStyles.usernameContainer}>
-              <div className={UserCardStyles.username}>{user.username}</div>
-              <div className={UserCardStyles.uid}>
+        <div className="flex flex-row justify-between mb-2">
+          <div className="ml-2 mt-6">
+            <div className="flex flex-col">
+              <div className="font-bold text-base leading-tight">
+                {user.username}
+              </div>
+              <div className="text-xs leading-tight">
                 @
                 <NextLink href={`/user/${user.uid}`}>
                   <span className="link">{user.uid}</span>
@@ -71,7 +70,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               </div>
             </div>
             {!minimal && (
-              <div className={UserCardStyles.followContainer}>
+              <div className="text-xs mt-2 space-x-3">
                 <NextLink href={`/user/${user.uid}/followers`}>
                   <span className="link">
                     <b>{user.followerCount} </b>
@@ -88,29 +87,20 @@ export const UserCard: React.FC<UserCardProps> = ({
               </div>
             )}
           </div>
-          <div className={UserCardStyles.specialActionButton}>
+          <div className="m-2">
             {me &&
               (me.id === user.id ? (
                 !minimal && (
                   <MyButton
-                    size="small"
-                    style={{
-                      backgroundColor: "brown",
-                    }}
+                    className="bg-brown text-xs p-1"
                     onClick={() => router.push("/account/edit-profile")}
                   >
                     <FiEdit2 />
-                    <span style={{ marginLeft: 6 }}>Edit</span>
+                    <span className="ml-1.5">Edit</span>
                   </MyButton>
                 )
               ) : (
                 <MyButton
-                  size="small"
-                  style={{
-                    backgroundColor: user.followingStatus
-                      ? "var(--error)"
-                      : "var(--light-blue)",
-                  }}
                   onClick={async () => {
                     const { data } = await followUser({
                       variables: {
@@ -127,33 +117,36 @@ export const UserCard: React.FC<UserCardProps> = ({
                     }
                   }}
                 >
-                  <UserFollowIcon />
-                  <span style={{ marginLeft: 6 }}>
-                    {user.followingStatus ? "Unfollow" : "Follow"}
-                  </span>
+                  <span>{user.followingStatus ? "Unfollow" : "Follow"}</span>
                 </MyButton>
               ))}
           </div>
         </div>
       </div>
       {!minimal && (
-        <>
+        <div className="divide-y-2">
           {!!user.profile?.bio && (
-            <div className={UserCardStyles.bioContainer}>
+            <div className="text-xs whitespace-pre-wrap break-words p-2 text-gray-500">
               {richBodyText(user.profile?.bio)}
             </div>
           )}
-          <div className={UserCardStyles.additionalInfoContainer}>
-            <div className={UserCardStyles.infoItem} title="Join date">
-              <AiFillCalendar className={UserCardStyles.icon} />
+          <div className="flex text-xs p-2 flex-col space-y-1">
+            <div
+              className="flex items-center text-gray-500 space-x-1"
+              title="Join date"
+            >
+              <AiFillCalendar />
               <span>
                 Joined:{" "}
                 <b>{moment(parseFloat(user.createdAt)).format("MMMM YYYY")}</b>
               </span>
             </div>
             {!!user.profile?.location && (
-              <div className={UserCardStyles.infoItem} title="Location">
-                <ImLocation2 className={UserCardStyles.icon} />
+              <div
+                className="flex items-center text-gray-500 space-x-1"
+                title="Location"
+              >
+                <ImLocation2 />
                 <span
                   className="link"
                   onClick={() =>
@@ -168,8 +161,11 @@ export const UserCard: React.FC<UserCardProps> = ({
               </div>
             )}
             {user.profile?.showBirthdate && (
-              <div className={UserCardStyles.infoItem} title="Birthday">
-                <FaBirthdayCake className={UserCardStyles.icon} />
+              <div
+                className="flex items-center text-gray-500 space-x-1"
+                title="Birthday"
+              >
+                <FaBirthdayCake />
                 <span>
                   <b>
                     {moment(parseFloat(user.profile.birthdate)).format(
@@ -180,7 +176,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

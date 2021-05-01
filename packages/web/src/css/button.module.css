@@ -1,56 +1,9 @@
-.button {
-  position: relative;
-  user-select: none;
-  border: 0;
-  border-radius: 7px;
-  font-size: 11pt;
-  font-weight: 600;
-  font-family: inherit;
-  background-color: hsl(0, 59%, 41%);
-  color: #f8f8f8;
-  padding: 8px 12px;
-  outline: none;
-  transition: 0.1s ease-in-out;
-  cursor: pointer;
-}
-
-.button .content {
-  display: flex;
-  align-items: center;
-  line-height: 1.2;
-}
-
-.button:focus {
-  box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.15);
-}
-
-.button.small {
-  font-size: 9pt;
-  padding: 4px 8px;
-}
-
-.button:enabled:hover {
-  opacity: 0.9;
-}
-
-.button:enabled:active {
-  opacity: 0.8;
-}
-
-.button:disabled {
-  opacity: 0.75;
-}
-
-.button.loading .content {
-  visibility: hidden;
-}
-
 /* loading */
-.button.loading::after {
+.loading::after {
   content: "";
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 13px;
+  height: 13px;
   top: 0;
   left: 0;
   right: 0;
@@ -69,22 +22,4 @@
   to {
     transform: rotate(1turn);
   }
-}
-
-/* grey color scheme */
-.button.grey {
-  background-color: var(--grey);
-  color: dimgrey;
-}
-
-/* success color scheme */
-.button.success {
-  background-color: var(--success-dark);
-  color: white;
-}
-
-/* error color scheme */
-.button.error {
-  background-color: var(--error-dark);
-  color: white;
 }

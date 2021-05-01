@@ -2,7 +2,6 @@ import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import "@szhsin/react-menu/dist/index.css";
-
 import "../css/global.css";
 
 function MyApp({ Component, pageProps }: any) {

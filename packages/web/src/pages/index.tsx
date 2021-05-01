@@ -8,7 +8,6 @@ import { ErrorText } from "../components/ErrorText";
 import { MyButton } from "../components/MyButton";
 import { MyIconButton } from "../components/MyIconButton";
 import { MySpinner } from "../components/MySpinner";
-import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { MdExplore } from "react-icons/md";
 
@@ -34,56 +33,50 @@ const Index = () => {
 
   return (
     <Layout size="lg" title="Feed – Ferman">
-      <Header>
-        <h1 color="mainDarkBlue">
+      <div className="flex justify-between items-center">
+        <h1 className="text-gray-800 font-bold">
           {meData ? (meData?.me ? "Feed" : "Recent posts") : ""}
         </h1>
-        <div>
+        <div className="flex flex-row space-x-2">
           <NextLink href="/explore/posts">
             <MyIconButton
               icon={<MdExplore />}
-              style={{ lineHeight: 0.85, backgroundColor: " peru" }}
+              style={{ backgroundColor: " peru" }}
             />
           </NextLink>
           <NextLink href="/search">
             <MyIconButton
               icon={<BsSearch />}
-              style={{ marginLeft: 8, lineHeight: 0.85 }}
+              style={{ backgroundColor: "brown" }}
             />
           </NextLink>
           {meData?.me && (
             <NextLink href="/post">
-              <MyButton
-                style={{
-                  marginLeft: 8,
-                  backgroundColor: "saddlebrown",
-                }}
-              >
-                post now
-              </MyButton>
+              <MyButton>post now</MyButton>
             </NextLink>
           )}
         </div>
-      </Header>
+      </div>
       {(postsLoading && !postsData) || !postsData || meLoading ? (
         <MySpinner />
       ) : postsError && !postsData ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <NoPostsContainer>
-          <div>There are no posts...</div>
-        </NoPostsContainer>
+        <div className="text-gray-500">There are no posts...</div>
       ) : (
-        <PostsContainer>
+        <div className="mt-3">
           {postsData.posts.posts.map((post) => (
             <Post key={post.id} post={post} me={meData?.me || null} clickable />
           ))}
-        </PostsContainer>
+        </div>
       )}
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
-        <LoadMoreContainer>
+        <div className="flex justify-center mt-5">
           <MyButton
             isLoading={postsLoading}
+            style={{
+              backgroundColor: "brown",
+            }}
             onClick={() => {
               fetchMorePosts!({
                 variables: {
@@ -95,32 +88,10 @@ const Index = () => {
           >
             load more
           </MyButton>
-        </LoadMoreContainer>
+        </div>
       )}
     </Layout>
   );
 };
 
 export default withMyApollo({ ssr: true })(Index);
-
-// Styles
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const LoadMoreContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const PostsContainer = styled.div`
-  margin-top: 10px;
-`;
-
-const NoPostsContainer = styled.div`
-  color: #b0b0b0;
-  font-family: inherit;
-`;
