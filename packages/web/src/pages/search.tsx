@@ -12,9 +12,10 @@ import { MyButton } from "../components/MyButton";
 
 const SearchTips = () => {
   return (
-    <SearchTipsContainer>
+    <div className="mt-2 text-sm text-gray-700">
       <b>Search Tips</b> <br />
       <ul
+        className="list-disc"
         style={{
           marginLeft: 20,
         }}
@@ -23,7 +24,7 @@ const SearchTips = () => {
         <li>Be more precise</li>
         <li>Use keywords</li>
       </ul>
-    </SearchTipsContainer>
+    </div>
   );
 };
 
@@ -93,29 +94,29 @@ const SearchPost = () => {
         <ErrorText>Internal server error (500)</ErrorText>
       ) : !postsData ? (
         <div>
-          <NotifyTipText>
+          <div className="text-red-400 mt-1 text-sm">
             Enter keywords, #hashtags or @mentions in the search field to get
             some results.
-          </NotifyTipText>
+          </div>
           {SearchTips()}
         </div>
       ) : postsData.posts.posts.length === 0 ? (
         <div>
-          <NotifyTipText>
+          <div className="text-red-400 mt-1 text-sm">
             We found nothing matching the given terms.
-          </NotifyTipText>
+          </div>
           {SearchTips()}
         </div>
       ) : (
         <div>
-          <SearchInfoContainer>
+          <div className="mb-4 text-gray-400 text-xs">
             Found {postsData?.posts.count} result
             {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
             {postsData?.posts.executionTime
               ? postsData?.posts.executionTime / 1000
               : 0}{" "}
             seconds
-          </SearchInfoContainer>
+          </div>
           <div>
             {postsData.posts.posts.map((post) => (
               <Post
@@ -129,7 +130,7 @@ const SearchPost = () => {
         </div>
       )}
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
-        <LoadMoreContainer>
+        <div className="flex justify-center mt-5">
           <MyButton
             isLoading={postsLoading}
             onClick={() => {
@@ -143,7 +144,7 @@ const SearchPost = () => {
           >
             load more
           </MyButton>
-        </LoadMoreContainer>
+        </div>
       )}
     </Layout>
   );
@@ -152,28 +153,3 @@ const SearchPost = () => {
 export default withMyApollo({
   ssr: false,
 })(SearchPost);
-
-// Styles
-const NotifyTipText = styled.div`
-  color: indianred;
-  font-size: 10.5pt;
-  margin-top: 4px;
-`;
-
-const LoadMoreContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const SearchTipsContainer = styled.div`
-  margin-top: 8px;
-  color: darkslategrey;
-  font-size: 10.5pt;
-`;
-
-const SearchInfoContainer = styled.div`
-  color: grey;
-  font-size: 9pt;
-  margin-bottom: 10px;
-`;

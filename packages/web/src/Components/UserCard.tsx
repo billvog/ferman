@@ -92,7 +92,7 @@ export const UserCard: React.FC<UserCardProps> = ({
               (me.id === user.id ? (
                 !minimal && (
                   <MyButton
-                    className="bg-brown text-xs p-1"
+                    size="small"
                     onClick={() => router.push("/account/edit-profile")}
                   >
                     <FiEdit2 />
@@ -101,6 +101,8 @@ export const UserCard: React.FC<UserCardProps> = ({
                 )
               ) : (
                 <MyButton
+                  size="small"
+                  color={user.followingStatus ? "secondary" : "accent"}
                   onClick={async () => {
                     const { data } = await followUser({
                       variables: {

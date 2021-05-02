@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes } from "react";
 
 const sizeClassnames = {
   big: "py-2 px-3.5 text-sm rounded-lg",
-  small: "px-2 py-1 text-sm rounded-md",
+  small: "px-2 py-1 text-xs rounded-md",
   tiny: "px-1 text-xs rounded-5",
 };
 

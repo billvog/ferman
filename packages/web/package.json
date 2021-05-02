@@ -13,6 +13,7 @@
     "@ferman-pkgs/common": "0.0.21",
     "@ferman-pkgs/controller": "0.0.3",
     "@szhsin/react-menu": "^1.9.0",
+    "@tailwindcss/forms": "^0.3.2",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "moment": "^2.29.1",
