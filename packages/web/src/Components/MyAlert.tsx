@@ -1,23 +1,23 @@
 import React from "react";
-import AlertStyles from "../css/alert.module.css";
-import { AiFillCheckCircle } from "react-icons/ai";
-import { MdError } from "react-icons/md";
+
+const colorClassnames = {
+  success: "text-white bg-green-400",
+  error: "text-white bg-red-400",
+};
 
 interface MyAlertProps {
-  type: "success" | "error";
+  color: keyof typeof colorClassnames;
 }
 
-export const MyAlert: React.FC<MyAlertProps> = ({ type, children }) => {
+export const MyAlert: React.FC<MyAlertProps> = ({
+  children,
+  color = "success",
+}) => {
   return (
     <div
-      className={`${AlertStyles.alert} ${
-        type === "success" ? AlertStyles.success : AlertStyles.error
-      }`}
+      className={`flex flex-row items-center font-bold text-sm px-4 py-3 rounded-xl leading-snug ${colorClassnames[color]}`}
     >
-      <div className={AlertStyles.alertIcon}>
-        {type === "success" ? <AiFillCheckCircle /> : <MdError />}
-      </div>
-      <div className={AlertStyles.content}>{children}</div>
+      <div>{children}</div>
     </div>
   );
 };

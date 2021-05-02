@@ -171,9 +171,9 @@ const QueryInput = styled.input`
   margin-left: 9px;
   border: 0;
   outline: 0;
-  border-bottom: 2px dotted var(--main-dark);
+  border-bottom: 2px dotted var(--color-secondary);
   font-size: 16pt;
-  color: var(--main-dark);
+  color: var(--color-secondary);
 `;
 
 const NoUsersContainer = styled.div`

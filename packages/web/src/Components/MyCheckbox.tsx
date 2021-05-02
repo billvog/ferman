@@ -17,24 +17,27 @@ export const MyCheckbox: React.FC<MyCheckboxProps> = ({
   const [field, { error, touched }] = useField(props);
 
   return (
-    <div
-      className={`${FormStyles.formControl} ${
-        error && touched ? FormStyles.invalid : ""
-      } ${FormStyles.checkboxControl}`}
-    >
-      <label className={FormStyles.labelWrapper} htmlFor={field.name}>
-        <div className={FormStyles.labelContent}>{label}</div>
-      </label>
-      <input
-        {...field}
-        {...props}
-        type="checkbox"
-        id={field.name}
-        className={FormStyles.checkbox}
-      />
-      {helperText && <div className={FormStyles.helperText}>{helperText}</div>}
+    <div className="w-full my-4">
+      <div className="flex flex-row items-center leading-none">
+        <input
+          {...field}
+          {...props}
+          type="checkbox"
+          id={field.name}
+          className="mr-2 rounded-md"
+        />
+        <label
+          className="text-sm text-gray-500 select-none"
+          htmlFor={field.name}
+        >
+          <div className="flex items-center">{label}</div>
+        </label>
+      </div>
+      {helperText && (
+        <div className="text-gray-400 mt-1 text-xs">{helperText}</div>
+      )}
       {error && touched && (
-        <div className={FormStyles.errorContainer}>{error}</div>
+        <div className="text-red-500 font-semibold mt-1.5 text-sm">{error}</div>
       )}
     </div>
   );

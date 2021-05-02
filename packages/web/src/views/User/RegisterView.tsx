@@ -20,7 +20,6 @@ import {
 import { InputField } from "../../components/InputField";
 import { MyAlert } from "../../components/MyAlert";
 import { MyButton } from "../../components/MyButton";
-import styled from "styled-components";
 
 interface RegisterViewProps {
   storedInitialValues?: RegisterFormValues;
@@ -44,13 +43,13 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   return (
     <Layout size="md" title="Sign up – Ferman" isNotAuth>
       {done ? (
-        <MyAlert type="success">
-          <h2>Your account is finally ready!</h2>
+        <MyAlert color="success">
+          <h2 className="text-lg">Your account is finally ready!</h2>
           <p>
             We're happy to announce you that your account is ready! What are you
             waiting for? Start posting! <br />
             <NextLink href="/">
-              <MyButton colorScheme="success" style={{ marginTop: 10 }}>
+              <MyButton color="success" style={{ marginTop: 10 }}>
                 Start
               </MyButton>
             </NextLink>
@@ -85,11 +84,11 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           {({ isSubmitting }) => (
             <Form>
               {message && (
-                <div style={{ marginBottom: 8 }}>
-                  <MyAlert type={message.type}>{message.text}</MyAlert>
+                <div className="mb-2">
+                  <MyAlert color={message.type}>{message.text}</MyAlert>
                 </div>
               )}
-              <h1>
+              <h1 className="heading">
                 {phase === 0
                   ? "Sign up"
                   : phase === 1
@@ -97,7 +96,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                   : phase === 2
                   ? "Set your password"
                   : phase === 3
-                  ? "Is everything okey?"
+                  ? "Everything alright?"
                   : null}
               </h1>
               {phase === 0 ? (
@@ -130,15 +129,15 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     type="date"
                     helperText="This won't be visible to the public."
                   />
-                  <div className={FormStyles.submitSection}>
+                  <div className="flex justify-between items-center mt-4">
                     <MyButton type="submit" isLoading={isSubmitting}>
                       Continue
                     </MyButton>
                     <div>
                       <NextLink href="/account/login">
-                        <span className="link">
-                          <OrSignInLink>or Sign in</OrSignInLink>
-                        </span>
+                        <div className="link text-gray-500 font-semibold text-sm">
+                          or Sign in
+                        </div>
                       </NextLink>
                     </div>
                   </div>
@@ -228,9 +227,3 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
     </Layout>
   );
 };
-
-// Styles
-const OrSignInLink = styled.div`
-  color: grey;
-  font-size: 15px;
-`;

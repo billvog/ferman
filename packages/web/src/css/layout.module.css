@@ -8,20 +8,6 @@
   width: 100%;
 }
 
-.wrapper h1,
-.wrapper h2 {
-  margin-bottom: 2pt;
-  color: var(--main-dark);
-}
-
-.wrapper h1 {
-  font-size: 30px;
-}
-
-.wrapper h2 {
-  font-size: 24px;
-}
-
 @media only screen and (max-width: 500px) {
   .wrapper {
     padding: 0.6rem;

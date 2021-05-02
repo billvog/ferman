@@ -1,7 +1,7 @@
 .container {
   background-color: whitesmoke;
   border-radius: 15px;
-  color: var(--main-dark);
+  color: var(--color-secondary);
 }
 
 .container .mainSection {

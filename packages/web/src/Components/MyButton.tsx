@@ -9,12 +9,15 @@ const sizeClassnames = {
 
 const colorClassnames = {
   primary:
-    "text-button bg-primary-600 hover:bg-primary-300 disabled:text-primary-200 disabled:bg-primary-500",
+    "bg-primary-600 ring-primary-600 hover:bg-primary-300 disabled:text-primary-200 disabled:bg-primary-500",
   accent:
-    "text-button bg-accent hover:bg-accent-hover disabled:text-accent-whased-out",
+    "bg-accent ring-accent hover:bg-accent-hover disabled:text-accent-whased-out",
   secondary:
-    "text-button bg-secondary hover:bg-secondary-hover disabled:text-secondary-washed-out",
-  transparent: "text-button bg-transparent",
+    "bg-secondary ring-secondary hover:bg-secondary-hover disabled:text-secondary-washed-out",
+  danger: "bg-red-600 ring-red-600 hover:bg-red-500 disabled:bg-red-500",
+  success:
+    "bg-green-600 ring-green-600 hover:bg-green-500 disabled:bg-green-500",
+  transparent: "bg-transparent",
 };
 
 type MyButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -34,11 +37,11 @@ export const MyButton: React.FC<MyButtonProps> = ({
 }) => {
   return (
     <button
-      className={`relative flex justify-center items-center select-none border-none rounded-lg ${
+      className={`relative flex justify-center items-center text-button select-none border-none rounded-lg ${
         square ? "w-9 h-9 rounded-xl" : sizeClassnames[size]
       } ${
         colorClassnames[color]
-      } transition-all ease-in-out duration-150 cursor-pointer font-semibold focus:outline-none focus:ring-2 ring-${color} ring-offset-2 ring-transparent ${
+      } transition-all ease-in-out duration-150 cursor-pointer font-semibold focus:ring-2 ring-offset-2 ring-transparent ${
         isLoading ? ButtonStyles.loading : ""
       }`}
       {...props}

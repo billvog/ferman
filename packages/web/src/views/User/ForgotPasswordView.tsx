@@ -1,4 +1,3 @@
-import FormStyles from "../../css/form.module.css";
 import {
   ErrorMap,
   ForgotPasswordFormValues,
@@ -25,23 +24,23 @@ const C: React.FC<
     <Layout title="Forgot Password – Ferman" isNotAuth size="sm">
       <Form>
         {message && (
-          <div style={{ marginBottom: 8 }}>
-            <MyAlert type={message.type}>{message.text}</MyAlert>
+          <div className="mb-2">
+            <MyAlert color={message.type}>{message.text}</MyAlert>
           </div>
         )}
-        <h1>Forgot password</h1>
+        <h1 className="heading">Forgot password</h1>
         <InputField
           label="Email"
           name="email"
           placeholder="Enter your email"
           type="email"
         />
-        <div className={FormStyles.submitSection}>
+        <div className="flex justify-between items-center mt-4">
           <MyButton type="submit" isLoading={isSubmitting}>
             Send
           </MyButton>
           <NextLink href="/account/login">
-            <span className="link" style={{ color: "grey" }}>
+            <span className="link text-gray-400 text-sm font-semibold">
               or Sign in
             </span>
           </NextLink>

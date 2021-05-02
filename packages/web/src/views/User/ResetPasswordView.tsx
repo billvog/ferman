@@ -1,4 +1,3 @@
-import FormStyles from "../../css/form.module.css";
 import { ResetPasswordValidationSchema } from "@ferman-pkgs/common";
 import {
   ErrorMap,
@@ -29,13 +28,13 @@ const C: React.FC<
   return (
     <Layout size="sm" title="Reset Password – Ferman" isNotAuth>
       {done ? (
-        <MyAlert type="success">
-          <h2>Your password has been reset!</h2>
+        <MyAlert color="success">
+          <h2 className="text-lg">Your password has been reset!</h2>
           <p>
             We're happy to announce you that your password has been reset!{" "}
             <br />
             <NextLink href="/account/login">
-              <MyButton colorScheme="success" style={{ marginTop: 10 }}>
+              <MyButton color="success" style={{ marginTop: 10 }}>
                 Sign in
               </MyButton>
             </NextLink>
@@ -44,11 +43,11 @@ const C: React.FC<
       ) : (
         <Form>
           {message && (
-            <div style={{ marginBottom: 8 }}>
-              <MyAlert type={message.type}>{message.text}</MyAlert>
+            <div className="mb-2">
+              <MyAlert color={message.type}>{message.text}</MyAlert>
             </div>
           )}
-          <h1>Reset password</h1>
+          <h1 className="heading">Reset password</h1>
           <InputField
             label="Password"
             name="password"
@@ -60,7 +59,7 @@ const C: React.FC<
               showPassword: showPwd,
             }}
           />
-          <div className={FormStyles.submitSection}>
+          <div className="flex justify-between items-center mt-4">
             <MyButton type="submit" isLoading={isSubmitting}>
               Reset
             </MyButton>

@@ -25,7 +25,7 @@ export const ModalStyles = {
     font-family: inherit;
     font-size: 13pt;
     font-weight: 600;
-    color: var(--main-dark);
+    color: var(--color-secondary);
     margin-bottom: 5px;
   `,
   Message: styled.div`
@@ -44,7 +44,7 @@ export const ModalStyles = {
     outline: none;
     background-color: transparent;
     margin-left: 10px;
-    color: var(--main-dark);
+    color: var(--color-secondary);
     font-family: inherit;
     font-weight: 500;
     font-size: 9pt;

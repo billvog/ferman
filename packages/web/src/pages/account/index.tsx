@@ -8,7 +8,6 @@ import { UserCard } from "../../components/UserCard";
 import { ErrorText } from "../../components/ErrorText";
 import moment from "moment";
 import { MySpinner } from "../../components/MySpinner";
-import styled from "styled-components";
 import { MyButton } from "../../components/MyButton";
 import { toast } from "react-toastify";
 
@@ -24,58 +23,58 @@ const MyAccount = () => {
 
   return (
     <Layout size="lg" title="My Account – Ferman" isAuth>
-      <h1>My Account</h1>
+      <h1 className="heading">My Account</h1>
       {meLoading ? (
         <MySpinner />
       ) : meError || !meData || !meData.me ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : (
-        <div>
-          <UserCard me={meData.me} user={meData.me} />
-          <GravatarInfo>
-            Ferman uses gravatar for avatars. Learn more about gravatar{" "}
-            <a
-              href="https://en.gravatar.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-              style={{ color: "var(--blue)" }}
-            >
-              here
-            </a>
-            .
-          </GravatarInfo>
-          <MyButton
-            onClick={() => router.push(`/user/${meData?.me?.uid}`)}
-            style={{
-              backgroundColor: "sandybrown",
-            }}
-          >
-            My Profile
-          </MyButton>
-          <MyButton
-            style={{
-              marginLeft: 6,
-            }}
-            onClick={async () => {
-              const reponse = await logout();
-              if (!reponse.data?.logout) {
-                return toast.error("Internal server error (500)");
-              }
-
-              await apolloClient.resetStore();
-              router.replace("/"); // redirect
-            }}
-          >
-            Sign out
-          </MyButton>
-          <Divider />
+        <div className="divide-y-2 space-y-3">
           <div>
-            <PrivateInfoTitle>Private Information</PrivateInfoTitle>
-            <PrivateInfoSubText>
+            <UserCard me={meData.me} user={meData.me} />
+            <div className="text-gray-400 text-xs font-semibold mt-3 mb-4">
+              Ferman uses gravatar for avatars. Learn more about gravatar{" "}
+              <a
+                href="https://en.gravatar.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link text-blue-500"
+              >
+                here
+              </a>
+              .
+            </div>
+            <div className="flex flex-row space-x-2">
+              <MyButton
+                onClick={() => router.push(`/user/${meData?.me?.uid}`)}
+                color="accent"
+              >
+                My Profile
+              </MyButton>
+              <MyButton
+                color="secondary"
+                onClick={async () => {
+                  const reponse = await logout();
+                  if (!reponse.data?.logout) {
+                    return toast.error("Internal server error (500)");
+                  }
+
+                  await apolloClient.resetStore();
+                  router.replace("/"); // redirect
+                }}
+              >
+                Sign out
+              </MyButton>
+            </div>
+          </div>
+          <div className="pt-2.5">
+            <div className="leading-none font-bold text-secondary">
+              Private Information
+            </div>
+            <div className="text-gray-400 text-xs mb-2">
               These information are not visible in the public.
-            </PrivateInfoSubText>
-            <PrivInfoContainer>
+            </div>
+            <div className="text-gray-500 text-sm">
               <div>
                 <b>Email:</b> {meData.me.email}
               </div>
@@ -91,24 +90,21 @@ const MyAccount = () => {
                   "MMMM Do YYYY, h:mm:ss a"
                 )}
               </div>
-            </PrivInfoContainer>
+            </div>
           </div>
-          <Divider />
-          <div>
+          <div className="pt-4">
             <MyButton
               onClick={() => router.push("/account/delete")}
-              style={{
-                backgroundColor: "var(--red)",
-              }}
+              color="danger"
             >
               Delete Account
             </MyButton>
-            <DeleteAccountSubText>
+            <div className="text-xs text-gray-400 mt-1">
               This will completely remove your account and anything that's
               associated with it (posts, comments, likes, follows, etc). Be
               careful with this, <b>any action cannot be undone</b>. Deleting
               your account requires your password.
-            </DeleteAccountSubText>
+            </div>
           </div>
         </div>
       )}
@@ -117,39 +113,3 @@ const MyAccount = () => {
 };
 
 export default withMyApollo({ ssr: false })(MyAccount);
-
-// Styles
-const GravatarInfo = styled.div`
-  color: #a0a0a0;
-  font-size: 9pt;
-  font-family: inherit;
-  font-weight: 600;
-  margin: 8px 0 16px 0;
-`;
-
-const Divider = styled.div`
-  border-top: 1px solid #f0f0f0;
-  margin: 20px 5px 15px 5px;
-`;
-
-const PrivateInfoTitle = styled.h2`
-  line-height: 1;
-  margin-bottom: 0 !important;
-`;
-
-const PrivateInfoSubText = styled.div`
-  color: grey;
-  font-size: 9pt;
-  margin-bottom: 6px;
-`;
-
-const PrivInfoContainer = styled.div`
-  font-size: 10pt;
-  color: dimgrey;
-`;
-
-const DeleteAccountSubText = styled.div`
-  font-size: 9pt;
-  color: grey;
-  margin-top: 4px;
-`;

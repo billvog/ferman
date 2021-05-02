@@ -40,8 +40,8 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
     <>
       <Layout size="md" title="Delete Account – Ferman" isAuth>
         {done ? (
-          <MyAlert type="success">
-            <h2>Your account is deleted!</h2>
+          <MyAlert color="success">
+            <h2 className="text-lg">Your account is deleted!</h2>
             <p>Your account is finaly deleted. Hope we see you again!</p>
           </MyAlert>
         ) : (
@@ -63,11 +63,11 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
             {({ isSubmitting, submitForm }) => (
               <Form>
                 {message && (
-                  <div style={{ marginBottom: 8 }}>
-                    <MyAlert type={message.type}>{message.text}</MyAlert>
+                  <div className="mb-2">
+                    <MyAlert color={message.type}>{message.text}</MyAlert>
                   </div>
                 )}
-                <h1>
+                <h1 className="heading">
                   {phase === 0
                     ? "Delete Your Account"
                     : phase === 1
@@ -78,11 +78,11 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                 </h1>
                 {phase === 0 ? (
                   <>
-                    <MakeSubmitGuideText>
+                    <div className="text-sm text-gray-400 font-semibold mb-2 leading-snug">
                       Deleting your account, requires you to pass a two-factor
                       authentication process to proove you are the owner of this
                       account.
-                    </MakeSubmitGuideText>
+                    </div>
                     <MyButton type="submit" isLoading={isSubmitting}>
                       Submit Request
                     </MyButton>
@@ -92,10 +92,11 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                     <InputField
                       label="Code"
                       name="code"
+                      type="text"
                       placeholder="Enter 6-digit code"
                       helperText="Enter the 6-digit code sent to your email."
                     />
-                    <div className={FormStyles.submitSection}>
+                    <div className="flex justify-between items-center mt-4">
                       <MyButton type="submit" isLoading={isSubmitting}>
                         Continue
                       </MyButton>
@@ -110,7 +111,7 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                       type="password"
                       helperText="Enter your password to prove your identity."
                     />
-                    <div className={FormStyles.submitSection}>
+                    <div className="flex justify-between items-center mt-4">
                       <MyButton
                         onClick={() => setModalOpen(true)}
                         type="button"
@@ -160,11 +161,3 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
     </>
   );
 };
-
-// Styles
-const MakeSubmitGuideText = styled.div`
-  font-size: 10.5pt;
-  color: grey;
-  margin: 10px 0;
-  line-height: 1.45;
-`;

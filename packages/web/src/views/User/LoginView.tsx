@@ -19,7 +19,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   return (
     <Layout size="sm" title="Sign in – Ferman" isNotAuth>
       <Form>
-        <h1>Sign in</h1>
+        <h1 className="heading">Sign in</h1>
         <InputField
           label="Email"
           name="email"
@@ -32,23 +32,23 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
           placeholder="Enter password"
           type="password"
         />
-        <div className={FormStyles.submitSection}>
+        <div className="flex justify-between items-center mt-4">
           <MyButton type="submit" isLoading={isSubmitting}>
             Sign in
           </MyButton>
           <div>
             <NextLink href="/account/register">
-              <span className="link">
-                <OrSignUpLink>or Sign up</OrSignUpLink>
-              </span>
+              <div className="link text-gray-500 font-semibold text-sm">
+                or Sign up
+              </div>
             </NextLink>
           </div>
         </div>
         <div>
           <NextLink href="/account/forgot-password">
-            <span className="link">
-              <ForgotPwdLink>Forgot Password? Reset</ForgotPwdLink>
-            </span>
+            <div className="link text-gray-500 text-sm mt-2">
+              Forgot Password? Reset
+            </div>
           </NextLink>
         </div>
       </Form>
@@ -67,15 +67,3 @@ export const LoginView = withFormik<LoginViewProps, LoginFormValues>({
     if (errors) setErrors(errors);
   },
 })(C);
-
-// Styles
-const OrSignUpLink = styled.div`
-  color: grey;
-  font-size: 15px;
-`;
-
-const ForgotPwdLink = styled.div`
-  color: grey;
-  font-size: 14px;
-  margin-top: 8px;
-`;

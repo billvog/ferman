@@ -34,11 +34,11 @@ const C: React.FC<
     <Layout title="Edit Profile – Ferman" size="md" isAuth>
       <Form>
         {message && message.type === "error" && (
-          <div style={{ marginBottom: 8 }}>
-            <MyAlert type={message.type}>{message.text}</MyAlert>
+          <div className="mt-2">
+            <MyAlert color={message.type}>{message.text}</MyAlert>
           </div>
         )}
-        <h1>Edit Profile</h1>
+        <h1 className="heading">Edit Profile</h1>
         <InputField
           label="Username"
           name="username"
@@ -57,25 +57,22 @@ const C: React.FC<
         <InputField
           label="Location"
           name="location"
+          type="text"
           placeholder="Enter Location"
           maxLength={LocationMax}
         />
         <InputField
           label="Date of Birth"
           name="birthdate"
+          type="text"
           value={moment(parseFloat(myInitialValues.birthdate)).format(
             "MMMM Do YYYY"
           )}
-          defaultValue={1}
-          disabled
+          disabled={true}
           helperText={
             <span>
               This field cannot change. If you typed it wrong, please{" "}
-              <a
-                href="mailto:support@ferman.ga"
-                className="link"
-                style={{ color: "var(--blue)" }}
-              >
+              <a href="mailto:support@ferman.ga" className="link text-blue-600">
                 contact us
               </a>
               .
@@ -87,13 +84,12 @@ const C: React.FC<
           name="showBirthdate"
           defaultChecked={myInitialValues.showBirthdate}
         />
-        <div className={FormStyles.submitSection}>
+        <div className="flex justify-between items-center mt-4">
           <MyButton type="submit" isLoading={isSubmitting}>
             Update
           </MyButton>
           <span
-            className="link"
-            style={{ color: "grey" }}
+            className="link text-gray-400 font-semibold text-sm"
             onClick={router.back}
           >
             or Go Back
