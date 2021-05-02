@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      fontFamily: {
+        cursive: ['var(--cursive-font)', 'cursive']
+      },
       fontSize: {
         'md': '.9rem'
       },
@@ -10,6 +13,7 @@ module.exports = {
         transparent: 'transparent',
         button: "var(--color-button-text)",
         primary: {
+          50: "var(--color-primary-50)",
           100: "var(--color-primary-100)",
           200: "var(--color-primary-200)",
           300: "var(--color-primary-300)",
@@ -28,7 +32,7 @@ module.exports = {
           'washed-out': "var(--color-accent-washed-out)",
           hover: "var(--color-accent-hover)",
           DEFAULT: "var(--color-accent)",
-        }
+        },
       }
     },
   },

@@ -7,6 +7,7 @@
 :root {
   /* Colors */
   --color-button-text: #fff;
+  --color-primary-50: #deb887;
   --color-primary-100: #b98f71;
   --color-primary-200: #a26a42;
   --color-primary-300: #97582b;
@@ -58,10 +59,6 @@
 
   .link:hover {
     text-decoration: underline;
-  }
-
-  .font-cursive {
-    font-family: var(--cursive-font);
   }
 }
 

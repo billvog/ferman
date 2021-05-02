@@ -11,7 +11,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   });
 
   return (
-    <div className="flex z-10 sticky p-3 text-gray-800 bg-burlywood">
+    <div className="flex z-10 sticky p-3 text-gray-800 bg-primary-50">
       <div className="flex justify-between flex-1 m-auto items-center max-w-xl">
         <div>
           <NextLink href="/">
@@ -39,7 +39,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
                   <span className="font-bold text-base leading-tight text-gray-700">
                     {meData.me.username}
                   </span>
-                  <span className="text-sm font-semibold text-gray-700">
+                  <span className="text-sm font-semibold text-primary-200">
                     @<span className="link">{meData.me.uid}</span>
                   </span>
                 </div>

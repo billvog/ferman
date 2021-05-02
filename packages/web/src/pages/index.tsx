@@ -39,16 +39,14 @@ const Index = () => {
         </h1>
         <div className="flex flex-row space-x-2">
           <NextLink href="/explore/posts">
-            <MyIconButton
-              icon={<MdExplore />}
-              style={{ backgroundColor: " peru" }}
-            />
+            <MyButton color="secondary" square>
+              <MdExplore />
+            </MyButton>
           </NextLink>
           <NextLink href="/search">
-            <MyIconButton
-              icon={<BsSearch />}
-              style={{ backgroundColor: "brown" }}
-            />
+            <MyButton color="accent" square>
+              <BsSearch />
+            </MyButton>
           </NextLink>
           {meData?.me && (
             <NextLink href="/post">
@@ -74,9 +72,6 @@ const Index = () => {
         <div className="flex justify-center mt-5">
           <MyButton
             isLoading={postsLoading}
-            style={{
-              backgroundColor: "brown",
-            }}
             onClick={() => {
               fetchMorePosts!({
                 variables: {
