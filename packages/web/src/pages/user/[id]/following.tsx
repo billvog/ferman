@@ -6,8 +6,6 @@ import { useFollowingUsersQuery, useMeQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { MySpinner } from "../../../components/MySpinner";
-import styled from "styled-components";
-import Link from "next/link";
 import { MyButton } from "../../../components/MyButton";
 import { MdArrowBack } from "react-icons/md";
 import { useRouter } from "next/router";

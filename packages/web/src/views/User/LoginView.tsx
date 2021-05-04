@@ -7,7 +7,6 @@ import { Layout } from "../../components/Layout";
 import NextLink from "next/link";
 import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { MyButton } from "../../components/MyButton";
-import styled from "styled-components";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;

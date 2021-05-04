@@ -6,7 +6,6 @@ import { PostComment } from "../../../../components/PostComment";
 import { useMeQuery, useViewCommentQuery } from "@ferman-pkgs/controller";
 import { withMyApollo } from "../../../../utils/withMyApollo";
 import { MySpinner } from "../../../../components/MySpinner";
-import styled from "styled-components";
 import { MyButton } from "../../../../components/MyButton";
 
 const ViewComment = ({}) => {

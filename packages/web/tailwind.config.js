@@ -1,5 +1,10 @@
 module.exports = {
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'], 
+  purge: {
+    content: ["./src/**/*.tsx", "./public/index.html"],
+    options: {
+      safelist: ["h-8", "h-11"],
+    },
+  },
   darkMode: false,
   theme: {
     extend: {
