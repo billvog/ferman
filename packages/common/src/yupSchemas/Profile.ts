@@ -1,14 +1,23 @@
 import * as yup from "yup";
-import { USERNAME_SHAPE } from "./User";
 
+const UsernameLengthMessage = "Length must be between 6 and 32";
 const BioLengthMessage = "Length must be up to 160";
 const LocationLengthMessage = "Length must be up to 30";
 const BirthdateLimitMessage =
   "You must be at least 13 years old to use our services.";
 
+const UsernameMin = 6;
+const UsernameMax = 32;
 export const BioMax = 160;
 export const LocationMax = 30;
 
+const USERNAME_SHAPE = yup
+  .string()
+  .min(UsernameMin, UsernameLengthMessage)
+  .max(UsernameMax, UsernameLengthMessage)
+  .required()
+  .trim()
+  .label("Username");
 export const BIO_SHAPE = yup
   .string()
   .max(BioMax, BioLengthMessage)
