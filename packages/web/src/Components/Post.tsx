@@ -22,7 +22,7 @@ export const Post: React.FC<PostProps> = ({
 
   return (
     <div className="mb-2 border border-gray-200 rounded-xl">
-      <div className={`flex p-3 pb-1`}>
+      <div className={`flex p-3`}>
         <div>
           <img
             className="w-8 h-8 rounded-xl mr-3"

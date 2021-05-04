@@ -38,6 +38,7 @@ export const CreateCommentView = withFormik<
   CreateCommentViewProps,
   CommentFormValues
 >({
+  validateOnBlur: true,
   validationSchema: CommentValidationSchema,
   mapPropsToValues: () => ({
     text: "",

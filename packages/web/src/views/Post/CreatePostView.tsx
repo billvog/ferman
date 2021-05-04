@@ -46,6 +46,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
 
 export const CreatePostView = withRouter(
   withFormik<CreatePostViewProps, PostFormValues>({
+    validateOnBlur: true,
     validationSchema: PostValidationSchema,
     mapPropsToValues: () => ({
       body: "",
