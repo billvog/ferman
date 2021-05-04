@@ -6,7 +6,7 @@ import { Post } from "../../components/Post";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
-import styled from "styled-components";
+import Link from "next/link";
 
 const ExplorePosts = () => {
   const { data: meData, loading: meLoading } = useMeQuery({
@@ -34,28 +34,35 @@ const ExplorePosts = () => {
       title="Explore posts – Ferman"
       description="Explore the most recent posts on Ferman."
     >
-      <Header>
-        <h1 color="mainDarkBlue">Most recent posts</h1>
-      </Header>
+      <h1 className="heading">Most recent posts</h1>
       {(postsLoading && !postsData) || !postsData || meLoading ? (
         <MySpinner />
       ) : postsError && !postsData ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <NoPostsContainer>
-          <div>There are no posts...</div>
-        </NoPostsContainer>
+        <div className="text-gray-400 text-sm">
+          I'm sad to report you that there are no posts. <br />
+          <span className="text-gray-500">
+            Maybe you want to{" "}
+            <Link href="/post">
+              <span className="text-accent hover:text-accent-washed-out hover:underline font-bold cursor-pointer">
+                post
+              </span>
+            </Link>{" "}
+            something?
+          </span>
+        </div>
       ) : (
         <div>
-          <SearchInfoContainer>
+          <div className="mb-4 mt-1 text-gray-400 text-xs">
             Found {postsData?.posts.count} result
             {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
             {postsData?.posts.executionTime
               ? postsData?.posts.executionTime / 1000
               : 0}{" "}
             seconds
-          </SearchInfoContainer>
-          <PostsContainer>
+          </div>
+          <div className="mt-3">
             {postsData.posts.posts.map((post) => (
               <Post
                 key={post.id}
@@ -64,11 +71,11 @@ const ExplorePosts = () => {
                 clickable
               />
             ))}
-          </PostsContainer>
+          </div>
         </div>
       )}
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
-        <LoadMoreContainer>
+        <div className="flex justify-center mt-5">
           <MyButton
             isLoading={postsLoading}
             onClick={() => {
@@ -82,36 +89,10 @@ const ExplorePosts = () => {
           >
             load more
           </MyButton>
-        </LoadMoreContainer>
+        </div>
       )}
     </Layout>
   );
 };
 
 export default withMyApollo({ ssr: true })(ExplorePosts);
-
-// Styles
-const Header = styled.div`
-  line-height: 1;
-`;
-
-const LoadMoreContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const PostsContainer = styled.div`
-  margin-top: 10px;
-`;
-
-const NoPostsContainer = styled.div`
-  color: #b0b0b0;
-  font-family: inherit;
-`;
-
-const SearchInfoContainer = styled.div`
-  color: grey;
-  font-size: 9pt;
-  margin-bottom: 15px;
-`;

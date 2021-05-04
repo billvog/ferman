@@ -29,8 +29,10 @@ const SearchTips = () => {
 const SearchPost = () => {
   const router = useRouter();
 
-  const [query, setQuery] = useState((router.query.query as string) || "");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState(
+    (router.query.query as string) || ""
+  );
 
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
@@ -56,27 +58,20 @@ const SearchPost = () => {
   });
 
   useEffect(() => {
-    if (
-      typeof router.query.query === "string" &&
-      router.query.query.length > 0
-    ) {
-      runPostsQuery({
-        variables: {
-          ...postsVariables!,
-          query: router.query.query,
-          skip: null,
-        },
-      });
-    }
-  }, []);
-
-  useEffect(() => {
     if (router.query.query && router.query.query !== query) {
       setQuery(router.query.query as string);
     }
   }, [router.query.query]);
 
   useEffect(() => {
+    router.replace({
+      query: !!query
+        ? {
+            query,
+          }
+        : undefined,
+    });
+
     const handle = setTimeout(() => {
       setDebouncedQuery(query);
     }, 500);
@@ -87,14 +82,6 @@ const SearchPost = () => {
   }, [query]);
 
   useEffect(() => {
-    router.replace({
-      query: debouncedQuery
-        ? {
-            query: debouncedQuery,
-          }
-        : undefined,
-    });
-
     if (debouncedQuery.length > 0) {
       return runPostsQuery({
         variables: {
@@ -144,13 +131,11 @@ const SearchPost = () => {
       ) : (
         <div>
           <div className="mb-4 mt-1 text-gray-400 text-xs">
-            Found <b>{postsData?.posts.count}</b> result
+            Found {postsData?.posts.count} result
             {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
-            <b>
-              {postsData?.posts.executionTime
-                ? postsData?.posts.executionTime / 1000
-                : 0}
-            </b>{" "}
+            {postsData?.posts.executionTime
+              ? postsData?.posts.executionTime / 1000
+              : 0}{" "}
             seconds
           </div>
           <div>

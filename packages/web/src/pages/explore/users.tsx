@@ -13,10 +13,10 @@ import randomCountry from "random-country-name";
 const ExploreUsers: React.FC = () => {
   const router = useRouter();
 
-  const [locationQuery, setLocationQuery] = useState(
-    (router.query.location as string) || randomCountry.random()
+  const [locationDebouncedQuery, setLocationDebouncedQuery] = useState(
+    (router.query.location as string) || (randomCountry.random() as string)
   );
-  const [locationDebouncedQuery, setLocationDebouncedQuery] = useState("");
+  const [locationQuery, setLocationQuery] = useState(locationDebouncedQuery);
 
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
@@ -36,24 +36,9 @@ const ExploreUsers: React.FC = () => {
     variables: {
       limit: 15,
       skip: 0,
-      location: router.query.location as string,
+      location: "",
     },
   });
-
-  useEffect(() => {
-    if (
-      typeof router.query.location === "string" &&
-      router.query.location.length > 0
-    ) {
-      runUsersQuery({
-        variables: {
-          ...usersVariables!,
-          location: router.query.location,
-          skip: null,
-        },
-      });
-    }
-  }, []);
 
   useEffect(() => {
     const handle = setTimeout(() => {
@@ -67,14 +52,14 @@ const ExploreUsers: React.FC = () => {
 
   useEffect(() => {
     router.replace({
-      query: locationDebouncedQuery
+      query: !!locationDebouncedQuery
         ? {
             location: locationDebouncedQuery,
           }
         : undefined,
     });
 
-    if (!!locationDebouncedQuery) {
+    if (locationDebouncedQuery.length > 0) {
       runUsersQuery({
         variables: {
           ...usersVariables!,
@@ -95,31 +80,34 @@ const ExploreUsers: React.FC = () => {
       } – Ferman`}
       description={`Find users located at ${router.query.location}, find new people at your location and make new friends.s`}
     >
-      <Header>
-        <h1>Find users located at</h1>
-        <QueryInput
+      <div className="flex flex-row items-center mb-1 leading-none">
+        <h1 className="text-xl font-bold text-secondary">
+          Find users located at
+        </h1>
+        <input
+          className="flex-1 ml-2.5 outline-none border-b-2 border-dotted border-secondary text-xl text-secondary font-semibold"
           value={locationQuery}
           onChange={(e) => setLocationQuery(e.target.value)}
         />
-      </Header>
+      </div>
       {meLoading || (usersLoading && !usersData) ? (
         <MySpinner />
       ) : !usersData && usersQueryCalled ? (
         <ErrorText>Internal server error (500)</ErrorText>
       ) : usersQueryCalled && usersData!.users.users.length === 0 ? (
-        <NoUsersContainer>
-          There are no users matching this query...
-        </NoUsersContainer>
+        <div className="text-red-500 font-semibold text-sm mt-2">
+          There are no users matching this location...
+        </div>
       ) : usersQueryCalled ? (
         <>
-          <SearchInfoContainer>
+          <div className="mb-4 text-gray-400 text-xs">
             Found {usersData!.users.count} result
             {usersData!.users.count !== 1 ? "s" : ""} in{" "}
             {usersData!.users.executionTime
               ? usersData!.users.executionTime / 1000
               : 0}{" "}
             seconds
-          </SearchInfoContainer>
+          </div>
           {usersData!.users.users.map((user) => (
             <UserCard
               me={meData?.me || null}
@@ -132,7 +120,7 @@ const ExploreUsers: React.FC = () => {
         </>
       ) : null}
       {usersData?.users.users && usersData?.users.hasMore && (
-        <LoadMoreContainer>
+        <div className="flex justify-center mt-5">
           <MyButton
             isLoading={usersLoading}
             onClick={() => {
@@ -146,7 +134,7 @@ const ExploreUsers: React.FC = () => {
           >
             load more
           </MyButton>
-        </LoadMoreContainer>
+        </div>
       )}
     </Layout>
   );
@@ -155,42 +143,3 @@ const ExploreUsers: React.FC = () => {
 export default withMyApollo({
   ssr: true,
 })(ExploreUsers);
-
-// Styles
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex;
-  align-items: center;
-  line-height: 0.8;
-  margin-bottom: 5px;
-`;
-
-const QueryInput = styled.input`
-  flex: 1;
-  margin-left: 9px;
-  border: 0;
-  outline: 0;
-  border-bottom: 2px dotted var(--color-secondary);
-  font-size: 16pt;
-  color: var(--color-secondary);
-`;
-
-const NoUsersContainer = styled.div`
-  color: red;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 10pt;
-`;
-
-const SearchInfoContainer = styled.div`
-  color: grey;
-  font-size: 9pt;
-  margin-bottom: 15px;
-`;
-
-const LoadMoreContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
