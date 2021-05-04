@@ -55,6 +55,10 @@ export const LoginController: React.FC<LoginControllerProps> = ({
       };
     }
 
+    // remove stored values of register multi-step form from localStorage
+    localStorage.removeItem("stored.InitialRegisterValues");
+    localStorage.removeItem("stored.InitialRegisterPhase");
+
     onFinish();
     return null;
   };
