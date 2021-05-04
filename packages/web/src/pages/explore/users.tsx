@@ -1,7 +1,6 @@
 import { useMeQuery, useUsersLazyQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { ErrorText } from "../../components/ErrorText";
 import { Layout } from "../../components/Layout";
 import { MyButton } from "../../components/MyButton";
@@ -80,12 +79,12 @@ const ExploreUsers: React.FC = () => {
       } – Ferman`}
       description={`Find users located at ${router.query.location}, find new people at your location and make new friends.s`}
     >
-      <div className="flex flex-row items-center mb-1 leading-none">
+      <div className="flex flex-col mb-3 xs:flex-row xs:items-center xs:mb-1 leading-none">
         <h1 className="text-xl font-bold text-secondary">
           Find users located at
         </h1>
         <input
-          className="flex-1 ml-2.5 outline-none border-b-2 border-dotted border-secondary text-xl text-secondary font-semibold"
+          className="flex-1 xs:ml-2.5 outline-none border-b-2 border-dotted border-secondary text-xl text-secondary font-semibold"
           value={locationQuery}
           onChange={(e) => setLocationQuery(e.target.value)}
         />
@@ -100,7 +99,7 @@ const ExploreUsers: React.FC = () => {
         </div>
       ) : usersQueryCalled ? (
         <>
-          <div className="mb-4 text-gray-400 text-xs">
+          <div className="xs:mb-4 mb-5 text-gray-400 text-xs">
             Found {usersData!.users.count} result
             {usersData!.users.count !== 1 ? "s" : ""} in{" "}
             {usersData!.users.executionTime

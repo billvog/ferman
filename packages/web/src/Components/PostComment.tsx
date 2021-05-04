@@ -21,16 +21,18 @@ export const PostComment: React.FC<PostCommentProps> = ({
   const CommentWrapperComponent: any = clickable ? NextLink : React.Fragment;
 
   return (
-    <div className="border border-gray-100 rounded-xl">
+    <div className="border border-gray-200 rounded-xl">
       <div className="py-1.5 px-2.5">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between mobile:items-center mb-1 mobile:mb-0">
           <div className="flex items-center">
             <NextLink href={`/user/${comment.user.uid}`}>
-              <div className="cursor-pointer flex space-x-1">
+              <div className="cursor-pointer flex flex-col mobile:flex-row mobile:space-x-1">
                 <div className="text-secondary-washed-out font-bold text-xs">
                   {comment.user.username}
                 </div>
-                <div className="text-xs text-gray-400">·</div>
+                <div className="text-xs text-gray-400 hidden mobile:block">
+                  ·
+                </div>
                 <div className="flex text-2xs text-gray-400">
                   @<div className="link font-semibold">{comment.user.uid}</div>
                 </div>

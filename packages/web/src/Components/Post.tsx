@@ -30,20 +30,20 @@ export const Post: React.FC<PostProps> = ({
           ></img>
         </div>
         <div style={{ flex: 1 }}>
-          <div className="flex items-center leading-normal text-gray-400 space-x-1.5">
+          <div className="flex items-start justify-between mobile:justify-start mobile:items-center mobile:mb-0 mb-1.5 leading-none text-gray-400 space-x-1.5">
             <NextLink href={`/user/${post.creator.uid}`}>
-              <div className="flex items-center leading-normal space-x-1.5 cursor-pointer">
+              <div className="flex flex-col mobile:flex-row mobile:items-center mobile:space-x-1.5 cursor-pointer">
                 <div className="text-sm text-gray-700 font-bold">
                   {post.creator.username}
                 </div>
-                <div>·</div>
+                <div className="hidden mobile:block">·</div>
                 <div className="text-xs">
                   @<span className="link">{post.creator.uid}</span>
                 </div>
               </div>
             </NextLink>
-            <div>·</div>
-            <div className="text-xs">
+            <div className="hidden mobile:block">·</div>
+            <div className="text-2xs leading-normal">
               {moment.utc(parseFloat(post.createdAt)).local().fromNow()}
             </div>
           </div>

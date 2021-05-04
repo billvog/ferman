@@ -38,6 +38,10 @@ module.exports = {
       dropShadow: {
         red: '0px 0px 0px 0px rgba(255, 0, 0, 0.5)',
       },
+      screens: {
+        'xs': '500px',
+        'mobile': '400px'
+      }
     },
   },
   variants: {
