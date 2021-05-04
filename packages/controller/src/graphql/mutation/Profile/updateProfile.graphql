@@ -6,8 +6,5 @@ mutation UpdateProfile($options: ProfileInput!) {
     user {
       ...FullUser
     }
-    profile {
-      ...FullProfile
-    }
   }
 }

@@ -225,7 +225,6 @@ export type ProfileInput = {
 export type ProfileResponse = {
   __typename?: 'ProfileResponse';
   error?: Maybe<FieldError>;
-  profile?: Maybe<Profile>;
   user?: Maybe<User>;
 };
 
@@ -446,9 +445,6 @@ export type UpdateProfileMutation = (
     )>, user?: Maybe<(
       { __typename?: 'User' }
       & FullUserFragment
-    )>, profile?: Maybe<(
-      { __typename?: 'Profile' }
-      & FullProfileFragment
     )> }
   ) }
 );
@@ -984,14 +980,10 @@ export const UpdateProfileDocument = gql`
     user {
       ...FullUser
     }
-    profile {
-      ...FullProfile
-    }
   }
 }
     ${FieldErrorFragmentDoc}
-${FullUserFragmentDoc}
-${FullProfileFragmentDoc}`;
+${FullUserFragmentDoc}`;
 export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
 
 /**
