@@ -11,7 +11,6 @@ import { withMyApollo } from "../../../utils/withMyApollo";
 import { Post } from "../../../components/Post";
 import { ErrorText } from "../../../components/ErrorText";
 import { PostComment } from "../../../components/PostComment";
-import styled from "styled-components";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 
@@ -65,15 +64,14 @@ const ViewPost = ({}) => {
                 onDelete={() => router.back()}
               />
             </div>
-            <CreateCommentContainer>
-              <CommentsCounterText>
+            <div className="flex mt-6 justify-between items-center">
+              <div className="text-md text-gray-600">
                 <b>Comments</b>{" "}
                 {!!commentsData?.comments?.length &&
                   `(${commentsData?.comments?.length})`}
-              </CommentsCounterText>
+              </div>
               {meData?.me && (
                 <MyButton
-                  style={{ backgroundColor: "saddlebrown" }}
                   onClick={() => {
                     router.push(`/post/${postData.post?.id}/comment`);
                   }}
@@ -81,26 +79,27 @@ const ViewPost = ({}) => {
                   comment
                 </MyButton>
               )}
-            </CreateCommentContainer>
+            </div>
             <div>
               {commentsLoading && !commentsData ? (
                 <MySpinner />
               ) : !commentsData ? (
                 <ErrorText>Internal server error.</ErrorText>
               ) : commentsData.comments?.length === 0 ? (
-                <NoCommentsText>There no comments...</NoCommentsText>
+                <div className="text-sm text-gray-500">
+                  There no comments...
+                </div>
               ) : (
-                <CommentsContainer>
+                <div className="mt-3 space-y-2">
                   {commentsData.comments?.map((comment) => (
                     <PostComment
                       key={comment.id}
                       comment={comment}
                       me={meData?.me || null}
                       clickable
-                      marginBottom={12}
                     />
                   ))}
-                </CommentsContainer>
+                </div>
               )}
             </div>
           </div>
@@ -112,25 +111,3 @@ const ViewPost = ({}) => {
 export default withMyApollo({
   ssr: true,
 })(ViewPost);
-
-const CommentsCounterText = styled.span`
-  font-family: inherit;
-  font-size: 11pt;
-  color: dimgrey;
-`;
-
-const CreateCommentContainer = styled.div`
-  display: flex;
-  margin-top: 24px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const NoCommentsText = styled.div`
-  font-size: 10pt;
-  color: grey;
-`;
-
-const CommentsContainer = styled.div`
-  margin-top: 12px;
-`;

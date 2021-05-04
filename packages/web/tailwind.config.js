@@ -7,6 +7,7 @@ module.exports = {
         cursive: ['var(--cursive-font)', 'cursive']
       },
       fontSize: {
+        '2xs': '.7rem',
         'md': '.9rem'
       },
       colors: {
@@ -33,12 +34,18 @@ module.exports = {
           hover: "var(--color-accent-hover)",
           DEFAULT: "var(--color-accent)",
         },
-      }
+      },
+      dropShadow: {
+        red: '0px 0px 0px 0px rgba(255, 0, 0, 0.5)',
+      },
     },
   },
   variants: {
+    backgroundColor: ({ after }) => after(["disabled"]),
+    textColor: ({ after }) => after(["disabled"]),
     extend: {
       opacity: ['disabled'],
+      cursor: ['disabled']
     },
   },
   plugins: [

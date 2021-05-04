@@ -1,11 +1,9 @@
-import PostStyles from "../css/post.module.css";
 import React from "react";
 import { FullPostFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import { PostActionButtons } from "./PostActionButtons";
 import NextLink from "next/link";
 import moment from "moment";
 import { richBodyText } from "../utils/richBodyText";
-import styled, { css } from "styled-components";
 
 interface PostProps {
   me: FullUserFragment | null;
@@ -23,39 +21,38 @@ export const Post: React.FC<PostProps> = ({
   const PostWrapperComponent: any = clickable ? NextLink : React.Fragment;
 
   return (
-    <div className={PostStyles.container}>
+    <div className="mb-2 border border-gray-200 rounded-xl">
       <PostWrapperComponent href={`/post/${post.id}`}>
-        <div className={PostStyles.contentContainer}>
+        <div
+          className={`flex p-3 pb-1 ${
+            clickable ? "cursor-pointer" : "cursor-default"
+          }`}
+        >
           <div>
             <img
-              className={PostStyles.postCreatorAvatar}
+              className="w-8 h-8 rounded-xl mr-3"
               src={`https://www.gravatar.com/avatar/${post.creator.md5}`}
             ></img>
           </div>
           <div style={{ flex: 1 }}>
-            <div className={PostStyles.postHeader}>
+            <div className="flex items-center leading-normal text-gray-400 space-x-1.5">
               <NextLink href={`/user/${post.creator.uid}`}>
-                <div className={PostStyles.postCreatorContainer}>
-                  <CreatorUsernameSpan>
+                <div className="flex items-center leading-normal space-x-1.5">
+                  <div className="text-sm text-gray-700 font-bold">
                     {post.creator.username}
-                  </CreatorUsernameSpan>
-                  <CreateUidSpan>
-                    <span>
-                      @<span className="link">{post.creator.uid}</span>
-                    </span>
-                  </CreateUidSpan>
+                  </div>
+                  <div>·</div>
+                  <div className="text-xs">
+                    @<span className="link">{post.creator.uid}</span>
+                  </div>
                 </div>
               </NextLink>
-              <CreatedAtSpan>
+              <div>·</div>
+              <div className="text-xs">
                 {moment.utc(parseFloat(post.createdAt)).local().fromNow()}
-              </CreatedAtSpan>
+              </div>
             </div>
-            <div
-              className={PostStyles.postContent}
-              style={{
-                cursor: clickable ? "pointer" : "inherit",
-              }}
-            >
+            <div className="text-xs whitespace-pre-wrap break-words">
               {richBodyText(post.body)}
             </div>
           </div>
@@ -65,28 +62,3 @@ export const Post: React.FC<PostProps> = ({
     </div>
   );
 };
-
-const AfterMiddleDotSeperator = css`
-  &::after {
-    content: "·";
-    margin: 0 4px;
-    font-weight: 500;
-    color: grey;
-  }
-`;
-
-const CreatorUsernameSpan = styled.span`
-  color: #444444;
-  font-weight: 600;
-  font-family: inherit;
-  ${AfterMiddleDotSeperator}
-`;
-
-const CreateUidSpan = styled.span`
-  font-size: 8pt;
-  ${AfterMiddleDotSeperator}
-`;
-
-const CreatedAtSpan = styled.span`
-  font-size: 8pt;
-`;

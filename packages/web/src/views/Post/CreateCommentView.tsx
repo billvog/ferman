@@ -17,11 +17,12 @@ export const C: React.FC<
   return (
     <Layout title="Create Comment – Ferman" isAuth>
       <Form>
-        <h1>{reply ? "Reply comment" : "Comment"}</h1>
+        <h1 className="heading">{reply ? "Reply comment" : "Comment"}</h1>
         <InputField
           label="Text"
           name="text"
           placeholder="Comment Text..."
+          type="text"
           textarea
           maxLength={CommentMax}
         />

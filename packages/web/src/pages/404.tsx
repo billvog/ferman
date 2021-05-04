@@ -9,7 +9,7 @@ const NotFoundPage = ({}) => {
   const router = useRouter();
   return (
     <Layout title="404 – Ferman" size="sm">
-      <h1>Page not found</h1>
+      <h1 className="heading">Page not found</h1>
       <div className="text-gray-500 text-sm font-semibold mb-3">
         The page you're trying to reach, doesn't exist. <br />
         You've been redirected somewhere safe.

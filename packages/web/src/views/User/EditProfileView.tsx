@@ -1,4 +1,3 @@
-import FormStyles from "../../css/form.module.css";
 import {
   BioMax,
   LocationMax,
@@ -29,7 +28,7 @@ type EditProfileViewProps = {
 
 const C: React.FC<
   EditProfileViewProps & FormikProps<UpdateProfileFormValues>
-> = ({ myInitialValues, message, isSubmitting, router, handleChange }) => {
+> = ({ myInitialValues, message, isSubmitting, router }) => {
   return (
     <Layout title="Edit Profile – Ferman" size="md" isAuth>
       <Form>

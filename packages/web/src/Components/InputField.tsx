@@ -87,7 +87,13 @@ export const InputField: React.FC<InputFieldProps> = ({
         <div className="text-gray-400 mt-1 text-xs">{helperText}</div>
       )}
       {error && touched && (
-        <div className="text-red-500 font-semibold mt-1.5 text-sm">{error}</div>
+        <div
+          className={`text-red-500 font-semibold mt-${
+            textarea ? "0.5" : "1"
+          } text-sm`}
+        >
+          {error}
+        </div>
       )}
     </div>
   );

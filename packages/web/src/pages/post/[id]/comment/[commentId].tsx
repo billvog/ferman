@@ -45,17 +45,14 @@ const ViewComment = ({}) => {
               onDelete={router.back}
             />
           </div>
-          <CreateReplyContainer>
-            <RepliesCounterText>
+          <div className="flex mt-6 justify-between items-center">
+            <div className="text-md text-gray-600">
               <b>Replies</b>{" "}
               {!!commentData?.viewComment?.replies &&
                 `(${commentData?.viewComment?.replies.length})`}
-            </RepliesCounterText>
+            </div>
             {meData?.me && (
               <MyButton
-                style={{
-                  backgroundColor: "saddlebrown",
-                }}
                 onClick={() => {
                   router.push(
                     `/post/${commentData.viewComment.parent.postId}/comment?reply=${commentData.viewComment.parent.id}`
@@ -65,22 +62,21 @@ const ViewComment = ({}) => {
                 reply
               </MyButton>
             )}
-          </CreateReplyContainer>
+          </div>
           <div>
             {commentData.viewComment?.replies.length === 0 ? (
-              <NoCommentsText>There no replies...</NoCommentsText>
+              <div className="text-sm text-gray-500">There no replies...</div>
             ) : (
-              <RepliesContainer>
+              <div className="mt-3 space-y-2">
                 {commentData.viewComment.replies?.map((comment) => (
                   <PostComment
                     key={comment.id}
                     comment={comment}
                     me={meData?.me || null}
                     clickable
-                    marginBottom={10}
                   />
                 ))}
-              </RepliesContainer>
+              </div>
             )}
           </div>
         </div>
@@ -92,25 +88,3 @@ const ViewComment = ({}) => {
 export default withMyApollo({
   ssr: true,
 })(ViewComment);
-
-const RepliesCounterText = styled.span`
-  font-family: inherit;
-  font-size: 11pt;
-  color: dimgrey;
-`;
-
-const CreateReplyContainer = styled.div`
-  display: flex;
-  margin-top: 24px;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const NoCommentsText = styled.div`
-  font-size: 10pt;
-  color: grey;
-`;
-
-const RepliesContainer = styled.div`
-  margin-top: 12px;
-`;

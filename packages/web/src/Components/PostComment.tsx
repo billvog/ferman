@@ -1,19 +1,15 @@
-import CommentStyles from "../css/comment.module.css";
 import React from "react";
 import { FullCommentFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import NextLink from "next/link";
 import { CommentActionButtons } from "./CommentActionButtons";
 import moment from "moment";
 import { richBodyText } from "../utils/richBodyText";
-import styled, { css } from "styled-components";
 
 interface PostCommentProps {
   me: FullUserFragment | null;
   comment: FullCommentFragment;
   onDelete?: () => any;
   clickable?: boolean;
-  // style options
-  marginBottom?: number;
 }
 
 export const PostComment: React.FC<PostCommentProps> = ({
@@ -21,39 +17,37 @@ export const PostComment: React.FC<PostCommentProps> = ({
   comment,
   onDelete,
   clickable,
-  // style options
-  marginBottom,
 }) => {
   const CommentWrapperComponent: any = clickable ? NextLink : React.Fragment;
 
   return (
-    <div className={CommentStyles.container} style={{ marginBottom }}>
-      <div className={CommentStyles.contentContainer}>
-        <div className={CommentStyles.topSection}>
-          <div className={CommentStyles.leftSection}>
+    <div className="border border-gray-100 rounded-xl">
+      <div className="py-1.5 px-2.5">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
             <NextLink href={`/user/${comment.user.uid}`}>
-              <CreatorContainer>
-                <CreatorUsernameSpan>
+              <div className="cursor-pointer flex space-x-1">
+                <div className="text-secondary-washed-out font-bold text-xs">
                   {comment.user.username}
-                </CreatorUsernameSpan>
-                <CreateUidSpan>
-                  @<div className="link">{comment.user.uid}</div>
-                </CreateUidSpan>
-              </CreatorContainer>
+                </div>
+                <div className="text-xs text-gray-400">·</div>
+                <div className="flex text-2xs text-gray-400">
+                  @<div className="link font-semibold">{comment.user.uid}</div>
+                </div>
+              </div>
             </NextLink>
           </div>
-          <CreatedAtSpan>
+          <div className="text-2xs text-gray-400">
             {moment.utc(parseFloat(comment.createdAt)).local().fromNow()}
-          </CreatedAtSpan>
+          </div>
         </div>
         <CommentWrapperComponent
           href={`/post/${comment.postId}/comment/${comment.id}`}
         >
           <div
-            className={CommentStyles.commentBodyWrapper}
-            style={{
-              cursor: clickable ? "pointer" : "inherit",
-            }}
+            className={`whitespace-pre-wrap text-2xs ${
+              clickable ? "cursor-pointer" : "cursor-default"
+            }`}
           >
             {richBodyText(comment.text)}
           </div>
@@ -63,37 +57,3 @@ export const PostComment: React.FC<PostCommentProps> = ({
     </div>
   );
 };
-
-const AfterMiddleDotSeperator = css`
-  &::after {
-    content: "·";
-    margin: 0 4px;
-    font-weight: 500;
-    color: grey;
-  }
-`;
-
-const CreatorContainer = styled.div`
-  cursor: pointer;
-  display: flex;
-`;
-
-const CreatorUsernameSpan = styled.span`
-  color: #444444;
-  font-weight: 600;
-  font-family: inherit;
-  font-size: 9pt;
-  ${AfterMiddleDotSeperator}
-`;
-
-const CreateUidSpan = styled.span`
-  font-size: 8pt;
-  display: flex;
-  color: grey;
-  flex-direction: row;
-`;
-
-const CreatedAtSpan = styled.span`
-  font-size: 8pt;
-  color: grey;
-`;

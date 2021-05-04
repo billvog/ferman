@@ -70,6 +70,18 @@ button:focus {
   .link:hover {
     text-decoration: underline;
   }
+
+  @variants hover {
+    .red-text-shadow {
+      text-shadow: 0px 0px 10px red;
+    }
+  }
+
+  @variants disabled {
+    .no-text-shadow {
+      text-shadow: none;
+    }
+  }
 }
 
 body {
