@@ -17,7 +17,8 @@ const colorClassnames = {
   danger: "bg-red-600 ring-red-600 hover:bg-red-500 disabled:bg-red-500",
   success:
     "bg-green-600 ring-green-600 hover:bg-green-500 disabled:bg-green-500",
-  transparent: "bg-transparent",
+  transparent:
+    "text-secondary hover:text-secondary-hover disabled:text-secondary-washed-out bg-transparent",
 };
 
 type MyButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

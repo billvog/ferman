@@ -7,7 +7,6 @@ import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../utils/withMyApollo";
 import { MySpinner } from "../../components/MySpinner";
-import styled from "styled-components";
 import { MyButton } from "../../components/MyButton";
 
 const User = ({}) => {
@@ -40,13 +39,12 @@ const User = ({}) => {
         ) : !userData || !meData || !postsData ? (
           <ErrorText>Internal server error (500)</ErrorText>
         ) : (
-          <div>
-            <UserCardContainer>
+          <div className="divide-y-2">
+            <div className="mt-3 pb-5">
               <UserCard user={userData.user} me={meData.me || null} />
-            </UserCardContainer>
-            <Divider />
-            <PostsContainer>
-              <PostsCounterTitle>
+            </div>
+            <div>
+              <div className="text-lg text-secondary mt-2 mb-1">
                 {postsData.posts.posts.length > 0 ? (
                   <div>
                     <b>{userData.user.username}'s</b> posts
@@ -56,7 +54,7 @@ const User = ({}) => {
                     <b>{userData.user.username}</b> has no posts
                   </div>
                 )}
-              </PostsCounterTitle>
+              </div>
               {postsData.posts.posts.map((post) => (
                 <Post
                   key={post.id}
@@ -65,11 +63,11 @@ const User = ({}) => {
                   clickable
                 />
               ))}
-            </PostsContainer>
+            </div>
           </div>
         )}
         {postsData?.posts.posts && postsData?.posts?.hasMore && (
-          <LoadMoreContainer>
+          <div className="flex justify-center mt-5">
             <MyButton
               isLoading={postsLoading}
               onClick={() => {
@@ -83,7 +81,7 @@ const User = ({}) => {
             >
               load more
             </MyButton>
-          </LoadMoreContainer>
+          </div>
         )}
       </div>
     </Layout>
@@ -93,27 +91,3 @@ const User = ({}) => {
 export default withMyApollo({
   ssr: true,
 })(User);
-
-// Styles
-const UserCardContainer = styled.div`
-  margin-bottom: 12px;
-`;
-
-const Divider = styled.div`
-  border-top: 1px solid #f0f0f0;
-  margin: 22px 5px 10px 5px;
-`;
-
-const PostsContainer = styled.div``;
-
-const PostsCounterTitle = styled.h1`
-  font-size: 16pt !important;
-  font-weight: 400;
-  margin-bottom: 8px !important;
-`;
-
-const LoadMoreContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;

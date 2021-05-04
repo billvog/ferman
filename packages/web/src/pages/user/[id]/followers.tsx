@@ -6,10 +6,13 @@ import { useMeQuery, useUserFollowersQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { MySpinner } from "../../../components/MySpinner";
-import styled from "styled-components";
-import Link from "next/link";
+import { MyButton } from "../../../components/MyButton";
+import { MdArrowBack } from "react-icons/md";
+import { useRouter } from "next/router";
 
 const UserFollowers = ({}) => {
+  const router = useRouter();
+
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
   });
@@ -40,19 +43,26 @@ const UserFollowers = ({}) => {
           <ErrorText>Internal server error (500)</ErrorText>
         ) : (
           <div>
-            <FollowersContainer>
+            <div>
               {userData.user.followerCount === 0 ? (
-                <NoFollowersWrapper>
+                <div className="text-center text-red-500 text-base">
                   <b>{userData.user.username}</b> isn't really followed by
                   anybody...
-                </NoFollowersWrapper>
+                </div>
               ) : (
                 <div>
-                  <TopSection>
-                    <h2>
+                  <div className="flex items-center justify-start mt-2.5 mb-2">
+                    <MyButton
+                      color="transparent"
+                      square
+                      onClick={() => router.back()}
+                    >
+                      <MdArrowBack />
+                    </MyButton>
+                    <h1 className="text-xl">
                       <b>{userData.user.username}'s</b> Followers
-                    </h2>
-                  </TopSection>
+                    </h1>
+                  </div>
                   {followersData.userFollowers?.map((follower) => (
                     <UserCard
                       key={follower.id}
@@ -64,7 +74,7 @@ const UserFollowers = ({}) => {
                   ))}
                 </div>
               )}
-            </FollowersContainer>
+            </div>
           </div>
         )}
       </div>
@@ -75,19 +85,3 @@ const UserFollowers = ({}) => {
 export default withMyApollo({
   ssr: false,
 })(UserFollowers);
-
-// Styles
-const TopSection = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const NoFollowersWrapper = styled.div`
-  text-align: center;
-  font-family: inherit;
-  font-size: 13pt;
-  color: #808080;
-`;
-
-const FollowersContainer = styled.div``;
