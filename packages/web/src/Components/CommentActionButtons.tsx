@@ -64,7 +64,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                   >
                     <Menu.Items
                       static
-                      className="absolute right-0 w-40 mt-2 origin-top-right bg-primary-50 rounded-xl"
+                      className="absolute z-20 right-0 w-40 mt-2 origin-top-right bg-primary-50 rounded-xl"
                     >
                       <div className="p-1">
                         <Menu.Item>

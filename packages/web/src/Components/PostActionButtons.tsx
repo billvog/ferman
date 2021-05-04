@@ -1,4 +1,3 @@
-import PostActionsStyles from "../css/post-actions.module.css";
 import { toast } from "react-toastify";
 import React, { Fragment, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -12,8 +11,6 @@ import {
   useLikePostMutation,
 } from "@ferman-pkgs/controller";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import Modal from "react-modal";
-import { CenteredModalOptions, ModalStyles } from "../utils/modalOptions";
 import { MyButton } from "./MyButton";
 
 interface PostActionButtonsProps {
@@ -92,7 +89,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                   >
                     <Menu.Items
                       static
-                      className="absolute right-0 w-40 mt-2 origin-top-right bg-primary-50 rounded-xl"
+                      className="absolute z-20 right-0 w-40 mt-2 origin-top-right bg-primary-50 rounded-xl"
                     >
                       <div className="p-1">
                         <Menu.Item>
