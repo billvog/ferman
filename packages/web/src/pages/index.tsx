@@ -6,7 +6,6 @@ import { withMyApollo } from "../utils/withMyApollo";
 import { Post } from "../components/Post";
 import { ErrorText } from "../components/ErrorText";
 import { MyButton } from "../components/MyButton";
-import { MyIconButton } from "../components/MyIconButton";
 import { MySpinner } from "../components/MySpinner";
 import { BsSearch } from "react-icons/bs";
 import { MdExplore } from "react-icons/md";
@@ -34,15 +33,17 @@ const Index = () => {
   return (
     <Layout size="lg" title="Feed – Ferman">
       <div className="flex justify-between items-center">
-        <h1 className="text-gray-800 font-bold">
+        <h1 className="heading">
           {meData ? (meData?.me ? "Feed" : "Recent posts") : ""}
         </h1>
         <div className="flex flex-row space-x-2">
-          <NextLink href="/explore/posts">
-            <MyButton color="secondary" square>
-              <MdExplore />
-            </MyButton>
-          </NextLink>
+          {meData?.me && (
+            <NextLink href="/explore/posts">
+              <MyButton color="secondary" square>
+                <MdExplore />
+              </MyButton>
+            </NextLink>
+          )}
           <NextLink href="/search">
             <MyButton color="accent" square>
               <BsSearch />

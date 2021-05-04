@@ -1,4 +1,7 @@
+- show location on explore users, UserCard
+- responsive explore users field
+- banner bad blur in mobiles
+
 web-server:
-  - show location on explore users, UserCard
   - paginate comments
   - paginate follows/ers

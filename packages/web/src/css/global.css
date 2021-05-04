@@ -51,7 +51,7 @@
   padding: 0;
 }
 
-*:focus {
+button:focus {
   outline: none;
 }
 
