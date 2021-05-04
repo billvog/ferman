@@ -21,8 +21,6 @@ import { FieldError } from "./FieldError";
 class ProfileResponse {
   @Field(() => FieldError, { nullable: true })
   error?: FieldError;
-  @Field(() => Profile, { nullable: true })
-  profile?: Profile;
   @Field(() => User, { nullable: true })
   user?: User;
 }
@@ -77,10 +75,10 @@ export class ProfileResolver {
     try {
       const validation = await UpdateProfileValidationSchema.validate(options);
       options = {
+        username: validation.username!,
         bio: validation.bio!,
         location: validation.location!,
         showBirthdate: validation.showBirthdate!,
-        username: validation.username!,
       };
     } catch (error) {
       return {
@@ -113,7 +111,6 @@ export class ProfileResolver {
 
     return {
       user,
-      profile,
     };
   }
 }
