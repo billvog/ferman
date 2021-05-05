@@ -27,7 +27,7 @@ const MyAccount = () => {
       {meLoading ? (
         <MySpinner />
       ) : meError || !meData || !meData.me ? (
-        <ErrorText>Internal server error (500)</ErrorText>
+        <ErrorText>Internal server error, please try again later</ErrorText>
       ) : (
         <div className="divide-y-2 space-y-3">
           <div>
@@ -56,7 +56,9 @@ const MyAccount = () => {
                 onClick={async () => {
                   const reponse = await logout();
                   if (!reponse.data?.logout) {
-                    return toast.error("Internal server error (500)");
+                    return toast.error(
+                      "Internal server error, please try again later"
+                    );
                   }
 
                   await apolloClient.resetStore();

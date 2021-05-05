@@ -26,12 +26,18 @@ const comment = ({}) => {
   return (
     <CommentOpenGraphPreview comment={commentData?.comment.parent}>
       <Layout
-        title={`${commentData?.comment.parent.user.username}: "${commentData?.comment.parent.text}" – Ferman`}
+        title={
+          commentData?.comment
+            ? `${commentData?.comment.parent.user.username}: "${commentData?.comment.parent.text}" – Ferman`
+            : "Ferman"
+        }
       >
         {commentLoading || meLoading ? (
           <MySpinner />
+        ) : !commentData?.comment ? (
+          <ErrorText>Comment could not be found</ErrorText>
         ) : !commentData || !meData ? (
-          <ErrorText>Internal server error (500)</ErrorText>
+          <ErrorText>Internal server error, please try again later</ErrorText>
         ) : (
           <div>
             <div>

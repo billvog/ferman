@@ -40,30 +40,30 @@ const UserFollowing = ({}) => {
         ) : !userData?.user ? (
           <ErrorText>User not found (404)</ErrorText>
         ) : !userData || !followingData || !meData ? (
-          <ErrorText>Internal server error (500)</ErrorText>
+          <ErrorText>Internal server error, please try again later</ErrorText>
         ) : (
           <div>
             <div>
-              {userData.user.followingCount === 0 ? (
-                <div className="text-center text-red-500 text-base">
-                  <b>{userData.user.username}</b> doesn't really follow
-                  anybody...
+              <div>
+                <div className="flex items-center justify-start mt-2.5 mb-2">
+                  <MyButton
+                    color="transparent"
+                    square
+                    onClick={() => router.back()}
+                  >
+                    <MdArrowBack />
+                  </MyButton>
+                  <h1 className="text-xl">
+                    <b>{userData.user.username}'s</b> Follows
+                  </h1>
                 </div>
-              ) : (
-                <div>
-                  <div className="flex items-center justify-start mt-2.5 mb-2">
-                    <MyButton
-                      color="transparent"
-                      square
-                      onClick={() => router.back()}
-                    >
-                      <MdArrowBack />
-                    </MyButton>
-                    <h1 className="text-xl">
-                      <b>{userData.user.username}'s</b> Follows
-                    </h1>
+                {followingData.followingUsers?.length === 0 ? (
+                  <div className="text-red-500 text-base">
+                    There are no users followed by{" "}
+                    <b>{userData.user.username}</b>
                   </div>
-                  {followingData.followingUsers?.map((follow) => (
+                ) : (
+                  followingData.followingUsers?.map((follow) => (
                     <UserCard
                       key={follow.id}
                       me={meData.me || null}
@@ -71,9 +71,9 @@ const UserFollowing = ({}) => {
                       marginBottom={10}
                       minimal
                     />
-                  ))}
-                </div>
-              )}
+                  ))
+                )}
+              </div>
             </div>
           </div>
         )}

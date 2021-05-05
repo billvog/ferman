@@ -41,7 +41,7 @@ const ExplorePosts = () => {
       {(postsLoading && !postsData) || !postsData || meLoading ? (
         <MySpinner />
       ) : postsError && !postsData ? (
-        <ErrorText>Internal server error (500)</ErrorText>
+        <ErrorText>Internal server error, please try again later</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
         <div className="text-gray-400 text-sm">
           I'm sad to report you that there are no posts. <br />

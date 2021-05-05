@@ -34,9 +34,14 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
       {author ? <meta name="article:creator" content={author.name} /> : ""}
       <meta name="og:description" content={description} />
       <meta name="og:site_name" content="Ferman" />
+      <meta name="twitter:card" content="summary_large_image" />
       <meta
         name="og:image"
-        content={author?.md5 || "https://ferman.ga/favicon.ico"}
+        content={
+          author?.md5
+            ? `https://www.gravatar.com/avatar/${author.md5}`
+            : "https://ferman.ga/favicon.ico"
+        }
       />
     </Head>
   );

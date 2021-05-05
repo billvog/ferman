@@ -112,7 +112,7 @@ const SearchPost = () => {
       meLoading ? (
         <MySpinner />
       ) : postsError && !postsData && !postsQueryCalled ? (
-        <ErrorText>Internal server error (500)</ErrorText>
+        <ErrorText>Internal server error, please try again later</ErrorText>
       ) : !postsData ? (
         <div>
           <div className="text-red-400 mt-2 text-sm">

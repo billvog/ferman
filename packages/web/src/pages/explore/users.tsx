@@ -98,7 +98,7 @@ const ExploreUsers: React.FC = () => {
       {meLoading || (usersLoading && !usersData) ? (
         <MySpinner />
       ) : !usersData && usersQueryCalled ? (
-        <ErrorText>Internal server error (500)</ErrorText>
+        <ErrorText>Internal server error, please try again later</ErrorText>
       ) : usersQueryCalled && usersData!.users.users.length === 0 ? (
         <div className="text-red-500 font-semibold text-sm mt-2">
           There are no users matching this location...

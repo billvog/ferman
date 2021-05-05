@@ -38,18 +38,20 @@ const ViewPost = () => {
   return (
     <PostOpenGraphPreview post={postData?.post}>
       <Layout
-        title={`${userData?.user?.username}: “${postData?.post?.body}” – Ferman`}
+        title={
+          userData?.user && postData?.post
+            ? `${userData?.user?.username}: “${postData?.post?.body}” – Ferman`
+            : "Ferman"
+        }
         size="lg"
       >
         <div>
           {(postLoading && !postData) || userLoading || meLoading ? (
             <MySpinner />
           ) : !postData?.post ? (
-            <ErrorText>Post not found (404)</ErrorText>
-          ) : !userData?.user ? (
-            <ErrorText>User not found (404)</ErrorText>
+            <ErrorText>Post could not be found</ErrorText>
           ) : !postData || !userData ? (
-            <ErrorText>Internal server error (500)</ErrorText>
+            <ErrorText>Internal server error, please try again later</ErrorText>
           ) : (
             <div>
               <div>

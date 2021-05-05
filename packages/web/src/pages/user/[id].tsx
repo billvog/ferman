@@ -32,14 +32,19 @@ const User = ({}) => {
 
   return (
     <UserOpenGraphPreview user={userData?.user}>
-      <Layout title={`${userData?.user?.username} on Ferman`} size="lg">
+      <Layout
+        title={
+          userData?.user ? `${userData.user.username} on Ferman` : "Ferman"
+        }
+        size="lg"
+      >
         <div>
           {userLoading || meLoading || (postsLoading && !postsData) ? (
             <MySpinner />
           ) : !userData?.user ? (
-            <ErrorText>User not found (404)</ErrorText>
+            <ErrorText>User could not be found</ErrorText>
           ) : !userData || !meData || !postsData ? (
-            <ErrorText>Internal server error (500)</ErrorText>
+            <ErrorText>Internal server error, please try again later</ErrorText>
           ) : (
             <div className="divide-y-2">
               <div className="mt-3 pb-5">

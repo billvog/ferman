@@ -39,7 +39,7 @@ export const UpdateProfileController: React.FC<UpdateProfileControllerProps> = (
     if (!data) {
       setMessage({
         type: "error",
-        text: "Internal server error (500)",
+        text: "Internal server error, please try again later",
       });
       return null;
     }

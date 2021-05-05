@@ -11,17 +11,20 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import { BiChevronDown } from "react-icons/bi";
 import { HiTrash } from "react-icons/hi";
 import { MyDialog } from "./MyDialog";
+import Link from "next/link";
 
 interface CommentActionButtonsProps {
   comment: FullCommentFragment;
   me: FullUserFragment | null;
   onDelete?: () => void;
+  clickable?: boolean;
 }
 
 export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
   me,
   comment,
   onDelete,
+  clickable,
 }) => {
   const [
     deleteComment,
@@ -31,16 +34,27 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
   // delete confirm modal
   const [isDelModalOpen, setDelModalOpen] = useState(false);
 
+  const ClickableWrapperComponent: any = clickable ? Link : React.Fragment;
+
   return (
-    <div className="p-2 bg-gray-100 rounded-b-xl">
+    <div className="py-2 px-2.5 bg-gray-100 rounded-b-xl">
       <div className="flex justify-between text-2xs leading-none">
         <div className="flex items-center">
-          <div className="flex flex-row items-center">
-            <BsFillChatSquareFill color="burlywood" />
-            <span className="ml-1.5 text-gray-500 font-bold">
-              {comment.repliesCount}
-            </span>
-          </div>
+          <ClickableWrapperComponent
+            href={`/post/${comment.postId}/comment/${comment.id}`}
+          >
+            <div
+              className={`flex flex-row items-center ${
+                clickable ? "cursor-pointer" : "cursor-default"
+              }`}
+              title={clickable ? "See replies" : undefined}
+            >
+              <BsFillChatSquareFill color="burlywood" />
+              <span className="ml-1.5 text-gray-500 font-bold">
+                {comment.repliesCount}
+              </span>
+            </div>
+          </ClickableWrapperComponent>
         </div>
         {me && me.id === comment.user.id && (
           <div>

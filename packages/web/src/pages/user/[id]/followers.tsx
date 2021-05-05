@@ -40,30 +40,29 @@ const UserFollowers = ({}) => {
         ) : !userData?.user ? (
           <ErrorText>User not found (404)</ErrorText>
         ) : !userData || !followersData || !meData ? (
-          <ErrorText>Internal server error (500)</ErrorText>
+          <ErrorText>Internal server error, please try again later</ErrorText>
         ) : (
           <div>
             <div>
-              {userData.user.followerCount === 0 ? (
-                <div className="text-center text-red-500 text-base">
-                  <b>{userData.user.username}</b> isn't really followed by
-                  anybody...
+              <div>
+                <div className="flex items-center justify-start mt-2.5 mb-2">
+                  <MyButton
+                    color="transparent"
+                    square
+                    onClick={() => router.back()}
+                  >
+                    <MdArrowBack />
+                  </MyButton>
+                  <h1 className="text-xl">
+                    <b>{userData.user.username}'s</b> Followers
+                  </h1>
                 </div>
-              ) : (
-                <div>
-                  <div className="flex items-center justify-start mt-2.5 mb-2">
-                    <MyButton
-                      color="transparent"
-                      square
-                      onClick={() => router.back()}
-                    >
-                      <MdArrowBack />
-                    </MyButton>
-                    <h1 className="text-xl">
-                      <b>{userData.user.username}'s</b> Followers
-                    </h1>
+                {followersData.userFollowers?.length === 0 ? (
+                  <div className="text-red-500 text-base">
+                    There are no users following <b>{userData.user.username}</b>
                   </div>
-                  {followersData.userFollowers?.map((follower) => (
+                ) : (
+                  followersData.userFollowers?.map((follower) => (
                     <UserCard
                       key={follower.id}
                       me={meData.me || null}
@@ -71,9 +70,9 @@ const UserFollowers = ({}) => {
                       minimal
                       marginBottom={10}
                     />
-                  ))}
-                </div>
-              )}
+                  ))
+                )}
+              </div>
             </div>
           </div>
         )}

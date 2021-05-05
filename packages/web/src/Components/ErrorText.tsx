@@ -5,12 +5,12 @@ interface ErrorTextProps {}
 
 export const ErrorText: React.FC<ErrorTextProps> = ({ children }) => {
   return (
-    <div className="grid justify-center content-center">
-      <div className="flex items-center bg-gray-100 rounded-md p-6 text-red-500 text-center font-bold text-md">
+    <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center bg-red-100 rounded-lg py-4 px-6 text-red-600 text-center font-bold text-base">
         <div className="mr-2 leading-none">
           <VscError />
         </div>
-        {children}
+        <div>{children}</div>
       </div>
     </div>
   );
