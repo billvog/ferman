@@ -326,7 +326,7 @@ export type FullCommentFragment = (
   & Pick<Comment, 'id' | 'postId' | 'parentId' | 'repliesCount' | 'text' | 'createdAt'>
   & { user: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'uid' | 'username'>
+    & Pick<User, 'id' | 'uid' | 'username' | 'md5'>
   ) }
 );
 
@@ -750,6 +750,7 @@ export const FullCommentFragmentDoc = gql`
     id
     uid
     username
+    md5
   }
 }
     `;
