@@ -31,6 +31,7 @@ const createApolloClient = (ctx: any) => {
                 };
               },
             },
+
             posts: {
               keyArgs: ["userId", "query", "feedMode"],
               merge(
@@ -42,6 +43,13 @@ const createApolloClient = (ctx: any) => {
                   posts: [...(existing?.posts || []), ...incoming.posts],
                 };
               },
+            },
+          },
+        },
+        User: {
+          fields: {
+            profile: {
+              merge: true,
             },
           },
         },

@@ -15,10 +15,10 @@ export const UserOpenGraphPreview: React.FC<UserOpenGraphPreviewProps> = ({
     return (
       <HeaderController
         title={`${user.username} on Ferman`}
-        description={`${user.username}: “${user.profile?.bio}”`}
-        author={{ name: user.username, avatar: user.profile?.avatarUrl || "" }}
+        description={`${user.username}: “${user.profile!.bio}”`}
+        author={{ name: user.username, avatar: user.profile!.avatarUrl }}
         additionalKeywords={[user.username, user.uid]}
-        type="comment"
+        type="profile"
       />
     );
   }

@@ -10,7 +10,7 @@ interface HeaderControllerProps {
   };
   additionalKeywords?: string[];
   description?: string;
-  type?: "article" | "comment" | "website";
+  type?: "article" | "comment" | "profile" | "website";
 }
 
 export const HeaderController: NextPage<HeaderControllerProps> = ({
@@ -27,7 +27,7 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
       {author ? <meta name="author" content={author.name} /> : ""}
       <meta
         name="keywords"
-        content={`ferman${additionalKeywords?.map((k) => `, ${k}`)}`}
+        content={`ferman,${additionalKeywords?.map((k) => ` ${k}`)}`}
       />
       <meta name="og:title" content={title || "Ferman"} />
       <meta name="og:type" content={type} />
