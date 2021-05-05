@@ -16,7 +16,10 @@ export const PostOpenGraphPreview: React.FC<PostOpenGraphPreviewProps> = ({
       <HeaderController
         title={`${post.creator.username} on Ferman`}
         description={post.body}
-        author={{ name: post.creator.username, md5: post.creator.md5 }}
+        author={{
+          name: post.creator.username,
+          avatar: post.creator.profile?.avatarUrl || "",
+        }}
         additionalKeywords={[post.creator.username, post.creator.uid]}
         type="article"
       />

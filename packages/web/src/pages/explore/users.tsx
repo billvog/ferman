@@ -113,15 +113,16 @@ const ExploreUsers: React.FC = () => {
               : 0}{" "}
             seconds
           </div>
-          {usersData!.users.users.map((user) => (
-            <UserCard
-              me={meData?.me || null}
-              user={user}
-              key={user.id}
-              marginBottom={10}
-              minimal
-            />
-          ))}
+          <div className="space-y-2">
+            {usersData!.users.users.map((user) => (
+              <UserCard
+                me={meData?.me || null}
+                user={user}
+                key={user.id}
+                minimal
+              />
+            ))}
+          </div>
         </>
       ) : null}
       {usersData?.users.users && usersData?.users.hasMore && (

@@ -18,46 +18,39 @@ interface UserCardProps {
   user: FullUserFragment;
   me: FullUserFragment | null;
   minimal?: boolean;
-  marginBottom?: number;
 }
 
 export const UserCard: React.FC<UserCardProps> = ({
   user,
   me,
   minimal = false,
-  marginBottom = 0,
 }) => {
   const router = useRouter();
-
   const [followUser] = useFollowUserMutation();
 
   return (
-    <div
-      className="bg-gray-100 rounded-xl text-gray-700 divide-y-2"
-      style={{
-        marginBottom,
-      }}
-    >
+    <div className="bg-gray-100 rounded-xl text-gray-700 divide-y-2">
       <div className="flex justify-between flex-col">
         <div
-          className="w-full backdrop-filter-none rounded-t-xl bg-cover bg-center bg-no-repeat"
+          className="w-full rounded-t-xl bg-cover bg-center bg-no-repeat object-cover border-4 border-gray-100"
           style={{
-            backgroundImage: `url(https://www.gravatar.com/avatar/${user.md5})`,
+            backgroundImage: `url(${user.profile?.bannerUrl})`,
+            backgroundColor: user.profile?.bannerUrl,
           }}
         >
-          <div className="p-4 h-28 relative rounded-t-xl backdrop-filter backdrop-blur-xl">
+          <div className="p-4 h-28 relative rounded-t-xl">
             <img
-              className="rounded-full border-4 border-solid border-gray-100 absolute top-3/4"
-              src={`https://www.gravatar.com/avatar/${user.md5}`}
+              className="rounded-full bg-gray-300 border-4 border-solid border-gray-100 absolute top-3/4"
+              src={user.profile?.avatarUrl}
               style={{
-                width: 54,
-                height: 54,
+                width: 60,
+                height: 60,
               }}
             />
           </div>
         </div>
         <div className="flex flex-row justify-between mb-2">
-          <div className="ml-2 mt-6">
+          <div className="ml-2 mt-8">
             <div className="flex flex-col">
               <div className="font-bold text-base leading-tight">
                 {user.username}

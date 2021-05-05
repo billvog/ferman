@@ -9,7 +9,10 @@ export class Profile extends BaseEntity {
   userId: number;
 
   @Field()
-  md5: string;
+  avatarUrl: string;
+
+  @Field()
+  bannerUrl: string;
 
   @Field()
   @Column()

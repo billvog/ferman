@@ -9,6 +9,8 @@ fragment FullComment on Comment {
     id
     uid
     username
-    md5
+    profile {
+      avatarUrl
+    }
   }
 }

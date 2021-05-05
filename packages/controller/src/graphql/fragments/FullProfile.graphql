@@ -1,4 +1,6 @@
 fragment FullProfile on Profile {
+  avatarUrl
+  bannerUrl
   bio
   location
   birthdate

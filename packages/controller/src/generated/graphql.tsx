@@ -208,7 +208,8 @@ export type PostResponse = {
 export type Profile = {
   __typename?: 'Profile';
   userId: Scalars['Float'];
-  md5: Scalars['String'];
+  avatarUrl: Scalars['String'];
+  bannerUrl: Scalars['String'];
   bio: Scalars['String'];
   location: Scalars['String'];
   birthdate: Scalars['String'];
@@ -306,7 +307,6 @@ export type User = {
   followingStatus?: Maybe<Scalars['Boolean']>;
   followerCount: Scalars['Float'];
   followingCount: Scalars['Float'];
-  md5: Scalars['String'];
   profile?: Maybe<Profile>;
 };
 
@@ -326,7 +326,11 @@ export type FullCommentFragment = (
   & Pick<Comment, 'id' | 'postId' | 'parentId' | 'repliesCount' | 'text' | 'createdAt'>
   & { user: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'uid' | 'username' | 'md5'>
+    & Pick<User, 'id' | 'uid' | 'username'>
+    & { profile?: Maybe<(
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'avatarUrl'>
+    )> }
   ) }
 );
 
@@ -335,18 +339,22 @@ export type FullPostFragment = (
   & Pick<Post, 'id' | 'body' | 'points' | 'commentsCount' | 'likeStatus' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'uid' | 'username' | 'md5'>
+    & Pick<User, 'id' | 'uid' | 'username'>
+    & { profile?: Maybe<(
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'avatarUrl'>
+    )> }
   ) }
 );
 
 export type FullProfileFragment = (
   { __typename?: 'Profile' }
-  & Pick<Profile, 'bio' | 'location' | 'birthdate' | 'showBirthdate'>
+  & Pick<Profile, 'avatarUrl' | 'bannerUrl' | 'bio' | 'location' | 'birthdate' | 'showBirthdate'>
 );
 
 export type FullUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'md5' | 'createdAt' | 'followingStatus' | 'followerCount' | 'followingCount'>
+  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'followingStatus' | 'followerCount' | 'followingCount'>
   & { profile?: Maybe<(
     { __typename?: 'Profile' }
     & FullProfileFragment
@@ -750,7 +758,9 @@ export const FullCommentFragmentDoc = gql`
     id
     uid
     username
-    md5
+    profile {
+      avatarUrl
+    }
   }
 }
     `;
@@ -766,12 +776,16 @@ export const FullPostFragmentDoc = gql`
     id
     uid
     username
-    md5
+    profile {
+      avatarUrl
+    }
   }
 }
     `;
 export const FullProfileFragmentDoc = gql`
     fragment FullProfile on Profile {
+  avatarUrl
+  bannerUrl
   bio
   location
   birthdate
@@ -784,7 +798,6 @@ export const FullUserFragmentDoc = gql`
   uid
   username
   email
-  md5
   createdAt
   followingStatus
   followerCount

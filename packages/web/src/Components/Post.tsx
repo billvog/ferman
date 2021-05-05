@@ -26,7 +26,7 @@ export const Post: React.FC<PostProps> = ({
         <div>
           <img
             className="w-8 h-8 rounded-xl mr-3"
-            src={`https://www.gravatar.com/avatar/${post.creator.md5}`}
+            src={post.creator.profile?.avatarUrl}
           ></img>
         </div>
         <div style={{ flex: 1 }}>

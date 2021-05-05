@@ -9,6 +9,8 @@ fragment FullPost on Post {
     id
     uid
     username
-    md5
+    profile {
+      avatarUrl
+    }
   }
 }

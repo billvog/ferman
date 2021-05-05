@@ -16,6 +16,8 @@ import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../MyContext";
 import { UpdateProfileValidationSchema } from "@ferman-pkgs/common";
 import { FieldError } from "./FieldError";
+import fetch from "node-fetch";
+import { createHash } from "crypto";
 
 @ObjectType()
 class ProfileResponse {
@@ -47,6 +49,48 @@ export class ProfileResolver {
     }
 
     return "";
+  }
+
+  // AVATAR URL
+  @FieldResolver(() => String)
+  async avatarUrl(@Root() profile: Profile) {
+    const user = await User.findOne(profile.userId);
+    if (!user) return "";
+
+    const md5 = createHash("md5").update(user.email).digest("hex");
+
+    const request = await fetch(`https://en.gravatar.com/${md5}.json`);
+    const response = await request.json();
+
+    if (
+      !!response.entry &&
+      response.entry[0].thumbnailUrl &&
+      response.entry[0].preferredUsername !== "undefined"
+    ) {
+      return response.entry[0].thumbnailUrl as string;
+    } else {
+      return `https://eu.ui-avatars.com/api?name=${encodeURI(
+        user.username
+      )}&background=random`;
+    }
+  }
+
+  // BANNER URL
+  @FieldResolver(() => String)
+  async bannerUrl(@Root() profile: Profile) {
+    const user = await User.findOne(profile.userId);
+    if (!user) return "";
+
+    const md5 = createHash("md5").update(user.email).digest("hex");
+
+    const request = await fetch(`https://en.gravatar.com/${md5}.json`);
+    const response = await request.json();
+    if (!!response.entry && response.entry[0].profileBackground) {
+      return (response.entry[0].profileBackground?.url ||
+        response.entry[0].profileBackground?.color) as string;
+    } else {
+      return "https://source.unsplash.com/random";
+    }
   }
 
   // UPDATE PROFILE

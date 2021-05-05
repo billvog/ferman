@@ -62,15 +62,16 @@ const UserFollowers = ({}) => {
                     There are no users following <b>{userData.user.username}</b>
                   </div>
                 ) : (
-                  followersData.userFollowers?.map((follower) => (
-                    <UserCard
-                      key={follower.id}
-                      me={meData.me || null}
-                      user={follower}
-                      minimal
-                      marginBottom={10}
-                    />
-                  ))
+                  <div className="space-y-2">
+                    {followersData.userFollowers?.map((follower) => (
+                      <UserCard
+                        key={follower.id}
+                        me={meData.me || null}
+                        user={follower}
+                        minimal
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
             </div>

@@ -50,7 +50,7 @@ const comment = ({}) => {
             <div className="flex mt-6 justify-between items-center">
               <div className="text-md text-gray-600">
                 <b>Replies</b>{" "}
-                {!!commentData?.comment?.replies &&
+                {!!commentData?.comment?.replies.length &&
                   `(${commentData?.comment?.replies.length})`}
               </div>
               {meData?.me && (

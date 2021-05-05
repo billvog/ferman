@@ -1,5 +1,4 @@
 import { hash, verify } from "argon2";
-import { createHash } from "crypto";
 import {
   Arg,
   Ctx,
@@ -102,12 +101,6 @@ export class UserResolver {
     }
 
     return "";
-  }
-
-  // MD5 EMAIL HASH FOR GRAVATAR
-  @FieldResolver(() => String)
-  md5(@Root() user: User) {
-    return createHash("md5").update(user.email).digest("hex");
   }
 
   // PROFILE
