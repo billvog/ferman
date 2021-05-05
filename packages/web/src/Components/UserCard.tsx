@@ -73,7 +73,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 </NextLink>
                 <NextLink href={`/user/${user.uid}/following`}>
                   <span className="link">
-                    <b>{user.followingCount}</b> follow
+                    <b>{user.followingCount}</b> following
                     {user.followingCount !== 1 && "s"}
                   </span>
                 </NextLink>

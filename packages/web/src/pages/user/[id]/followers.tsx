@@ -29,9 +29,11 @@ const UserFollowers = ({}) => {
 
   return (
     <Layout
-      title={`${
-        userData?.user?.username + "'s Followers" || "Inspect Followers"
-      } – Ferman`}
+      title={
+        userData?.user?.username
+          ? `${userData?.user?.username}'s Followers – Ferman`
+          : "Ferman"
+      }
       size="md"
     >
       <div>
