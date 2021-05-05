@@ -7,6 +7,7 @@ import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import Link from "next/link";
+import Head from "next/head";
 
 const ExplorePosts = () => {
   const { data: meData, loading: meLoading } = useMeQuery({
@@ -29,11 +30,13 @@ const ExplorePosts = () => {
   });
 
   return (
-    <Layout
-      size="lg"
-      title="Explore posts – Ferman"
-      description="Explore the most recent posts on Ferman."
-    >
+    <Layout size="lg" title="Explore posts – Ferman">
+      <Head>
+        <meta
+          name="description"
+          content="Explore the most recent posts on Ferman."
+        />
+      </Head>
       <h1 className="heading">Most recent posts</h1>
       {(postsLoading && !postsData) || !postsData || meLoading ? (
         <MySpinner />

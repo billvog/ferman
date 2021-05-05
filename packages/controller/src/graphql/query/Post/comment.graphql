@@ -1,5 +1,5 @@
-query ViewComment($id: String!) {
-  viewComment(id: $id) {
+query Comment($id: String!) {
+  comment(id: $id) {
     parent {
       ...FullComment
     }

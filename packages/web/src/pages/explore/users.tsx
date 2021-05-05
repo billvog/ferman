@@ -8,6 +8,7 @@ import { MySpinner } from "../../components/MySpinner";
 import { UserCard } from "../../components/UserCard";
 import { withMyApollo } from "../../utils/withMyApollo";
 import randomCountry from "random-country-name";
+import Head from "next/head";
 
 const ExploreUsers: React.FC = () => {
   const router = useRouter();
@@ -77,8 +78,13 @@ const ExploreUsers: React.FC = () => {
           ? `Find users in ${router.query.location}`
           : "Find users"
       } – Ferman`}
-      description={`Find users located at ${router.query.location}, find new people at your location and make new friends.s`}
     >
+      <Head>
+        <meta
+          name="description"
+          content={`Find users located at ${router.query.location}, find new people at your location and make new friends.s`}
+        />
+      </Head>
       <div className="flex flex-col mb-3 xs:flex-row xs:items-center xs:mb-1 leading-none">
         <h1 className="text-xl font-bold text-secondary">
           Find users located at

@@ -66,7 +66,7 @@ export class PostCommentResolver {
 
   // GET COMMENT WITH REPLIES
   @Query(() => CommentWithReplies)
-  async viewComment(
+  async comment(
     @Arg("id", () => String) id: string
   ): Promise<CommentWithReplies> {
     const parent = ((await getConnection().query(

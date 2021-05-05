@@ -238,7 +238,7 @@ export type Query = {
   posts: PaginatedPosts;
   post?: Maybe<Post>;
   comments?: Maybe<Array<Comment>>;
-  viewComment: CommentWithReplies;
+  comment: CommentWithReplies;
 };
 
 
@@ -284,7 +284,7 @@ export type QueryCommentsArgs = {
 };
 
 
-export type QueryViewCommentArgs = {
+export type QueryCommentArgs = {
   id: Scalars['String'];
 };
 
@@ -596,6 +596,25 @@ export type LogoutMutation = (
   & Pick<Mutation, 'logout'>
 );
 
+export type CommentQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type CommentQuery = (
+  { __typename?: 'Query' }
+  & { comment: (
+    { __typename?: 'CommentWithReplies' }
+    & { parent: (
+      { __typename?: 'Comment' }
+      & FullCommentFragment
+    ), replies: Array<(
+      { __typename?: 'Comment' }
+      & FullCommentFragment
+    )> }
+  ) }
+);
+
 export type CommentsQueryVariables = Exact<{
   postId: Scalars['String'];
 }>;
@@ -639,25 +658,6 @@ export type PostsQuery = (
     & { posts: Array<(
       { __typename?: 'Post' }
       & FullPostFragment
-    )> }
-  ) }
-);
-
-export type ViewCommentQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-
-export type ViewCommentQuery = (
-  { __typename?: 'Query' }
-  & { viewComment: (
-    { __typename?: 'CommentWithReplies' }
-    & { parent: (
-      { __typename?: 'Comment' }
-      & FullCommentFragment
-    ), replies: Array<(
-      { __typename?: 'Comment' }
-      & FullCommentFragment
     )> }
   ) }
 );
@@ -1383,6 +1383,46 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const CommentDocument = gql`
+    query Comment($id: String!) {
+  comment(id: $id) {
+    parent {
+      ...FullComment
+    }
+    replies {
+      ...FullComment
+    }
+  }
+}
+    ${FullCommentFragmentDoc}`;
+
+/**
+ * __useCommentQuery__
+ *
+ * To run a query within a React component, call `useCommentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCommentQuery(baseOptions: Apollo.QueryHookOptions<CommentQuery, CommentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CommentQuery, CommentQueryVariables>(CommentDocument, options);
+      }
+export function useCommentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentQuery, CommentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CommentQuery, CommentQueryVariables>(CommentDocument, options);
+        }
+export type CommentQueryHookResult = ReturnType<typeof useCommentQuery>;
+export type CommentLazyQueryHookResult = ReturnType<typeof useCommentLazyQuery>;
+export type CommentQueryResult = Apollo.QueryResult<CommentQuery, CommentQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($postId: String!) {
   comments(postId: $postId) {
@@ -1503,46 +1543,6 @@ export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Post
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
-export const ViewCommentDocument = gql`
-    query ViewComment($id: String!) {
-  viewComment(id: $id) {
-    parent {
-      ...FullComment
-    }
-    replies {
-      ...FullComment
-    }
-  }
-}
-    ${FullCommentFragmentDoc}`;
-
-/**
- * __useViewCommentQuery__
- *
- * To run a query within a React component, call `useViewCommentQuery` and pass it any options that fit your needs.
- * When your component renders, `useViewCommentQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useViewCommentQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useViewCommentQuery(baseOptions: Apollo.QueryHookOptions<ViewCommentQuery, ViewCommentQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ViewCommentQuery, ViewCommentQueryVariables>(ViewCommentDocument, options);
-      }
-export function useViewCommentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ViewCommentQuery, ViewCommentQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ViewCommentQuery, ViewCommentQueryVariables>(ViewCommentDocument, options);
-        }
-export type ViewCommentQueryHookResult = ReturnType<typeof useViewCommentQuery>;
-export type ViewCommentLazyQueryHookResult = ReturnType<typeof useViewCommentLazyQuery>;
-export type ViewCommentQueryResult = Apollo.QueryResult<ViewCommentQuery, ViewCommentQueryVariables>;
 export const FollowingUsersDocument = gql`
     query FollowingUsers($userId: Int!) {
   followingUsers(userId: $userId) {

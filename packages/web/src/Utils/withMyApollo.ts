@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, Reference } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { withApollo as createWithApollo } from "next-apollo";
 import { PaginatedPosts, PaginatedUsers } from "@ferman-pkgs/controller";
 import { isServer } from "./isServer";
