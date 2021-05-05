@@ -12,6 +12,7 @@ import {
 } from "@ferman-pkgs/controller";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { MyButton } from "./MyButton";
+import { MyDialog } from "./MyDialog";
 
 interface PostActionButtonsProps {
   post: FullPostFragment;
@@ -118,100 +119,54 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
       </div>
       {/* Confirm modal */}
       {me && me.id === post.creator.id && (
-        <Transition show={isDelModalOpen} as={Fragment}>
-          <Dialog
-            as="div"
-            className="fixed inset-0 z-10 overflow-y-auto backdrop-filter backdrop-blur-md bg-black bg-opacity-20"
-            static
-            open={isDelModalOpen}
-            onClose={() => setDelModalOpen(false)}
-          >
-            <div className="min-h-screen xs:px-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-100"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <Dialog.Overlay className="fixed inset-0" />
-              </Transition.Child>
-              <span
-                className="inline-block h-screen align-middle"
-                aria-hidden="true"
-              >
-                &#8203;
-              </span>
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <div className="inline-block w-full max-w-full xs:max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl xs:rounded-2xl">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    Proceed deleting this post?
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Clicking "Delete" button, all likes and comments of this
-                      post will be deleted. Any further action, will not be able
-                      to be undone.
-                    </p>
-                  </div>
-                  <div className="mt-4 flex space-x-2">
-                    <MyButton
-                      color="danger"
-                      isLoading={deletePostLoading}
-                      onClick={async () => {
-                        const response = await deletePost({
-                          variables: {
-                            id: post.id,
-                          },
-                          update: (cache) => {
-                            cache.evict({ id: "Post:" + post.id });
-                          },
-                        });
+        <MyDialog
+          title="Proceed deleting this post?"
+          body={`Clicking "Delete" button, all likes and comments of this post will be deleted. Any further action, will not be able to be undone.`}
+          buttons={
+            <>
+              <MyButton
+                color="danger"
+                isLoading={deletePostLoading}
+                onClick={async () => {
+                  const response = await deletePost({
+                    variables: {
+                      id: post.id,
+                    },
+                    update: (cache) => {
+                      cache.evict({ id: "Post:" + post.id });
+                    },
+                  });
 
-                        if (response.errors || !response.data?.deletePost) {
-                          return toast({
-                            title: "Error",
-                            description: "Could not delete post",
-                            status: "error",
-                            duration: 5000,
-                          });
-                        }
+                  if (response.errors || !response.data?.deletePost) {
+                    return toast({
+                      title: "Error",
+                      description: "Could not delete post",
+                      status: "error",
+                      duration: 5000,
+                    });
+                  }
 
-                        setDelModalOpen(false);
-                        toast.success("Post deleted");
+                  setDelModalOpen(false);
+                  toast.success("Post deleted");
 
-                        if (typeof onDelete === "function") {
-                          return onDelete();
-                        }
-                      }}
-                    >
-                      Delete
-                    </MyButton>
-                    <MyButton
-                      color="secondary"
-                      onClick={() => setDelModalOpen(false)}
-                    >
-                      Cancel
-                    </MyButton>
-                  </div>
-                </div>
-              </Transition.Child>
-            </div>
-          </Dialog>
-        </Transition>
+                  if (typeof onDelete === "function") {
+                    return onDelete();
+                  }
+                }}
+              >
+                Delete
+              </MyButton>
+              <MyButton
+                color="secondary"
+                onClick={() => setDelModalOpen(false)}
+              >
+                Cancel
+              </MyButton>
+            </>
+          }
+          isOpen={isDelModalOpen}
+          onClose={() => setDelModalOpen(false)}
+        />
       )}
     </div>
   );

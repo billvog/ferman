@@ -1,6 +1,7 @@
 - show location on explore users, UserCard
-- responsive explore users field
-- banner bad blur in mobiles
+
+web:
+  - post preview links (twitter)
 
 web-server:
   - paginate comments
