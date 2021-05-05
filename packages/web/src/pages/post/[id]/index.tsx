@@ -13,6 +13,7 @@ import { ErrorText } from "../../../components/ErrorText";
 import { PostComment } from "../../../components/PostComment";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
+import Head from "next/head";
 
 const ViewPost = ({}) => {
   const router = useRouter();
@@ -41,8 +42,6 @@ const ViewPost = ({}) => {
           ? `${userData?.user?.username}: “${postData?.post?.body}” – Ferman`
           : "Post – Ferman"
       }
-      description={postData?.post?.body}
-      author={userData?.user?.username}
       size="lg"
     >
       <div>
@@ -57,6 +56,26 @@ const ViewPost = ({}) => {
         ) : (
           <div>
             <div>
+              <Head>
+                <meta name="author" content={userData.user.username} />
+                <meta name="description" content={postData.post.body} />
+                <meta
+                  name="og:title"
+                  content={`${userData.user.username} on Ferman`}
+                />
+                <meta
+                  name="og:description"
+                  content="Ferman, the modern saloon."
+                />
+                <meta name="og:type" content="article" />
+                <meta
+                  name="og:url"
+                  // content={`https://ferman.ga/post/${postData.post.id}`}
+                  content={`https://www.gravatar.com/avatar/${userData.user.md5}`}
+                />
+                <meta name="og:sitename" content="Ferman" />
+                <meta name="og:image" content="https://ferman.ga/favicon.ico" />
+              </Head>
               <Post
                 key={postData.post.id}
                 post={postData.post}
