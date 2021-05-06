@@ -304,6 +304,7 @@ export type User = {
   email: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  followsYouStatus?: Maybe<Scalars['Boolean']>;
   followingStatus?: Maybe<Scalars['Boolean']>;
   followerCount: Scalars['Float'];
   followingCount: Scalars['Float'];
@@ -354,7 +355,7 @@ export type FullProfileFragment = (
 
 export type FullUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'followingStatus' | 'followerCount' | 'followingCount'>
+  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'followsYouStatus' | 'followingStatus' | 'followerCount' | 'followingCount'>
   & { profile?: Maybe<(
     { __typename?: 'Profile' }
     & FullProfileFragment
@@ -799,6 +800,7 @@ export const FullUserFragmentDoc = gql`
   username
   email
   createdAt
+  followsYouStatus
   followingStatus
   followerCount
   followingCount
