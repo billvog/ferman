@@ -1,6 +1,6 @@
 {
   "name": "@ferman-pkgs/controller",
-  "version": "0.0.33",
+  "version": "0.0.35",
   "author": "billvog <billvog04@gmail.com>",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
