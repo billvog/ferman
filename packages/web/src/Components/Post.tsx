@@ -33,7 +33,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
               {moment(parseFloat(post.createdAt)).local().fromNow()}
             </div>
           </div>
-          <div className={`text-xs whitespace-pre-wrap break-words truncate`}>
+          <div className={`text-vs whitespace-pre-wrap break-words truncate`}>
             {richBodyText(post.body)}
           </div>
         </div>

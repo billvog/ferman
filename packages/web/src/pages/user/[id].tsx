@@ -63,12 +63,7 @@ const User = ({}) => {
                   )}
                 </div>
                 {postsData.posts.posts.map((post) => (
-                  <Post
-                    key={post.id}
-                    post={post}
-                    me={meData.me || null}
-                    clickable
-                  />
+                  <Post key={post.id} post={post} me={meData.me || null} />
                 ))}
               </div>
             </div>

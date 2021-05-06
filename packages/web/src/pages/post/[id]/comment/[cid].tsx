@@ -75,7 +75,6 @@ const comment = ({}) => {
                       key={comment.id}
                       comment={comment}
                       me={meData?.me || null}
-                      clickable
                     />
                   ))}
                 </div>

@@ -16,11 +16,11 @@ import { MyDialog } from "./MyDialog";
 import Link from "next/link";
 
 const actionClassname =
-  "flex items-center border-none outline-none cursor-pointer disabled:cursor-default bg-transparent";
+  "flex items-center border-none outline-none cursor-pointer disabled:cursor-default bg-transparent group";
 const actionIconColorClassnames = {
-  red: "hover:bg-red-600 hover:bg-opacity-10",
-  primary: "hover:bg-primary-50 hover:bg-opacity-25",
-  accent: "hover:bg-accent hover:bg-opacity-10",
+  red: "group-hover:bg-red-600 group-hover:bg-opacity-10",
+  primary: "group-hover:bg-primary-50 group-hover:bg-opacity-25",
+  accent: "group-hover:bg-accent group-hover:bg-opacity-10",
 };
 
 interface PostActionButtonsProps {
@@ -36,7 +36,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 }) => {
   const [isDelModalOpen, setDelModalOpen] = useState(false);
 
-  const [likePost] = useLikePostMutation();
+  const [likePost, { loading: likeLoading }] = useLikePostMutation();
   const LikePostHandler = async () => {
     const { data } = await likePost({
       variables: {
