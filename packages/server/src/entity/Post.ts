@@ -48,6 +48,6 @@ export class Post extends BaseEntity {
 
   @BeforeInsert()
   private generateId() {
-    this.id = Math.random().toString().slice(2);
+    this.id = Math.random().toString().slice(6);
   }
 }

@@ -111,6 +111,30 @@ export class UserResolver {
     });
   }
 
+  // FOLLOWS YOU STATUS
+  @FieldResolver(() => Boolean, { nullable: true })
+  async followsYouStatus(
+    @Root() user: User,
+    @Ctx() { req }: MyContext
+  ): Promise<Boolean | null> {
+    if (!req.session.userId) {
+      return null;
+    }
+
+    if (
+      await Follow.findOne({
+        where: {
+          userId: user.id,
+          followingUserId: req.session.userId,
+        },
+      })
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   // FOLLOWING STATUS
   @FieldResolver(() => Boolean, { nullable: true })
   async followingStatus(

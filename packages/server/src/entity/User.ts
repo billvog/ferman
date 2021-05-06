@@ -65,6 +65,7 @@ export class User extends BaseEntity {
   @OneToMany(() => Follow, (follow) => follow.followingUser)
   followers: Follow[];
 
+  @Field(() => Boolean, { nullable: true }) followsYouStatus: boolean;
   @Field(() => Boolean, { nullable: true }) followingStatus: boolean;
   @Field() followerCount: number;
   @Field() followingCount: number;
