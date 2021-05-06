@@ -3,7 +3,6 @@ import {
   useFollowUserMutation,
 } from "@ferman-pkgs/controller";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 import { richBodyText } from "../utils/richBodyText";
@@ -18,7 +17,6 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
   user,
   me,
 }) => {
-  const router = useRouter();
   const [followUser, { loading: followLoading }] = useFollowUserMutation();
 
   const followUserHandler = async () => {

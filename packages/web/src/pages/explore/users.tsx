@@ -9,6 +9,7 @@ import { UserCard } from "../../components/UserCard";
 import { withMyApollo } from "../../utils/withMyApollo";
 import randomCountry from "random-country-name";
 import Head from "next/head";
+import { UserSummaryCard } from "../../components/UserSummaryCard";
 
 const ExploreUsers: React.FC = () => {
   const router = useRouter();
@@ -115,11 +116,10 @@ const ExploreUsers: React.FC = () => {
           </div>
           <div className="space-y-2">
             {usersData!.users.users.map((user) => (
-              <UserCard
+              <UserSummaryCard
                 me={meData?.me || null}
                 user={user}
                 key={user.id}
-                minimal
               />
             ))}
           </div>

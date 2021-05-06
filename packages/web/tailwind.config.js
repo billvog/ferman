@@ -20,25 +20,24 @@ module.exports = {
         transparent: 'transparent',
         button: "var(--color-button-text)",
         primary: {
-          50: "var(--color-primary-50)",
-          100: "var(--color-primary-100)",
-          200: "var(--color-primary-200)",
-          300: "var(--color-primary-300)",
-          600: "var(--color-primary-600)",
-          700: "var(--color-primary-700)",
-          800: "var(--color-primary-800)",
-          900: "var(--color-primary-900)",
-          DEFAULT: "var(--color-primary-600)",
+          50: "rgb(var(--color-primary-50), var(--tw-bg-opacity, 1))",
+          100: "rgb(var(--color-primary-100), var(--tw-bg-opacity, 1))",
+          200: "rgb(var(--color-primary-200), var(--tw-bg-opacity, 1))",
+          300: "rgb(var(--color-primary-300), var(--tw-bg-opacity, 1))",
+          600: "rgb(var(--color-primary-600), var(--tw-bg-opacity, 1))",
+          700: "rgb(var(--color-primary-700), var(--tw-bg-opacity, 1))",
+          800: "rgb(var(--color-primary-800), var(--tw-bg-opacity, 1))",
+          900: "rgb(var(--color-primary-900), var(--tw-bg-opacity, 1))",
         },
         secondary: {
-          'washed-out': "var(--color-secondary-washed-out)",
-          hover: "var(--color-secondary-hover)",
-          DEFAULT: "var(--color-secondary)",
+          'washed-out': "rgb(var(--color-secondary-washed-out), var(--tw-bg-opacity, 1))",
+          hover: "rgb(var(--color-secondary-hover), var(--tw-bg-opacity, 1))",
+          DEFAULT: "rgb(var(--color-secondary), var(--tw-bg-opacity, 1))",
         },
         accent: {
-          'washed-out': "var(--color-accent-washed-out)",
-          hover: "var(--color-accent-hover)",
-          DEFAULT: "var(--color-accent)",
+          'washed-out': "rgb(var(--color-accent-washed-out), var(--tw-bg-opacity, 1))",
+          hover: "rgb(var(--color-accent-hover), var(--tw-bg-opacity, 1))",
+          DEFAULT: "rgb(var(--color-accent), var(--tw-bg-opacity, 1))",
         },
         gray: {
           '450': 'hsl(218, 11%, 58%)'
@@ -57,7 +56,7 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ({ after }) => after(["disabled"]),
+    backgroundColor: ({ after }) => after(['disabled']),
     textColor: ({ after }) => after(["disabled"]),
     extend: {
       opacity: ['disabled'],

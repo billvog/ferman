@@ -7,22 +7,22 @@
 :root {
   /* Colors */
   --color-button-text: #fff;
-  --color-primary-50: #deb887;
-  --color-primary-100: #b98f71;
-  --color-primary-200: #a26a42;
-  --color-primary-300: #97582b;
-  --color-primary-600: #8b4513;
-  --color-primary-700: #7d3e11;
-  --color-primary-800: #6f370f;
-  --color-primary-900: #61300d;
+  --color-primary-50: 222, 184, 135;
+  --color-primary-100: 185, 143, 113;
+  --color-primary-200: 162, 106, 66;
+  --color-primary-300: 151, 88, 43;
+  --color-primary-600: 139, 69, 19;
+  --color-primary-700: 125, 62, 17;
+  --color-primary-800: 111, 55, 15;
+  --color-primary-900: 97, 48, 13;
 
-  --color-secondary-washed-out: #546172;
-  --color-secondary-hover: #3e4e61;
-  --color-secondary: #293a4f;
+  --color-secondary-washed-out: 84, 97, 114;
+  --color-secondary-hover: 62, 78, 97;
+  --color-secondary: 41, 58, 79;
 
-  --color-accent-washed-out: #b75555;
-  --color-accent-hover: #ae3f3f;
-  --color-accent: #a52a2a;
+  --color-accent-washed-out: 183, 85, 85;
+  --color-accent-hover: 174, 63, 63;
+  --color-accent: 165, 42, 42;
 
   /* Fonts */
   --cursive-font: "Kaushan Script", cursive;

@@ -67,12 +67,7 @@ const ExplorePosts = () => {
           </div>
           <div className="mt-3">
             {postsData.posts.posts.map((post) => (
-              <Post
-                key={post.id}
-                post={post}
-                me={meData?.me || null}
-                clickable
-              />
+              <Post key={post.id} post={post} me={meData?.me || null} />
             ))}
           </div>
         </div>
