@@ -4,7 +4,7 @@ import {
   useFollowUserMutation,
 } from "@ferman-pkgs/controller";
 import { ImLocation2 } from "react-icons/im";
-import { FaBirthdayCake } from "react-icons/fa";
+import { GiBalloons } from "react-icons/gi";
 import { AiFillCalendar } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
@@ -17,16 +17,23 @@ import { toast } from "react-toastify";
 interface UserCardProps {
   user: FullUserFragment;
   me: FullUserFragment | null;
-  minimal?: boolean;
 }
 
-export const UserCard: React.FC<UserCardProps> = ({
-  user,
-  me,
-  minimal = false,
-}) => {
+export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
   const router = useRouter();
   const [followUser] = useFollowUserMutation();
+
+  const followUserHandler = async () => {
+    const { data } = await followUser({
+      variables: {
+        userId: user.id,
+      },
+    });
+
+    if (!data || data.followUser.error || !data.followUser.users) {
+      return toast.error("Internal server error");
+    }
+  };
 
   return (
     <div className="bg-gray-100 rounded-xl text-gray-700 divide-y-2">
@@ -52,65 +59,54 @@ export const UserCard: React.FC<UserCardProps> = ({
         <div className="flex flex-row justify-between mb-2">
           <div className="ml-2 mt-8">
             <div className="flex flex-col">
-              <div className="font-bold text-base leading-tight">
+              <div className="font-bold text-secondary text-base leading-tight">
                 {user.username}
               </div>
-              <div className="text-xs leading-tight">
-                @
-                <NextLink href={`/user/${user.uid}`}>
-                  <span className="link">{user.uid}</span>
-                </NextLink>
+              <div className="flex items-center space-x-2 text-sm mt-1">
+                <div className="font-medium text-secondary-washed-out">
+                  @
+                  <NextLink href={`/user/${user.uid}`}>
+                    <span className="link">{user.uid}</span>
+                  </NextLink>
+                </div>
+                {user.followsYouStatus && (
+                  <div className="bg-gray-200 text-gray-450 font-semibold rounded-lg px-1.5 text-2xs">
+                    Follows you
+                  </div>
+                )}
               </div>
             </div>
-            {!minimal && (
-              <div className="text-xs mt-2 space-x-3">
-                <NextLink href={`/user/${user.uid}/followers`}>
-                  <span className="link">
-                    <b>{user.followerCount} </b>
-                    follower
-                    {user.followerCount !== 1 && "s"}
-                  </span>
-                </NextLink>
-                <NextLink href={`/user/${user.uid}/following`}>
-                  <span className="link">
-                    <b>{user.followingCount}</b> following
-                    {user.followingCount !== 1 && "s"}
-                  </span>
-                </NextLink>
-              </div>
-            )}
+            <div className="text-vs mt-3 space-x-3">
+              <NextLink href={`/user/${user.uid}/followers`}>
+                <span className="link">
+                  <b>{user.followerCount} </b>
+                  follower
+                  {user.followerCount !== 1 && "s"}
+                </span>
+              </NextLink>
+              <NextLink href={`/user/${user.uid}/following`}>
+                <span className="link">
+                  <b>{user.followingCount}</b> following
+                  {user.followingCount !== 1 && "s"}
+                </span>
+              </NextLink>
+            </div>
           </div>
           <div className="m-2">
             {me &&
               (me.id === user.id ? (
-                !minimal && (
-                  <MyButton
-                    size="small"
-                    onClick={() => router.push("/account/edit-profile")}
-                  >
-                    <FiEdit2 />
-                    <span className="ml-1.5">Edit</span>
-                  </MyButton>
-                )
+                <MyButton
+                  size="small"
+                  onClick={() => router.push("/account/edit-profile")}
+                >
+                  <FiEdit2 />
+                  <span className="ml-1.5">Edit</span>
+                </MyButton>
               ) : (
                 <MyButton
                   size="small"
                   color={user.followingStatus ? "secondary" : "accent"}
-                  onClick={async () => {
-                    const { data } = await followUser({
-                      variables: {
-                        userId: user.id,
-                      },
-                    });
-
-                    if (
-                      !data ||
-                      data.followUser.error ||
-                      !data.followUser.users
-                    ) {
-                      return toast.error("Internal server error");
-                    }
-                  }}
+                  onClick={followUserHandler}
                 >
                   <span>{user.followingStatus ? "Unfollow" : "Follow"}</span>
                 </MyButton>
@@ -118,61 +114,62 @@ export const UserCard: React.FC<UserCardProps> = ({
           </div>
         </div>
       </div>
-      {!minimal && (
-        <div className="divide-y-2">
-          {!!user.profile?.bio && (
-            <div className="text-xs whitespace-pre-wrap break-words p-2 text-gray-500">
-              {richBodyText(user.profile?.bio)}
-            </div>
-          )}
-          <div className="flex text-xs p-2 flex-col space-y-1">
+      <div className="divide-y-2">
+        {!!user.profile?.bio && (
+          <div className="text-vs whitespace-pre-wrap break-words p-2 text-gray-500">
+            {richBodyText(user.profile?.bio)}
+          </div>
+        )}
+        <div className="flex text-xs p-2 flex-col space-y-1">
+          <div
+            className="flex items-center text-gray-500 space-x-1"
+            title="Join date"
+          >
+            <AiFillCalendar />
+            <span className="space-x-1">
+              <span>Joined:</span>
+              <b>
+                {moment(parseFloat(user.createdAt)).local().format("MMMM YYYY")}
+              </b>
+            </span>
+          </div>
+          {user.profile?.showBirthdate && (
             <div
               className="flex items-center text-gray-500 space-x-1"
-              title="Join date"
+              title="Birthday"
             >
-              <AiFillCalendar />
-              <span>
-                Joined:{" "}
-                <b>{moment(parseFloat(user.createdAt)).format("MMMM YYYY")}</b>
+              <GiBalloons />
+              <span className="space-x-1">
+                <span>Birthday:</span>
+                <b>
+                  {moment(parseFloat(user.profile.birthdate))
+                    .local()
+                    .format("MMM Do YYYY")}
+                </b>
               </span>
             </div>
-            {!!user.profile?.location && (
-              <div
-                className="flex items-center text-gray-500 space-x-1"
-                title="Location"
+          )}
+          {!!user.profile?.location && (
+            <div
+              className="flex items-center text-gray-500 space-x-1"
+              title="Location"
+            >
+              <ImLocation2 />
+              <span
+                className="link"
+                onClick={() =>
+                  router.push(
+                    "/explore/users?location=" +
+                      encodeURI(user.profile!.location)
+                  )
+                }
               >
-                <ImLocation2 />
-                <span
-                  className="link"
-                  onClick={() =>
-                    router.push(
-                      "/explore/users?location=" +
-                        encodeURI(user.profile!.location)
-                    )
-                  }
-                >
-                  <b>{user.profile!.location}</b>
-                </span>
-              </div>
-            )}
-            {user.profile?.showBirthdate && (
-              <div
-                className="flex items-center text-gray-500 space-x-1"
-                title="Birthday"
-              >
-                <FaBirthdayCake />
-                <span>
-                  <b>
-                    {moment(parseFloat(user.profile.birthdate)).format(
-                      "MMM Do YYYY"
-                    )}
-                  </b>
-                </span>
-              </div>
-            )}
-          </div>
+                <b>{user.profile!.location}</b>
+              </span>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

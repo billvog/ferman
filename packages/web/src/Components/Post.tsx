@@ -44,7 +44,7 @@ export const Post: React.FC<PostProps> = ({
             </NextLink>
             <div className="hidden mobile:block">·</div>
             <div className="text-2xs leading-normal">
-              {moment.utc(parseFloat(post.createdAt)).local().fromNow()}
+              {moment(parseFloat(post.createdAt)).local().fromNow()}
             </div>
           </div>
           <PostWrapperComponent href={`/post/${post.id}`}>

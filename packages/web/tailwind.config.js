@@ -12,8 +12,9 @@ module.exports = {
         cursive: ['var(--cursive-font)', 'cursive']
       },
       fontSize: {
-        '2xs': '.7rem',
-        'md': '.9rem'
+        '2xs': '0.7rem',
+        'vs': '0.8125rem',
+        'md': '0.9rem'
       },
       colors: {
         transparent: 'transparent',
@@ -39,6 +40,9 @@ module.exports = {
           hover: "var(--color-accent-hover)",
           DEFAULT: "var(--color-accent)",
         },
+        gray: {
+          '450': 'hsl(218, 11%, 58%)'
+        }
       },
       dropShadow: {
         red: '0px 0px 0px 0px rgba(255, 0, 0, 0.5)',
@@ -46,6 +50,9 @@ module.exports = {
       screens: {
         'xs': '500px',
         'mobile': '400px'
+      },
+      borderRadius: {
+        '35': '35%'
       }
     },
   },

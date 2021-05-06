@@ -9,6 +9,7 @@ import { MySpinner } from "../../../components/MySpinner";
 import { MyButton } from "../../../components/MyButton";
 import { MdArrowBack } from "react-icons/md";
 import { useRouter } from "next/router";
+import { UserSummaryCard } from "../../../components/UserSummaryCard";
 
 const UserFollowing = ({}) => {
   const router = useRouter();
@@ -67,11 +68,10 @@ const UserFollowing = ({}) => {
                 ) : (
                   <div className="space-y-2">
                     {followingData.followingUsers?.map((follow) => (
-                      <UserCard
+                      <UserSummaryCard
                         key={follow.id}
                         me={meData.me || null}
                         user={follow}
-                        minimal
                       />
                     ))}
                   </div>

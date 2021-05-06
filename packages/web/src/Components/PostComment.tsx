@@ -38,7 +38,7 @@ export const PostComment: React.FC<PostCommentProps> = ({
             </NextLink>
           </div>
           <div className="text-2xs text-gray-400">
-            {moment.utc(parseFloat(comment.createdAt)).local().fromNow()}
+            {moment(parseFloat(comment.createdAt)).local().fromNow()}
           </div>
         </div>
         <div className="whitespace-pre-wrap text-xs">
