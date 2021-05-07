@@ -15,9 +15,10 @@ import Link from "next/link";
 
 const actionClassname =
   "flex items-center border-none outline-none cursor-pointer disabled:cursor-default bg-transparent group";
+
 const actionIconColorClassnames = {
-  primary: "group-hover:bg-primary-50 group-hover:bg-opacity-25",
-  accent: "group-hover:bg-accent group-hover:bg-opacity-10",
+  secondary: "group-hover:bg-secondary-transparent",
+  accent: "group-hover:bg-accent-transparent",
 };
 
 interface CommentActionButtonsProps {
@@ -67,12 +68,12 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
   };
 
   return (
-    <div className="p-1 bg-gray-50 rounded-b-xl">
+    <div className="p-1 bg-primary-50 rounded-b-xl">
       <div className="flex justify-center items-center space-x-7 text-xs leading-none">
         <Link href={`/post/${comment.postId}/comment/${comment.id}`}>
-          <div className={`text-primary-50 ${actionClassname}`}>
+          <div className={`text-secondary-50 ${actionClassname}`}>
             <div
-              className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.primary}`}
+              className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.secondary}`}
             >
               <BsFillChatSquareFill />
             </div>
@@ -104,7 +105,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                 >
                   <Menu.Items
                     static
-                    className="absolute z-20 right-0 w-40 mt-2 origin-top-right bg-primary-50 rounded-xl focus:outline-none"
+                    className="absolute z-20 right-0 w-40 mt-2 origin-top-right bg-secondary-50 rounded-xl focus:outline-none"
                   >
                     <div className="p-1">
                       <Menu.Item>
@@ -112,8 +113,8 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                           <button
                             className={`${
                               active
-                                ? "bg-primary-600 text-primary-50"
-                                : "text-primary-600"
+                                ? "bg-secondary-600 text-secondary-50"
+                                : "text-secondary-600"
                             } group flex rounded-md items-center w-full p-1.5 text-xs font-bold space-x-1.5`}
                             onClick={() => setDelModalOpen(true)}
                           >
@@ -144,10 +145,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
               >
                 Delete
               </MyButton>
-              <MyButton
-                color="secondary"
-                onClick={() => setDelModalOpen(false)}
-              >
+              <MyButton color="primary" onClick={() => setDelModalOpen(false)}>
                 Cancel
               </MyButton>
             </>

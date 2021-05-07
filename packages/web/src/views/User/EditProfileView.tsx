@@ -88,7 +88,7 @@ const C: React.FC<
             Update
           </MyButton>
           <span
-            className="link text-gray-400 font-semibold text-sm"
+            className="link text-secondary-400 font-semibold text-sm"
             onClick={router.back}
           >
             or Go Back

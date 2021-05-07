@@ -32,7 +32,7 @@ const MyAccount = () => {
         <div className="divide-y-2 space-y-3">
           <div>
             <UserCard me={meData.me} user={meData.me} />
-            <div className="text-gray-400 text-xs font-semibold mt-3 mb-4">
+            <div className="text-primary-400 text-xs font-semibold mt-3 mb-4">
               Ferman uses gravatar for avatars. Learn more about gravatar{" "}
               <a
                 href="https://en.gravatar.com/"
@@ -70,13 +70,13 @@ const MyAccount = () => {
             </div>
           </div>
           <div className="pt-2.5">
-            <div className="leading-none font-bold text-secondary">
+            <div className="leading-none font-bold text-primary">
               Private Information
             </div>
-            <div className="text-gray-400 text-xs mb-2">
+            <div className="text-primary-400 text-xs mb-2">
               These information are not visible in the public.
             </div>
-            <div className="text-gray-500 text-sm">
+            <div className="text-primary-500 text-sm">
               <div>
                 <b>Email:</b> {meData.me.email}
               </div>
@@ -101,7 +101,7 @@ const MyAccount = () => {
             >
               Delete Account
             </MyButton>
-            <div className="text-xs text-gray-400 mt-1">
+            <div className="text-xs text-primary-400 mt-1">
               This will completely remove your account and anything that's
               associated with it (posts, comments, likes, follows, etc). Be
               careful with this, <b>any action cannot be undone</b>. Deleting

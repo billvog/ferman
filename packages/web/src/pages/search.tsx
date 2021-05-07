@@ -10,7 +10,7 @@ import { MyButton } from "../components/MyButton";
 
 const SearchTips = () => {
   return (
-    <div className="mt-2 text-sm text-gray-700">
+    <div className="mt-2 text-sm text-secondary-700">
       <b>Search Tips</b> <br />
       <ul
         className="list-disc"
@@ -99,7 +99,7 @@ const SearchPost = () => {
         <div className="flex leading-tight">
           <div className="flex-1 mb-1">
             <input
-              className="bg-gray-100 hover:bg-gray-200 focus:bg-gray-200 transition-colors duration-75 border-none rounded-xl w-full text-sm leading-6 focus:ring-2 focus:ring-blue-500"
+              className="bg-primary-100 hover:bg-primary-200 focus:bg-primary-200 transition-colors duration-75 border-none rounded-xl w-full text-sm leading-6 focus:ring-2 focus:ring-blue-500"
               type="text"
               placeholder="Search keywords, @mentions, #hashtags"
               value={query}
@@ -130,7 +130,7 @@ const SearchPost = () => {
         </div>
       ) : (
         <div>
-          <div className="mb-4 mt-1 text-gray-400 text-xs">
+          <div className="mb-4 mt-1 text-secondary-400 text-xs">
             Found {postsData?.posts.count} result
             {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
             {postsData?.posts.executionTime
@@ -140,12 +140,7 @@ const SearchPost = () => {
           </div>
           <div>
             {postsData.posts.posts.map((post) => (
-              <Post
-                key={post.id}
-                post={post}
-                me={meData?.me || null}
-                clickable
-              />
+              <Post key={post.id} post={post} me={meData?.me || null} />
             ))}
           </div>
         </div>

@@ -7,22 +7,35 @@
 :root {
   /* Colors */
   --color-button-text: #fff;
-  --color-primary-50: 222, 184, 135;
-  --color-primary-100: 185, 143, 113;
-  --color-primary-200: 162, 106, 66;
-  --color-primary-300: 151, 88, 43;
-  --color-primary-600: 139, 69, 19;
-  --color-primary-700: 125, 62, 17;
-  --color-primary-800: 111, 55, 15;
-  --color-primary-900: 97, 48, 13;
 
-  --color-secondary-washed-out: 84, 97, 114;
-  --color-secondary-hover: 62, 78, 97;
-  --color-secondary: 41, 58, 79;
+  --color-primary-50: #f9fafb;
+  --color-primary-100: #f3f4f6;
+  --color-primary-200: #e5e7eb;
+  --color-primary-300: #d1d5db;
+  --color-primary-400: #9ca3af;
+  --color-primary-450: #8891a0;
+  --color-primary-500: #6b7280;
+  --color-primary-600: #4b5563;
+  --color-primary-700: #374151;
+  --color-primary-800: #1f2937;
+  --color-primary-900: #111827;
 
-  --color-accent-washed-out: 183, 85, 85;
-  --color-accent-hover: 174, 63, 63;
-  --color-accent: 165, 42, 42;
+  --color-secondary-transparent: rgba(222, 184, 135, 0.15);
+  --color-secondary-50: #deb887;
+  --color-secondary-100: #c5a289;
+  --color-secondary-200: #b98f71;
+  --color-secondary-300: #ae7d5a;
+  --color-secondary-400: #a26a42;
+  --color-secondary-500: #97582b;
+  --color-secondary-600: #8b4513;
+  --color-secondary-700: #6f370f;
+  --color-secondary-800: #53290b;
+  --color-secondary-900: #381c08;
+
+  --color-accent-transparent: rgb(165, 42, 42, 0.15);
+  --color-accent-washed-out: #b75555;
+  --color-accent-hover: #ae3f3f;
+  --color-accent: #a52a2a;
 
   /* Fonts */
   --cursive-font: "Kaushan Script", cursive;
@@ -43,27 +56,7 @@ button:focus {
     font-weight: bold;
     font-size: 1.8rem;
     margin-bottom: 2pt;
-  }
-
-  .link {
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .link:hover {
-    text-decoration: underline;
-  }
-
-  @variants hover {
-    .red-text-shadow {
-      text-shadow: 0px 0px 10px red;
-    }
-  }
-
-  @variants disabled {
-    .no-text-shadow {
-      text-shadow: none;
-    }
+    color: var(--color-primary-600);
   }
 }
 

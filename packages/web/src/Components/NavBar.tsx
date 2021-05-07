@@ -11,11 +11,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   });
 
   return (
-    <div className="flex z-10 sticky p-4 text-gray-800 bg-primary-50">
+    <div className="flex z-10 sticky p-4 bg-secondary-50">
       <div className="flex justify-between flex-1 m-auto items-center max-w-xl">
         <div>
           <NextLink href="/">
-            <div className="text-4xl font-bold font-cursive text-secondary-hover cursor-pointer">
+            <div className="text-4xl font-bold font-cursive text-primary-600 cursor-pointer">
               Ferman's
             </div>
           </NextLink>
@@ -24,7 +24,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           {meLoading ? (
             <MySpinner />
           ) : meError || !meData?.me ? (
-            <div className="font-semibold space-x-2 text-gray-700">
+            <div className="font-semibold space-x-2 text-secondary-700">
               <NextLink href="/account/login">
                 <span className="link">Login</span>
               </NextLink>
@@ -35,12 +35,12 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           ) : (
             <div className="flex">
               <NextLink href="/account/">
-                <div className="flex flex-col text-right cursor-pointer">
-                  <span className="font-bold text-base leading-tight text-gray-700">
+                <div className="flex flex-col text-right cursor-pointer group">
+                  <span className="font-bold text-base leading-tight text-primary-700 group-hover:underline">
                     {meData.me.username}
                   </span>
-                  <span className="text-sm font-semibold text-accent-washed-out">
-                    @<span className="link">{meData.me.uid}</span>
+                  <span className="text-sm font-semibold text-accent-hover">
+                    @{meData.me.uid}
                   </span>
                 </div>
               </NextLink>

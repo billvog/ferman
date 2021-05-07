@@ -17,10 +17,11 @@ import Link from "next/link";
 
 const actionClassname =
   "flex items-center border-none outline-none cursor-pointer disabled:cursor-default bg-transparent group";
+
 const actionIconColorClassnames = {
   red: "group-hover:bg-red-600 group-hover:bg-opacity-10",
-  primary: "group-hover:bg-primary-50 group-hover:bg-opacity-25",
-  accent: "group-hover:bg-accent group-hover:bg-opacity-10",
+  secondary: "group-hover:bg-secondary-transparent",
+  accent: "group-hover:bg-accent-transparent",
 };
 
 interface PostActionButtonsProps {
@@ -36,7 +37,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 }) => {
   const [isDelModalOpen, setDelModalOpen] = useState(false);
 
-  const [likePost, { loading: likeLoading }] = useLikePostMutation();
+  const [likePost] = useLikePostMutation();
   const LikePostHandler = async () => {
     const { data } = await likePost({
       variables: {
@@ -84,7 +85,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
   }
 
   return (
-    <div className="p-1 bg-gray-50 rounded-b-xl">
+    <div className="p-1 bg-primary-50 rounded-b-xl">
       <div className="flex justify-center items-center space-x-7 text-xs leading-none">
         <button
           className={`text-red-${canILike ? "500" : "300"} ${actionClassname}`}
@@ -103,9 +104,9 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
           )}
         </button>
         <Link href={`/post/${post.id}`}>
-          <div className={`text-primary-50 ${actionClassname}`}>
+          <div className={`text-secondary-50 ${actionClassname}`}>
             <div
-              className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.primary}`}
+              className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.secondary}`}
             >
               <BsFillChatSquareFill />
             </div>
@@ -137,7 +138,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                 >
                   <Menu.Items
                     static
-                    className="absolute z-20 right-0 w-40 mt-2 origin-top-right bg-primary-50 rounded-xl focus:outline-none"
+                    className="absolute z-20 right-0 w-40 origin-top-right bg-secondary-50 rounded-xl focus:outline-none"
                   >
                     <div className="p-1">
                       <Menu.Item>
@@ -145,8 +146,8 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                           <button
                             className={`${
                               active
-                                ? "bg-primary-600 text-primary-50"
-                                : "text-primary-600"
+                                ? "bg-secondary-600 text-secondary-50"
+                                : "text-secondary-600"
                             } group flex rounded-md items-center w-full p-1.5 text-xs font-bold space-x-1.5`}
                             onClick={() => setDelModalOpen(true)}
                           >
@@ -177,10 +178,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
               >
                 Delete
               </MyButton>
-              <MyButton
-                color="secondary"
-                onClick={() => setDelModalOpen(false)}
-              >
+              <MyButton color="primary" onClick={() => setDelModalOpen(false)}>
                 Cancel
               </MyButton>
             </>

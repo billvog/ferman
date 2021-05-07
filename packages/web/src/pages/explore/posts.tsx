@@ -43,9 +43,9 @@ const ExplorePosts = () => {
       ) : postsError && !postsData ? (
         <ErrorText>Internal server error, please try again later</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <div className="text-gray-400 text-sm">
+        <div className="text-secondary-400 text-sm">
           I'm sad to report you that there are no posts. <br />
-          <span className="text-gray-500">
+          <span className="text-secondary-500">
             Maybe you want to{" "}
             <Link href="/post">
               <span className="text-accent hover:text-accent-washed-out hover:underline font-bold cursor-pointer">
@@ -57,7 +57,7 @@ const ExplorePosts = () => {
         </div>
       ) : (
         <div>
-          <div className="mb-4 mt-1 text-gray-400 text-xs">
+          <div className="mb-4 mt-1 text-secondary-400 text-xs">
             Found {postsData?.posts.count} result
             {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
             {postsData?.posts.executionTime

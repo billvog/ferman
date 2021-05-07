@@ -39,7 +39,7 @@ const Index = () => {
         <div className="flex flex-row space-x-2">
           {meData?.me && (
             <NextLink href="/explore/posts">
-              <MyButton color="secondary" square>
+              <MyButton color="primary" square>
                 <MdExplore />
               </MyButton>
             </NextLink>
@@ -51,7 +51,7 @@ const Index = () => {
           </NextLink>
           {meData?.me && (
             <NextLink href="/post">
-              <MyButton>post now</MyButton>
+              <MyButton color="secondary">post now</MyButton>
             </NextLink>
           )}
         </div>
@@ -61,11 +61,11 @@ const Index = () => {
       ) : postsError && !postsData ? (
         <ErrorText>Internal server error, please try again later</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <div className="text-gray-500">There are no posts...</div>
+        <div className="text-secondary-450">There are no posts...</div>
       ) : (
         <div className="mt-3">
           {postsData.posts.posts.map((post) => (
-            <Post key={post.id} post={post} me={meData?.me || null} clickable />
+            <Post key={post.id} post={post} me={meData?.me || null} />
           ))}
         </div>
       )}

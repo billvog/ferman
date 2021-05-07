@@ -37,7 +37,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
           </MyButton>
           <div>
             <NextLink href="/account/register">
-              <div className="link text-gray-500 font-semibold text-sm">
+              <div className="link text-secondary-500 font-semibold text-sm">
                 or Sign up
               </div>
             </NextLink>
@@ -45,7 +45,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
         </div>
         <div>
           <NextLink href="/account/forgot-password">
-            <div className="link text-gray-500 text-sm mt-2">
+            <div className="link text-secondary-500 text-sm mt-2">
               Forgot Password? Reset
             </div>
           </NextLink>

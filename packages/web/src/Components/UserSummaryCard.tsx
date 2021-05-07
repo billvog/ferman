@@ -32,7 +32,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
   };
 
   return (
-    <div className="bg-gray-100 rounded-xl p-2 flex flex-col">
+    <div className="bg-primary-100 rounded-xl p-2 flex flex-col">
       <div className="flex">
         <div>
           <Link href={`/user/${encodeURIComponent(user.uid)}`}>
@@ -63,7 +63,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                       @{user.uid}
                     </div>
                     {user.followsYouStatus && (
-                      <div className="bg-gray-200 text-gray-450 font-semibold rounded-md px-1.5 leading-relaxed text-2xs">
+                      <div className="bg-primary-200 text-secondary-450 font-semibold rounded-md px-1.5 leading-relaxed text-2xs">
                         Follows you
                       </div>
                     )}
@@ -86,7 +86,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
           </div>
           {!!user.profile?.bio && (
             <div className="mt-1.5">
-              <div className="text-xs text-gray-450 truncate whitespace-normal">
+              <div className="text-xs text-secondary-450 truncate whitespace-normal">
                 {richBodyText(user.profile.bio)}
               </div>
             </div>

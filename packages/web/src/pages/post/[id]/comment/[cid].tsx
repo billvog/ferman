@@ -48,7 +48,7 @@ const comment = ({}) => {
               />
             </div>
             <div className="flex mt-6 justify-between items-center">
-              <div className="text-md text-gray-600">
+              <div className="text-lg text-primary-600">
                 <b>Replies</b>{" "}
                 {!!commentData?.comment?.replies.length &&
                   `(${commentData?.comment?.replies.length})`}
@@ -67,7 +67,9 @@ const comment = ({}) => {
             </div>
             <div>
               {commentData.comment?.replies.length === 0 ? (
-                <div className="text-sm text-gray-500">There no replies...</div>
+                <div className="text-sm text-primary-450">
+                  There no replies...
+                </div>
               ) : (
                 <div className="mt-3 space-y-2">
                   {commentData.comment.replies?.map((comment) => (

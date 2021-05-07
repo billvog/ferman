@@ -63,7 +63,7 @@ const ViewPost = () => {
                 />
               </div>
               <div className="flex mt-6 justify-between items-center">
-                <div className="text-md text-gray-600">
+                <div className="text-lg text-primary-600">
                   <b>Comments</b>{" "}
                   {!!commentsData?.comments?.length &&
                     `(${commentsData?.comments?.length})`}
@@ -84,7 +84,7 @@ const ViewPost = () => {
                 ) : !commentsData ? (
                   <ErrorText>Internal server error.</ErrorText>
                 ) : commentsData.comments?.length === 0 ? (
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-primary-450">
                     There no comments...
                   </div>
                 ) : (

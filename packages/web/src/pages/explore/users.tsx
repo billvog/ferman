@@ -106,7 +106,7 @@ const ExploreUsers: React.FC = () => {
         </div>
       ) : usersQueryCalled ? (
         <>
-          <div className="xs:mb-4 mb-5 text-gray-400 text-xs">
+          <div className="xs:mb-4 mb-5 text-secondary-400 text-xs">
             Found {usersData!.users.count} result
             {usersData!.users.count !== 1 ? "s" : ""} in{" "}
             {usersData!.users.executionTime

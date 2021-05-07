@@ -9,11 +9,11 @@ const sizeClassnames = {
 
 const colorClassnames = {
   primary:
-    "bg-primary-600 ring-primary-600 hover:bg-primary-300 disabled:text-primary-200 disabled:bg-primary-500",
+    "bg-primary-700 ring-primary-600 hover:bg-primary-600 disabled:text-secondary-200 disabled:bg-primary-500",
   accent:
     "bg-accent ring-accent hover:bg-accent-hover disabled:text-accent-whased-out",
   secondary:
-    "bg-secondary ring-secondary hover:bg-secondary-hover disabled:text-secondary-washed-out",
+    "bg-secondary-600 ring-secondary-600 hover:bg-secondary-500 disabled:text-secondary-300",
   danger: "bg-red-600 ring-red-600 hover:bg-red-500 disabled:bg-red-500",
   success:
     "bg-green-600 ring-green-600 hover:bg-green-500 disabled:bg-green-500",
@@ -32,7 +32,7 @@ export const MyButton: React.FC<MyButtonProps> = ({
   children,
   isLoading,
   size = "big",
-  color = "primary",
+  color = "secondary",
   square = false,
   ...props
 }) => {

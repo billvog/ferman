@@ -76,7 +76,7 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                 </h1>
                 {phase === 0 ? (
                   <>
-                    <div className="text-sm text-gray-400 font-semibold mb-2 leading-snug">
+                    <div className="text-sm text-secondary-400 font-semibold mb-2 leading-snug">
                       Deleting your account, requires you to pass a two-factor
                       authentication process to proove you are the owner of this
                       account.
