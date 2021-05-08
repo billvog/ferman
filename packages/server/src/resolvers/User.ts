@@ -161,7 +161,7 @@ export class UserResolver {
 
   // FOLLOWER COUNT
   @FieldResolver(() => Int)
-  async followerCount(@Root() user: User) {
+  async followersCount(@Root() user: User) {
     const [, count] = await Follow.findAndCount({
       where: {
         followingUserId: user.id,
@@ -173,7 +173,7 @@ export class UserResolver {
 
   // FOLLOWS COUNT
   @FieldResolver(() => Int)
-  async followingCount(@Root() user: User) {
+  async followingsCount(@Root() user: User) {
     const [, count] = await Follow.findAndCount({
       where: {
         userId: user.id,
@@ -184,41 +184,89 @@ export class UserResolver {
   }
 
   // FOLLOWERS
-  @Query(() => [User], { nullable: true })
-  async userFollowers(
+  @Query(() => PaginatedUsers, { nullable: true })
+  async followers(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("skip", () => Int, { nullable: true }) skip: number,
     @Arg("userId", () => Int) userId: number
-  ): Promise<User[] | undefined> {
-    return getConnection().query(
-      `
-      select * from users u
-      where id in (
-        select "userId" from follows f where f."followingUserId"=$1
+  ): Promise<PaginatedUsers> {
+    const start = Date.now();
+
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    const qb = getConnection()
+      .getRepository(User)
+      .createQueryBuilder("u")
+      .where(
+        'u.id IN (select "userId" from follows f where f."followingUserId"=:userId)',
+        {
+          userId,
+        }
       )
-      `,
-      [userId]
-    );
+      .limit(realLimitPlusOne);
+
+    if (skip && skip > 0) {
+      qb.offset(skip);
+    }
+
+    const [users, count] = await qb.getManyAndCount();
+
+    const end = Date.now();
+    const executionTime = end - start;
+
+    return {
+      users: users.slice(0, realLimit),
+      hasMore: users.length === realLimitPlusOne,
+      count,
+      executionTime,
+    };
   }
 
-  // FOLLOWING
-  @Query(() => [User], { nullable: true })
-  async followingUsers(
+  // FOLLOWINGS
+  @Query(() => PaginatedUsers, { nullable: true })
+  async followings(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("skip", () => Int, { nullable: true }) skip: number,
     @Arg("userId", () => Int) userId: number
-  ): Promise<User[] | undefined> {
-    return getConnection().query(
-      `
-      select * from users u
-      where id in (
-        select "followingUserId" from follows f where f."userId"=$1
+  ): Promise<PaginatedUsers> {
+    const start = Date.now();
+
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    const qb = getConnection()
+      .getRepository(User)
+      .createQueryBuilder("u")
+      .where(
+        'u.id IN (select "followingUserId" from follows f where f."userId"=:userId)',
+        {
+          userId,
+        }
       )
-      `,
-      [userId]
-    );
+      .limit(realLimitPlusOne);
+
+    if (skip && skip > 0) {
+      qb.offset(skip);
+    }
+
+    const [users, count] = await qb.getManyAndCount();
+
+    const end = Date.now();
+    const executionTime = end - start;
+
+    return {
+      users: users.slice(0, realLimit),
+      hasMore: users.length === realLimitPlusOne,
+      count,
+      executionTime,
+    };
   }
 
   // FOLLOW/UNFOLLOW
   @Mutation(() => MinimalUsersResponse)
   @UseMiddleware(isAuth)
-  async followUser(
+  async follow(
     @Arg("userId", () => Int) userId: number,
     @Ctx() { req }: MyContext
   ): Promise<MinimalUsersResponse> {
@@ -406,7 +454,7 @@ export class UserResolver {
     };
   }
 
-  // REGISTER PHASE ONE
+  // REGISTER
   @Mutation(() => FieldError, { nullable: true })
   @UseMiddleware(isNotAuth)
   async register(
@@ -723,10 +771,10 @@ export class UserResolver {
     return null;
   }
 
-  // DELETE USER – 1 PHASE
+  // DELETE USER
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
-  async deleteAccountRequest(
+  async accountDeletionRequest(
     @Ctx() { req, redis }: MyContext
   ): Promise<boolean> {
     const user = await User.findOne(req.session.userId);
@@ -763,7 +811,7 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
-  async validateAccDelToken(
+  async validateAccountDeletionToken(
     @Arg("token") token: string,
     @Ctx() { redis, req }: MyContext
   ) {
@@ -777,10 +825,9 @@ export class UserResolver {
     return true;
   }
 
-  // DELETE USER – 2 PHASE
   @Mutation(() => FieldError, { nullable: true })
   @UseMiddleware(isAuth)
-  async deleteAccountFinal(
+  async finishAccountDeletion(
     @Arg("token") token: string,
     @Arg("password") password: string,
     @Ctx() { req, res, redis }: MyContext

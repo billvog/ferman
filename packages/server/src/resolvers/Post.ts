@@ -199,7 +199,7 @@ export class PostResolver {
   // LIKE/UNLIKE POST
   @Mutation(() => MinimalPostResponse)
   @UseMiddleware(isAuth)
-  async like(
+  async likePost(
     @Arg("postId", () => String) postId: string,
     @Ctx() { req }: MyContext
   ): Promise<MinimalPostResponse> {
