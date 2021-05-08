@@ -1,10 +1,5 @@
-query Comment($id: String!) {
-  comment(id: $id) {
-    parent {
-      ...FullComment
-    }
-    replies {
-      ...FullComment
-    }
+query Comment($limit: Int!, $skip: Int, $id: String!) {
+  comment(limit: $limit, skip: $skip, id: $id) {
+    ...PaginatedComments
   }
 }

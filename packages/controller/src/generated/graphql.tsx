@@ -36,12 +36,6 @@ export type CommentResponse = {
   comment?: Maybe<Comment>;
 };
 
-export type CommentWithReplies = {
-  __typename?: 'CommentWithReplies';
-  parent: Comment;
-  replies: Array<Comment>;
-};
-
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -167,6 +161,15 @@ export type MutationDeleteCommentArgs = {
   id: Scalars['String'];
 };
 
+export type PaginatedComments = {
+  __typename?: 'PaginatedComments';
+  parent?: Maybe<Comment>;
+  comments: Array<Comment>;
+  hasMore: Scalars['Boolean'];
+  count: Scalars['Int'];
+  executionTime: Scalars['Float'];
+};
+
 export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   posts: Array<Post>;
@@ -238,8 +241,8 @@ export type Query = {
   me?: Maybe<User>;
   posts: PaginatedPosts;
   post?: Maybe<Post>;
-  comments?: Maybe<Array<Comment>>;
-  comment: CommentWithReplies;
+  comments: PaginatedComments;
+  comment: PaginatedComments;
 };
 
 
@@ -286,11 +289,15 @@ export type QueryPostArgs = {
 
 export type QueryCommentsArgs = {
   postId: Scalars['String'];
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
 };
 
 
 export type QueryCommentArgs = {
   id: Scalars['String'];
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
 };
 
 export type RegisterInput = {
@@ -365,6 +372,18 @@ export type FullUserFragment = (
   & { profile?: Maybe<(
     { __typename?: 'Profile' }
     & FullProfileFragment
+  )> }
+);
+
+export type PaginatedCommentsFragment = (
+  { __typename?: 'PaginatedComments' }
+  & Pick<PaginatedComments, 'hasMore' | 'executionTime' | 'count'>
+  & { parent?: Maybe<(
+    { __typename?: 'Comment' }
+    & FullCommentFragment
+  )>, comments: Array<(
+    { __typename?: 'Comment' }
+    & FullCommentFragment
   )> }
 );
 
@@ -630,6 +649,8 @@ export type LogoutMutation = (
 );
 
 export type CommentQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
   id: Scalars['String'];
 }>;
 
@@ -637,28 +658,24 @@ export type CommentQueryVariables = Exact<{
 export type CommentQuery = (
   { __typename?: 'Query' }
   & { comment: (
-    { __typename?: 'CommentWithReplies' }
-    & { parent: (
-      { __typename?: 'Comment' }
-      & FullCommentFragment
-    ), replies: Array<(
-      { __typename?: 'Comment' }
-      & FullCommentFragment
-    )> }
+    { __typename?: 'PaginatedComments' }
+    & PaginatedCommentsFragment
   ) }
 );
 
 export type CommentsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
   postId: Scalars['String'];
 }>;
 
 
 export type CommentsQuery = (
   { __typename?: 'Query' }
-  & { comments?: Maybe<Array<(
-    { __typename?: 'Comment' }
-    & FullCommentFragment
-  )>> }
+  & { comments: (
+    { __typename?: 'PaginatedComments' }
+    & PaginatedCommentsFragment
+  ) }
 );
 
 export type PostQueryVariables = Exact<{
@@ -785,6 +802,19 @@ export const FullCommentFragmentDoc = gql`
   }
 }
     `;
+export const PaginatedCommentsFragmentDoc = gql`
+    fragment PaginatedComments on PaginatedComments {
+  hasMore
+  executionTime
+  count
+  parent {
+    ...FullComment
+  }
+  comments {
+    ...FullComment
+  }
+}
+    ${FullCommentFragmentDoc}`;
 export const FullPostFragmentDoc = gql`
     fragment FullPost on Post {
   id
@@ -1439,17 +1469,12 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const CommentDocument = gql`
-    query Comment($id: String!) {
-  comment(id: $id) {
-    parent {
-      ...FullComment
-    }
-    replies {
-      ...FullComment
-    }
+    query Comment($limit: Int!, $skip: Int, $id: String!) {
+  comment(limit: $limit, skip: $skip, id: $id) {
+    ...PaginatedComments
   }
 }
-    ${FullCommentFragmentDoc}`;
+    ${PaginatedCommentsFragmentDoc}`;
 
 /**
  * __useCommentQuery__
@@ -1463,6 +1488,8 @@ export const CommentDocument = gql`
  * @example
  * const { data, loading, error } = useCommentQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
  *      id: // value for 'id'
  *   },
  * });
@@ -1479,12 +1506,12 @@ export type CommentQueryHookResult = ReturnType<typeof useCommentQuery>;
 export type CommentLazyQueryHookResult = ReturnType<typeof useCommentLazyQuery>;
 export type CommentQueryResult = Apollo.QueryResult<CommentQuery, CommentQueryVariables>;
 export const CommentsDocument = gql`
-    query Comments($postId: String!) {
-  comments(postId: $postId) {
-    ...FullComment
+    query Comments($limit: Int!, $skip: Int, $postId: String!) {
+  comments(limit: $limit, skip: $skip, postId: $postId) {
+    ...PaginatedComments
   }
 }
-    ${FullCommentFragmentDoc}`;
+    ${PaginatedCommentsFragmentDoc}`;
 
 /**
  * __useCommentsQuery__
@@ -1498,6 +1525,8 @@ export const CommentsDocument = gql`
  * @example
  * const { data, loading, error } = useCommentsQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
  *      postId: // value for 'postId'
  *   },
  * });

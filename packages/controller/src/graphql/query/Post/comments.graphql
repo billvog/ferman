@@ -1,5 +1,5 @@
-query Comments($postId: String!) {
-  comments(postId: $postId) {
-    ...FullComment
+query Comments($limit: Int!, $skip: Int, $postId: String!) {
+  comments(limit: $limit, skip: $skip, postId: $postId) {
+    ...PaginatedComments
   }
 }

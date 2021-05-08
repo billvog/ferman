@@ -1,0 +1,11 @@
+fragment PaginatedComments on PaginatedComments {
+  hasMore
+  executionTime
+  count
+  parent {
+    ...FullComment
+  }
+  comments {
+    ...FullComment
+  }
+}
