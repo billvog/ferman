@@ -21,7 +21,6 @@ export const LoginController: React.FC<LoginControllerProps> = ({
   onFinish,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
-  const [done, setDone] = useState(false);
   const [login] = useLoginMutation({
     update: async (store, { data }) => {
       await store.reset();
@@ -50,10 +49,14 @@ export const LoginController: React.FC<LoginControllerProps> = ({
     }
 
     if (data?.login.error) {
-      return {
-        [data.login.error.field]: data.login.error.message,
-      };
+      setMessage({
+        type: "error",
+        text: data.login.error.message,
+      });
+      return null;
     }
+
+    setMessage(null);
 
     // remove stored values of register multi-step form from localStorage
     localStorage.removeItem("stored.InitialRegisterValues");

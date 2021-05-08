@@ -381,8 +381,8 @@ export class UserResolver {
     if (!user) {
       return {
         error: {
-          field: "email",
-          message: "Could not find user",
+          field: "_",
+          message: "Wrong credentials",
         },
       };
     }
@@ -392,8 +392,8 @@ export class UserResolver {
     if (!passwordIsValid) {
       return {
         error: {
-          field: "password",
-          message: "Incorrect password",
+          field: "_",
+          message: "Wrong credentials",
         },
       };
     }

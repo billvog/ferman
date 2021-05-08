@@ -1,5 +1,5 @@
 import FormStyles from "../../css/form.module.css";
-import { ErrorMap, LoginFormValues } from "@ferman-pkgs/controller";
+import { ErrorMap, LoginFormValues, MyMessage } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
 import { InputField } from "../../components/InputField";
@@ -7,17 +7,25 @@ import { Layout } from "../../components/Layout";
 import NextLink from "next/link";
 import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { MyButton } from "../../components/MyButton";
+import { MyAlert } from "../../components/MyAlert";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
+  message: MyMessage | null;
 }
 
 const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
+  message,
   isSubmitting,
 }) => {
   return (
     <Layout size="sm" title="Sign in – Ferman" isNotAuth>
       <Form>
+        {message && (
+          <div className="mb-2">
+            <MyAlert color={message.type}>{message.text}</MyAlert>
+          </div>
+        )}
         <h1 className="heading">Sign in</h1>
         <InputField
           label="Email"
