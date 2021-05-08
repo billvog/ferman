@@ -6,8 +6,8 @@ fragment FullUser on User {
   createdAt
   followsYouStatus
   followingStatus
-  followerCount
-  followingCount
+  followersCount
+  followingsCount
   profile {
     ...FullProfile
   }

@@ -16,10 +16,18 @@ const comment = ({}) => {
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
   });
-  const { data: commentData, loading: commentLoading } = useCommentQuery({
+  const {
+    data: commentData,
+    loading: commentLoading,
+    fetchMore: fetchMoreComments,
+    variables: commentVariables,
+  } = useCommentQuery({
+    notifyOnNetworkStatusChange: true,
     skip: typeof id !== "string",
     variables: {
       id,
+      limit: 15,
+      skip: 0,
     },
   });
 
@@ -27,15 +35,15 @@ const comment = ({}) => {
     <CommentOpenGraphPreview comment={commentData?.comment.parent}>
       <Layout
         title={
-          commentData?.comment
-            ? `${commentData?.comment.parent.user.username}: "${commentData?.comment.parent.text}" – Ferman`
+          commentData?.comment.parent
+            ? `${commentData.comment.parent?.user.username}: "${commentData?.comment.parent?.text}" – Ferman`
             : "Ferman"
         }
         size="4xl"
       >
-        {commentLoading || meLoading ? (
+        {(!commentData && commentLoading) || meLoading ? (
           <MySpinner />
-        ) : !commentData?.comment ? (
+        ) : !commentData?.comment.parent ? (
           <ErrorText>Comment could not be found</ErrorText>
         ) : !commentData || !meData ? (
           <ErrorText>Internal server error, please try again later</ErrorText>
@@ -54,14 +62,14 @@ const comment = ({}) => {
               <div className="flex mt-6 tablet:mt-0 justify-between items-center">
                 <div className="text-lg text-primary-600">
                   <b>Replies</b>{" "}
-                  {!!commentData?.comment?.replies.length &&
-                    `(${commentData?.comment?.replies.length})`}
+                  {!!commentData?.comment?.count &&
+                    `(${commentData?.comment?.count})`}
                 </div>
                 {meData?.me && (
                   <MyButton
                     onClick={() => {
                       router.push(
-                        `/post/${commentData.comment.parent.postId}/comment?reply=${commentData.comment.parent.id}`
+                        `/post/${commentData.comment.parent?.postId}/comment?reply=${commentData.comment.parent?.id}`
                       );
                     }}
                   >
@@ -70,19 +78,36 @@ const comment = ({}) => {
                 )}
               </div>
               <div>
-                {commentData.comment?.replies.length === 0 ? (
+                {commentData.comment?.count === 0 ? (
                   <div className="text-sm text-primary-450">
                     There no replies...
                   </div>
                 ) : (
                   <div className="mt-3 space-y-2">
-                    {commentData.comment.replies?.map((comment) => (
+                    {commentData.comment.comments?.map((comment) => (
                       <PostComment
                         key={comment.id}
                         comment={comment}
                         me={meData?.me || null}
                       />
                     ))}
+                  </div>
+                )}
+                {commentData?.comment.comments && commentData.comment.hasMore && (
+                  <div className="flex justify-center mt-5">
+                    <MyButton
+                      isLoading={commentLoading}
+                      onClick={() => {
+                        fetchMoreComments!({
+                          variables: {
+                            ...commentVariables,
+                            skip: commentData.comment.comments.length,
+                          },
+                        });
+                      }}
+                    >
+                      load more
+                    </MyButton>
                   </div>
                 )}
               </div>

@@ -317,11 +317,9 @@ export type User = {
   updatedAt: Scalars['String'];
   followsYouStatus?: Maybe<Scalars['Boolean']>;
   followingStatus?: Maybe<Scalars['Boolean']>;
-  followerCount: Scalars['Float'];
-  followingCount: Scalars['Float'];
+  followersCount: Scalars['Float'];
+  followingsCount: Scalars['Float'];
   profile?: Maybe<Profile>;
-  followersCount: Scalars['Int'];
-  followingsCount: Scalars['Int'];
 };
 
 export type UserErrorResponse = {
@@ -368,7 +366,7 @@ export type FullProfileFragment = (
 
 export type FullUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'followsYouStatus' | 'followingStatus' | 'followerCount' | 'followingCount'>
+  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'followsYouStatus' | 'followingStatus' | 'followersCount' | 'followingsCount'>
   & { profile?: Maybe<(
     { __typename?: 'Profile' }
     & FullProfileFragment
@@ -862,8 +860,8 @@ export const FullUserFragmentDoc = gql`
   createdAt
   followsYouStatus
   followingStatus
-  followerCount
-  followingCount
+  followersCount
+  followingsCount
   profile {
     ...FullProfile
   }

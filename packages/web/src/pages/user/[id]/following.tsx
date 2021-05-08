@@ -2,7 +2,7 @@ import React from "react";
 import { ErrorText } from "../../../components/ErrorText";
 import { Layout } from "../../../components/Layout";
 import { UserCard } from "../../../components/UserCard";
-import { useFollowingUsersQuery, useMeQuery } from "@ferman-pkgs/controller";
+import { useFollowingsQuery, useMeQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { MySpinner } from "../../../components/MySpinner";
@@ -19,12 +19,17 @@ const UserFollowing = ({}) => {
   });
   const { data: userData, loading: userLoading } = useGetUserFromUrl();
   const {
-    data: followingData,
-    loading: followingLoading,
-  } = useFollowingUsersQuery({
+    data: followingsData,
+    loading: followingsLoading,
+    fetchMore: fetchMoreFollowings,
+    variables: followingsVariables,
+  } = useFollowingsQuery({
+    notifyOnNetworkStatusChange: true,
     skip: !userData?.user?.id,
     variables: {
       userId: userData?.user?.id || -1,
+      limit: 15,
+      skip: 0,
     },
   });
 
@@ -32,17 +37,17 @@ const UserFollowing = ({}) => {
     <Layout
       title={
         userData?.user?.username
-          ? `${userData?.user?.username}'s Follows – Ferman`
+          ? `People ${userData?.user?.username} follows on Ferman`
           : "Ferman"
       }
       size="md"
     >
       <div>
-        {userLoading || followingLoading || meLoading ? (
+        {userLoading || (!followingsData && followingsLoading) || meLoading ? (
           <MySpinner />
         ) : !userData?.user ? (
           <ErrorText>User not found (404)</ErrorText>
-        ) : !userData || !followingData || !meData ? (
+        ) : !userData || !followingsData || !meData ? (
           <ErrorText>Internal server error, please try again later</ErrorText>
         ) : (
           <div>
@@ -56,18 +61,22 @@ const UserFollowing = ({}) => {
                   >
                     <MdArrowBack />
                   </MyButton>
-                  <h1 className="text-xl">
-                    <b>{userData.user.username}'s</b> Follows
+                  <h1 className="text-xl text-primary-600">
+                    <b>{userData.user.username}'s</b> Followings{" "}
+                    {followingsData.followings &&
+                      followingsData.followings.count > 1 && (
+                        <span>({followingsData.followings.count})</span>
+                      )}
                   </h1>
                 </div>
-                {followingData.followingUsers?.length === 0 ? (
+                {followingsData.followings?.count === 0 ? (
                   <div className="text-red-500 text-base">
                     There are no users followed by{" "}
                     <b>{userData.user.username}</b>
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    {followingData.followingUsers?.map((follow) => (
+                    {followingsData.followings?.users.map((follow) => (
                       <UserSummaryCard
                         key={follow.id}
                         me={meData.me || null}
@@ -76,6 +85,24 @@ const UserFollowing = ({}) => {
                     ))}
                   </div>
                 )}
+                {followingsData?.followings?.users &&
+                  followingsData?.followings.hasMore && (
+                    <div className="flex justify-center mt-5">
+                      <MyButton
+                        isLoading={followingsLoading}
+                        onClick={() => {
+                          fetchMoreFollowings!({
+                            variables: {
+                              ...followingsVariables,
+                              skip: followingsData.followings?.users.length,
+                            },
+                          });
+                        }}
+                      >
+                        load more
+                      </MyButton>
+                    </div>
+                  )}
               </div>
             </div>
           </div>

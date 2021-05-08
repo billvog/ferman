@@ -1,7 +1,4 @@
-import {
-  FullUserFragment,
-  useFollowUserMutation,
-} from "@ferman-pkgs/controller";
+import { FullUserFragment, useFollowMutation } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
@@ -17,7 +14,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
   user,
   me,
 }) => {
-  const [followUser, { loading: followLoading }] = useFollowUserMutation();
+  const [followUser, { loading: followLoading }] = useFollowMutation();
 
   const followUserHandler = async () => {
     const { data } = await followUser({
@@ -26,7 +23,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
       },
     });
 
-    if (!data || data.followUser.error || !data.followUser.users) {
+    if (!data || data.follow.error || !data.follow.users) {
       return toast.error("Internal server error");
     }
   };

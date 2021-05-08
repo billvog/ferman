@@ -2,7 +2,7 @@ import React from "react";
 import { ErrorText } from "../../../components/ErrorText";
 import { Layout } from "../../../components/Layout";
 import { UserCard } from "../../../components/UserCard";
-import { useMeQuery, useUserFollowersQuery } from "@ferman-pkgs/controller";
+import { useMeQuery, useFollowersQuery } from "@ferman-pkgs/controller";
 import { useGetUserFromUrl } from "../../../utils/useGetUserFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { MySpinner } from "../../../components/MySpinner";
@@ -21,10 +21,15 @@ const UserFollowers = ({}) => {
   const {
     data: followersData,
     loading: followersLoading,
-  } = useUserFollowersQuery({
+    fetchMore: fetchMoreFollowers,
+    variables: followersVariables,
+  } = useFollowersQuery({
+    notifyOnNetworkStatusChange: true,
     skip: !userData?.user?.id,
     variables: {
       userId: userData?.user?.id || -1,
+      limit: 15,
+      skip: 0,
     },
   });
 
@@ -32,13 +37,13 @@ const UserFollowers = ({}) => {
     <Layout
       title={
         userData?.user?.username
-          ? `${userData?.user?.username}'s Followers – Ferman`
+          ? `People that follow ${userData?.user?.username} on Ferman`
           : "Ferman"
       }
       size="md"
     >
       <div>
-        {userLoading || meLoading || followersLoading ? (
+        {userLoading || meLoading || (!followersData && followersLoading) ? (
           <MySpinner />
         ) : !userData?.user ? (
           <ErrorText>User not found (404)</ErrorText>
@@ -56,17 +61,21 @@ const UserFollowers = ({}) => {
                   >
                     <MdArrowBack />
                   </MyButton>
-                  <h1 className="text-xl">
-                    <b>{userData.user.username}'s</b> Followers
+                  <h1 className="text-xl text-primary-600">
+                    <b>{userData.user.username}'s</b> Followers{" "}
+                    {followersData.followers &&
+                      followersData.followers.count > 1 && (
+                        <span>({followersData.followers.count})</span>
+                      )}
                   </h1>
                 </div>
-                {followersData.userFollowers?.length === 0 ? (
+                {followersData.followers?.count === 0 ? (
                   <div className="text-red-500 text-base">
                     There are no users following <b>{userData.user.username}</b>
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    {followersData.userFollowers?.map((follower) => (
+                    {followersData.followers?.users.map((follower) => (
                       <UserSummaryCard
                         key={follower.id}
                         me={meData.me || null}
@@ -75,6 +84,24 @@ const UserFollowers = ({}) => {
                     ))}
                   </div>
                 )}
+                {followersData?.followers?.users &&
+                  followersData?.followers.hasMore && (
+                    <div className="flex justify-center mt-5">
+                      <MyButton
+                        isLoading={followersLoading}
+                        onClick={() => {
+                          fetchMoreFollowers!({
+                            variables: {
+                              ...followersVariables,
+                              skip: followersData.followers?.users.length,
+                            },
+                          });
+                        }}
+                      >
+                        load more
+                      </MyButton>
+                    </div>
+                  )}
               </div>
             </div>
           </div>

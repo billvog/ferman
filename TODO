@@ -1,8 +1,3 @@
-- show location on explore users, UserCard
-
-web:
-  - post preview links (twitter)
-
 web-server:
   - paginate comments
   - paginate follows/ers

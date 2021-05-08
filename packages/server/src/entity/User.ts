@@ -67,6 +67,6 @@ export class User extends BaseEntity {
 
   @Field(() => Boolean, { nullable: true }) followsYouStatus: boolean;
   @Field(() => Boolean, { nullable: true }) followingStatus: boolean;
-  @Field() followerCount: number;
-  @Field() followingCount: number;
+  @Field() followersCount: number;
+  @Field() followingsCount: number;
 }

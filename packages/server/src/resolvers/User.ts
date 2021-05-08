@@ -302,8 +302,8 @@ export class UserResolver {
         followingUserId: user.id,
       });
 
-      user.followerCount -= 1;
-      me.followingCount -= 1;
+      user.followersCount -= 1;
+      me.followingsCount -= 1;
     }
     // follow
     else {
@@ -312,8 +312,8 @@ export class UserResolver {
         followingUserId: user.id,
       });
 
-      user.followerCount += 1;
-      me.followingCount += 1;
+      user.followersCount += 1;
+      me.followingsCount += 1;
     }
 
     return {

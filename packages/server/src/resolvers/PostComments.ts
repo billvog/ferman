@@ -128,7 +128,7 @@ export class PostCommentResolver {
     const parent_qb = getConnection()
       .getRepository(Comment)
       .createQueryBuilder("c")
-      .where('c.id = :id and c."parentId" is null', {
+      .where("c.id = :id", {
         id,
       });
 
@@ -139,7 +139,7 @@ export class PostCommentResolver {
         id,
       })
       .orderBy('c."createdAt"', "DESC")
-      .limit(limit);
+      .limit(realLimitPlusOne);
 
     if (skip && skip > 0) {
       replies_qb.offset(skip);

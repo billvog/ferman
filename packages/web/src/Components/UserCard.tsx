@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  FullUserFragment,
-  useFollowUserMutation,
-} from "@ferman-pkgs/controller";
+import { FullUserFragment, useFollowMutation } from "@ferman-pkgs/controller";
 import { ImLocation2 } from "react-icons/im";
 import { GiBalloons } from "react-icons/gi";
 import { AiFillCalendar } from "react-icons/ai";
@@ -21,7 +18,7 @@ interface UserCardProps {
 
 export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
   const router = useRouter();
-  const [followUser] = useFollowUserMutation();
+  const [followUser] = useFollowMutation();
 
   const followUserHandler = async () => {
     const { data } = await followUser({
@@ -30,7 +27,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
       },
     });
 
-    if (!data || data.followUser.error || !data.followUser.users) {
+    if (!data || data.follow.error || !data.follow.users) {
       return toast.error("Internal server error");
     }
   };
@@ -82,15 +79,15 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
             <div className="text-vs mt-3 space-x-3">
               <NextLink href={`/user/${user.uid}/followers`}>
                 <span className="hover:underline cursor-pointer">
-                  <b>{user.followerCount} </b>
+                  <b>{user.followersCount} </b>
                   follower
-                  {user.followerCount !== 1 && "s"}
+                  {user.followersCount !== 1 && "s"}
                 </span>
               </NextLink>
               <NextLink href={`/user/${user.uid}/following`}>
                 <span className="hover:underline cursor-pointer">
-                  <b>{user.followingCount}</b> following
-                  {user.followingCount !== 1 && "s"}
+                  <b>{user.followingsCount}</b> following
+                  {user.followingsCount !== 1 && "s"}
                 </span>
               </NextLink>
             </div>

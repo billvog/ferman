@@ -28,10 +28,18 @@ const ViewPost = () => {
       id: postData?.post?.creator.id || -1,
     },
   });
-  const { data: commentsData, loading: commentsLoading } = useCommentsQuery({
+  const {
+    data: commentsData,
+    loading: commentsLoading,
+    fetchMore: fetchMoreComments,
+    variables: commentsVariables,
+  } = useCommentsQuery({
+    notifyOnNetworkStatusChange: true,
     skip: !postData?.post?.id,
     variables: {
       postId: postData?.post?.id || "",
+      limit: 15,
+      skip: 0,
     },
   });
 
@@ -68,8 +76,8 @@ const ViewPost = () => {
                 <div className="flex mt-6 tablet:mt-0 justify-between items-center">
                   <div className="text-base text-primary-600">
                     <b>Comments</b>{" "}
-                    {!!commentsData?.comments?.length &&
-                      `(${commentsData?.comments?.length})`}
+                    {!!commentsData?.comments?.count &&
+                      `(${commentsData?.comments?.count})`}
                   </div>
                   {meData?.me && (
                     <MyButton
@@ -86,13 +94,13 @@ const ViewPost = () => {
                     <MySpinner />
                   ) : !commentsData ? (
                     <ErrorText>Internal server error.</ErrorText>
-                  ) : commentsData.comments?.length === 0 ? (
+                  ) : commentsData.comments?.count === 0 ? (
                     <div className="text-sm text-primary-450">
                       There no comments...
                     </div>
                   ) : (
                     <div className="mt-3 space-y-2">
-                      {commentsData.comments?.map((comment) => (
+                      {commentsData.comments.comments.map((comment) => (
                         <PostComment
                           key={comment.id}
                           comment={comment}
@@ -102,6 +110,24 @@ const ViewPost = () => {
                     </div>
                   )}
                 </div>
+                {commentsData?.comments.comments &&
+                  commentsData?.comments.hasMore && (
+                    <div className="flex justify-center mt-5">
+                      <MyButton
+                        isLoading={commentsLoading}
+                        onClick={() => {
+                          fetchMoreComments!({
+                            variables: {
+                              ...commentsVariables,
+                              skip: commentsData.comments.comments.length,
+                            },
+                          });
+                        }}
+                      >
+                        load more
+                      </MyButton>
+                    </div>
+                  )}
               </div>
             </div>
           )}

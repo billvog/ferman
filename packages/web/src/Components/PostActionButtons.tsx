@@ -45,7 +45,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
       },
     });
 
-    if (!data || data.like.error) {
+    if (!data || data.likePost.error) {
       return toast.error("Could not like post");
     }
   };
