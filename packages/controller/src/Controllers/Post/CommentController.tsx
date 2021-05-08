@@ -35,7 +35,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
       },
       update: (cache) => {
         cache.evict({ fieldName: "comments" });
-        cache.evict({ fieldName: "viewComment" });
+        cache.evict({ fieldName: "comment" });
         cache.evict({ id: "Post:" + postId });
       },
     });
