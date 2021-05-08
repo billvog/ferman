@@ -18,7 +18,7 @@ const colorClassnames = {
   success:
     "bg-green-600 ring-green-600 hover:bg-green-500 disabled:bg-green-500",
   transparent:
-    "text-secondary hover:text-secondary-hover disabled:text-secondary-washed-out bg-transparent",
+    "text-primary-600 hover:text-primary-500 disabled:text-primary-400 bg-transparent focus:ring-offset-0",
 };
 
 type MyButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

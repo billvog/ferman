@@ -61,9 +61,9 @@ const Index = () => {
       ) : postsError && !postsData ? (
         <ErrorText>Internal server error, please try again later</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <div className="text-secondary-450">There are no posts...</div>
+        <div className="text-primary-450">There are no posts...</div>
       ) : (
-        <div className="mt-3">
+        <div className="mt-2 space-y-2">
           {postsData.posts.posts.map((post) => (
             <Post key={post.id} post={post} me={meData?.me || null} />
           ))}

@@ -52,7 +52,7 @@ const MyAccount = () => {
                 My Profile
               </MyButton>
               <MyButton
-                color="secondary"
+                color="primary"
                 onClick={async () => {
                   const reponse = await logout();
                   if (!reponse.data?.logout) {
@@ -88,9 +88,9 @@ const MyAccount = () => {
               </div>
               <div>
                 <b>Created date:</b>{" "}
-                {moment(parseFloat(meData.me.createdAt)).format(
-                  "MMMM Do YYYY, h:mm:ss a"
-                )}
+                {moment(parseFloat(meData.me.createdAt))
+                  .local()
+                  .format("MMMM Do YYYY, h:mm:ss a")}
               </div>
             </div>
           </div>

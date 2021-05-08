@@ -49,12 +49,12 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
             <div className="inline-block w-full max-w-full xs:max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl xs:rounded-2xl">
               <Dialog.Title
                 as="h3"
-                className="text-lg font-medium leading-6 text-secondary-900"
+                className="text-lg font-medium leading-6 text-primary-900"
               >
                 {props.title}
               </Dialog.Title>
               <div className="mt-2">
-                <p className="text-sm text-secondary-500">{props.body}</p>
+                <p className="text-sm text-primary-500">{props.body}</p>
               </div>
               <div className="mt-4 flex space-x-2">{props.buttons}</div>
             </div>

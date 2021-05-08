@@ -68,11 +68,11 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                     user.followsYouStatus ? "mt-1" : "mt-0"
                   }`}
                 >
-                  <div className="font-medium text-primary-washed-out">
+                  <div className="font-medium text-primary-500">
                     @{user.uid}
                   </div>
                   {user.followsYouStatus && (
-                    <div className="bg-primary-200 text-primary-450 font-semibold rounded-lg px-1.5 text-2xs">
+                    <div className="bg-primary-200 text-primary-450 font-semibold rounded-md px-1.5 text-xs leading-normal">
                       Follows you
                     </div>
                   )}
@@ -108,7 +108,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
               ) : (
                 <MyButton
                   size="small"
-                  color={user.followingStatus ? "secondary" : "accent"}
+                  color={user.followingStatus ? "primary" : "accent"}
                   onClick={followUserHandler}
                 >
                   <span>{user.followingStatus ? "Unfollow" : "Follow"}</span>

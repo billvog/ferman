@@ -33,14 +33,14 @@ export const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className="w-full mb-2">
       <label
-        className="text-sm text-secondary-500 select-none"
+        className="text-sm text-primary-500 select-none"
         htmlFor={field.name}
       >
         <div className="flex justify-between items-center mt-3 mb-1">
           <div className="flex items-center">
             {label}
             {props.maxLength && (
-              <span className="text-secondary-400 text-xs ml-2">
+              <span className="text-primary-400 text-xs ml-2">
                 {field.value.length}/{props.maxLength}
               </span>
             )}
@@ -87,7 +87,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         <input {...field} {...props} id={field.name} className={InputUtils} />
       )}
       {helperText && (
-        <div className="text-secondary-400 mt-1 text-xs">{helperText}</div>
+        <div className="text-primary-400 mt-1 text-xs">{helperText}</div>
       )}
       {error && touched && (
         <div

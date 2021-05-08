@@ -99,9 +99,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
           >
             <LikeIconComponent size="14px" />
           </div>
-          {post.points > 0 && (
-            <span className="ml-1 font-semibold">{post.points}</span>
-          )}
+          <span className="ml-1 font-semibold">{post.points}</span>
         </button>
         <Link href={`/post/${post.id}`}>
           <div className={`text-secondary-50 ${actionClassname}`}>
@@ -110,7 +108,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
             >
               <BsFillChatSquareFill />
             </div>
-            <span className="ml-1.5 font-semibold">{post.commentsCount}</span>
+            <span className="ml-1 font-semibold">{post.commentsCount}</span>
           </div>
         </Link>
         {me && me.id === post.creator.id && (

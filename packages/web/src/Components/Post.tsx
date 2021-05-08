@@ -13,15 +13,15 @@ interface PostProps {
 
 export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
   return (
-    <div className="mb-2 border border-primary-200 rounded-xl">
-      <div className={`flex p-3`}>
-        <div>
+    <div className="border border-primary-200 rounded-xl">
+      <div className="flex p-3">
+        <div className="min-w-max">
           <img
             className="w-8 h-8 rounded-35 mr-3"
             src={post.creator.profile?.avatarUrl}
           />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col">
           <div className="flex items-start justify-between mobile:justify-start mobile:items-center mobile:mb-0 mb-1.5 leading-none text-primary-450 space-x-1.5">
             <Link href={`/user/${post.creator.uid}`}>
               <div className="group flex flex-col mobile:flex-row mobile:items-center mobile:space-x-1.5 cursor-pointer">
@@ -36,7 +36,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
               {moment(parseFloat(post.createdAt)).local().fromNow()}
             </div>
           </div>
-          <div className={`text-vs whitespace-pre-wrap break-words truncate`}>
+          <div className="table table-fixed w-full whitespace-pre-wrap break-words text-vs">
             {richBodyText(post.body)}
           </div>
         </div>

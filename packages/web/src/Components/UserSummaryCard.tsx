@@ -55,13 +55,11 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                     user.followsYouStatus ? "normal" : "tight"
                   }`}
                 >
-                  <div className="group-hover:underline text-md font-bold text-secondary truncate">
+                  <div className="group-hover:underline text-md font-bold text-secondary">
                     {user.username}
                   </div>
                   <div className="flex items-center space-x-1.5">
-                    <div className="text-vs text-secondary-washed-out truncate">
-                      @{user.uid}
-                    </div>
+                    <div className="text-xs text-primary-450">@{user.uid}</div>
                     {user.followsYouStatus && (
                       <div className="bg-primary-200 text-secondary-450 font-semibold rounded-md px-1.5 leading-relaxed text-2xs">
                         Follows you
@@ -76,7 +74,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                 <MyButton
                   size="small"
                   isLoading={followLoading}
-                  color={user.followingStatus ? "secondary" : "accent"}
+                  color={user.followingStatus ? "primary" : "accent"}
                   onClick={followUserHandler}
                 >
                   <span>{user.followingStatus ? "Unfollow" : "Follow"}</span>
@@ -86,7 +84,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
           </div>
           {!!user.profile?.bio && (
             <div className="mt-1.5">
-              <div className="text-xs text-secondary-450 truncate whitespace-normal">
+              <div className="table table-fixed break-words whitespace-pre-wrap text-xs text-primary-500">
                 {richBodyText(user.profile.bio)}
               </div>
             </div>

@@ -11,7 +11,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   });
 
   return (
-    <div className="flex z-10 sticky p-4 bg-secondary-50">
+    <div className="flex z-10 sticky top-0 p-4 bg-secondary-50">
       <div className="flex justify-between flex-1 m-auto items-center max-w-xl">
         <div>
           <NextLink href="/">

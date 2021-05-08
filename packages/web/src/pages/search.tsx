@@ -10,7 +10,7 @@ import { MyButton } from "../components/MyButton";
 
 const SearchTips = () => {
   return (
-    <div className="mt-2 text-sm text-secondary-700">
+    <div className="mt-2 text-sm text-primary-700">
       <b>Search Tips</b> <br />
       <ul
         className="list-disc"
@@ -130,7 +130,7 @@ const SearchPost = () => {
         </div>
       ) : (
         <div>
-          <div className="mb-4 mt-1 text-secondary-400 text-xs">
+          <div className="mb-4 mt-1 font-semibold text-primary-400 text-xs">
             Found {postsData?.posts.count} result
             {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
             {postsData?.posts.executionTime

@@ -21,7 +21,7 @@ export const C: React.FC<
         <InputField
           label="Text"
           name="text"
-          placeholder="Comment Text..."
+          placeholder="Text..."
           type="text"
           textarea
           maxLength={CommentMax}

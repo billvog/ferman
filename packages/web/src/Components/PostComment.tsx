@@ -1,6 +1,5 @@
 import React from "react";
 import { FullCommentFragment, FullUserFragment } from "@ferman-pkgs/controller";
-import NextLink from "next/link";
 import { CommentActionButtons } from "./CommentActionButtons";
 import moment from "moment";
 import { richBodyText } from "../utils/richBodyText";
@@ -41,7 +40,7 @@ export const PostComment: React.FC<PostCommentProps> = ({
               {moment(parseFloat(comment.createdAt)).local().fromNow()}
             </div>
           </div>
-          <div className={`text-xs whitespace-pre-wrap break-words truncate`}>
+          <div className="table table-fixed whitespace-pre-wrap break-words text-xs">
             {richBodyText(comment.text)}
           </div>
         </div>

@@ -36,7 +36,7 @@ const User = ({}) => {
         title={
           userData?.user ? `${userData.user.username} on Ferman` : "Ferman"
         }
-        size="lg"
+        size="5xl"
       >
         <div>
           {userLoading || meLoading || (postsLoading && !postsData) ? (
@@ -46,12 +46,14 @@ const User = ({}) => {
           ) : !userData || !meData || !postsData ? (
             <ErrorText>Internal server error, please try again later</ErrorText>
           ) : (
-            <div className="divide-y-2">
-              <div className="mt-3 pb-5">
-                <UserCard user={userData.user} me={meData.me || null} />
+            <div className="relative flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-8">
+              <div className="w-full lg:w-96">
+                <div className="lg:sticky lg:z-10 lg:top-20">
+                  <UserCard user={userData.user} me={meData.me || null} />
+                </div>
               </div>
-              <div>
-                <div className="text-lg text-secondary mt-2 mb-1">
+              <div className="w-full lg:flex-1">
+                <div className="text-lg text-secondary mb-1">
                   {postsData.posts.posts.length > 0 ? (
                     <div>
                       <b>{userData.user.username}'s</b> posts
@@ -62,9 +64,11 @@ const User = ({}) => {
                     </div>
                   )}
                 </div>
-                {postsData.posts.posts.map((post) => (
-                  <Post key={post.id} post={post} me={meData.me || null} />
-                ))}
+                <div className="space-y-2">
+                  {postsData.posts.posts.map((post) => (
+                    <Post key={post.id} post={post} me={meData.me || null} />
+                  ))}
+                </div>
               </div>
             </div>
           )}

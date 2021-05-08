@@ -57,7 +57,7 @@ const ExplorePosts = () => {
         </div>
       ) : (
         <div>
-          <div className="mb-4 mt-1 text-secondary-400 text-xs">
+          <div className="mb-4 font-semibold text-primary-400 text-xs">
             Found {postsData?.posts.count} result
             {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
             {postsData?.posts.executionTime
@@ -65,7 +65,7 @@ const ExplorePosts = () => {
               : 0}{" "}
             seconds
           </div>
-          <div className="mt-3">
+          <div className="mt-3 space-y-2">
             {postsData.posts.posts.map((post) => (
               <Post key={post.id} post={post} me={meData?.me || null} />
             ))}
