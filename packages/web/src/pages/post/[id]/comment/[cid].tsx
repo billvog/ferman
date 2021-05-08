@@ -31,6 +31,7 @@ const comment = ({}) => {
             ? `${commentData?.comment.parent.user.username}: "${commentData?.comment.parent.text}" – Ferman`
             : "Ferman"
         }
+        size="4xl"
       >
         {commentLoading || meLoading ? (
           <MySpinner />
@@ -39,48 +40,52 @@ const comment = ({}) => {
         ) : !commentData || !meData ? (
           <ErrorText>Internal server error, please try again later</ErrorText>
         ) : (
-          <div>
-            <div>
-              <PostComment
-                comment={commentData.comment.parent}
-                me={meData.me || null}
-                onDelete={router.back}
-              />
-            </div>
-            <div className="flex mt-6 justify-between items-center">
-              <div className="text-lg text-primary-600">
-                <b>Replies</b>{" "}
-                {!!commentData?.comment?.replies.length &&
-                  `(${commentData?.comment?.replies.length})`}
+          <div className="relative flex flex-col space-y-4 tablet:space-y-0 tablet:flex-row tablet:space-x-8">
+            <div className="w-full tablet:w-96">
+              <div className="tablet:sticky tablet:z-10 tablet:top-20">
+                <PostComment
+                  comment={commentData.comment.parent}
+                  me={meData.me || null}
+                  onDelete={router.back}
+                />
               </div>
-              {meData?.me && (
-                <MyButton
-                  onClick={() => {
-                    router.push(
-                      `/post/${commentData.comment.parent.postId}/comment?reply=${commentData.comment.parent.id}`
-                    );
-                  }}
-                >
-                  reply
-                </MyButton>
-              )}
             </div>
-            <div>
-              {commentData.comment?.replies.length === 0 ? (
-                <div className="text-sm text-primary-450">
-                  There no replies...
+            <div className="w-full tablet:flex-1">
+              <div className="flex mt-6 tablet:mt-0 justify-between items-center">
+                <div className="text-lg text-primary-600">
+                  <b>Replies</b>{" "}
+                  {!!commentData?.comment?.replies.length &&
+                    `(${commentData?.comment?.replies.length})`}
                 </div>
-              ) : (
-                <div className="mt-3 space-y-2">
-                  {commentData.comment.replies?.map((comment) => (
-                    <PostComment
-                      key={comment.id}
-                      comment={comment}
-                      me={meData?.me || null}
-                    />
-                  ))}
-                </div>
-              )}
+                {meData?.me && (
+                  <MyButton
+                    onClick={() => {
+                      router.push(
+                        `/post/${commentData.comment.parent.postId}/comment?reply=${commentData.comment.parent.id}`
+                      );
+                    }}
+                  >
+                    reply
+                  </MyButton>
+                )}
+              </div>
+              <div>
+                {commentData.comment?.replies.length === 0 ? (
+                  <div className="text-sm text-primary-450">
+                    There no replies...
+                  </div>
+                ) : (
+                  <div className="mt-3 space-y-2">
+                    {commentData.comment.replies?.map((comment) => (
+                      <PostComment
+                        key={comment.id}
+                        comment={comment}
+                        me={meData?.me || null}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
