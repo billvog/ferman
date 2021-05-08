@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ErrorMap } from "../../Types/ErrorMap";
 import { MyMessage } from "../../Types/MyMessage";
-import { useCommentPostMutation } from "../../generated/graphql";
+import { useCreateCommentMutation } from "../../generated/graphql";
 
 export interface CommentFormValues {
   text: string;
@@ -24,7 +24,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
   children,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
-  const [commentPost] = useCommentPostMutation();
+  const [commentPost] = useCreateCommentMutation();
 
   const submit = async (values: CommentFormValues) => {
     const { data, errors } = await commentPost({

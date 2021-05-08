@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { ErrorMap } from "../../Types/ErrorMap";
 import { MyMessage } from "../../Types/MyMessage";
 import {
-  useDeleteAccountRequestMutation,
-  useValidateAccDelTokenMutation,
-  useDeleteAccountFinalMutation,
+  useAccountDeletionRequestMutation,
+  useValidateAccountDeletionTokenMutation,
+  useFinishAccountDeletionMutation,
 } from "../../generated/graphql";
 
 export type DeleteUserPhase = 0 | 1 | 2;
@@ -31,14 +31,14 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
   const [phase, setPhase] = useState<DeleteUserPhase>(0);
   const [done, setDone] = useState(false);
 
-  const [deleteUserReq] = useDeleteAccountRequestMutation();
-  const [validateToken] = useValidateAccDelTokenMutation();
-  const [deleteUserFinal] = useDeleteAccountFinalMutation();
+  const [deleteRequest] = useAccountDeletionRequestMutation();
+  const [validateToken] = useValidateAccountDeletionTokenMutation();
+  const [finishAccountDeletion] = useFinishAccountDeletionMutation();
 
   const submit = async (values: DeleteUserFormValues) => {
     if (phase === 0) {
-      const { data } = await deleteUserReq();
-      if (!data || !data.deleteAccountRequest) {
+      const { data } = await deleteRequest();
+      if (!data || !data.accountDeletionRequest) {
         setMessage({
           type: "error",
           text: "Internal server error",
@@ -67,7 +67,7 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
         return null;
       }
 
-      if (!data.validateAccDelToken) {
+      if (!data.validateAccountDeletionToken) {
         setMessage({ type: "error", text: "The provided code is not valid" });
         return null;
       }
@@ -75,7 +75,7 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
       setPhase(2);
       setMessage(null);
     } else if (phase === 2) {
-      const { data } = await deleteUserFinal({
+      const { data } = await finishAccountDeletion({
         variables: {
           password: values.password,
           token: values.code,
@@ -90,9 +90,10 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
         return null;
       }
 
-      if (data.deleteAccountFinal) {
+      if (data.finishAccountDeletion) {
         return {
-          [data.deleteAccountFinal.field]: data.deleteAccountFinal.message,
+          [data.finishAccountDeletion.field]:
+            data.finishAccountDeletion.message,
         };
       }
 
