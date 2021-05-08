@@ -68,7 +68,7 @@ module.exports = {
     textColor: ({ after }) => after(["disabled"]),
     extend: {
       opacity: ['disabled'],
-      cursor: ['disabled']
+      cursor: ['disabled'],
     },
   },
   plugins: [

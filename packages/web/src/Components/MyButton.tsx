@@ -38,7 +38,7 @@ export const MyButton: React.FC<MyButtonProps> = ({
 }) => {
   return (
     <button
-      className={`relative flex justify-center items-center text-button select-none border-none rounded-lg ${
+      className={`relative flex justify-center items-center text-button select-none border-none rounded-lg group ${
         square ? "w-9 h-9 rounded-xl" : sizeClassnames[size]
       } ${
         colorClassnames[color]
