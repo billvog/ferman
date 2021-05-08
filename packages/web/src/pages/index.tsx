@@ -31,7 +31,7 @@ const Index = () => {
   });
 
   return (
-    <Layout size="lg" title="Feed – Ferman">
+    <Layout title="Feed – Ferman">
       <div className="flex justify-between items-center">
         <h1 className="heading">
           {meData ? (meData?.me ? "Feed" : "Recent posts") : ""}

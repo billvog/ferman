@@ -73,7 +73,6 @@ const ExploreUsers: React.FC = () => {
 
   return (
     <Layout
-      size="lg"
       title={`${
         typeof router.query.location === "string"
           ? `Find users in ${router.query.location}`

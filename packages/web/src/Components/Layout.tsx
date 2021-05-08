@@ -22,7 +22,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({
   children,
   title,
-  size = "md",
+  size = "xl",
   isAuth,
   isNotAuth,
 }) => {

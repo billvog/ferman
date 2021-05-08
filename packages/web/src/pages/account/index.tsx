@@ -22,7 +22,7 @@ const MyAccount = () => {
   const [logout] = useLogoutMutation();
 
   return (
-    <Layout size="lg" title="My Account – Ferman" isAuth>
+    <Layout title="My Account – Ferman" isAuth>
       <h1 className="heading">My Account</h1>
       {meLoading ? (
         <MySpinner />

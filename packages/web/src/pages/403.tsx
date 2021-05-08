@@ -8,10 +8,10 @@ import { withMyApollo } from "../utils/withMyApollo";
 const NotFoundPage = ({}) => {
   const router = useRouter();
   return (
-    <Layout title="404 – Ferman" size="sm">
-      <h1 className="heading">Page not found</h1>
+    <Layout title="403 – Ferman" size="sm">
+      <h1 className="heading">Access Denied</h1>
       <div className="text-primary-450 text-sm font-semibold mb-3">
-        The page you're trying to reach, doesn't exist. <br />
+        You are not allowed to access this content. <br />
         You've been redirected somewhere safe.
       </div>
       <MyButton onClick={router.back} color="secondary">

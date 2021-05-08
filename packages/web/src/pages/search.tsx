@@ -94,7 +94,7 @@ const SearchPost = () => {
   }, [debouncedQuery]);
 
   return (
-    <Layout size="lg" title="Search – Ferman">
+    <Layout title="Search – Ferman">
       <div>
         <div className="flex leading-tight">
           <div className="flex-1 mb-1">

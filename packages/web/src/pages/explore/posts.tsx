@@ -30,7 +30,7 @@ const ExplorePosts = () => {
   });
 
   return (
-    <Layout size="lg" title="Explore posts – Ferman">
+    <Layout title="Explore posts – Ferman">
       <Head>
         <meta
           name="description"

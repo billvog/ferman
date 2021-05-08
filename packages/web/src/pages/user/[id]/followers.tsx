@@ -40,7 +40,6 @@ const UserFollowers = ({}) => {
           ? `People that follow ${userData?.user?.username} on Ferman`
           : "Ferman"
       }
-      size="md"
     >
       <div>
         {userLoading || meLoading || (!followersData && followersLoading) ? (
