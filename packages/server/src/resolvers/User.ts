@@ -28,7 +28,7 @@ import { Post } from "../entity/Post";
 import { Profile } from "../entity/Profile";
 import { User } from "../entity/User";
 import { isAuth, isNotAuth } from "../middleware/isAuth";
-import { MyContext } from "../MyContext";
+import { MyContext } from "../types/MyContext";
 import { sendEmail } from "../utils/sendEmail";
 import { FieldError } from "./FieldError";
 import {

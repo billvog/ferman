@@ -2,12 +2,14 @@ import {
   Arg,
   Ctx,
   Field,
+  FieldResolver,
   InputType,
   Int,
   Mutation,
   ObjectType,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
@@ -15,7 +17,7 @@ import { Comment } from "../entity/Comment";
 import { Post } from "../entity/Post";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
-import { MyContext } from "../MyContext";
+import { MyContext } from "../types/MyContext";
 import { COMMENT_TEXT_SHAPE } from "@ferman-pkgs/common";
 import { FieldError } from "./FieldError";
 
@@ -41,74 +43,124 @@ class CommentInput {
   text: string;
 }
 
+@ObjectType()
+class PaginatedComments {
+  @Field(() => Comment, { nullable: true })
+  parent: Comment | null;
+  @Field(() => [Comment])
+  comments: Comment[];
+  @Field()
+  hasMore: boolean;
+  @Field(() => Int)
+  count: number;
+  @Field()
+  executionTime: number;
+}
+
 @Resolver(() => Comment)
 export class PostCommentResolver {
-  // COMMENTS
-  @Query(() => [Comment], { nullable: true })
-  async comments(
-    @Arg("postId", () => String) postId: string
-  ): Promise<Comment[]> {
-    return getConnection().query(
-      `
-      select c.*,
-      count(subc) as "repliesCount",
-      to_jsonb(u) - 'password' as user
-      from comments c
-      inner join users u on c."userId" = u.id
-      left join comments subc on subc."parentId" = c.id
-      where c."postId" = $1 and c."parentId" is null
-      group by c.id, u.*
-      order by "createdAt" desc
-      `,
-      [postId]
-    );
+  // USER
+  @FieldResolver(() => User)
+  user(@Root() comment: Comment, @Ctx() { userLoader }: MyContext) {
+    return userLoader.load(comment.userId);
   }
 
-  // GET COMMENT WITH REPLIES
-  @Query(() => CommentWithReplies)
-  async comment(
-    @Arg("id", () => String) id: string
-  ): Promise<CommentWithReplies> {
-    const parent = ((await getConnection().query(
-      `
-      select c.*,
-      count(subc) as "repliesCount",
-      to_jsonb(u) - 'password' as user
-      from comments c
-      inner join users u on c."userId" = u.id
-      left join comments subc on subc."parentId" = c.id
-      where c.id = $1
-      group by c.id, u.*
-    `,
-      [id]
-    )) as any)[0];
+  // REPLIES COUNT
+  @FieldResolver(() => Int)
+  repliesCount(@Root() comment: Comment) {
+    return getConnection()
+      .getRepository(Comment)
+      .createQueryBuilder("c")
+      .where('c."parentId" = :id', { id: comment.id })
+      .getCount();
+  }
 
-    if (!parent) {
-      throw new Error("Comment not found");
+  // COMMENTS
+  @Query(() => PaginatedComments)
+  async comments(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("skip", () => Int, { nullable: true }) skip: number,
+    @Arg("postId", () => String) postId: string
+  ): Promise<PaginatedComments> {
+    const start = Date.now();
+
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    const qb = getConnection()
+      .getRepository(Comment)
+      .createQueryBuilder("c")
+      .where('c."postId" = :postId and c."parentId" is null', {
+        postId,
+      })
+      .limit(realLimitPlusOne);
+
+    if (skip && skip > 0) {
+      qb.offset(skip);
     }
 
-    const replies = await getConnection().query(
-      `
-      select c.*,
-      count(subc) as "repliesCount",
-      to_jsonb(u) - 'password' as user
-      from comments c
-      inner join users u on c."userId" = u.id
-      left join comments subc on subc."parentId" = c.id
-      where c."parentId" = $1
-      group by c.id, u.*
-      order by c."createdAt" desc
-    `,
-      [parent?.id]
-    );
+    const [comments, count] = await qb.getManyAndCount();
+
+    const end = Date.now();
+    const executionTime = end - start;
 
     return {
-      parent,
-      replies,
+      parent: null,
+      comments: comments.slice(0, realLimit),
+      hasMore: comments.length === realLimitPlusOne,
+      count,
+      executionTime,
     };
   }
 
-  // COMMENT POST
+  // GET COMMENT WITH REPLIES
+  @Query(() => PaginatedComments)
+  async comment(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("skip", () => Int, { nullable: true }) skip: number,
+    @Arg("id", () => String) id: string
+  ): Promise<PaginatedComments> {
+    const start = Date.now();
+
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    const parent_qb = getConnection()
+      .getRepository(Comment)
+      .createQueryBuilder("c")
+      .where('c.id = :id and c."parentId" is null', {
+        id,
+      });
+
+    const replies_qb = getConnection()
+      .getRepository(Comment)
+      .createQueryBuilder("c")
+      .where('c."parentId" = :id', {
+        id,
+      })
+      .orderBy('c."createdAt"', "DESC")
+      .limit(limit);
+
+    if (skip && skip > 0) {
+      replies_qb.offset(skip);
+    }
+
+    const parent = await parent_qb.getOne();
+    const [replies, count] = await replies_qb.getManyAndCount();
+
+    const end = Date.now();
+    const executionTime = end - start;
+
+    return {
+      parent: parent || null,
+      comments: replies.slice(0, realLimit),
+      hasMore: replies.length === realLimitPlusOne,
+      count,
+      executionTime,
+    };
+  }
+
+  // CREATE COMMENT
   @Mutation(() => CommentResponse)
   @UseMiddleware(isAuth)
   async createComment(

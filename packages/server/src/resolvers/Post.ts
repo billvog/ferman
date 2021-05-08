@@ -15,7 +15,7 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { MyContext } from "../MyContext";
+import { MyContext } from "../types/MyContext";
 import { FieldError } from "./FieldError";
 import { User } from "../entity/User";
 import { getConnection } from "typeorm";
@@ -62,7 +62,7 @@ export class MinimalPostResponse {
 export class PostResolver {
   // CREATOR
   @FieldResolver(() => User)
-  async creator(@Root() post: Post, @Ctx() { userLoader }: MyContext) {
+  creator(@Root() post: Post, @Ctx() { userLoader }: MyContext) {
     return userLoader.load(post.creatorId);
   }
 

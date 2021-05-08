@@ -13,7 +13,7 @@ import {
 import { Profile } from "../entity/Profile";
 import { User } from "../entity/User";
 import { isAuth } from "../middleware/isAuth";
-import { MyContext } from "../MyContext";
+import { MyContext } from "../types/MyContext";
 import { UpdateProfileValidationSchema } from "@ferman-pkgs/common";
 import { FieldError } from "./FieldError";
 import fetch from "node-fetch";

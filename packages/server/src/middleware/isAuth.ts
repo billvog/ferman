@@ -1,5 +1,5 @@
 import { User } from "../entity/User";
-import { MyContext } from "../MyContext";
+import { MyContext } from "../types/MyContext";
 import { MiddlewareFn } from "type-graphql";
 
 export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
