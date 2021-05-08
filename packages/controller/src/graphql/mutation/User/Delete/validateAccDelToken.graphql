@@ -1,3 +1,0 @@
-mutation ValidateAccDelToken($token: String!) {
-  validateAccDelToken(token: $token)
-}

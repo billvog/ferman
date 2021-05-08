@@ -1,0 +1,5 @@
+mutation FinishAccountDeletion($token: String!, $password: String!) {
+  finishAccountDeletion(token: $token, password: $password) {
+    ...FieldError
+  }
+}

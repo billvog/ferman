@@ -12,11 +12,6 @@ query Posts(
     query: $query
     feedMode: $feedMode
   ) {
-    hasMore
-    executionTime
-    count
-    posts {
-      ...FullPost
-    }
+    ...PaginatedPosts
   }
 }

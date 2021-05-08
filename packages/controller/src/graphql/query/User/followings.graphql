@@ -1,0 +1,5 @@
+query Followings($limit: Int!, $skip: Int, $userId: Int!) {
+  followings(limit: $limit, skip: $skip, userId: $userId) {
+    ...PaginatedUsers
+  }
+}

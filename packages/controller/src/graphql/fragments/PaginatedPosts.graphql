@@ -1,0 +1,8 @@
+fragment PaginatedPosts on PaginatedPosts {
+  hasMore
+  executionTime
+  count
+  posts {
+    ...FullPost
+  }
+}

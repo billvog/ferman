@@ -1,4 +1,8 @@
-mutation CommentPost($options: CommentInput!, $id: String!, $parentId: String) {
+mutation CreateComment(
+  $options: CommentInput!
+  $id: String!
+  $parentId: String
+) {
   createComment(options: $options, id: $id, parentId: $parentId) {
     error {
       ...FieldError

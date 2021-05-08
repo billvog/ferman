@@ -1,0 +1,8 @@
+mutation Follow($userId: Int!) {
+  follow(userId: $userId) {
+    error
+    users {
+      ...FullUser
+    }
+  }
+}

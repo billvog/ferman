@@ -67,7 +67,7 @@ export type MinimalUsersResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  followUser: MinimalUsersResponse;
+  follow: MinimalUsersResponse;
   logout: Scalars['Boolean'];
   login: UserErrorResponse;
   register?: Maybe<FieldError>;
@@ -75,10 +75,10 @@ export type Mutation = {
   finishRegister: UserErrorResponse;
   forgotPassword?: Maybe<FieldError>;
   resetPassword?: Maybe<FieldError>;
-  deleteAccountRequest: Scalars['Boolean'];
-  validateAccDelToken: Scalars['Boolean'];
-  deleteAccountFinal?: Maybe<FieldError>;
-  like: MinimalPostResponse;
+  accountDeletionRequest: Scalars['Boolean'];
+  validateAccountDeletionToken: Scalars['Boolean'];
+  finishAccountDeletion?: Maybe<FieldError>;
+  likePost: MinimalPostResponse;
   createPost: PostResponse;
   deletePost: Scalars['Boolean'];
   updateProfile: ProfileResponse;
@@ -87,7 +87,7 @@ export type Mutation = {
 };
 
 
-export type MutationFollowUserArgs = {
+export type MutationFollowArgs = {
   userId: Scalars['Int'];
 };
 
@@ -125,18 +125,18 @@ export type MutationResetPasswordArgs = {
 };
 
 
-export type MutationValidateAccDelTokenArgs = {
+export type MutationValidateAccountDeletionTokenArgs = {
   token: Scalars['String'];
 };
 
 
-export type MutationDeleteAccountFinalArgs = {
+export type MutationFinishAccountDeletionArgs = {
   password: Scalars['String'];
   token: Scalars['String'];
 };
 
 
-export type MutationLikeArgs = {
+export type MutationLikePostArgs = {
   postId: Scalars['String'];
 };
 
@@ -231,8 +231,8 @@ export type ProfileResponse = {
 
 export type Query = {
   __typename?: 'Query';
-  userFollowers?: Maybe<Array<User>>;
-  followingUsers?: Maybe<Array<User>>;
+  followers?: Maybe<PaginatedUsers>;
+  followings?: Maybe<PaginatedUsers>;
   user?: Maybe<User>;
   users: PaginatedUsers;
   me?: Maybe<User>;
@@ -243,13 +243,17 @@ export type Query = {
 };
 
 
-export type QueryUserFollowersArgs = {
+export type QueryFollowersArgs = {
   userId: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
 };
 
 
-export type QueryFollowingUsersArgs = {
+export type QueryFollowingsArgs = {
   userId: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
 };
 
 
@@ -309,6 +313,8 @@ export type User = {
   followerCount: Scalars['Float'];
   followingCount: Scalars['Float'];
   profile?: Maybe<Profile>;
+  followersCount: Scalars['Int'];
+  followingsCount: Scalars['Int'];
 };
 
 export type UserErrorResponse = {
@@ -362,14 +368,32 @@ export type FullUserFragment = (
   )> }
 );
 
-export type CommentPostMutationVariables = Exact<{
+export type PaginatedPostsFragment = (
+  { __typename?: 'PaginatedPosts' }
+  & Pick<PaginatedPosts, 'hasMore' | 'executionTime' | 'count'>
+  & { posts: Array<(
+    { __typename?: 'Post' }
+    & FullPostFragment
+  )> }
+);
+
+export type PaginatedUsersFragment = (
+  { __typename?: 'PaginatedUsers' }
+  & Pick<PaginatedUsers, 'hasMore' | 'executionTime' | 'count'>
+  & { users: Array<(
+    { __typename?: 'User' }
+    & FullUserFragment
+  )> }
+);
+
+export type CreateCommentMutationVariables = Exact<{
   options: CommentInput;
   id: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
 }>;
 
 
-export type CommentPostMutation = (
+export type CreateCommentMutation = (
   { __typename?: 'Mutation' }
   & { createComment: (
     { __typename?: 'CommentResponse' }
@@ -429,7 +453,7 @@ export type LikePostMutationVariables = Exact<{
 
 export type LikePostMutation = (
   { __typename?: 'Mutation' }
-  & { like: (
+  & { likePost: (
     { __typename?: 'MinimalPostResponse' }
     & Pick<MinimalPostResponse, 'error'>
     & { post?: Maybe<(
@@ -458,36 +482,36 @@ export type UpdateProfileMutation = (
   ) }
 );
 
-export type DeleteAccountFinalMutationVariables = Exact<{
+export type AccountDeletionRequestMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AccountDeletionRequestMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'accountDeletionRequest'>
+);
+
+export type FinishAccountDeletionMutationVariables = Exact<{
   token: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type DeleteAccountFinalMutation = (
+export type FinishAccountDeletionMutation = (
   { __typename?: 'Mutation' }
-  & { deleteAccountFinal?: Maybe<(
+  & { finishAccountDeletion?: Maybe<(
     { __typename?: 'FieldError' }
     & FieldErrorFragment
   )> }
 );
 
-export type DeleteAccountRequestMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeleteAccountRequestMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteAccountRequest'>
-);
-
-export type ValidateAccDelTokenMutationVariables = Exact<{
+export type ValidateAccountDeletionTokenMutationVariables = Exact<{
   token: Scalars['String'];
 }>;
 
 
-export type ValidateAccDelTokenMutation = (
+export type ValidateAccountDeletionTokenMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'validateAccDelToken'>
+  & Pick<Mutation, 'validateAccountDeletionToken'>
 );
 
 export type ForgotPasswordMutationVariables = Exact<{
@@ -561,14 +585,14 @@ export type ValidateRegisterTokenMutation = (
   & Pick<Mutation, 'validateRegisterToken'>
 );
 
-export type FollowUserMutationVariables = Exact<{
+export type FollowMutationVariables = Exact<{
   userId: Scalars['Int'];
 }>;
 
 
-export type FollowUserMutation = (
+export type FollowMutation = (
   { __typename?: 'Mutation' }
-  & { followUser: (
+  & { follow: (
     { __typename?: 'MinimalUsersResponse' }
     & Pick<MinimalUsersResponse, 'error'>
     & { users?: Maybe<Array<(
@@ -663,25 +687,38 @@ export type PostsQuery = (
   { __typename?: 'Query' }
   & { posts: (
     { __typename?: 'PaginatedPosts' }
-    & Pick<PaginatedPosts, 'hasMore' | 'executionTime' | 'count'>
-    & { posts: Array<(
-      { __typename?: 'Post' }
-      & FullPostFragment
-    )> }
+    & PaginatedPostsFragment
   ) }
 );
 
-export type FollowingUsersQueryVariables = Exact<{
+export type FollowersQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
   userId: Scalars['Int'];
 }>;
 
 
-export type FollowingUsersQuery = (
+export type FollowersQuery = (
   { __typename?: 'Query' }
-  & { followingUsers?: Maybe<Array<(
-    { __typename?: 'User' }
-    & FullUserFragment
-  )>> }
+  & { followers?: Maybe<(
+    { __typename?: 'PaginatedUsers' }
+    & PaginatedUsersFragment
+  )> }
+);
+
+export type FollowingsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+  userId: Scalars['Int'];
+}>;
+
+
+export type FollowingsQuery = (
+  { __typename?: 'Query' }
+  & { followings?: Maybe<(
+    { __typename?: 'PaginatedUsers' }
+    & PaginatedUsersFragment
+  )> }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -709,19 +746,6 @@ export type UserQuery = (
   )> }
 );
 
-export type UserFollowersQueryVariables = Exact<{
-  userId: Scalars['Int'];
-}>;
-
-
-export type UserFollowersQuery = (
-  { __typename?: 'Query' }
-  & { userFollowers?: Maybe<Array<(
-    { __typename?: 'User' }
-    & FullUserFragment
-  )>> }
-);
-
 export type UsersQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip?: Maybe<Scalars['Int']>;
@@ -733,11 +757,7 @@ export type UsersQuery = (
   { __typename?: 'Query' }
   & { users: (
     { __typename?: 'PaginatedUsers' }
-    & Pick<PaginatedUsers, 'hasMore' | 'executionTime' | 'count'>
-    & { users: Array<(
-      { __typename?: 'User' }
-      & FullUserFragment
-    )> }
+    & PaginatedUsersFragment
   ) }
 );
 
@@ -783,6 +803,16 @@ export const FullPostFragmentDoc = gql`
   }
 }
     `;
+export const PaginatedPostsFragmentDoc = gql`
+    fragment PaginatedPosts on PaginatedPosts {
+  hasMore
+  executionTime
+  count
+  posts {
+    ...FullPost
+  }
+}
+    ${FullPostFragmentDoc}`;
 export const FullProfileFragmentDoc = gql`
     fragment FullProfile on Profile {
   avatarUrl
@@ -809,8 +839,18 @@ export const FullUserFragmentDoc = gql`
   }
 }
     ${FullProfileFragmentDoc}`;
-export const CommentPostDocument = gql`
-    mutation CommentPost($options: CommentInput!, $id: String!, $parentId: String) {
+export const PaginatedUsersFragmentDoc = gql`
+    fragment PaginatedUsers on PaginatedUsers {
+  users {
+    ...FullUser
+  }
+  hasMore
+  executionTime
+  count
+}
+    ${FullUserFragmentDoc}`;
+export const CreateCommentDocument = gql`
+    mutation CreateComment($options: CommentInput!, $id: String!, $parentId: String) {
   createComment(options: $options, id: $id, parentId: $parentId) {
     error {
       ...FieldError
@@ -822,20 +862,20 @@ export const CommentPostDocument = gql`
 }
     ${FieldErrorFragmentDoc}
 ${FullCommentFragmentDoc}`;
-export type CommentPostMutationFn = Apollo.MutationFunction<CommentPostMutation, CommentPostMutationVariables>;
+export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
 
 /**
- * __useCommentPostMutation__
+ * __useCreateCommentMutation__
  *
- * To run a mutation, you first call `useCommentPostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCommentPostMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [commentPostMutation, { data, loading, error }] = useCommentPostMutation({
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
  *   variables: {
  *      options: // value for 'options'
  *      id: // value for 'id'
@@ -843,13 +883,13 @@ export type CommentPostMutationFn = Apollo.MutationFunction<CommentPostMutation,
  *   },
  * });
  */
-export function useCommentPostMutation(baseOptions?: Apollo.MutationHookOptions<CommentPostMutation, CommentPostMutationVariables>) {
+export function useCreateCommentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommentMutation, CreateCommentMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CommentPostMutation, CommentPostMutationVariables>(CommentPostDocument, options);
+        return Apollo.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument, options);
       }
-export type CommentPostMutationHookResult = ReturnType<typeof useCommentPostMutation>;
-export type CommentPostMutationResult = Apollo.MutationResult<CommentPostMutation>;
-export type CommentPostMutationOptions = Apollo.BaseMutationOptions<CommentPostMutation, CommentPostMutationVariables>;
+export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
+export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
 export const CreatePostDocument = gql`
     mutation CreatePost($options: PostInput!) {
   createPost(options: $options) {
@@ -953,7 +993,7 @@ export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>
 export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
 export const LikePostDocument = gql`
     mutation LikePost($postId: String!) {
-  like(postId: $postId) {
+  likePost(postId: $postId) {
     error
     post {
       ...FullPost
@@ -1026,101 +1066,101 @@ export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
-export const DeleteAccountFinalDocument = gql`
-    mutation DeleteAccountFinal($token: String!, $password: String!) {
-  deleteAccountFinal(token: $token, password: $password) {
-    ...FieldError
-  }
+export const AccountDeletionRequestDocument = gql`
+    mutation AccountDeletionRequest {
+  accountDeletionRequest
 }
-    ${FieldErrorFragmentDoc}`;
-export type DeleteAccountFinalMutationFn = Apollo.MutationFunction<DeleteAccountFinalMutation, DeleteAccountFinalMutationVariables>;
+    `;
+export type AccountDeletionRequestMutationFn = Apollo.MutationFunction<AccountDeletionRequestMutation, AccountDeletionRequestMutationVariables>;
 
 /**
- * __useDeleteAccountFinalMutation__
+ * __useAccountDeletionRequestMutation__
  *
- * To run a mutation, you first call `useDeleteAccountFinalMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAccountFinalMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAccountDeletionRequestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAccountDeletionRequestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteAccountFinalMutation, { data, loading, error }] = useDeleteAccountFinalMutation({
+ * const [accountDeletionRequestMutation, { data, loading, error }] = useAccountDeletionRequestMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAccountDeletionRequestMutation(baseOptions?: Apollo.MutationHookOptions<AccountDeletionRequestMutation, AccountDeletionRequestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AccountDeletionRequestMutation, AccountDeletionRequestMutationVariables>(AccountDeletionRequestDocument, options);
+      }
+export type AccountDeletionRequestMutationHookResult = ReturnType<typeof useAccountDeletionRequestMutation>;
+export type AccountDeletionRequestMutationResult = Apollo.MutationResult<AccountDeletionRequestMutation>;
+export type AccountDeletionRequestMutationOptions = Apollo.BaseMutationOptions<AccountDeletionRequestMutation, AccountDeletionRequestMutationVariables>;
+export const FinishAccountDeletionDocument = gql`
+    mutation FinishAccountDeletion($token: String!, $password: String!) {
+  finishAccountDeletion(token: $token, password: $password) {
+    ...FieldError
+  }
+}
+    ${FieldErrorFragmentDoc}`;
+export type FinishAccountDeletionMutationFn = Apollo.MutationFunction<FinishAccountDeletionMutation, FinishAccountDeletionMutationVariables>;
+
+/**
+ * __useFinishAccountDeletionMutation__
+ *
+ * To run a mutation, you first call `useFinishAccountDeletionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFinishAccountDeletionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [finishAccountDeletionMutation, { data, loading, error }] = useFinishAccountDeletionMutation({
  *   variables: {
  *      token: // value for 'token'
  *      password: // value for 'password'
  *   },
  * });
  */
-export function useDeleteAccountFinalMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAccountFinalMutation, DeleteAccountFinalMutationVariables>) {
+export function useFinishAccountDeletionMutation(baseOptions?: Apollo.MutationHookOptions<FinishAccountDeletionMutation, FinishAccountDeletionMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAccountFinalMutation, DeleteAccountFinalMutationVariables>(DeleteAccountFinalDocument, options);
+        return Apollo.useMutation<FinishAccountDeletionMutation, FinishAccountDeletionMutationVariables>(FinishAccountDeletionDocument, options);
       }
-export type DeleteAccountFinalMutationHookResult = ReturnType<typeof useDeleteAccountFinalMutation>;
-export type DeleteAccountFinalMutationResult = Apollo.MutationResult<DeleteAccountFinalMutation>;
-export type DeleteAccountFinalMutationOptions = Apollo.BaseMutationOptions<DeleteAccountFinalMutation, DeleteAccountFinalMutationVariables>;
-export const DeleteAccountRequestDocument = gql`
-    mutation DeleteAccountRequest {
-  deleteAccountRequest
+export type FinishAccountDeletionMutationHookResult = ReturnType<typeof useFinishAccountDeletionMutation>;
+export type FinishAccountDeletionMutationResult = Apollo.MutationResult<FinishAccountDeletionMutation>;
+export type FinishAccountDeletionMutationOptions = Apollo.BaseMutationOptions<FinishAccountDeletionMutation, FinishAccountDeletionMutationVariables>;
+export const ValidateAccountDeletionTokenDocument = gql`
+    mutation ValidateAccountDeletionToken($token: String!) {
+  validateAccountDeletionToken(token: $token)
 }
     `;
-export type DeleteAccountRequestMutationFn = Apollo.MutationFunction<DeleteAccountRequestMutation, DeleteAccountRequestMutationVariables>;
+export type ValidateAccountDeletionTokenMutationFn = Apollo.MutationFunction<ValidateAccountDeletionTokenMutation, ValidateAccountDeletionTokenMutationVariables>;
 
 /**
- * __useDeleteAccountRequestMutation__
+ * __useValidateAccountDeletionTokenMutation__
  *
- * To run a mutation, you first call `useDeleteAccountRequestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAccountRequestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useValidateAccountDeletionTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useValidateAccountDeletionTokenMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteAccountRequestMutation, { data, loading, error }] = useDeleteAccountRequestMutation({
- *   variables: {
- *   },
- * });
- */
-export function useDeleteAccountRequestMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAccountRequestMutation, DeleteAccountRequestMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAccountRequestMutation, DeleteAccountRequestMutationVariables>(DeleteAccountRequestDocument, options);
-      }
-export type DeleteAccountRequestMutationHookResult = ReturnType<typeof useDeleteAccountRequestMutation>;
-export type DeleteAccountRequestMutationResult = Apollo.MutationResult<DeleteAccountRequestMutation>;
-export type DeleteAccountRequestMutationOptions = Apollo.BaseMutationOptions<DeleteAccountRequestMutation, DeleteAccountRequestMutationVariables>;
-export const ValidateAccDelTokenDocument = gql`
-    mutation ValidateAccDelToken($token: String!) {
-  validateAccDelToken(token: $token)
-}
-    `;
-export type ValidateAccDelTokenMutationFn = Apollo.MutationFunction<ValidateAccDelTokenMutation, ValidateAccDelTokenMutationVariables>;
-
-/**
- * __useValidateAccDelTokenMutation__
- *
- * To run a mutation, you first call `useValidateAccDelTokenMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useValidateAccDelTokenMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [validateAccDelTokenMutation, { data, loading, error }] = useValidateAccDelTokenMutation({
+ * const [validateAccountDeletionTokenMutation, { data, loading, error }] = useValidateAccountDeletionTokenMutation({
  *   variables: {
  *      token: // value for 'token'
  *   },
  * });
  */
-export function useValidateAccDelTokenMutation(baseOptions?: Apollo.MutationHookOptions<ValidateAccDelTokenMutation, ValidateAccDelTokenMutationVariables>) {
+export function useValidateAccountDeletionTokenMutation(baseOptions?: Apollo.MutationHookOptions<ValidateAccountDeletionTokenMutation, ValidateAccountDeletionTokenMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ValidateAccDelTokenMutation, ValidateAccDelTokenMutationVariables>(ValidateAccDelTokenDocument, options);
+        return Apollo.useMutation<ValidateAccountDeletionTokenMutation, ValidateAccountDeletionTokenMutationVariables>(ValidateAccountDeletionTokenDocument, options);
       }
-export type ValidateAccDelTokenMutationHookResult = ReturnType<typeof useValidateAccDelTokenMutation>;
-export type ValidateAccDelTokenMutationResult = Apollo.MutationResult<ValidateAccDelTokenMutation>;
-export type ValidateAccDelTokenMutationOptions = Apollo.BaseMutationOptions<ValidateAccDelTokenMutation, ValidateAccDelTokenMutationVariables>;
+export type ValidateAccountDeletionTokenMutationHookResult = ReturnType<typeof useValidateAccountDeletionTokenMutation>;
+export type ValidateAccountDeletionTokenMutationResult = Apollo.MutationResult<ValidateAccountDeletionTokenMutation>;
+export type ValidateAccountDeletionTokenMutationOptions = Apollo.BaseMutationOptions<ValidateAccountDeletionTokenMutation, ValidateAccountDeletionTokenMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email) {
@@ -1293,9 +1333,9 @@ export function useValidateRegisterTokenMutation(baseOptions?: Apollo.MutationHo
 export type ValidateRegisterTokenMutationHookResult = ReturnType<typeof useValidateRegisterTokenMutation>;
 export type ValidateRegisterTokenMutationResult = Apollo.MutationResult<ValidateRegisterTokenMutation>;
 export type ValidateRegisterTokenMutationOptions = Apollo.BaseMutationOptions<ValidateRegisterTokenMutation, ValidateRegisterTokenMutationVariables>;
-export const FollowUserDocument = gql`
-    mutation FollowUser($userId: Int!) {
-  followUser(userId: $userId) {
+export const FollowDocument = gql`
+    mutation Follow($userId: Int!) {
+  follow(userId: $userId) {
     error
     users {
       ...FullUser
@@ -1303,32 +1343,32 @@ export const FollowUserDocument = gql`
   }
 }
     ${FullUserFragmentDoc}`;
-export type FollowUserMutationFn = Apollo.MutationFunction<FollowUserMutation, FollowUserMutationVariables>;
+export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
 
 /**
- * __useFollowUserMutation__
+ * __useFollowMutation__
  *
- * To run a mutation, you first call `useFollowUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useFollowUserMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useFollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [followUserMutation, { data, loading, error }] = useFollowUserMutation({
+ * const [followMutation, { data, loading, error }] = useFollowMutation({
  *   variables: {
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useFollowUserMutation(baseOptions?: Apollo.MutationHookOptions<FollowUserMutation, FollowUserMutationVariables>) {
+export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument, options);
+        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, options);
       }
-export type FollowUserMutationHookResult = ReturnType<typeof useFollowUserMutation>;
-export type FollowUserMutationResult = Apollo.MutationResult<FollowUserMutation>;
-export type FollowUserMutationOptions = Apollo.BaseMutationOptions<FollowUserMutation, FollowUserMutationVariables>;
+export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
+export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
+export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($options: LoginInput!) {
   login(options: $options) {
@@ -1517,15 +1557,10 @@ export const PostsDocument = gql`
     query: $query
     feedMode: $feedMode
   ) {
-    hasMore
-    executionTime
-    count
-    posts {
-      ...FullPost
-    }
+    ...PaginatedPosts
   }
 }
-    ${FullPostFragmentDoc}`;
+    ${PaginatedPostsFragmentDoc}`;
 
 /**
  * __usePostsQuery__
@@ -1558,41 +1593,80 @@ export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Post
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
-export const FollowingUsersDocument = gql`
-    query FollowingUsers($userId: Int!) {
-  followingUsers(userId: $userId) {
-    ...FullUser
+export const FollowersDocument = gql`
+    query Followers($limit: Int!, $skip: Int, $userId: Int!) {
+  followers(limit: $limit, skip: $skip, userId: $userId) {
+    ...PaginatedUsers
   }
 }
-    ${FullUserFragmentDoc}`;
+    ${PaginatedUsersFragmentDoc}`;
 
 /**
- * __useFollowingUsersQuery__
+ * __useFollowersQuery__
  *
- * To run a query within a React component, call `useFollowingUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useFollowingUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFollowersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFollowingUsersQuery({
+ * const { data, loading, error } = useFollowersQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useFollowingUsersQuery(baseOptions: Apollo.QueryHookOptions<FollowingUsersQuery, FollowingUsersQueryVariables>) {
+export function useFollowersQuery(baseOptions: Apollo.QueryHookOptions<FollowersQuery, FollowersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FollowingUsersQuery, FollowingUsersQueryVariables>(FollowingUsersDocument, options);
+        return Apollo.useQuery<FollowersQuery, FollowersQueryVariables>(FollowersDocument, options);
       }
-export function useFollowingUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FollowingUsersQuery, FollowingUsersQueryVariables>) {
+export function useFollowersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FollowersQuery, FollowersQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FollowingUsersQuery, FollowingUsersQueryVariables>(FollowingUsersDocument, options);
+          return Apollo.useLazyQuery<FollowersQuery, FollowersQueryVariables>(FollowersDocument, options);
         }
-export type FollowingUsersQueryHookResult = ReturnType<typeof useFollowingUsersQuery>;
-export type FollowingUsersLazyQueryHookResult = ReturnType<typeof useFollowingUsersLazyQuery>;
-export type FollowingUsersQueryResult = Apollo.QueryResult<FollowingUsersQuery, FollowingUsersQueryVariables>;
+export type FollowersQueryHookResult = ReturnType<typeof useFollowersQuery>;
+export type FollowersLazyQueryHookResult = ReturnType<typeof useFollowersLazyQuery>;
+export type FollowersQueryResult = Apollo.QueryResult<FollowersQuery, FollowersQueryVariables>;
+export const FollowingsDocument = gql`
+    query Followings($limit: Int!, $skip: Int, $userId: Int!) {
+  followings(limit: $limit, skip: $skip, userId: $userId) {
+    ...PaginatedUsers
+  }
+}
+    ${PaginatedUsersFragmentDoc}`;
+
+/**
+ * __useFollowingsQuery__
+ *
+ * To run a query within a React component, call `useFollowingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFollowingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFollowingsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFollowingsQuery(baseOptions: Apollo.QueryHookOptions<FollowingsQuery, FollowingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FollowingsQuery, FollowingsQueryVariables>(FollowingsDocument, options);
+      }
+export function useFollowingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FollowingsQuery, FollowingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FollowingsQuery, FollowingsQueryVariables>(FollowingsDocument, options);
+        }
+export type FollowingsQueryHookResult = ReturnType<typeof useFollowingsQuery>;
+export type FollowingsLazyQueryHookResult = ReturnType<typeof useFollowingsLazyQuery>;
+export type FollowingsQueryResult = Apollo.QueryResult<FollowingsQuery, FollowingsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -1663,53 +1737,13 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
-export const UserFollowersDocument = gql`
-    query UserFollowers($userId: Int!) {
-  userFollowers(userId: $userId) {
-    ...FullUser
-  }
-}
-    ${FullUserFragmentDoc}`;
-
-/**
- * __useUserFollowersQuery__
- *
- * To run a query within a React component, call `useUserFollowersQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserFollowersQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useUserFollowersQuery(baseOptions: Apollo.QueryHookOptions<UserFollowersQuery, UserFollowersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserFollowersQuery, UserFollowersQueryVariables>(UserFollowersDocument, options);
-      }
-export function useUserFollowersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserFollowersQuery, UserFollowersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserFollowersQuery, UserFollowersQueryVariables>(UserFollowersDocument, options);
-        }
-export type UserFollowersQueryHookResult = ReturnType<typeof useUserFollowersQuery>;
-export type UserFollowersLazyQueryHookResult = ReturnType<typeof useUserFollowersLazyQuery>;
-export type UserFollowersQueryResult = Apollo.QueryResult<UserFollowersQuery, UserFollowersQueryVariables>;
 export const UsersDocument = gql`
     query Users($limit: Int!, $skip: Int, $location: String) {
   users(limit: $limit, skip: $skip, location: $location) {
-    hasMore
-    executionTime
-    count
-    users {
-      ...FullUser
-    }
+    ...PaginatedUsers
   }
 }
-    ${FullUserFragmentDoc}`;
+    ${PaginatedUsersFragmentDoc}`;
 
 /**
  * __useUsersQuery__

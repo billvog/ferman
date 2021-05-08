@@ -1,0 +1,8 @@
+fragment PaginatedUsers on PaginatedUsers {
+  users {
+    ...FullUser
+  }
+  hasMore
+  executionTime
+  count
+}

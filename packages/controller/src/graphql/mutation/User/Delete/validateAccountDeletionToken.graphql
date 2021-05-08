@@ -1,0 +1,3 @@
+mutation ValidateAccountDeletionToken($token: String!) {
+  validateAccountDeletionToken(token: $token)
+}

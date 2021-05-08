@@ -1,5 +1,5 @@
 mutation LikePost($postId: String!) {
-  like(postId: $postId) {
+  likePost(postId: $postId) {
     error
     post {
       ...FullPost

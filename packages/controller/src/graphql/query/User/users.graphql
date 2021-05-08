@@ -1,10 +1,5 @@
 query Users($limit: Int!, $skip: Int, $location: String) {
   users(limit: $limit, skip: $skip, location: $location) {
-    hasMore
-    executionTime
-    count
-    users {
-      ...FullUser
-    }
+    ...PaginatedUsers
   }
 }
