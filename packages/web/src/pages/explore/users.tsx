@@ -87,11 +87,11 @@ const ExploreUsers: React.FC = () => {
         />
       </Head>
       <div className="flex flex-col mb-3 xs:flex-row xs:items-center xs:mb-1 leading-none">
-        <h1 className="text-xl font-bold text-secondary">
+        <h1 className="text-xl font-bold text-primary-600">
           Find users located at
         </h1>
         <input
-          className="flex-1 xs:ml-2.5 outline-none border-b-2 border-dotted border-secondary text-xl text-secondary font-semibold"
+          className="flex-1 xs:ml-2.5 outline-none border-b-2 border-dotted border-primary-450 text-xl text-primary-600 font-semibold"
           value={locationQuery}
           onChange={(e) => setLocationQuery(e.target.value)}
         />

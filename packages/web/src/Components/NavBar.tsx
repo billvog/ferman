@@ -24,12 +24,12 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           {meLoading ? (
             <MySpinner />
           ) : meError || !meData?.me ? (
-            <div className="font-semibold space-x-2 text-secondary-700">
+            <div className="font-semibold space-x-2 text-primary-600">
               <NextLink href="/account/login">
-                <span className="link">Login</span>
+                <span className="cursor-pointer hover:underline">Login</span>
               </NextLink>
               <NextLink href="/account/register">
-                <span className="link">Register</span>
+                <span className="cursor-pointer hover:underline">Register</span>
               </NextLink>
             </div>
           ) : (

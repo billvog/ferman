@@ -135,7 +135,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     </MyButton>
                     <div>
                       <NextLink href="/account/login">
-                        <div className="link text-secondary-500 font-semibold text-sm">
+                        <div className="text-primary-450 font-semibold text-sm cursor-pointer hover:underline">
                           or Sign in
                         </div>
                       </NextLink>

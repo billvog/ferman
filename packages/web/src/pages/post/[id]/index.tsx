@@ -99,41 +99,6 @@ const ViewPost = () => {
                           me={meData?.me || null}
                         />
                       ))}
-                      {commentsData.comments?.map((comment) => (
-                        <PostComment
-                          key={comment.id}
-                          comment={comment}
-                          me={meData?.me || null}
-                        />
-                      ))}
-                      {commentsData.comments?.map((comment) => (
-                        <PostComment
-                          key={comment.id}
-                          comment={comment}
-                          me={meData?.me || null}
-                        />
-                      ))}
-                      {commentsData.comments?.map((comment) => (
-                        <PostComment
-                          key={comment.id}
-                          comment={comment}
-                          me={meData?.me || null}
-                        />
-                      ))}
-                      {commentsData.comments?.map((comment) => (
-                        <PostComment
-                          key={comment.id}
-                          comment={comment}
-                          me={meData?.me || null}
-                        />
-                      ))}
-                      {commentsData.comments?.map((comment) => (
-                        <PostComment
-                          key={comment.id}
-                          comment={comment}
-                          me={meData?.me || null}
-                        />
-                      ))}
                     </div>
                   )}
                 </div>

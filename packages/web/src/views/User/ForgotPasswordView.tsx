@@ -40,7 +40,7 @@ const C: React.FC<
             Send
           </MyButton>
           <NextLink href="/account/login">
-            <span className="link text-secondary-400 text-sm font-semibold">
+            <span className="text-primary-450 font-semibold text-sm cursor-pointer hover:underline">
               or Sign in
             </span>
           </NextLink>

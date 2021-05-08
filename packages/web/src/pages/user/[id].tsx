@@ -46,14 +46,14 @@ const User = ({}) => {
           ) : !userData || !meData || !postsData ? (
             <ErrorText>Internal server error, please try again later</ErrorText>
           ) : (
-            <div className="relative flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-8">
-              <div className="w-full lg:w-96">
-                <div className="lg:sticky lg:z-10 lg:top-20">
+            <div className="relative flex flex-col space-y-4 tablet:space-y-0 tablet:flex-row tablet:space-x-8">
+              <div className="w-full tablet:w-96">
+                <div className="tablet:sticky tablet:z-10 tablet:top-20">
                   <UserCard user={userData.user} me={meData.me || null} />
                 </div>
               </div>
-              <div className="w-full lg:flex-1">
-                <div className="text-lg text-secondary mb-1">
+              <div className="w-full tablet:flex-1">
+                <div className="text-tablet text-primary-600 mb-1">
                   {postsData.posts.posts.length > 0 ? (
                     <div>
                       <b>{userData.user.username}'s</b> posts
