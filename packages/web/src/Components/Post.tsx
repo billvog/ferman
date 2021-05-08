@@ -22,16 +22,16 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
           />
         </div>
         <div className="flex-1 flex flex-col">
-          <div className="flex items-start justify-between mobile:justify-start mobile:items-center mobile:mb-0 mb-1.5 leading-none text-primary-450 space-x-1.5">
+          <div className="flex items-start justify-between tablet:justify-start tablet:items-center tablet:mb-0 mb-1.5 leading-none text-primary-450 space-x-1.5">
             <Link href={`/user/${post.creator.uid}`}>
-              <div className="group flex flex-col mobile:flex-row mobile:items-center mobile:space-x-1.5 cursor-pointer">
+              <div className="group flex flex-col tablet:flex-row tablet:items-center tablet:space-x-1.5 cursor-pointer">
                 <div className="group-hover:underline text-sm text-primary-700 font-bold">
                   {post.creator.username}
                 </div>
                 <div className="text-xs">@{post.creator.uid}</div>
               </div>
             </Link>
-            <div className="hidden mobile:block">·</div>
+            <div className="hidden tablet:block">·</div>
             <div className="text-xs leading-normal">
               {moment(parseFloat(post.createdAt)).local().fromNow()}
             </div>

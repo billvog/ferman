@@ -38,7 +38,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       >
         <div className="flex justify-between items-center mt-3 mb-1">
           <div className="flex items-center">
-            {label}
+            <span>{label}</span>
             {props.maxLength && (
               <span className="text-primary-400 text-xs ml-2">
                 {field.value.length}/{props.maxLength}
