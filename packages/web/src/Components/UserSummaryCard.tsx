@@ -2,7 +2,7 @@ import { FullUserFragment, useFollowMutation } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
-import { richBodyText } from "../utils/richBodyText";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { MyButton } from "./MyButton";
 
 interface UserSummaryCardProps {
@@ -82,7 +82,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
           {!!user.profile?.bio && (
             <div className="mt-1.5">
               <div className="table table-fixed break-words whitespace-pre-wrap text-xs text-primary-500">
-                {richBodyText(user.profile.bio)}
+                {useRichBodyText(user.profile.bio)}
               </div>
             </div>
           )}

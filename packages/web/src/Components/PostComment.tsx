@@ -2,7 +2,7 @@ import React from "react";
 import { FullCommentFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import { CommentActionButtons } from "./CommentActionButtons";
 import moment from "moment";
-import { richBodyText } from "../utils/richBodyText";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import Link from "next/link";
 
 interface PostCommentProps {
@@ -41,7 +41,7 @@ export const PostComment: React.FC<PostCommentProps> = ({
             </div>
           </div>
           <div className="table table-fixed whitespace-pre-wrap break-words text-xs">
-            {richBodyText(comment.text)}
+            {useRichBodyText(comment.text)}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { FullPostFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import { PostActionButtons } from "./PostActionButtons";
 import moment from "moment";
-import { richBodyText } from "../utils/richBodyText";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import Link from "next/link";
 
 interface PostProps {
@@ -37,7 +37,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
             </div>
           </div>
           <div className="table table-fixed w-full whitespace-pre-wrap break-words text-vs">
-            {richBodyText(post.body)}
+            {useRichBodyText(post.body)}
           </div>
         </div>
       </div>

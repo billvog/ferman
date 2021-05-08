@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 import processString from "react-process-string";
 
-export const richBodyText = (body: string): any => {
+export const useRichBodyText = (body: string): any => {
   const config = [
     {
       regex: /(\#[a-zA-Z]+\b)(?!;)/gm,

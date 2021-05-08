@@ -5,7 +5,7 @@ import { GiBalloons } from "react-icons/gi";
 import { AiFillCalendar } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
 import NextLink from "next/link";
-import { richBodyText } from "../utils/richBodyText";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import moment from "moment";
 import { MyButton } from "./MyButton";
 import { useRouter } from "next/router";
@@ -117,7 +117,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
       <div className="divide-y-2">
         {!!user.profile?.bio && (
           <div className="text-vs whitespace-pre-wrap break-words p-2 text-primary-500">
-            {richBodyText(user.profile?.bio)}
+            {useRichBodyText(user.profile?.bio)}
           </div>
         )}
         <div className="flex text-xs p-2 flex-col space-y-1">

@@ -1,14 +1,14 @@
 import React from "react";
-import { ErrorText } from "../../components/ErrorText";
-import { Layout } from "../../components/Layout";
-import { Post } from "../../components/Post";
-import { UserCard } from "../../components/UserCard";
+import { ErrorText } from "../../../components/ErrorText";
+import { Layout } from "../../../components/Layout";
+import { Post } from "../../../components/Post";
+import { UserCard } from "../../../components/UserCard";
 import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
-import { useGetUserFromUrl } from "../../utils/useGetUserFromUrl";
-import { withMyApollo } from "../../utils/withMyApollo";
-import { MySpinner } from "../../components/MySpinner";
-import { MyButton } from "../../components/MyButton";
-import { UserOpenGraphPreview } from "../../components/UserOpenGraphPreview";
+import { useGetUserFromUrl } from "../../../shared-hooks/useGetUserFromUrl";
+import { withMyApollo } from "../../../utils/withMyApollo";
+import { MySpinner } from "../../../components/MySpinner";
+import { MyButton } from "../../../components/MyButton";
+import { UserOpenGraphPreview } from "../../../components/UserOpenGraphPreview";
 
 const User = ({}) => {
   const { data: meData, loading: meLoading } = useMeQuery({

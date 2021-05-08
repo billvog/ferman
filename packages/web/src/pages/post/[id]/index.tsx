@@ -6,7 +6,7 @@ import {
   useMeQuery,
   useUserQuery,
 } from "@ferman-pkgs/controller";
-import { useGetPostFromUrl } from "../../../utils/useGetPostFromUrl";
+import { useGetPostFromUrl } from "../../../shared-hooks/useGetPostFromUrl";
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { Post } from "../../../components/Post";
 import { ErrorText } from "../../../components/ErrorText";
