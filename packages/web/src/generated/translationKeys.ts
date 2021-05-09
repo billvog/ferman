@@ -7,6 +7,7 @@ export type TranslationKeys =
 	| "common.sure"
 	| "common.no"
 	| "common.cancel"
+	| "common.back"
 	| "common.or_go_back"
 	| "common.no_posts"
 	| "common.found_x_results"
@@ -26,4 +27,10 @@ export type TranslationKeys =
 	| "search.search_tips.heading"
 	| "search.search_tips.tip_1"
 	| "search.search_tips.tip_2"
-	| "search.search_tips.tip_3";
+	| "search.search_tips.tip_3"
+	| "404_page.title"
+	| "404_page.heading"
+	| "404_page.subtext"
+	| "503_page.title"
+	| "503_page.heading"
+	| "503_page.subtext";

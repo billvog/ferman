@@ -7,10 +7,11 @@
     "sure": "I'm sure",
     "no": "No",
     "cancel": "Cancel",
+    "back": "Back",
     "or_go_back": "or Go Back",
     "no_posts": "There are no posts...",
-    "found_x_results": "Found {{x}} results in {{s}} seconds",
-    "found_one_result": "Found one result in {{s}} seconds"
+    "found_x_results": "Found $1 results in $2 seconds",
+    "found_one_result": "Found one result in $1 seconds"
   },
   "errors": {
     "500": "Internal server error, please try again later",
@@ -35,5 +36,15 @@
       "tip_2": "Be more precise",
       "tip_3": "Use keywords"
     }
+  },
+  "404_page": {
+    "title": "Page not found",
+    "heading": "Page not found",
+    "subtext": "The page you're trying to reach, doesn't exist.\nYou've been redirected somewhere safe."
+  },
+  "503_page": {
+    "title": "Access Denied",
+    "heading": "Access Denied",
+    "subtext": "You are not allowed to access this content.\nYou've been redirected somewhere safe."
   }
 }

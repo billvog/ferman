@@ -4,22 +4,24 @@ import React from "react";
 import { Layout } from "../components/Layout";
 import { MyButton } from "../components/MyButton";
 import { withMyApollo } from "../utils/withMyApollo";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
-const NotFoundPage = ({}) => {
+const AccessDeniedPage = ({}) => {
   const router = useRouter();
+  const { t } = useTypeSafeTranslation();
+
   return (
-    <Layout title="403 – Ferman" size="sm">
-      <h1 className="heading">Access Denied</h1>
+    <Layout title={`${t("503_page.title")} – Ferman`} size="sm">
+      <h1 className="heading">{t("503_page.heading")}</h1>
       <div className="text-primary-450 text-sm font-semibold mb-3">
-        You are not allowed to access this content. <br />
-        You've been redirected somewhere safe.
+        {t("503_page.subtext")}
       </div>
       <MyButton onClick={router.back} color="secondary">
         <IoMdArrowBack />
-        <span className="ml-1.5">Back</span>
+        <span className="ml-1.5">{t("common.back")}</span>
       </MyButton>
     </Layout>
   );
 };
 
-export default withMyApollo()(NotFoundPage);
+export default withMyApollo()(AccessDeniedPage);

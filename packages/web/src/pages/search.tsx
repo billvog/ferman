@@ -133,16 +133,16 @@ const SearchPost = () => {
             {postsData.posts.count !== 1 ? (
               <div>
                 {t("common.found_x_results")
-                  .replace("{{x}}", postsData?.posts.count.toString())
+                  .replace("$1", postsData.posts.count.toString())
                   .replace(
-                    "{{s}}",
+                    "$2",
                     Number(postsData?.posts.executionTime / 1000).toString()
                   )}
               </div>
             ) : (
               <div>
                 {t("common.found_one_result").replace(
-                  "{{s}}",
+                  "$1",
                   Number(postsData?.posts.executionTime / 1000).toString()
                 )}
               </div>

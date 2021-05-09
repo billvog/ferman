@@ -10,7 +10,8 @@
     "or_go_back": "ή Πίσω",
     "no_posts": "Δεν υπάρχουν δημοσιεύσεις...",
     "found_x_results": "Βρέθηκαν {{x}} αποτελέσματα σε {{s}} δευτερόλεπτα",
-    "found_one_result": "Βρέθηκε ένα αποτέλεσμα σε {{s}} δευτερόλεπτα"
+    "found_one_result": "Βρέθηκε ένα αποτέλεσμα σε {{s}} δευτερόλεπτα",
+    "back": "Back"
   },
   "errors": {
     "404": "Δε βρέθηκε",
@@ -35,5 +36,19 @@
       "tip_2": "Γίνετε πιο περιεκτικός",
       "tip_3": "Χρησειμοποίηστε λέξεις κλειδιά"
     }
+  },
+  "404_page": {
+    "heading": "Page not found",
+    "subtext": "The page you're trying to reach, doesn't exist. <br /> You've been redirected somewhere safe.",
+    "title": "Page not found"
+  },
+  "403_page": {
+    "heading": "Access Denied",
+    "subtext": "You are not allowed to access this content.\nYou've been redirected somewhere safe."
+  },
+  "503_page": {
+    "title": "Access Denied",
+    "heading": "Access Denied",
+    "subtext": "You are not allowed to access this content.\nYou've been redirected somewhere safe."
   }
 }
