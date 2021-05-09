@@ -1,0 +1,13 @@
+{
+  "common": {
+    "loadMore": "More",
+    "loading": "Loading...",
+    "ok": "Ok",
+    "yes": "Yes",
+    "sure": "I'm sure",
+    "no": "No",
+    "cancel": "Cancel",
+    "orGoBack": "or Go Back",
+    "postNow": "Post now"
+  }
+}

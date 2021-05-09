@@ -9,8 +9,11 @@ import { MyButton } from "../components/MyButton";
 import { MySpinner } from "../components/MySpinner";
 import { BsSearch } from "react-icons/bs";
 import { MdExplore } from "react-icons/md";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 const Index = () => {
+  const { t } = useTypeSafeTranslation();
+
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
   });
@@ -51,7 +54,7 @@ const Index = () => {
           </NextLink>
           {meData?.me && (
             <NextLink href="/post">
-              <MyButton color="secondary">post now</MyButton>
+              <MyButton color="secondary">{t("common.postNow")}</MyButton>
             </NextLink>
           )}
         </div>
