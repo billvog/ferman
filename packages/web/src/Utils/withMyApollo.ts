@@ -6,6 +6,7 @@ import {
   PaginatedUsers,
 } from "@ferman-pkgs/controller";
 import { isServer } from "./isServer";
+import { apiBaseUrl } from "../lib/constants";
 
 const createApolloClient = (ctx: any) => {
   let cookie = "";
@@ -14,7 +15,7 @@ const createApolloClient = (ctx: any) => {
   }
 
   return new ApolloClient({
-    uri: process.env.NEXT_PUBLIC_API_URL as string,
+    uri: apiBaseUrl,
     credentials: "include",
     headers: {
       cookie,

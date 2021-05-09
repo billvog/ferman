@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-
 import { Paths } from "../types/util-types";
 import translations from "../../public/locales/en/translation.json";
 

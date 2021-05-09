@@ -7,6 +7,8 @@ import { NavBar } from "./NavBar";
 import { Wrapper, WrapperSize } from "./Wrapper";
 import NProgress from "nprogress";
 import { MySpinner } from "./MySpinner";
+import { isServer } from "../utils/isServer";
+import { useTranslation } from "react-i18next";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -26,6 +28,8 @@ export const Layout: React.FC<LayoutProps> = ({
   isAuth,
   isNotAuth,
 }) => {
+  const { i18n } = useTranslation();
+
   const [ok, setOk] = useState(false);
 
   useEffect(() => {
@@ -64,7 +68,7 @@ export const Layout: React.FC<LayoutProps> = ({
   return (
     <div className={LayoutStyles.container}>
       <Head>
-        <title>{title || "Ferman – Welcome at Ferman's"}</title>
+        <title>{i18n.isInitialized && !isServer() ? title : "Ferman"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta

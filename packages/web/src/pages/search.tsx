@@ -7,26 +7,24 @@ import { withMyApollo } from "../utils/withMyApollo";
 import { useRouter } from "next/router";
 import { MySpinner } from "../components/MySpinner";
 import { MyButton } from "../components/MyButton";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 const SearchTips = () => {
+  const { t } = useTypeSafeTranslation();
   return (
     <div className="mt-2 text-sm text-primary-700">
-      <b>Search Tips</b> <br />
-      <ul
-        className="list-disc"
-        style={{
-          marginLeft: 20,
-        }}
-      >
-        <li>Be careful of wrong syntax or misspelled words</li>
-        <li>Be more precise</li>
-        <li>Use keywords</li>
+      <b>{t("search.search_tips.heading")}</b> <br />
+      <ul className="list-disc ml-5">
+        <li>{t("search.search_tips.tip_1")}</li>
+        <li>{t("search.search_tips.tip_2")}</li>
+        <li>{t("search.search_tips.tip_3")}</li>
       </ul>
     </div>
   );
 };
 
 const SearchPost = () => {
+  const { t } = useTypeSafeTranslation();
   const router = useRouter();
 
   const [query, setQuery] = useState("");
@@ -93,15 +91,17 @@ const SearchPost = () => {
     }
   }, [debouncedQuery]);
 
+  const SearchTipsComponent = SearchTips();
+
   return (
-    <Layout title="Search – Ferman">
+    <Layout title={`${t("search.title")} – Ferman`}>
       <div>
         <div className="flex leading-tight">
           <div className="flex-1 mb-1">
             <input
               className="bg-primary-100 hover:bg-primary-200 focus:bg-primary-200 transition-colors duration-75 border-none rounded-xl w-full text-sm leading-6 focus:ring-2 focus:ring-blue-500"
               type="text"
-              placeholder="Search keywords, @mentions, #hashtags"
+              placeholder={t("search.search_field_placeholder")}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
@@ -112,31 +112,41 @@ const SearchPost = () => {
       meLoading ? (
         <MySpinner />
       ) : postsError && !postsData && !postsQueryCalled ? (
-        <ErrorText>Internal server error, please try again later</ErrorText>
+        <ErrorText>{t("errors.500")}</ErrorText>
       ) : !postsData ? (
         <div>
           <div className="text-red-400 mt-2 text-sm">
-            Enter keywords, #hashtags or @mentions in the search field to get
-            some results.
+            {t("search.search_field_subtext")}
           </div>
-          {SearchTips()}
+          {SearchTipsComponent}
         </div>
       ) : postsData.posts.posts.length === 0 ? (
         <div>
           <div className="text-red-400 mt-2 text-sm">
-            We found nothing matching the given terms.
+            {t("search.found_nothing")}
           </div>
-          {SearchTips()}
+          {SearchTipsComponent}
         </div>
       ) : (
         <div>
           <div className="mb-4 mt-1 font-semibold text-primary-400 text-xs">
-            Found {postsData?.posts.count} result
-            {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
-            {postsData?.posts.executionTime
-              ? postsData?.posts.executionTime / 1000
-              : 0}{" "}
-            seconds
+            {postsData.posts.count !== 1 ? (
+              <div>
+                {t("common.found_x_results")
+                  .replace("{{x}}", postsData?.posts.count.toString())
+                  .replace(
+                    "{{s}}",
+                    Number(postsData?.posts.executionTime / 1000).toString()
+                  )}
+              </div>
+            ) : (
+              <div>
+                {t("common.found_one_result").replace(
+                  "{{s}}",
+                  Number(postsData?.posts.executionTime / 1000).toString()
+                )}
+              </div>
+            )}
           </div>
           <div>
             {postsData.posts.posts.map((post) => (
@@ -158,7 +168,7 @@ const SearchPost = () => {
               });
             }}
           >
-            load more
+            {t("common.load_more")}
           </MyButton>
         </div>
       )}

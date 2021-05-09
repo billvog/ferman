@@ -2,6 +2,8 @@ import React from "react";
 import NextLink from "next/link";
 import { useMeQuery } from "@ferman-pkgs/controller";
 import { MySpinner } from "./MySpinner";
+import { LanguageSelector } from "./LanguageSelector";
+import { useTranslation } from "react-i18next";
 
 interface NavBarProps {}
 
@@ -33,17 +35,22 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
               </NextLink>
             </div>
           ) : (
-            <div className="flex">
-              <NextLink href="/account/">
-                <div className="flex flex-col text-right cursor-pointer group">
-                  <span className="font-bold text-base leading-tight text-primary-700 group-hover:underline">
-                    {meData.me.username}
-                  </span>
-                  <span className="text-sm font-semibold text-accent-hover">
-                    @{meData.me.uid}
-                  </span>
-                </div>
-              </NextLink>
+            <div className="flex items-center space-x-2">
+              <div>
+                <LanguageSelector />
+              </div>
+              <div>
+                <NextLink href="/account/">
+                  <div className="flex flex-col text-right cursor-pointer group">
+                    <span className="font-bold text-base leading-tight text-primary-700 group-hover:underline">
+                      {meData.me.username}
+                    </span>
+                    <span className="text-sm font-semibold text-accent-hover">
+                      @{meData.me.uid}
+                    </span>
+                  </div>
+                </NextLink>
+              </div>
             </div>
           )}
         </div>

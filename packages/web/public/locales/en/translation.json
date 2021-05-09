@@ -1,13 +1,39 @@
 {
   "common": {
-    "loadMore": "More",
+    "load_more": "Load More",
     "loading": "Loading...",
     "ok": "Ok",
     "yes": "Yes",
     "sure": "I'm sure",
     "no": "No",
     "cancel": "Cancel",
-    "orGoBack": "or Go Back",
-    "postNow": "Post now"
+    "or_go_back": "or Go Back",
+    "no_posts": "There are no posts...",
+    "found_x_results": "Found {{x}} results in {{s}} seconds",
+    "found_one_result": "Found one result in {{s}} seconds"
+  },
+  "errors": {
+    "500": "Internal server error, please try again later",
+    "404": "Not found"
+  },
+  "index": {
+    "title": "Feed",
+    "feed": "Feed",
+    "recent_posts": "Most recent posts",
+    "post_now": "post now",
+    "explore_posts": "Explore posts",
+    "search_posts": "Search posts"
+  },
+  "search": {
+    "title": "Search",
+    "search_field_placeholder": "Search keywords, @mentions, #hashtags",
+    "search_field_subtext": "Enter keywords, #hashtags or @mentions in the search field to get some results.",
+    "found_nothing": "We found nothing matching the given terms.",
+    "search_tips": {
+      "heading": "Search Tips",
+      "tip_1": "Be careful of wrong syntax or misspelled words",
+      "tip_2": "Be more precise",
+      "tip_3": "Use keywords"
+    }
   }
 }
