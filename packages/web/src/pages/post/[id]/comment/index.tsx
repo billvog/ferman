@@ -1,5 +1,5 @@
 import { withMyApollo } from "../../../../utils/withMyApollo";
-import { CreateCommentConnector } from "../../../../connectors/Post/CreateCommentConnector";
+import { CreateCommentConnector } from "../../../../modules/post/comment/CreateCommentConnector";
 export default withMyApollo({
   ssr: false,
 })(CreateCommentConnector);

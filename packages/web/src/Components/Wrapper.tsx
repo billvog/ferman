@@ -15,7 +15,7 @@ export type WrapperSize =
   | "full";
 
 interface WrapperProps {
-  size: WrapperSize;
+  size?: WrapperSize;
 }
 
 export const Wrapper: React.FC<WrapperProps> = ({ children, size }) => {

@@ -12,15 +12,16 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
   ];
 
   const { i18n } = useTranslation();
-  console.log(`Lang used: ${i18n.language}`);
+  console.log(`Used: ${i18n.language}`);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
         <>
           <Menu.Button className="text-md text-accent focus:outline-none">
-            <div className="flex items-center text-accent rounded-full p-2 transition-colors duration-150">
+            <div className="flex items-center font-semibold text-secondary-50 bg-secondary-600 text-md rounded-full px-2 py-1 transition-colors duration-150">
               <IoIosGlobe />
+              <span className="ml-1.5">Language</span>
             </div>
           </Menu.Button>
           <Transition

@@ -66,6 +66,7 @@ export const init_i18n = () => {
             : value;
         },
       },
+      initImmediate: false,
       react: {
         useSuspense: false, // fixes 'no fallback UI was specified' in react i18next when using hooks
       },
