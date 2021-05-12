@@ -24,10 +24,9 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
   isSubmitting,
 }) => {
   return (
-    <Layout title="Create Post – Ferman" isAuth>
+    <Layout title="Create Post – Ferman" pageTitle="Create Post" isAuth>
       <Form>
         {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
-        <h1 className="heading">Create Post</h1>
         <InputField
           textarea
           label="Body"

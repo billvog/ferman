@@ -1,7 +1,7 @@
 import { FullPostFragment } from "@ferman-pkgs/controller";
 import React from "react";
-import { isServer } from "../utils/isServer";
-import { HeaderController } from "./HeaderController";
+import { isServer } from "../../utils/isServer";
+import { HeaderController } from "../../components/HeaderController";
 
 interface PostOpenGraphPreviewProps {
   post: FullPostFragment | null | undefined;

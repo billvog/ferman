@@ -3,7 +3,7 @@ import React from "react";
 import { CommonSidebar } from "./CommonSidebar";
 
 interface SidebarLayoutProps {
-  loggedUser: FullUserFragment | null;
+  loggedUser: FullUserFragment | null | undefined;
 }
 
 export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
@@ -12,16 +12,16 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
 }) => {
   return (
     <div
-      className="divide-x divide-primary-300"
+      className="divide-x border-l border-r"
       style={{
         display: "grid",
         gridTemplateColumns: "300px 512px",
       }}
     >
-      <div>
+      <div className="sticky top-0 h-screen">
         <CommonSidebar loggedUser={loggedUser} />
       </div>
-      <div className="p-4">{children}</div>
+      <div>{children}</div>
     </div>
   );
 };

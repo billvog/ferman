@@ -1,0 +1,3 @@
+web:
+  organize file structure (modules, shared-hooks, components)
+  add translations

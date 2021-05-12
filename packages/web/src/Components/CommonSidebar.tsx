@@ -3,9 +3,10 @@ import Link from "next/link";
 import React from "react";
 import { CgMoreAlt } from "react-icons/cg";
 import { LanguageSelector } from "./LanguageSelector";
+import { MySpinner } from "./MySpinner";
 
 interface CommonSidebarProps {
-  loggedUser: FullUserFragment | null;
+  loggedUser: FullUserFragment | null | undefined;
 }
 
 export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
@@ -24,7 +25,11 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
         </div>
       </div>
       <div className="flex flex-col items-center space-y-6 w-full">
-        {loggedUser ? (
+        {typeof loggedUser === "undefined" ? (
+          <div>
+            <MySpinner />
+          </div>
+        ) : loggedUser ? (
           <Link href="/account/">
             <div className="flex flex-row justify-between items-center w-full group cursor-pointer">
               <div className="flex flex-row items-center">
@@ -44,7 +49,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                 </div>
               </div>
               <div>
-                <div className="group-hover:bg-primary-300 p-2 rounded-full">
+                <div className="text-primary-450 p-2 rounded-full group-hover:bg-primary-200 group-hover:text-primary-400">
                   <CgMoreAlt />
                 </div>
               </div>

@@ -15,9 +15,12 @@ export const C: React.FC<
   CreateCommentViewProps & FormikProps<CommentFormValues>
 > = ({ isSubmitting, reply }) => {
   return (
-    <Layout title="Create Comment – Ferman" isAuth>
+    <Layout
+      title="Create Comment – Ferman"
+      pageTitle={reply ? "Reply comment" : "Comment"}
+      isAuth
+    >
       <Form>
-        <h1 className="heading">{reply ? "Reply comment" : "Comment"}</h1>
         <InputField
           label="Text"
           name="text"

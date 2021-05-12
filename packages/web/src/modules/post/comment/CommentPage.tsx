@@ -6,7 +6,7 @@ import { PostComment } from "../../../components/PostComment";
 import { useMeQuery, useCommentQuery } from "@ferman-pkgs/controller";
 import { MySpinner } from "../../../components/MySpinner";
 import { MyButton } from "../../../components/MyButton";
-import { CommentOpenGraphPreview } from "../../../components/CommentOpenGraphPreview";
+import { CommentOpenGraphPreview } from "./CommentOpenGraphPreview";
 
 export const CommentPage = ({}) => {
   const router = useRouter();
@@ -38,7 +38,7 @@ export const CommentPage = ({}) => {
             ? `${commentData.comment.parent?.user.username}: "${commentData?.comment.parent?.text}" – Ferman`
             : "Ferman"
         }
-        size="4xl"
+        pageTitle="Comment"
       >
         {(!commentData && commentLoading) || meLoading ? (
           <MySpinner />
@@ -47,9 +47,9 @@ export const CommentPage = ({}) => {
         ) : !commentData || !meData ? (
           <ErrorText>Internal server error, please try again later</ErrorText>
         ) : (
-          <div className="relative flex flex-col space-y-4 tablet:space-y-0 tablet:flex-row tablet:space-x-8">
-            <div className="w-full tablet:w-96">
-              <div className="tablet:sticky tablet:z-10 tablet:top-20">
+          <div className="relative flex flex-col space-y-4">
+            <div className="w-full">
+              <div>
                 <PostComment
                   comment={commentData.comment.parent}
                   me={meData.me || null}
@@ -57,8 +57,8 @@ export const CommentPage = ({}) => {
                 />
               </div>
             </div>
-            <div className="w-full tablet:flex-1">
-              <div className="flex mt-6 tablet:mt-0 justify-between items-center">
+            <div className="w-full">
+              <div className="flex mt-5 justify-between items-center">
                 <div className="text-lg text-primary-600">
                   <b>Replies</b>{" "}
                   {!!commentData?.comment?.count &&

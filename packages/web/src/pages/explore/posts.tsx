@@ -30,14 +30,13 @@ const ExplorePosts = () => {
   });
 
   return (
-    <Layout title="Explore posts – Ferman">
+    <Layout title="Explore posts – Ferman" pageTitle="Most recent posts">
       <Head>
         <meta
           name="description"
           content="Explore the most recent posts on Ferman."
         />
       </Head>
-      <h1 className="heading">Most recent posts</h1>
       {(postsLoading && !postsData) || !postsData || meLoading ? (
         <MySpinner />
       ) : postsError && !postsData ? (
@@ -57,15 +56,7 @@ const ExplorePosts = () => {
         </div>
       ) : (
         <div>
-          <div className="mb-4 font-semibold text-primary-400 text-xs">
-            Found {postsData?.posts.count} result
-            {postsData?.posts.count !== 1 ? "s" : ""} in{" "}
-            {postsData?.posts.executionTime
-              ? postsData?.posts.executionTime / 1000
-              : 0}{" "}
-            seconds
-          </div>
-          <div className="mt-3 space-y-2">
+          <div className="space-y-2">
             {postsData.posts.posts.map((post) => (
               <Post key={post.id} post={post} me={meData?.me || null} />
             ))}

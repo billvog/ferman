@@ -2,20 +2,21 @@ import LayoutStyles from "../css/layout.module.css";
 import Head from "next/head";
 import Router from "next/router";
 import React from "react";
-import { NavBar } from "./NavBar";
-import { Wrapper, WrapperSize } from "./Wrapper";
+import { WrapperSize } from "./Wrapper";
 import NProgress from "nprogress";
 import { isServer } from "../utils/isServer";
 import { useTranslation } from "react-i18next";
 import { AuthManager } from "./AuthManager";
 import { SidebarLayout } from "./SidebarLayout";
+import { PageHeader } from "./PageHeader";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
 interface LayoutProps {
-  title?: string;
+  pageTitle?: string;
+  title: string;
   size?: WrapperSize;
   isAuth?: boolean;
   isNotAuth?: boolean;
@@ -24,12 +25,11 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({
   children,
   title,
-  size = "xl",
+  pageTitle = "",
   isAuth,
   isNotAuth,
 }) => {
   const { i18n } = useTranslation();
-
   return (
     <div className={LayoutStyles.container}>
       <Head>
@@ -38,18 +38,22 @@ export const Layout: React.FC<LayoutProps> = ({
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta
           name="description"
-          content="Ferman, the modern saloon. Here you can publish small post & share them with the world!"
+          content="Ferman, the modern saloon. Chat and take a drink."
         />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"
         />
       </Head>
-      {/* <NavBar /> */}
       <div className="flex flex-col items-center w-full">
         <AuthManager RequireLoggedIn={isAuth} RequireNotLoggedIn={isNotAuth}>
           {(user) => (
-            <SidebarLayout loggedUser={user}>{children}</SidebarLayout>
+            <SidebarLayout loggedUser={user}>
+              <div>
+                <PageHeader title={pageTitle || ""} />
+                <div className="p-4">{children}</div>
+              </div>
+            </SidebarLayout>
           )}
         </AuthManager>
       </div>

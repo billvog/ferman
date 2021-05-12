@@ -7,13 +7,12 @@ import {
   useUserQuery,
 } from "@ferman-pkgs/controller";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
-import { withMyApollo } from "../../utils/withMyApollo";
 import { Post } from "../../components/Post";
 import { ErrorText } from "../../components/ErrorText";
 import { PostComment } from "../../components/PostComment";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
-import { PostOpenGraphPreview } from "../../components/PostOpenGraphPreview";
+import { PostOpenGraphPreview } from "./PostOpenGraphPreview";
 
 export const PostPage: React.FC = () => {
   const router = useRouter();
@@ -51,7 +50,7 @@ export const PostPage: React.FC = () => {
             ? `${userData?.user?.username}: “${postData?.post?.body}” – Ferman`
             : "Ferman"
         }
-        size="4xl"
+        pageTitle={"Post"}
       >
         <div>
           {(postLoading && !postData) || userLoading || meLoading ? (
@@ -61,9 +60,9 @@ export const PostPage: React.FC = () => {
           ) : !postData || !userData ? (
             <ErrorText>Internal server error, please try again later</ErrorText>
           ) : (
-            <div className="relative flex flex-col space-y-4 tablet:space-y-0 tablet:flex-row tablet:space-x-8">
-              <div className="w-full tablet:w-96">
-                <div className="tablet:sticky tablet:z-10 tablet:top-20">
+            <div className="relative flex flex-col space-y-4">
+              <div className="w-full">
+                <div>
                   <Post
                     key={postData.post.id}
                     post={postData.post}
@@ -72,9 +71,9 @@ export const PostPage: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="w-full tablet:flex-1">
-                <div className="flex mt-6 tablet:mt-0 justify-between items-center">
-                  <div className="text-base text-primary-600">
+              <div className="w-full">
+                <div className="flex mt-5 justify-between items-center">
+                  <div className="text-lg text-primary-600">
                     <b>Comments</b>{" "}
                     {!!commentsData?.comments?.count &&
                       `(${commentsData?.comments?.count})`}

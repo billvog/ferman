@@ -6,7 +6,7 @@ import { MySpinner } from "./MySpinner";
 interface AuthManagerProps {
   RequireLoggedIn?: boolean;
   RequireNotLoggedIn?: boolean;
-  children: (user: FullUserFragment | null) => JSX.Element;
+  children: (user: FullUserFragment | null | undefined) => JSX.Element;
 }
 
 export const AuthManager: React.FC<AuthManagerProps> = ({
@@ -49,5 +49,5 @@ export const AuthManager: React.FC<AuthManagerProps> = ({
     }
   }, [data, loading, router]);
 
-  return <>{ok ? children(data?.me || null) : <MySpinner />}</>;
+  return <>{ok ? children(data?.me) : <MySpinner />}</>;
 };

@@ -36,7 +36,7 @@ export const UserPage: React.FC = () => {
         title={
           userData?.user ? `${userData.user.username} on Ferman` : "Ferman"
         }
-        size="5xl"
+        pageTitle={userData?.user ? userData.user.username : ""}
       >
         <div>
           {userLoading || meLoading || (postsLoading && !postsData) ? (
@@ -46,24 +46,13 @@ export const UserPage: React.FC = () => {
           ) : !userData || !meData || !postsData ? (
             <ErrorText>Internal server error, please try again later</ErrorText>
           ) : (
-            <div className="relative flex flex-col space-y-4 tablet:space-y-0 tablet:flex-row tablet:space-x-8">
-              <div className="w-full tablet:w-96">
-                <div className="tablet:sticky tablet:z-10 tablet:top-20">
+            <div className="relative flex flex-col space-y-4">
+              <div className="w-full">
+                <div>
                   <UserCard user={userData.user} me={meData.me || null} />
                 </div>
               </div>
-              <div className="w-full tablet:flex-1">
-                <div className="text-tablet text-primary-600 mb-1">
-                  {postsData.posts.posts.length > 0 ? (
-                    <div>
-                      <b>{userData.user.username}'s</b> posts
-                    </div>
-                  ) : (
-                    <div>
-                      <b>{userData.user.username}</b> has no posts
-                    </div>
-                  )}
-                </div>
+              <div className="w-full">
                 <div className="space-y-2">
                   {postsData.posts.posts.map((post) => (
                     <Post key={post.id} post={post} me={meData.me || null} />

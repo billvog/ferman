@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { MySpinner } from "../components/MySpinner";
 import { MyButton } from "../components/MyButton";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { PageHeader } from "../components/PageHeader";
 
 const SearchTips = () => {
   const { t } = useTypeSafeTranslation();
@@ -94,7 +95,10 @@ const SearchPost = () => {
   const SearchTipsComponent = SearchTips();
 
   return (
-    <Layout title={`${t("search.title")} – Ferman`}>
+    <Layout
+      pageTitle={t("search.title")}
+      title={`${t("search.title")} – Ferman`}
+    >
       <div>
         <div className="flex leading-tight">
           <div className="flex-1 mb-1">
@@ -148,7 +152,7 @@ const SearchPost = () => {
               </div>
             )}
           </div>
-          <div>
+          <div className="space-y-2">
             {postsData.posts.posts.map((post) => (
               <Post key={post.id} post={post} me={meData?.me || null} />
             ))}
