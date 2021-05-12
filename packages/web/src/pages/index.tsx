@@ -68,7 +68,9 @@ const Index = () => {
             </div>
           </div>
           {postsLoading && !postsData ? (
-            <MySpinner />
+            <div className="mt-4">
+              <MySpinner />
+            </div>
           ) : postsError || !postsData ? (
             <ErrorText>{t("errors.500")}</ErrorText>
           ) : postsData.posts.posts.length === 0 ? (

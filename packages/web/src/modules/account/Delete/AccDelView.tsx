@@ -6,17 +6,17 @@ import {
 } from "@ferman-pkgs/controller";
 import { Form, Formik } from "formik";
 import React, { Fragment, useState } from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
-import { MyAlert } from "../../components/MyAlert";
-import { MyButton } from "../../components/MyButton";
+import { InputField } from "../../../components/InputField";
+import { Layout } from "../../../components/Layout";
+import { MyAlert } from "../../../components/MyAlert";
+import { MyButton } from "../../../components/MyButton";
 import {
   AccountDeletionOne,
   AccountDeletionTwo,
   EmptySchema,
 } from "@ferman-pkgs/common";
 import { Dialog, Transition } from "@headlessui/react";
-import { MyDialog } from "../../components/MyDialog";
+import { MyDialog } from "../../../components/MyDialog";
 
 interface AccDelViewProps {
   submit: (values: DeleteUserFormValues) => Promise<ErrorMap | null>;

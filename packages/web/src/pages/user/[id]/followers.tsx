@@ -40,6 +40,9 @@ const UserFollowers = ({}) => {
           ? `People that follow ${userData?.user?.username} on Ferman`
           : "Ferman"
       }
+      pageTitle={
+        userData?.user?.username ? `${userData.user.username}'s followers` : ""
+      }
     >
       <div>
         {userLoading || meLoading || (!followersData && followersLoading) ? (
@@ -52,22 +55,6 @@ const UserFollowers = ({}) => {
           <div>
             <div>
               <div>
-                <div className="flex items-center justify-start mt-2.5 mb-2">
-                  <MyButton
-                    color="transparent"
-                    square
-                    onClick={() => router.back()}
-                  >
-                    <MdArrowBack />
-                  </MyButton>
-                  <h1 className="text-xl text-primary-600">
-                    <b>{userData.user.username}'s</b> Followers{" "}
-                    {followersData.followers &&
-                      followersData.followers.count > 1 && (
-                        <span>({followersData.followers.count})</span>
-                      )}
-                  </h1>
-                </div>
                 {followersData.followers?.count === 0 ? (
                   <div className="text-red-500 text-base">
                     There are no users following <b>{userData.user.username}</b>

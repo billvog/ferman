@@ -1,7 +1,7 @@
 import { ResetPasswordController } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
-import { ResetPasswordView } from "../../views/User/ResetPasswordView";
+import { ResetPasswordView } from "./ResetPasswordView";
 
 interface ResetPasswordConnectorProps {}
 export const ResetPasswordConnector: React.FC<ResetPasswordConnectorProps> = ({}) => {

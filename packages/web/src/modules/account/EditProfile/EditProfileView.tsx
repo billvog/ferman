@@ -13,11 +13,11 @@ import { Form, FormikProps, withFormik } from "formik";
 import moment from "moment";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
-import { MyAlert } from "../../components/MyAlert";
-import { MyButton } from "../../components/MyButton";
-import { MyCheckbox } from "../../components/MyCheckbox";
+import { InputField } from "../../../components/InputField";
+import { Layout } from "../../../components/Layout";
+import { MyAlert } from "../../../components/MyAlert";
+import { MyButton } from "../../../components/MyButton";
+import { MyCheckbox } from "../../../components/MyCheckbox";
 
 type EditProfileViewProps = {
   submit: (values: UpdateProfileFormValues) => Promise<ErrorMap | null>;

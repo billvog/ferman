@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { RegisterView } from "../../views/User/RegisterView";
+import { RegisterView } from "./RegisterView";
 import {
   RegisterController,
   RegisterFormValues,
   RegisterPhase,
 } from "@ferman-pkgs/controller";
-import { isServer } from "../../utils/isServer";
+import { isServer } from "../../../utils/isServer";
 
 interface RegisterConnectorProps {}
 
