@@ -1,7 +1,7 @@
 import { FullCommentFragment } from "@ferman-pkgs/controller";
 import React from "react";
 import { isServer } from "../../../utils/isServer";
-import { HeaderController } from "../../../components/HeaderController";
+import { HeaderController } from "../../display/HeaderController";
 
 interface CommentOpenGraphPreviewProps {
   comment: FullCommentFragment | null | undefined;

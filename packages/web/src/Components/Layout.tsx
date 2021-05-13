@@ -7,7 +7,7 @@ import NProgress from "nprogress";
 import { isServer } from "../utils/isServer";
 import { useTranslation } from "react-i18next";
 import { AuthManager } from "./AuthManager";
-import { SidebarLayout } from "./SidebarLayout";
+import { MainLayout } from "./MainLayout";
 import { PageHeader } from "./PageHeader";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -48,12 +48,12 @@ export const Layout: React.FC<LayoutProps> = ({
       <div className="flex flex-col items-center w-full">
         <AuthManager RequireLoggedIn={isAuth} RequireNotLoggedIn={isNotAuth}>
           {(user) => (
-            <SidebarLayout loggedUser={user}>
+            <MainLayout loggedUser={user}>
               <div>
                 <PageHeader title={pageTitle || ""} />
                 <div className="p-4">{children}</div>
               </div>
-            </SidebarLayout>
+            </MainLayout>
           )}
         </AuthManager>
       </div>

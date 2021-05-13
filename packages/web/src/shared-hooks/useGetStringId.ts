@@ -1,7 +1,10 @@
 import { useRouter } from "next/router";
 
-export const useGetStringId = () => {
+export const useGetStringId = (name: string) => {
   const router = useRouter();
-  const stringId = typeof router.query.id === "string" ? router.query.id : "";
+  const stringId =
+    typeof router.query[name] === "string"
+      ? (router.query[name] as string)
+      : "";
   return stringId;
 };

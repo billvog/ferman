@@ -1,19 +1,13 @@
 import React from "react";
-import { ErrorText } from "../../../components/ErrorText";
-import { Layout } from "../../../components/Layout";
-import { UserCard } from "../../../components/UserCard";
+import { ErrorText } from "../../components/ErrorText";
+import { Layout } from "../../components/Layout";
 import { useFollowingsQuery, useMeQuery } from "@ferman-pkgs/controller";
-import { useGetUserFromUrl } from "../../../shared-hooks/useGetUserFromUrl";
-import { withMyApollo } from "../../../utils/withMyApollo";
-import { MySpinner } from "../../../components/MySpinner";
-import { MyButton } from "../../../components/MyButton";
-import { MdArrowBack } from "react-icons/md";
-import { useRouter } from "next/router";
-import { UserSummaryCard } from "../../../components/UserSummaryCard";
+import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
+import { MySpinner } from "../../components/MySpinner";
+import { MyButton } from "../../components/MyButton";
+import { UserSummaryCard } from "../../components/UserSummaryCard";
 
-const UserFollowing = ({}) => {
-  const router = useRouter();
-
+export const FollowingsPage = ({}) => {
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
   });
@@ -41,7 +35,13 @@ const UserFollowing = ({}) => {
           : "Ferman"
       }
       pageTitle={
-        userData?.user?.username ? `${userData.user.username}'s followings` : ""
+        userData?.user?.username
+          ? `${userData.user.username}'s followings ${
+              followingsData?.followings
+                ? `(${followingsData?.followings?.count})`
+                : ""
+            }`
+          : ""
       }
     >
       <div>
@@ -97,7 +97,3 @@ const UserFollowing = ({}) => {
     </Layout>
   );
 };
-
-export default withMyApollo({
-  ssr: false,
-})(UserFollowing);

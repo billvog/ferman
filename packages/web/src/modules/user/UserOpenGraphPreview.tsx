@@ -1,7 +1,7 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
 import React from "react";
 import { isServer } from "../../utils/isServer";
-import { HeaderController } from "../../components/HeaderController";
+import { HeaderController } from "../display/HeaderController";
 
 interface UserOpenGraphPreviewProps {
   user: FullUserFragment | null | undefined;
@@ -15,7 +15,11 @@ export const UserOpenGraphPreview: React.FC<UserOpenGraphPreviewProps> = ({
     return (
       <HeaderController
         title={`${user.username} on Ferman`}
-        description={`${user.username}: “${user.profile!.bio}”`}
+        description={
+          !!user.profile!.bio
+            ? `${user.username}: “${user.profile!.bio}”`
+            : undefined
+        }
         author={{ name: user.username, avatar: user.profile!.avatarUrl }}
         additionalKeywords={[user.username, user.uid]}
         type="profile"

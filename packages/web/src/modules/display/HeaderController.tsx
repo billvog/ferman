@@ -22,7 +22,7 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
 }) => {
   return (
     <Head>
-      {title ? <title>{title}</title> : <title>Ferman</title>}
+      {title ? <title>{title} – Ferman</title> : <title>Ferman</title>}
       <meta name="description" content={description} />
       {author ? <meta name="author" content={author.name} /> : ""}
       <meta

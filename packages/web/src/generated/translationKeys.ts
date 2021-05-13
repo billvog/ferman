@@ -28,6 +28,8 @@ export type TranslationKeys =
 	| "search.search_tips.tip_1"
 	| "search.search_tips.tip_2"
 	| "search.search_tips.tip_3"
+	| "user.not_found"
+	| "user.title"
 	| "404_page.title"
 	| "404_page.heading"
 	| "404_page.subtext"

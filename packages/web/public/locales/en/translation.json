@@ -37,6 +37,10 @@
       "tip_3": "Use keywords"
     }
   },
+  "user": {
+    "not_found": "User could not be found",
+    "title": "$1 on Ferman"
+  },
   "404_page": {
     "title": "Page not found",
     "heading": "Page not found",

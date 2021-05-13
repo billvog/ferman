@@ -52,13 +52,13 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                     user.followsYouStatus ? "normal" : "tight"
                   }`}
                 >
-                  <div className="group-hover:underline text-md font-bold text-secondary">
+                  <div className="group-hover:underline text-md font-bold text-primary-600">
                     {user.username}
                   </div>
                   <div className="flex items-center space-x-1.5">
                     <div className="text-xs text-primary-450">@{user.uid}</div>
                     {user.followsYouStatus && (
-                      <div className="bg-primary-200 text-secondary-450 font-semibold rounded-md px-1.5 leading-relaxed text-2xs">
+                      <div className="bg-primary-200 text-primary-450 font-semibold rounded-md px-1.5 leading-relaxed text-2xs">
                         Follows you
                       </div>
                     )}
