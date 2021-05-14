@@ -1,13 +1,16 @@
 import { FullUserFragment, usePostsQuery } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
+import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { MdExplore } from "react-icons/md";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
+import { MyDialog } from "../../components/MyDialog";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { CreatePostConnector } from "../post/create/CreatePostConnector";
 
 interface FeedContollerProps {
   user: FullUserFragment | null | undefined;
@@ -30,6 +33,8 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
       query: null,
     },
   });
+
+  const [showCreatePost, setShowCreatePost] = useState(false);
 
   return (
     <>
@@ -59,9 +64,12 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
                 </MyButton>
               </Link>
               {user && (
-                <Link href="/post">
-                  <MyButton color="secondary">{t("index.post_now")}</MyButton>
-                </Link>
+                <MyButton
+                  color="secondary"
+                  onClick={() => setShowCreatePost(true)}
+                >
+                  {t("index.post_now")}
+                </MyButton>
               )}
             </div>
           </div>
@@ -99,6 +107,13 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
           )}
         </>
       )}
+      <MyDialog
+        title="Create Post"
+        isOpen={showCreatePost}
+        onClose={() => setShowCreatePost(false)}
+      >
+        <CreatePostConnector />
+      </MyDialog>
     </>
   );
 };

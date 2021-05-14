@@ -3,10 +3,9 @@ import { ErrorMap, MyMessage, PostFormValues } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
-import { MyAlert } from "../../components/MyAlert";
-import { MyButton } from "../../components/MyButton";
+import { InputField } from "../../../components/InputField";
+import { MyAlert } from "../../../components/MyAlert";
+import { MyButton } from "../../../components/MyButton";
 
 interface CreatePostViewProps {
   submit: (
@@ -24,22 +23,20 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
   isSubmitting,
 }) => {
   return (
-    <Layout title="Create Post – Ferman" pageTitle="Create Post" isAuth>
-      <Form>
-        {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
-        <InputField
-          textarea
-          label="Body"
-          name="body"
-          placeholder="Text..."
-          type="text"
-          maxLength={BodyMax}
-        />
-        <MyButton type="submit" isLoading={isSubmitting}>
-          Post
-        </MyButton>
-      </Form>
-    </Layout>
+    <Form>
+      {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
+      <InputField
+        textarea
+        label="Body"
+        name="body"
+        placeholder="Text..."
+        type="text"
+        maxLength={BodyMax}
+      />
+      <MyButton type="submit" isLoading={isSubmitting}>
+        Post
+      </MyButton>
+    </Form>
   );
 };
 

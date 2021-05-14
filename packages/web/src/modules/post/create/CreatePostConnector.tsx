@@ -3,7 +3,7 @@ import React from "react";
 import { CreatePostView } from "./CreatePostView";
 
 interface CreatePostConnectorProps {}
-export const CreatePostConnector: React.FC<CreatePostConnectorProps> = ({}) => {
+export const CreatePostConnector: React.FC<CreatePostConnectorProps> = () => {
   return (
     <PostController>{(props) => <CreatePostView {...props} />}</PostController>
   );

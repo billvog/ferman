@@ -4,13 +4,15 @@ import {
   useCommentsQuery,
 } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
+import { MyDialog } from "../../components/MyDialog";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { PostComment } from "../../components/PostComment";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
+import { CreateCommentConnector } from "./comment/create/CreateCommentConnector";
 
 interface PostControllerProps {}
 
@@ -42,6 +44,8 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
     },
   });
 
+  const [showCreateComment, setShowCreateComment] = useState(false);
+
   return (
     <div>
       {(postLoading && !postData) || userLoading || meLoading ? (
@@ -66,15 +70,11 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
             <div className="flex mt-5 justify-between items-center">
               <div className="text-lg text-primary-600">
                 <b>Comments</b>{" "}
-                {!!commentsData?.comments?.count &&
-                  `(${commentsData?.comments?.count})`}
+                {!!postData.post.commentsCount &&
+                  `(${postData.post.commentsCount})`}
               </div>
               {meData?.me && (
-                <MyButton
-                  onClick={() => {
-                    router.push(`/post/${postData.post?.id}/comment`);
-                  }}
-                >
+                <MyButton onClick={() => setShowCreateComment(true)}>
                   comment
                 </MyButton>
               )}
@@ -84,7 +84,7 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
                 <MySpinner />
               ) : !commentsData ? (
                 <ErrorText>Internal server error.</ErrorText>
-              ) : commentsData.comments?.count === 0 ? (
+              ) : postData.post.commentsCount === 0 ? (
                 <div className="text-sm text-primary-450">
                   There no comments...
                 </div>
@@ -120,6 +120,13 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
           </div>
         </div>
       )}
+      <MyDialog
+        title="Comment"
+        isOpen={showCreateComment}
+        onClose={() => setShowCreateComment(false)}
+      >
+        <CreateCommentConnector onFinish={() => setShowCreateComment(false)} />
+      </MyDialog>
     </div>
   );
 };
