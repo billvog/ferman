@@ -2,9 +2,9 @@ import { CommentMax, CommentValidationSchema } from "@ferman-pkgs/common";
 import { CommentFormValues, ErrorMap } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
-import { InputField } from "../../../components/InputField";
-import { Layout } from "../../../components/Layout";
-import { MyButton } from "../../../components/MyButton";
+import { InputField } from "../../../../components/InputField";
+import { MyButton } from "../../../../components/MyButton";
+import { MyDialog } from "../../../../components/MyDialog";
 
 interface CreateCommentViewProps {
   submit: (values: CommentFormValues) => Promise<ErrorMap | null>;
@@ -15,25 +15,19 @@ export const C: React.FC<
   CreateCommentViewProps & FormikProps<CommentFormValues>
 > = ({ isSubmitting, reply }) => {
   return (
-    <Layout
-      title="Create Comment – Ferman"
-      pageTitle={reply ? "Reply comment" : "Comment"}
-      isAuth
-    >
-      <Form>
-        <InputField
-          label="Text"
-          name="text"
-          placeholder="Text..."
-          type="text"
-          textarea
-          maxLength={CommentMax}
-        />
-        <MyButton type="submit" isLoading={isSubmitting}>
-          {reply ? "Reply" : "Comment"}
-        </MyButton>
-      </Form>
-    </Layout>
+    <Form>
+      <InputField
+        label="Text"
+        name="text"
+        placeholder="Text..."
+        type="text"
+        textarea
+        maxLength={CommentMax}
+      />
+      <MyButton type="submit" isLoading={isSubmitting}>
+        {reply ? "Reply" : "Comment"}
+      </MyButton>
+    </Form>
   );
 };
 

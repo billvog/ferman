@@ -10,6 +10,7 @@ import moment from "moment";
 import { MyButton } from "./MyButton";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 interface UserCardProps {
   user: FullUserFragment;
@@ -17,6 +18,8 @@ interface UserCardProps {
 }
 
 export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
+  const { t } = useTypeSafeTranslation();
+
   const router = useRouter();
   const [followUser] = useFollowMutation();
 
@@ -28,7 +31,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
     });
 
     if (!data || data.follow.error || !data.follow.users) {
-      return toast.error("Internal server error");
+      return toast.error(t("errors.500"));
     }
   };
 
@@ -36,13 +39,13 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
     <div className="bg-primary-100 rounded-xl text-primary-700 divide-y-2">
       <div className="flex justify-between flex-col">
         <div
-          className="w-full rounded-t-xl bg-cover bg-center bg-no-repeat object-cover border-4 border-gray-100"
+          className="w-full rounded-t-xl bg-cover bg-center bg-no-repeat object-cover"
           style={{
             backgroundImage: `url(${user.profile?.bannerUrl})`,
             backgroundColor: user.profile?.bannerUrl,
           }}
         >
-          <div className="p-4 h-28 relative rounded-t-xl">
+          <div className="p-4 h-36 relative rounded-t-xl">
             <img
               className="rounded-full bg-primary-300 border-4 border-solid border-gray-100 absolute top-3/4"
               src={user.profile?.avatarUrl}
@@ -70,7 +73,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   </div>
                   {user.followsYouStatus && (
                     <div className="bg-primary-200 text-primary-450 font-semibold rounded-md px-1.5 text-xs leading-normal">
-                      Follows you
+                      {t("user.follows_you")}
                     </div>
                   )}
                 </div>
@@ -79,15 +82,22 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
             <div className="text-vs mt-3 space-x-3">
               <NextLink href={`/user/${user.uid}/followers`}>
                 <span className="hover:underline cursor-pointer">
-                  <b>{user.followersCount} </b>
-                  follower
-                  {user.followersCount !== 1 && "s"}
+                  {user.followersCount === 1
+                    ? t("user.one_follower")
+                    : t("user.x_followers").replace(
+                        "$1",
+                        user.followersCount.toString()
+                      )}
                 </span>
               </NextLink>
               <NextLink href={`/user/${user.uid}/following`}>
                 <span className="hover:underline cursor-pointer">
-                  <b>{user.followingsCount}</b> following
-                  {user.followingsCount !== 1 && "s"}
+                  {user.followingsCount === 1
+                    ? t("user.one_following")
+                    : t("user.x_followings").replace(
+                        "$1",
+                        user.followingsCount.toString()
+                      )}
                 </span>
               </NextLink>
             </div>
@@ -100,7 +110,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   onClick={() => router.push("/account/edit-profile")}
                 >
                   <FiEdit2 />
-                  <span className="ml-1.5">Edit</span>
+                  <span className="ml-1.5">{t("common.edit")}</span>
                 </MyButton>
               ) : (
                 <MyButton
@@ -108,7 +118,11 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   color={user.followingStatus ? "primary" : "accent"}
                   onClick={followUserHandler}
                 >
-                  <span>{user.followingStatus ? "Unfollow" : "Follow"}</span>
+                  <span>
+                    {user.followingStatus
+                      ? t("user.unfollow")
+                      : t("user.follow")}
+                  </span>
                 </MyButton>
               ))}
           </div>
@@ -127,7 +141,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
           >
             <AiFillCalendar />
             <span className="space-x-1">
-              <span>Joined:</span>
+              <span>{t("user.joined")}:</span>
               <b>
                 {moment(parseFloat(user.createdAt)).local().format("MMMM YYYY")}
               </b>
@@ -140,7 +154,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
             >
               <GiBalloons />
               <span className="space-x-1">
-                <span>Birthday:</span>
+                <span>{t("user.birthday")}:</span>
                 <b>
                   {moment(parseFloat(user.profile.birthdate))
                     .local()
@@ -152,7 +166,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
           {!!user.profile?.location && (
             <div
               className="flex items-center text-primary-500 space-x-1"
-              title="Location"
+              title={t("user.location")}
             >
               <ImLocation2 />
               <span

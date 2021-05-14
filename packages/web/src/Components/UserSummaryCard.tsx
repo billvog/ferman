@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MyButton } from "./MyButton";
 import { MySpinner } from "./MySpinner";
 
@@ -15,8 +16,9 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
   user,
   me,
 }) => {
-  const [followUser, { loading: followLoading }] = useFollowMutation();
+  const { t } = useTypeSafeTranslation();
 
+  const [followUser, { loading: followLoading }] = useFollowMutation();
   const followUserHandler = async () => {
     const { data } = await followUser({
       variables: {
@@ -60,7 +62,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                     <div className="text-xs text-primary-450">@{user.uid}</div>
                     {user.followsYouStatus && (
                       <div className="bg-primary-200 text-primary-450 font-semibold rounded-md px-1.5 leading-relaxed text-2xs">
-                        Follows you
+                        {t("user.follows_you")}
                       </div>
                     )}
                   </div>
@@ -72,10 +74,14 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                 <MyButton
                   size="small"
                   isLoading={followLoading}
-                  color={user.followingStatus ? "primary" : "accent"}
+                  color={user.followingStatus ? "danger" : "primary"}
                   onClick={followUserHandler}
                 >
-                  <span>{user.followingStatus ? "Unfollow" : "Follow"}</span>
+                  <span>
+                    {user.followingStatus
+                      ? t("user.unfollow")
+                      : t("user.follow")}
+                  </span>
                 </MyButton>
               )}
             </div>

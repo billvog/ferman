@@ -16,12 +16,10 @@ export const CommentOpenGraphPreview: React.FC<CommentOpenGraphPreviewProps> = (
       <HeaderController
         title={`${comment.user.username} comments on Ferman`}
         description={comment.text}
-        author={{
-          name: comment.user.username,
-          avatar: comment.user.profile?.avatarUrl || "",
-        }}
+        user={comment.user.username}
+        image={comment.user.profile?.avatarUrl}
         additionalKeywords={[comment.user.username, comment.user.uid]}
-        type="comment"
+        type="article"
       />
     );
   }

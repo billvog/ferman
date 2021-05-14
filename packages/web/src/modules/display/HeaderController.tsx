@@ -4,19 +4,18 @@ import React from "react";
 
 interface HeaderControllerProps {
   title?: string;
-  author?: {
-    name: string;
-    avatar: string;
-  };
+  user?: string;
+  image?: string;
   additionalKeywords?: string[];
   description?: string;
-  type?: "article" | "comment" | "profile" | "website";
+  type?: "article" | "profile" | "website";
 }
 
 export const HeaderController: NextPage<HeaderControllerProps> = ({
   title,
   description = "Ferman, the modern saloon.",
-  author,
+  user,
+  image,
   additionalKeywords = [],
   type = "website",
 }) => {
@@ -24,20 +23,27 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
     <Head>
       {title ? <title>{title} – Ferman</title> : <title>Ferman</title>}
       <meta name="description" content={description} />
-      {author ? <meta name="author" content={author.name} /> : ""}
       <meta
         name="keywords"
         content={`ferman,${additionalKeywords?.map((k) => ` ${k}`)}`}
       />
       <meta name="og:title" content={title || "Ferman"} />
       <meta name="og:type" content={type} />
-      {author ? <meta name="article:creator" content={author.name} /> : ""}
+      {type === "article" ? (
+        <>
+          <meta name="article:user" content={user || ""} />
+        </>
+      ) : type === "profile" ? (
+        <>
+          <meta name="profile:username" content={user || ""} />
+        </>
+      ) : null}
       <meta name="og:description" content={description} />
       <meta name="og:site_name" content="Ferman" />
       <meta name="twitter:card" content="summary" />
       <meta
         name="og:image"
-        content={author?.avatar || "https://ferman.ga/favicon.ico"}
+        content={image || "https://ferman.ga/favicon.ico"}
       />
     </Head>
   );

@@ -26,7 +26,10 @@ export const UserPage: React.FC = () => {
         <AuthManager>
           {(user) => (
             <>
-              <MainLayout leftSidebar={<CommonSidebar loggedUser={user} />}>
+              <MainLayout
+                title={userData?.user?.username}
+                leftSidebar={<CommonSidebar loggedUser={user} />}
+              >
                 <UserProfileController />
               </MainLayout>
             </>

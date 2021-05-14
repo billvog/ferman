@@ -3,8 +3,8 @@ import React, { Fragment } from "react";
 
 interface MyDialogProps {
   title: JSX.Element | string;
-  body: JSX.Element | string;
-  buttons: JSX.Element;
+  body?: JSX.Element | string;
+  buttons?: JSX.Element;
   isOpen: boolean;
   onClose: () => any;
 }
@@ -53,10 +53,19 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
               >
                 {props.title}
               </Dialog.Title>
-              <div className="mt-2">
-                <p className="text-sm text-primary-500">{props.body}</p>
+              <div>
+                {typeof props.body === "undefined" &&
+                typeof props.buttons === "undefined" ? (
+                  <>{props.children}</>
+                ) : (
+                  <>
+                    <div className="mt-2">
+                      <p className="text-sm text-primary-500">{props.body}</p>
+                    </div>
+                    <div className="mt-4 flex space-x-2">{props.buttons}</div>
+                  </>
+                )}
               </div>
-              <div className="mt-4 flex space-x-2">{props.buttons}</div>
             </div>
           </Transition.Child>
         </div>

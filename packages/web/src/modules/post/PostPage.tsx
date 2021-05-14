@@ -1,137 +1,46 @@
-import { useRouter } from "next/router";
+import { useUserQuery } from "@ferman-pkgs/controller";
 import React from "react";
-import { Layout } from "../../components/Layout";
-import {
-  useCommentsQuery,
-  useMeQuery,
-  useUserQuery,
-} from "@ferman-pkgs/controller";
+import { AuthManager } from "../../components/AuthManager";
+import { CommonSidebar } from "../../components/CommonSidebar";
+import { MainLayout } from "../../components/MainLayout";
+import { WaitI18 } from "../../components/WaitI18";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
-import { Post } from "../../components/Post";
-import { ErrorText } from "../../components/ErrorText";
-import { PostComment } from "../../components/PostComment";
-import { MyButton } from "../../components/MyButton";
-import { MySpinner } from "../../components/MySpinner";
+import { HeaderController } from "../display/HeaderController";
 import { PostOpenGraphPreview } from "./PostOpenGraphPreview";
+import { PostController } from "./PostController";
 
 export const PostPage: React.FC = () => {
-  const router = useRouter();
-
-  const { data: meData, loading: meLoading } = useMeQuery({
-    ssr: false,
-  });
-  const { data: postData, loading: postLoading } = useGetPostFromUrl();
-  const { data: userData, loading: userLoading } = useUserQuery({
+  const { data: postData } = useGetPostFromUrl();
+  const { data: userData } = useUserQuery({
     skip: !postData?.post?.creator.id,
     variables: {
       id: postData?.post?.creator.id || -1,
     },
   });
-  const {
-    data: commentsData,
-    loading: commentsLoading,
-    fetchMore: fetchMoreComments,
-    variables: commentsVariables,
-  } = useCommentsQuery({
-    notifyOnNetworkStatusChange: true,
-    skip: !postData?.post?.id,
-    variables: {
-      postId: postData?.post?.id || "",
-      limit: 15,
-      skip: 0,
-    },
-  });
 
   return (
     <PostOpenGraphPreview post={postData?.post}>
-      <Layout
-        title={
-          userData?.user && postData?.post
-            ? `${userData?.user?.username}: “${postData?.post?.body}” – Ferman`
-            : "Ferman"
-        }
-        pageTitle={"Post"}
-      >
-        <div>
-          {(postLoading && !postData) || userLoading || meLoading ? (
-            <MySpinner />
-          ) : !postData?.post ? (
-            <ErrorText>Post could not be found</ErrorText>
-          ) : !postData || !userData ? (
-            <ErrorText>Internal server error, please try again later</ErrorText>
-          ) : (
-            <div className="relative flex flex-col space-y-4">
-              <div className="w-full">
-                <div>
-                  <Post
-                    key={postData.post.id}
-                    post={postData.post}
-                    me={meData?.me || null}
-                    onDelete={() => router.back()}
-                  />
-                </div>
-              </div>
-              <div className="w-full">
-                <div className="flex mt-5 justify-between items-center">
-                  <div className="text-lg text-primary-600">
-                    <b>Comments</b>{" "}
-                    {!!commentsData?.comments?.count &&
-                      `(${commentsData?.comments?.count})`}
-                  </div>
-                  {meData?.me && (
-                    <MyButton
-                      onClick={() => {
-                        router.push(`/post/${postData.post?.id}/comment`);
-                      }}
-                    >
-                      comment
-                    </MyButton>
-                  )}
-                </div>
-                <div>
-                  {commentsLoading && !commentsData ? (
-                    <MySpinner />
-                  ) : !commentsData ? (
-                    <ErrorText>Internal server error.</ErrorText>
-                  ) : commentsData.comments?.count === 0 ? (
-                    <div className="text-sm text-primary-450">
-                      There no comments...
-                    </div>
-                  ) : (
-                    <div className="mt-3 space-y-2">
-                      {commentsData.comments.comments.map((comment) => (
-                        <PostComment
-                          key={comment.id}
-                          comment={comment}
-                          me={meData?.me || null}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-                {commentsData?.comments.comments &&
-                  commentsData?.comments.hasMore && (
-                    <div className="flex justify-center mt-5">
-                      <MyButton
-                        isLoading={commentsLoading}
-                        onClick={() => {
-                          fetchMoreComments!({
-                            variables: {
-                              ...commentsVariables,
-                              skip: commentsData.comments.comments.length,
-                            },
-                          });
-                        }}
-                      >
-                        load more
-                      </MyButton>
-                    </div>
-                  )}
-              </div>
-            </div>
+      <WaitI18>
+        <HeaderController
+          title={
+            userData?.user && postData?.post
+              ? `${userData.user.username}: “${postData.post.body}” – Ferman`
+              : "Ferman"
+          }
+        />
+        <AuthManager>
+          {(user) => (
+            <>
+              <MainLayout
+                title={userData?.user?.username}
+                leftSidebar={<CommonSidebar loggedUser={user} />}
+              >
+                <PostController />
+              </MainLayout>
+            </>
           )}
-        </div>
-      </Layout>
+        </AuthManager>
+      </WaitI18>
     </PostOpenGraphPreview>
   );
 };

@@ -20,7 +20,8 @@ export const UserOpenGraphPreview: React.FC<UserOpenGraphPreviewProps> = ({
             ? `${user.username}: “${user.profile!.bio}”`
             : undefined
         }
-        author={{ name: user.username, avatar: user.profile!.avatarUrl }}
+        user={user.username}
+        image={user.profile!.avatarUrl}
         additionalKeywords={[user.username, user.uid]}
         type="profile"
       />

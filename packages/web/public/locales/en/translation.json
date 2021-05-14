@@ -8,6 +8,7 @@
     "no": "No",
     "cancel": "Cancel",
     "back": "Back",
+    "edit": "Edit",
     "or_go_back": "or Go Back",
     "no_posts": "There are no posts...",
     "found_x_results": "Found $1 results in $2 seconds",
@@ -40,6 +41,13 @@
   "user": {
     "not_found": "User could not be found",
     "title": "$1 on Ferman",
+    "follows_you": "Follows you",
+    "one_follower": "1 follower",
+    "x_followers": "$1 followers",
+    "one_following": "1 following",
+    "x_followings": "$1 followings",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
     "followers": {
       "title": "People that follow $1 on Ferman",
       "headerTitle": "$1 / followers $2",
@@ -49,7 +57,10 @@
       "title": "People $1 follows on Ferman",
       "headerTitle": "$1 / followings $2",
       "no_users": "There are no users followed by $1"
-    }
+    },
+    "joined": "Joined",
+    "birthday": "Birthday",
+    "location": "Location"
   },
   "404_page": {
     "title": "Page not found",
