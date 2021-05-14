@@ -14,8 +14,10 @@ import { CommentController } from "./CommentController";
 import { AuthManager } from "../../../components/AuthManager";
 import { CommonSidebar } from "../../../components/CommonSidebar";
 import { MainLayout } from "../../../components/MainLayout";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 export const CommentPage = ({}) => {
+  const { t } = useTypeSafeTranslation();
   const { data: commentData } = useGetCommentFromUrl();
 
   return (
@@ -32,7 +34,7 @@ export const CommentPage = ({}) => {
           {(user) => (
             <>
               <MainLayout
-                title="Comment"
+                title={t("comment.headerTitle")}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
                 <CommentController />

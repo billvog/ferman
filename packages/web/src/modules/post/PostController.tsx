@@ -12,12 +12,14 @@ import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { PostComment } from "../../components/PostComment";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
+import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { CreateCommentConnector } from "./comment/create/CreateCommentConnector";
 
 interface PostControllerProps {}
 
 export const PostController: React.FC<PostControllerProps> = ({}) => {
   const router = useRouter();
+  const { t } = useTypeSafeTranslation();
 
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
@@ -51,9 +53,9 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
       {(postLoading && !postData) || userLoading || meLoading ? (
         <MySpinner />
       ) : !postData?.post ? (
-        <ErrorText>Post could not be found</ErrorText>
+        <ErrorText>{t("post.not_found")}</ErrorText>
       ) : !postData || !userData ? (
-        <ErrorText>Internal server error, please try again later</ErrorText>
+        <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="relative flex flex-col space-y-4">
           <div className="w-full">
@@ -69,13 +71,13 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
           <div className="w-full">
             <div className="flex mt-5 justify-between items-center">
               <div className="text-lg text-primary-600">
-                <b>Comments</b>{" "}
+                <b>{t("comment.comments")}</b>{" "}
                 {!!postData.post.commentsCount &&
                   `(${postData.post.commentsCount})`}
               </div>
               {meData?.me && (
                 <MyButton onClick={() => setShowCreateComment(true)}>
-                  comment
+                  {t("post.comment")}
                 </MyButton>
               )}
             </div>
@@ -83,10 +85,10 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
               {commentsLoading && !commentsData ? (
                 <MySpinner />
               ) : !commentsData ? (
-                <ErrorText>Internal server error.</ErrorText>
+                <ErrorText>{t("errors.500")}</ErrorText>
               ) : postData.post.commentsCount === 0 ? (
                 <div className="text-sm text-primary-450">
-                  There no comments...
+                  {t("comment.there_are_no_comments")}
                 </div>
               ) : (
                 <div className="mt-3 space-y-2">
@@ -113,7 +115,7 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
                     });
                   }}
                 >
-                  load more
+                  {t("common.load_more")}
                 </MyButton>
               </div>
             )}
@@ -121,11 +123,11 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
         </div>
       )}
       <MyDialog
-        title="Comment"
+        title={t("comment.comment")}
         isOpen={showCreateComment}
         onClose={() => setShowCreateComment(false)}
       >
-        <CreateCommentConnector onFinish={() => setShowCreateComment(false)} />
+        <CreateCommentConnector />
       </MyDialog>
     </div>
   );

@@ -8,8 +8,11 @@ import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
 import { HeaderController } from "../display/HeaderController";
 import { PostOpenGraphPreview } from "./PostOpenGraphPreview";
 import { PostController } from "./PostController";
+import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 
 export const PostPage: React.FC = () => {
+  const { t } = useTypeSafeTranslation();
+
   const { data: postData } = useGetPostFromUrl();
   const { data: userData } = useUserQuery({
     skip: !postData?.post?.creator.id,
@@ -32,7 +35,7 @@ export const PostPage: React.FC = () => {
           {(user) => (
             <>
               <MainLayout
-                title={userData?.user?.username}
+                title={t("post.headerTitle")}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
                 <PostController />

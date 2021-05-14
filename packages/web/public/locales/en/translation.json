@@ -9,7 +9,9 @@
     "cancel": "Cancel",
     "back": "Back",
     "edit": "Edit",
+    "delete": "Delete",
     "or_go_back": "or Go Back",
+    "body": "Body",
     "no_posts": "There are no posts...",
     "found_x_results": "Found $1 results in $2 seconds",
     "found_one_result": "Found one result in $1 seconds"
@@ -61,6 +63,24 @@
     "joined": "Joined",
     "birthday": "Birthday",
     "location": "Location"
+  },
+  "post": {
+    "headerTitle": "Post",
+    "post": "Post",
+    "not_found": "Post could not be found",
+    "comment": "comment",
+    "like": "Like",
+    "unlike": "Unlike",
+    "replies": "View replies"
+  },
+  "comment": {
+    "headerTitle": "Comment",
+    "comment": "Comment",
+    "reply": "Comment",
+    "comments": "Comments",
+    "replies": "Replies",
+    "there_are_no_comments": "There are no comments",
+    "there_are_no_replies": "There are no replies"
   },
   "404_page": {
     "title": "Page not found",

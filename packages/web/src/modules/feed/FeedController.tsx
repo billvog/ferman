@@ -37,7 +37,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
   const [showCreatePost, setShowCreatePost] = useState(false);
 
   return (
-    <>
+    <div>
       {!user ? (
         <MySpinner />
       ) : (
@@ -108,12 +108,12 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
         </>
       )}
       <MyDialog
-        title="Create Post"
+        title={t("post.post")}
         isOpen={showCreatePost}
         onClose={() => setShowCreatePost(false)}
       >
         <CreatePostConnector />
       </MyDialog>
-    </>
+    </div>
   );
 };

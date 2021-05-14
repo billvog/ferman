@@ -6,6 +6,7 @@ import React from "react";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreatePostViewProps {
   submit: (
@@ -22,19 +23,21 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
   message,
   isSubmitting,
 }) => {
+  const { t } = useTypeSafeTranslation();
+
   return (
     <Form>
       {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
       <InputField
         textarea
-        label="Body"
+        label={t("common.body")}
         name="body"
-        placeholder="Text..."
+        placeholder={`${t("common.body")}...`}
         type="text"
         maxLength={BodyMax}
       />
       <MyButton type="submit" isLoading={isSubmitting}>
-        Post
+        {t("post.post")}
       </MyButton>
     </Form>
   );

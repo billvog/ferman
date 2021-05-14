@@ -14,6 +14,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { MyButton } from "./MyButton";
 import { MyDialog } from "./MyDialog";
 import Link from "next/link";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 const actionClassname =
   "flex items-center border-none outline-none cursor-pointer disabled:cursor-default bg-transparent group";
@@ -35,6 +36,8 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
   me,
   onDelete,
 }) => {
+  const { t } = useTypeSafeTranslation();
+
   const [isDelModalOpen, setDelModalOpen] = useState(false);
 
   const [likePost] = useLikePostMutation();
@@ -88,6 +91,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
     <div className="p-1 bg-primary-50 rounded-b-xl">
       <div className="flex justify-center items-center space-x-7 text-xs leading-none">
         <button
+          title={post.likeStatus ? t("post.unlike") : t("post.like")}
           className={`text-red-${canILike ? "500" : "300"} ${actionClassname}`}
           disabled={!canILike}
           onClick={LikePostHandler}
@@ -102,7 +106,10 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
           <span className="ml-1 font-semibold">{post.points}</span>
         </button>
         <Link href={`/post/${post.id}`}>
-          <div className={`text-secondary-50 ${actionClassname}`}>
+          <div
+            title={t("post.replies")}
+            className={`text-secondary-50 ${actionClassname}`}
+          >
             <div
               className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.secondary}`}
             >
@@ -150,7 +157,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                             onClick={() => setDelModalOpen(true)}
                           >
                             <HiTrash />
-                            <span>Delete...</span>
+                            <span>{t("common.delete")}...</span>
                           </button>
                         )}
                       </Menu.Item>
@@ -174,10 +181,10 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                 isLoading={deletePostLoading}
                 onClick={DeletePostHandler}
               >
-                Delete
+                {t("common.delete")}
               </MyButton>
               <MyButton color="primary" onClick={() => setDelModalOpen(false)}>
-                Cancel
+                {t("common.cancel")}
               </MyButton>
             </>
           }

@@ -10,9 +10,13 @@ export interface CommentFormValues {
 interface CommentControllerProps {
   postId: string;
   reply: string | undefined;
-  onFinish: () => any;
   children: (data: {
-    submit: (values: CommentFormValues) => Promise<ErrorMap | null>;
+    submit: (
+      values: CommentFormValues
+    ) => Promise<{
+      commentId?: string;
+      errors: ErrorMap | null;
+    }>;
     message: MyMessage | null;
   }) => JSX.Element | null;
 }
@@ -20,7 +24,6 @@ interface CommentControllerProps {
 export const CommentController: React.FC<CommentControllerProps> = ({
   postId,
   reply,
-  onFinish,
   children,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
@@ -45,17 +48,23 @@ export const CommentController: React.FC<CommentControllerProps> = ({
         type: "error",
         text: "Internal server error",
       });
-      return null;
+      return {
+        errors: null,
+      };
     }
 
     if (data?.createComment.error) {
       return {
-        [data.createComment.error.field]: data.createComment.error.message,
+        errors: {
+          [data.createComment.error.field]: data.createComment.error.message,
+        },
       };
     }
 
-    onFinish();
-    return null;
+    return {
+      commentId: data.createComment.comment?.id,
+      errors: null,
+    };
   };
 
   return children({
