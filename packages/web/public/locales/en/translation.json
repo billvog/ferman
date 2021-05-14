@@ -71,7 +71,11 @@
     "comment": "comment",
     "like": "Like",
     "unlike": "Unlike",
-    "replies": "View replies"
+    "comments": "View comments",
+    "delete_dialog": {
+      "title": "Are you sure?",
+      "text": "Clicking \"Delete\" button, all likes and comments of this post will be deleted. Any further action will not be able to be undone."
+    }
   },
   "comment": {
     "headerTitle": "Comment",
@@ -80,7 +84,11 @@
     "comments": "Comments",
     "replies": "Replies",
     "there_are_no_comments": "There are no comments",
-    "there_are_no_replies": "There are no replies"
+    "there_are_no_replies": "There are no replies",
+    "delete_dialog": {
+      "title": "Are you sure?",
+      "text": "Clicking \"Delete\" button, all replies of this comment will be deleted. Any further action, will not be able to be undone."
+    }
   },
   "404_page": {
     "title": "Page not found",

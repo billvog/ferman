@@ -107,7 +107,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
         </button>
         <Link href={`/post/${post.id}`}>
           <div
-            title={t("post.replies")}
+            title={t("post.comments")}
             className={`text-secondary-50 ${actionClassname}`}
           >
             <div
@@ -172,8 +172,8 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
       {/* Confirm modal */}
       {me && me.id === post.creator.id && (
         <MyDialog
-          title="Proceed deleting this post?"
-          body={`Clicking "Delete" button, all likes and comments of this post will be deleted. Any further action, will not be able to be undone.`}
+          title={t("post.delete_dialog.title")}
+          body={t("post.delete_dialog.title")}
           buttons={
             <>
               <MyButton

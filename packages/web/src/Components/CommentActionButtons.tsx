@@ -12,6 +12,7 @@ import { HiTrash } from "react-icons/hi";
 import { CgMoreAlt } from "react-icons/cg";
 import { MyDialog } from "./MyDialog";
 import Link from "next/link";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 const actionClassname =
   "flex items-center border-none outline-none cursor-pointer disabled:cursor-default bg-transparent group";
@@ -32,6 +33,8 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
   comment,
   onDelete,
 }) => {
+  const { t } = useTypeSafeTranslation();
+
   const [isDelModalOpen, setDelModalOpen] = useState(false);
 
   const [
@@ -74,6 +77,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
           <div className={`text-secondary-50 ${actionClassname}`}>
             <div
               className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.secondary}`}
+              title={t("comment.replies")}
             >
               <BsFillChatSquareFill />
             </div>
@@ -119,7 +123,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                             onClick={() => setDelModalOpen(true)}
                           >
                             <HiTrash />
-                            <span>Delete...</span>
+                            <span>{t("common.delete")}...</span>
                           </button>
                         )}
                       </Menu.Item>
@@ -134,8 +138,8 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
       {/* Confirm delete modal */}
       {me && me.id === comment.user.id && (
         <MyDialog
-          title="Proceed deleting this comment?"
-          body={`Clicking "Delete" button, all replies of this comment will be deleted. Any further action, will not be able to be undone.`}
+          title={t("comment.delete_dialog.title")}
+          body={t("comment.delete_dialog.text")}
           buttons={
             <>
               <MyButton
@@ -143,10 +147,10 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                 isLoading={deleteCommentLoading}
                 onClick={DeleteCommentHandler}
               >
-                Delete
+                {t("common.delete")}
               </MyButton>
               <MyButton color="primary" onClick={() => setDelModalOpen(false)}>
-                Cancel
+                {t("common.cancel")}
               </MyButton>
             </>
           }
