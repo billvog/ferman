@@ -19,7 +19,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
         className="h-screen divide-x border-l border-r"
         style={{
           display: "grid",
-          gridTemplateColumns: `${leftSidebar ? "300px" : ""} 512px`,
+          gridTemplateColumns: `${leftSidebar ? "300px" : ""} 612px`,
         }}
       >
         {leftSidebar && <div className="sticky top-0">{leftSidebar}</div>}

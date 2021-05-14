@@ -39,7 +39,17 @@
   },
   "user": {
     "not_found": "User could not be found",
-    "title": "$1 on Ferman"
+    "title": "$1 on Ferman",
+    "followers": {
+      "title": "People that follow $1 on Ferman",
+      "headerTitle": "$1 / followers $2",
+      "no_users": "There are no users following $1"
+    },
+    "followings": {
+      "title": "People $1 follows on Ferman",
+      "headerTitle": "$1 / followings $2",
+      "no_users": "There are no users followed by $1"
+    }
   },
   "404_page": {
     "title": "Page not found",
