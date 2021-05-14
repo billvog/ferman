@@ -23,7 +23,10 @@ export const FollowersPage = ({}) => {
       <HeaderController
         title={
           userData?.user?.username
-            ? t("user.followers.title").replace("$1", userData.user.username)
+            ? t("user.followers.title").replace(
+                "%user%",
+                userData.user.username
+              )
             : "Ferman"
         }
       />
@@ -32,10 +35,10 @@ export const FollowersPage = ({}) => {
           <MainLayout
             title={
               userData?.user?.username
-                ? t("user.followers.headerTitle")
-                    .replace("$1", userData.user.username)
+                ? t("user.followers.header_title")
+                    .replace("%user%", userData.user.username)
                     .replace(
-                      "$2",
+                      "%count%",
                       `${
                         userData.user.followersCount > 1
                           ? `(${userData.user.followersCount})`

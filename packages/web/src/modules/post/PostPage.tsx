@@ -35,7 +35,7 @@ export const PostPage: React.FC = () => {
           {(user) => (
             <>
               <MainLayout
-                title={t("post.headerTitle")}
+                title={t("post.header_title")}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
                 <PostController />

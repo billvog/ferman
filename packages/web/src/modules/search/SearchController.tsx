@@ -117,16 +117,16 @@ export const SearchController = () => {
             {postsData.posts.count !== 1 ? (
               <div>
                 {t("common.found_x_results")
-                  .replace("$1", postsData.posts.count.toString())
+                  .replace("%count%", postsData.posts.count.toString())
                   .replace(
-                    "$2",
+                    "%seconds%",
                     Number(postsData?.posts.executionTime / 1000).toString()
                   )}
               </div>
             ) : (
               <div>
                 {t("common.found_one_result").replace(
-                  "$1",
+                  "%seconds%",
                   Number(postsData?.posts.executionTime / 1000).toString()
                 )}
               </div>

@@ -6,11 +6,13 @@ import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { PostComment } from "../../../components/PostComment";
 import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CommentControllerProps {}
 
 export const CommentController: React.FC<CommentControllerProps> = ({}) => {
   const router = useRouter();
+  const { t } = useTypeSafeTranslation();
 
   const { data: meData, loading: meLoading } = useMeQuery({
     ssr: false,
@@ -27,9 +29,9 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
       {(!commentData && commentLoading) || meLoading ? (
         <MySpinner />
       ) : !commentData?.comment.parent ? (
-        <ErrorText>Comment could not be found</ErrorText>
+        <ErrorText>{t("comment.not_found")}</ErrorText>
       ) : !commentData || !meData ? (
-        <ErrorText>Internal server error, please try again later</ErrorText>
+        <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="relative flex flex-col space-y-4">
           <div className="w-full">
@@ -44,7 +46,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
           <div className="w-full">
             <div className="flex mt-5 justify-between items-center">
               <div className="text-lg text-primary-600">
-                <b>Replies</b>{" "}
+                <b>{t("comment.replies")}</b>{" "}
                 {!!commentData?.comment?.count &&
                   `(${commentData?.comment?.count})`}
               </div>
@@ -56,14 +58,14 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
                     );
                   }}
                 >
-                  reply
+                  {t("comment.reply")}
                 </MyButton>
               )}
             </div>
             <div>
               {commentData.comment?.count === 0 ? (
                 <div className="text-sm text-primary-450">
-                  There no replies...
+                  {t("comment.there_are_no_replies")}
                 </div>
               ) : (
                 <div className="mt-3 space-y-2">
@@ -89,7 +91,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
                       });
                     }}
                   >
-                    load more
+                    {t("common.load_more")}
                   </MyButton>
                 </div>
               )}

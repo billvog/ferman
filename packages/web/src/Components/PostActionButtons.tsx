@@ -173,7 +173,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
       {me && me.id === post.creator.id && (
         <MyDialog
           title={t("post.delete_dialog.title")}
-          body={t("post.delete_dialog.title")}
+          body={t("post.delete_dialog.text")}
           buttons={
             <>
               <MyButton

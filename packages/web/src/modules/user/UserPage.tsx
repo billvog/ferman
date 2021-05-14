@@ -19,7 +19,7 @@ export const UserPage: React.FC = () => {
         <HeaderController
           title={
             userData?.user
-              ? t("user.title").replace("$1", userData?.user.username)
+              ? t("user.title").replace("%user%", userData?.user.username)
               : undefined
           }
         />

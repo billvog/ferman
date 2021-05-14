@@ -46,7 +46,7 @@ export const FollowersController: React.FC<FollowersControllerProps> = ({}) => {
               {followersData.followers?.count === 0 ? (
                 <div className="text-red-500 text-base">
                   {t("user.followers.no_users").replace(
-                    "$1",
+                    "%user%",
                     userData.user.username
                   )}
                 </div>

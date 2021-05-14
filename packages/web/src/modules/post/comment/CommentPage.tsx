@@ -34,7 +34,7 @@ export const CommentPage = ({}) => {
           {(user) => (
             <>
               <MainLayout
-                title={t("comment.headerTitle")}
+                title={t("comment.header_title")}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
                 <CommentController />

@@ -13,8 +13,8 @@
     "or_go_back": "or Go Back",
     "body": "Body",
     "no_posts": "There are no posts...",
-    "found_x_results": "Found $1 results in $2 seconds",
-    "found_one_result": "Found one result in $1 seconds"
+    "found_x_results": "Found %count% results in %seconds% seconds",
+    "found_one_result": "Found one result in %seconds% seconds"
   },
   "errors": {
     "500": "Internal server error, please try again later",
@@ -42,30 +42,30 @@
   },
   "user": {
     "not_found": "User could not be found",
-    "title": "$1 on Ferman",
+    "title": "%user% on Ferman",
     "follows_you": "Follows you",
     "one_follower": "1 follower",
-    "x_followers": "$1 followers",
+    "x_followers": "%count% followers",
     "one_following": "1 following",
-    "x_followings": "$1 followings",
+    "x_followings": "%count% followings",
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": {
       "title": "People that follow $1 on Ferman",
-      "headerTitle": "$1 / followers $2",
-      "no_users": "There are no users following $1"
+      "header_title": "%user% / followers %count%",
+      "no_users": "There are no users following %user%"
     },
     "followings": {
-      "title": "People $1 follows on Ferman",
-      "headerTitle": "$1 / followings $2",
-      "no_users": "There are no users followed by $1"
+      "title": "People %user% follows on Ferman",
+      "header_title": "%user% / followings %count%",
+      "no_users": "There are no users followed by %user%"
     },
     "joined": "Joined",
     "birthday": "Birthday",
     "location": "Location"
   },
   "post": {
-    "headerTitle": "Post",
+    "header_title": "Post",
     "post": "Post",
     "not_found": "Post could not be found",
     "comment": "comment",
@@ -78,7 +78,8 @@
     }
   },
   "comment": {
-    "headerTitle": "Comment",
+    "header_title": "Comment",
+    "not_found": "Comment could not be found",
     "comment": "Comment",
     "reply": "Comment",
     "comments": "Comments",

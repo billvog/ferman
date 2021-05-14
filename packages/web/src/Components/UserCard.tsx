@@ -85,7 +85,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   {user.followersCount === 1
                     ? t("user.one_follower")
                     : t("user.x_followers").replace(
-                        "$1",
+                        "%count%",
                         user.followersCount.toString()
                       )}
                 </span>
@@ -95,7 +95,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   {user.followingsCount === 1
                     ? t("user.one_following")
                     : t("user.x_followings").replace(
-                        "$1",
+                        "%count%",
                         user.followingsCount.toString()
                       )}
                 </span>
