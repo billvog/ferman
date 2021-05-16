@@ -22,7 +22,6 @@ export const C: React.FC<
   CreateCommentViewProps & FormikProps<CommentFormValues>
 > = ({ isSubmitting, reply }) => {
   const { t } = useTypeSafeTranslation();
-
   return (
     <Form>
       <InputField

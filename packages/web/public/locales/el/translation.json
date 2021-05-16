@@ -102,5 +102,13 @@
       "text": "Πατώντας το κουμπί \"Διαγραφή\", όλες οι απαντήσεις σε αυτό το σχόλιο θα διαγραφούν. Οποιαδίποτε περεταίρω ενέργεια δε θα μπορέσει να αναιρεθεί."
     },
     "not_found": "Το σχόλιο δε βρέθηκε"
+  },
+  "explore": {
+    "posts": { "title": "Explore posts" },
+    "users": {
+      "title": "Explore users",
+      "find_users_loc_at": "Find users located at",
+      "no_users_location": "There are no users matching this location"
+    }
   }
 }

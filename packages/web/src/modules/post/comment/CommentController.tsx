@@ -1,15 +1,16 @@
 import { useMeQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { ErrorText } from "../../../components/ErrorText";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { PostComment } from "../../../components/PostComment";
 import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { CreateCommentModal } from "./create/CreateCommentModal";
 
 interface CommentControllerProps {}
-
 export const CommentController: React.FC<CommentControllerProps> = ({}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
@@ -23,6 +24,10 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
     fetchMore: fetchMoreComments,
     variables: commentVariables,
   } = useGetCommentFromUrl();
+
+  const [showCreateComment, setShowCreateComment] = useState(false);
+
+  useEffect(() => setShowCreateComment(false), []);
 
   return (
     <div>
@@ -51,13 +56,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
                   `(${commentData?.comment?.count})`}
               </div>
               {meData?.me && (
-                <MyButton
-                  onClick={() => {
-                    router.push(
-                      `/post/${commentData.comment.parent?.postId}/comment?reply=${commentData.comment.parent?.id}`
-                    );
-                  }}
-                >
+                <MyButton onClick={() => setShowCreateComment(true)}>
                   {t("comment.reply")}
                 </MyButton>
               )}
@@ -99,6 +98,10 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
           </div>
         </div>
       )}
+      <CreateCommentModal
+        isOpen={showCreateComment}
+        onClose={() => setShowCreateComment(false)}
+      />
     </div>
   );
 };

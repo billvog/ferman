@@ -1,16 +1,14 @@
 import { FullUserFragment, usePostsQuery } from "@ferman-pkgs/controller";
 import Link from "next/link";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { MdExplore } from "react-icons/md";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
-import { MyDialog } from "../../components/MyDialog";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { CreatePostConnector } from "../post/create/CreatePostConnector";
+import { CreatePostModal } from "../post/create/CreatePostModal";
 
 interface FeedContollerProps {
   user: FullUserFragment | null | undefined;
@@ -107,13 +105,10 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
           )}
         </>
       )}
-      <MyDialog
-        title={t("post.post")}
+      <CreatePostModal
         isOpen={showCreatePost}
         onClose={() => setShowCreatePost(false)}
-      >
-        <CreatePostConnector />
-      </MyDialog>
+      />
     </div>
   );
 };

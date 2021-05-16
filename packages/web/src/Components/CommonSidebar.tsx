@@ -11,7 +11,7 @@ interface CommonSidebarProps {
 
 export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
   return (
-    <div className="flex flex-col justify-between w-full items-start space-y-6 h-screen p-4">
+    <div className="flex sticky top-0 flex-col justify-between w-full items-start space-y-6 h-screen p-4">
       <div className="flex justify-center items-center w-full">
         <div>
           <Link href="/">

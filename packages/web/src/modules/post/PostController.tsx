@@ -1,22 +1,20 @@
 import {
+  useCommentsQuery,
   useMeQuery,
   useUserQuery,
-  useCommentsQuery,
 } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
-import { MyDialog } from "../../components/MyDialog";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { PostComment } from "../../components/PostComment";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { CreateCommentConnector } from "./comment/create/CreateCommentConnector";
+import { CreateCommentModal } from "./comment/create/CreateCommentModal";
 
 interface PostControllerProps {}
-
 export const PostController: React.FC<PostControllerProps> = ({}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
@@ -122,13 +120,10 @@ export const PostController: React.FC<PostControllerProps> = ({}) => {
           </div>
         </div>
       )}
-      <MyDialog
-        title={t("comment.comment")}
+      <CreateCommentModal
         isOpen={showCreateComment}
         onClose={() => setShowCreateComment(false)}
-      >
-        <CreateCommentConnector />
-      </MyDialog>
+      />
     </div>
   );
 };
