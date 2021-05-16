@@ -102,14 +102,14 @@ export const SearchController = () => {
           <div className="text-red-400 mt-2 text-sm">
             {t("search.search_field_subtext")}
           </div>
-          {SearchTips}
+          {<SearchTips />}
         </div>
       ) : postsData.posts.posts.length === 0 ? (
         <div>
           <div className="text-red-400 mt-2 text-sm">
             {t("search.found_nothing")}
           </div>
-          {SearchTips}
+          {<SearchTips />}
         </div>
       ) : (
         <div>
