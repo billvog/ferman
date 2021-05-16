@@ -69,6 +69,8 @@ export type TranslationKeys =
 	| "comment.delete_dialog.title"
 	| "comment.delete_dialog.text"
 	| "explore.posts.title"
+	| "explore.posts.no_posts"
+	| "explore.posts.maybe_you_want_to_post"
 	| "explore.users.title"
 	| "explore.users.find_users_loc_at"
 	| "explore.users.no_users_location"

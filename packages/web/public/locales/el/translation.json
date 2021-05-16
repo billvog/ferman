@@ -104,11 +104,15 @@
     "not_found": "Το σχόλιο δε βρέθηκε"
   },
   "explore": {
-    "posts": { "title": "Explore posts" },
+    "posts": {
+      "title": "Εξερευνήστε νέες δημοσιεύσεις",
+      "no_posts": "Είμαι στη δυσάρεστη θέση να σας ανακοινώσω πως δεν υπάρχουν νέες δημοσιεύσεις.",
+      "maybe_you_want_to_post": "Ίσως θα θέλατε εσείς να @δημοσιεύσετε@ κάτι;"
+    },
     "users": {
-      "title": "Explore users",
-      "find_users_loc_at": "Find users located at",
-      "no_users_location": "There are no users matching this location"
+      "title": "Εξερευνήστε χρήστες",
+      "find_users_loc_at": "Βρείτε χρήστες που βρίσκονται στο",
+      "no_users_location": "Δε βρέθηκαν χρήστες να ταιριάζουν με αυτή τη τοποθεσία"
     }
   }
 }
