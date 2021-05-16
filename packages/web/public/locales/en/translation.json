@@ -12,7 +12,7 @@
     "delete": "Delete",
     "or_go_back": "or Go Back",
     "body": "Body",
-    "no_posts": "There are no posts...",
+    "no_posts": "There are no posts",
     "found_x_results": "Found %count% results in %seconds% seconds",
     "found_one_result": "Found one result in %seconds% seconds"
   },
@@ -32,7 +32,7 @@
     "title": "Search",
     "search_field_placeholder": "Search keywords, @mentions, #hashtags",
     "search_field_subtext": "Enter keywords, #hashtags or @mentions in the search field to get some results.",
-    "found_nothing": "We found nothing matching the given terms.",
+    "found_nothing": "We found nothing matching the given terms",
     "search_tips": {
       "heading": "Search Tips",
       "tip_1": "Be careful of wrong syntax or misspelled words",
@@ -93,7 +93,7 @@
   },
   "explore": {
     "posts": {
-      "title": "Explore posts",
+      "title": "Explore new posts",
       "no_posts": "I'm sad to report you that there are no posts.",
       "maybe_you_want_to_post": "Maybe you want to @post@ something?"
     },

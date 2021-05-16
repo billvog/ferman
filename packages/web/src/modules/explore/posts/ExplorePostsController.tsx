@@ -41,7 +41,7 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({}
         <MySpinner />
       ) : postsError && !postsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
-      ) : postsData.posts.posts.length !== 0 ? (
+      ) : postsData.posts.posts.length === 0 ? (
         <div className="text-primary-400 text-sm">
           {t("explore.posts.no_posts")} <br />
           {meData?.me &&
