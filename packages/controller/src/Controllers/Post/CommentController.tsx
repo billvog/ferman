@@ -10,6 +10,7 @@ export interface CommentFormValues {
 interface CommentControllerProps {
   postId: string;
   reply: string | undefined;
+  onFinish: () => any;
   children: (data: {
     submit: (
       values: CommentFormValues
@@ -24,6 +25,7 @@ interface CommentControllerProps {
 export const CommentController: React.FC<CommentControllerProps> = ({
   postId,
   reply,
+  onFinish,
   children,
 }) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
@@ -61,6 +63,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
       };
     }
 
+    onFinish();
     return {
       commentId: data.createComment.comment?.id,
       errors: null,
