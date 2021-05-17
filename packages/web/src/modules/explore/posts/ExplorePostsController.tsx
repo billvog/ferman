@@ -47,14 +47,14 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({}
           {meData?.me &&
             processString([
               {
-                regex: /(@)(.*)(@)/,
+                regex: /@(.*)@/,
                 fn: (key: any, res: any) => (
                   <span
                     key={key}
                     className="text-accent hover:text-accent-washed-out hover:underline font-bold cursor-pointer"
                     onClick={() => setShowCreatePost(true)}
                   >
-                    {res[2]}
+                    {res[1]}
                   </span>
                 ),
               },

@@ -60,7 +60,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
           <div className="ml-2 mt-8">
             <NextLink href={`/user/${user.uid}`}>
               <div className="flex flex-col group cursor-pointer">
-                <div className="font-bold text-primary text-base leading-tight group-hover:underline">
+                <div className="font-bold text-primary-600 text-base leading-tight group-hover:underline">
                   {user.username}
                 </div>
                 <div
@@ -68,7 +68,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                     user.followsYouStatus ? "mt-1" : "mt-0"
                   }`}
                 >
-                  <div className="font-medium text-primary-500">
+                  <div className="font-medium text-primary-450">
                     @{user.uid}
                   </div>
                   {user.followsYouStatus && (
@@ -79,25 +79,32 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                 </div>
               </div>
             </NextLink>
-            <div className="text-vs mt-3 space-x-3">
+            <div className="text-vs mt-3 space-x-3.5">
               <NextLink href={`/user/${user.uid}/followers`}>
-                <span className="hover:underline cursor-pointer">
-                  {user.followersCount === 1
-                    ? t("user.one_follower")
-                    : t("user.x_followers").replace(
-                        "%count%",
-                        user.followersCount.toString()
-                      )}
+                <span className="cursor-pointer group">
+                  <span className="text-primary-500 font-bold">
+                    {user.followersCount}
+                  </span>{" "}
+                  <span className="text-primary-450 group-hover:underline">
+                    {user.followersCount === 1
+                      ? t("user.one_follower")
+                      : t("user.x_followers")}
+                  </span>
                 </span>
               </NextLink>
               <NextLink href={`/user/${user.uid}/following`}>
-                <span className="hover:underline cursor-pointer">
-                  {user.followingsCount === 1
-                    ? t("user.one_following")
-                    : t("user.x_followings").replace(
-                        "%count%",
-                        user.followingsCount.toString()
-                      )}
+                <span className="group cursor-pointer">
+                  <span className="font-bold text-primary-500">
+                    {user.followingsCount}
+                  </span>{" "}
+                  <span className="text-primary-450 group-hover:underline">
+                    {user.followingsCount === 1
+                      ? t("user.one_following")
+                      : t("user.x_followings").replace(
+                          "%count%",
+                          user.followingsCount.toString()
+                        )}
+                  </span>
                 </span>
               </NextLink>
             </div>

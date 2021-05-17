@@ -44,10 +44,10 @@
     "not_found": "User could not be found",
     "title": "%user% on Ferman",
     "follows_you": "Follows you",
-    "one_follower": "1 follower",
-    "x_followers": "%count% followers",
-    "one_following": "1 following",
-    "x_followings": "%count% followings",
+    "one_follower": "follower",
+    "x_followers": "followers",
+    "one_following": "following",
+    "x_followings": "followings",
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": {
@@ -102,6 +102,19 @@
       "find_users_loc_at": "Find users located at",
       "no_users_location": "There are no users matching this location"
     }
+  },
+  "my_account": {
+    "title": "My Account",
+    "gravatar_info": "Ferman uses gravatar for avatars. Learn more about gravatar @here@.",
+    "my_profile": "My Profile",
+    "sign_out": "Sign out",
+    "private_info": "Private Information",
+    "private_info_subtext": "These information are not visible in the public.",
+    "email": "Email",
+    "date_of_birth": "Date of Birth",
+    "created_date": "Account Created Date",
+    "delete_account": "Delete Account",
+    "delete_account_subtext": "This will completely remove your account and anything that's associated with it (posts, comments, likes, follows, etc). Be careful with this, any action cannot be undone. Deleting your account requires your password."
   },
   "404_page": {
     "title": "Page not found",
