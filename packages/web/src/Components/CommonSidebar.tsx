@@ -1,8 +1,7 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
-import { CgMoreAlt } from "react-icons/cg";
-import { LanguageSelector } from "./LanguageSelector";
+import { BiUserCircle } from "react-icons/bi";
 import { MySpinner } from "./MySpinner";
 
 interface CommonSidebarProps {
@@ -11,8 +10,8 @@ interface CommonSidebarProps {
 
 export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
   return (
-    <div className="flex sticky top-0 flex-col justify-between w-full items-start space-y-6 h-screen p-4">
-      <div className="flex justify-center items-center w-full">
+    <div className="flex sticky top-0 flex-col justify-between w-full items-start space-y-6 h-screen">
+      <div className="p-4 flex justify-center items-center w-full">
         <div>
           <Link href="/">
             <div className="flex justify-center items-center cursor-pointer w-full">
@@ -24,14 +23,14 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col items-center space-y-6 w-full">
+      <div className="flex flex-col items-center space-y-6 w-full p-4 border-t group hover:bg-primary-100 transition-colors">
         {typeof loggedUser === "undefined" ? (
           <div>
             <MySpinner />
           </div>
         ) : loggedUser ? (
           <Link href="/account/">
-            <div className="flex flex-row justify-between items-center w-full group cursor-pointer">
+            <div className="flex flex-row justify-between items-center w-full cursor-pointer">
               <div className="flex flex-row items-center">
                 <div className="mr-2.5">
                   <img
@@ -40,17 +39,17 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-bold text-base leading-tight text-primary-700 group-hover:underline">
+                  <span className="font-bold text-base leading-none text-primary-600 group-hover:underline">
                     {loggedUser.username}
                   </span>
-                  <span className="text-sm font-semibold text-accent-hover">
+                  <span className="text-sm font-semibold text-primary-450">
                     @{loggedUser.uid}
                   </span>
                 </div>
               </div>
               <div>
-                <div className="text-primary-450 p-2 rounded-full group-hover:bg-primary-200 group-hover:text-primary-400">
-                  <CgMoreAlt />
+                <div className="text-accent-hover p-2 rounded-full group-hover:bg-accent-transparent group-hover:text-accent-washed-out">
+                  <BiUserCircle />
                 </div>
               </div>
             </div>
