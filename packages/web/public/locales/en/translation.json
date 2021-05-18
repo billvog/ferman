@@ -7,6 +7,7 @@
     "sure": "I'm sure",
     "no": "No",
     "cancel": "Cancel",
+    "continue": "Continue",
     "back": "Back",
     "edit": "Edit",
     "delete": "Delete",
@@ -19,6 +20,10 @@
   "errors": {
     "500": "Internal server error, please try again later",
     "404": "Not found"
+  },
+  "common_sidebar": {
+    "login": "Login",
+    "register": "Register"
   },
   "index": {
     "title": "Feed",

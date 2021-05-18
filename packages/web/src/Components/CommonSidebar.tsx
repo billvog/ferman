@@ -2,6 +2,7 @@ import { FullUserFragment } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
 import { BiLogIn, BiUserCircle } from "react-icons/bi";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MySpinner } from "./MySpinner";
 
 interface CommonSidebarProps {
@@ -9,6 +10,8 @@ interface CommonSidebarProps {
 }
 
 export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
+  const { t } = useTypeSafeTranslation();
+
   return (
     <div className="flex sticky top-0 flex-col justify-between w-full items-start space-y-6 h-screen">
       <div className="p-4 flex justify-center items-center w-full">
@@ -59,11 +62,13 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
             <Link href="/account/login">
               <div className="flex items-center cursor-pointer hover:underline">
                 <BiLogIn />
-                <span className="ml-2">Login</span>
+                <span className="ml-2">{t("common_sidebar.login")}</span>
               </div>
             </Link>
             <Link href="/account/register">
-              <div className="cursor-pointer hover:underline">Register</div>
+              <div className="cursor-pointer hover:underline">
+                {t("common_sidebar.register")}
+              </div>
             </Link>
           </div>
         )}

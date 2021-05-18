@@ -36,7 +36,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
 
   return (
     <div>
-      {!user ? (
+      {typeof user === "undefined" ? (
         <MySpinner />
       ) : (
         <>
