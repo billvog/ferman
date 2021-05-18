@@ -25,6 +25,20 @@
     "login": "Login",
     "register": "Register"
   },
+  "form": {
+    "errors": {
+      "uid_length": "Length must be between 2 and 20",
+      "uid_format": "Allowed characters: latin letters, numbers, dashes. The first and last character cannot be a dash.",
+      "username_length": "Length must be between 6 and 32",
+      "email_invalid": "Please enter a valid email",
+      "password_length": "Length must be at least 6",
+      "bio_length": "Length must be up to 160",
+      "location_length": "Length must be up to 30",
+      "birthday_limit": "You must be at least 13 years old to use our services",
+      "post_body_length": "Length must be between 3 and 500",
+      "comment_text_length": "Length must be between 3 and 200"
+    }
+  },
   "index": {
     "title": "Feed",
     "feed": "Feed",
@@ -122,7 +136,20 @@
     "delete_account_subtext": "This will completely remove your account and anything that's associated with it (posts, comments, likes, follows, etc). Be careful with this, any action cannot be undone. Deleting your account requires your password."
   },
   "login": {
-    "title": "Login"
+    "title": "Login",
+    "sign_in": "Sign In",
+    "or_sign_up": "or Sign Up",
+    "forgot_pwd": "Forgot Password? Reset",
+    "field": {
+      "label": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholder": {
+        "email": "Enter email",
+        "password": "Enter password"
+      }
+    }
   },
   "register": {
     "title": "Register"

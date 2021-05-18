@@ -7,6 +7,7 @@ import NextLink from "next/link";
 import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { MyButton } from "../../../components/MyButton";
 import { MyAlert } from "../../../components/MyAlert";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
@@ -17,6 +18,8 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   message,
   isSubmitting,
 }) => {
+  const { t } = useTypeSafeTranslation();
+
   return (
     <Form>
       {message && (
@@ -25,25 +28,25 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
         </div>
       )}
       <InputField
-        label="Email"
+        label={t("login.field.label.email")}
         name="email"
-        placeholder="Enter email"
+        placeholder={t("login.field.placeholder.email")}
         type="email"
       />
       <InputField
-        label="Password"
+        label={t("login.field.label.password")}
         name="password"
-        placeholder="Enter password"
+        placeholder={t("login.field.placeholder.password")}
         type="password"
       />
       <div className="flex justify-between items-center mt-4">
         <MyButton type="submit" isLoading={isSubmitting}>
-          Sign in
+          {t("login.sign_in")}
         </MyButton>
         <div>
           <NextLink href="/account/register">
             <div className="text-primary-450 font-semibold text-sm cursor-pointer hover:underline">
-              or Sign up
+              {t("login.or_sign_up")}
             </div>
           </NextLink>
         </div>
@@ -51,7 +54,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
       <div>
         <NextLink href="/account/forgot-password">
           <div className="mt-2 text-primary-450 font-semibold text-sm cursor-pointer hover:underline">
-            Forgot Password? Reset
+            {t("login.forgot_pwd")}
           </div>
         </NextLink>
       </div>

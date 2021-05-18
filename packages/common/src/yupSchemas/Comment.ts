@@ -1,15 +1,15 @@
 import * as yup from "yup";
 
-const TextLengthMessage = "Length must be between 3 and 200";
+const TextLengthKey = "comment_text_length";
 
 export const CommentMin = 3;
 export const CommentMax = 200;
 
 export const COMMENT_TEXT_SHAPE = yup
   .string()
-  .min(CommentMin, TextLengthMessage)
-  .max(CommentMax, TextLengthMessage)
-  .required()
+  .min(CommentMin, TextLengthKey)
+  .max(CommentMax, TextLengthKey)
+  .required(TextLengthKey)
   .trim()
   .label("Text");
 

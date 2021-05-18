@@ -1,12 +1,11 @@
 import * as yup from "yup";
 import { BIRTHDATE_SHAPE } from "./Profile";
 
-const UidLengthMessage = "Length must be between 2 and 20";
-const UidRegexMessage =
-  "Allowed characters: latin letters, numbers, dashes. The first and last character cannot be a dash.";
-const UsernameLengthMessage = "Length must be between 6 and 32";
-const EmailInvalidMessage = "Please enter a valid email";
-const PasswordLengthMessage = "Length must be at least 6";
+const UidLengthKey = "uid_length";
+const UidRegexKey = "uid_format";
+const UsernameLengthKey = "username_length";
+const EmailInvalidKey = "email_invalid";
+const PasswordLengthKey = "password_length";
 
 export const UidMin = 2;
 export const UidMax = 20;
@@ -15,32 +14,32 @@ export const UsernameMax = 32;
 
 export const UID_SHAPE = yup
   .string()
-  .min(UidMin, UidLengthMessage)
-  .max(UidMax, UidLengthMessage)
-  .required()
+  .min(UidMin, UidLengthKey)
+  .max(UidMax, UidLengthKey)
+  .required(UidLengthKey)
   .trim()
-  .matches(/^([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9])$/, UidRegexMessage)
+  .matches(/^([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9])$/, UidRegexKey)
   .label("Uid");
 export const USERNAME_SHAPE = yup
   .string()
-  .min(UsernameMin, UsernameLengthMessage)
-  .max(UsernameMax, UsernameLengthMessage)
-  .required()
+  .min(UsernameMin, UsernameLengthKey)
+  .max(UsernameMax, UsernameLengthKey)
+  .required(UsernameLengthKey)
   .trim()
   .label("Username");
 export const EMAIL_SHAPE = yup
   .string()
   .max(255)
-  .required()
+  .required(EmailInvalidKey)
   .trim()
   .lowercase()
-  .email(EmailInvalidMessage)
+  .email(EmailInvalidKey)
   .label("Email");
 export const PASSWORD_SHAPE = yup
   .string()
-  .min(6, PasswordLengthMessage)
+  .min(6, PasswordLengthKey)
   .max(255)
-  .required()
+  .required(PasswordLengthKey)
   .label("Password");
 export const AUTH_CODE_SHAPE = yup.string().required().label("Code");
 

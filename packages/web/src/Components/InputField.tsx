@@ -1,6 +1,7 @@
 import { useField } from "formik";
 import React, { InputHTMLAttributes } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 const InputUtils = `font-sans relative w-full outline-none border-none transition-colors ease-in-out duration-200 text-sm px-4 py-2.5 bg-primary-100 hover:bg-primary-200 focus:bg-primary-200 rounded-xl focus:ring-2 focus:ring-blue-600 disabled:opacity-50`;
 
@@ -28,6 +29,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   size: _,
   ...props
 }) => {
+  const { t } = useTypeSafeTranslation();
   const [field, { error, touched }] = useField(props);
 
   return (
@@ -95,7 +97,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             textarea ? "0.5" : "1"
           } text-sm`}
         >
-          {error}
+          {t(`form.errors.${error}` as any) || ""}
         </div>
       )}
     </div>
