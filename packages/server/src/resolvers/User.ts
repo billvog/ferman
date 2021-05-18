@@ -430,7 +430,7 @@ export class UserResolver {
       return {
         error: {
           field: "_",
-          message: "Wrong credentials",
+          message: "wrong_credentials",
         },
       };
     }
@@ -441,7 +441,7 @@ export class UserResolver {
       return {
         error: {
           field: "_",
-          message: "Wrong credentials",
+          message: "wrong_credentials",
         },
       };
     }
