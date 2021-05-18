@@ -26,7 +26,14 @@
     "register": "Register"
   },
   "form": {
-    "errors": {
+    "label": {
+      "email": "Email", "password": "Password"
+    },
+    "placeholder": {
+      "email": "Enter email",
+      "password": "Enter password"
+    },
+    "error": {
       "uid_length": "Length must be between 2 and 20",
       "uid_format": "Allowed characters: latin letters, numbers, dashes. The first and last character cannot be a dash.",
       "username_length": "Length must be between 6 and 32",
@@ -36,7 +43,8 @@
       "location_length": "Length must be up to 30",
       "birthday_limit": "You must be at least 13 years old to use our services",
       "post_body_length": "Length must be between 3 and 500",
-      "comment_text_length": "Length must be between 3 and 200"
+      "comment_text_length": "Length must be between 3 and 200",
+      "wrong_credentials": "Wrong email or password"
     }
   },
   "index": {
@@ -139,17 +147,7 @@
     "title": "Login",
     "sign_in": "Sign In",
     "or_sign_up": "or Sign Up",
-    "forgot_pwd": "Forgot Password? Reset",
-    "field": {
-      "label": {
-        "email": "Email",
-        "password": "Password"
-      },
-      "placeholder": {
-        "email": "Enter email",
-        "password": "Enter password"
-      }
-    }
+    "forgot_pwd": "Forgot Password? Reset"
   },
   "register": {
     "title": "Register"

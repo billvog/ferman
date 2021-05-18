@@ -97,7 +97,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             textarea ? "0.5" : "1"
           } text-sm`}
         >
-          {t(`form.errors.${error}` as any) || ""}
+          {t(`form.error.${error}` as any) || ""}
         </div>
       )}
     </div>

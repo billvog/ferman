@@ -19,24 +19,25 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   isSubmitting,
 }) => {
   const { t } = useTypeSafeTranslation();
-
   return (
     <Form>
       {message && (
         <div className="mb-2">
-          <MyAlert color={message.type}>{message.text}</MyAlert>
+          <MyAlert color={message.type}>
+            {t(`form.errors.${message.text}` as any)}
+          </MyAlert>
         </div>
       )}
       <InputField
-        label={t("login.field.label.email")}
+        label={t("form.label.email")}
         name="email"
-        placeholder={t("login.field.placeholder.email")}
+        placeholder={t("form.placeholder.email")}
         type="email"
       />
       <InputField
-        label={t("login.field.label.password")}
+        label={t("form.label.password")}
         name="password"
-        placeholder={t("login.field.placeholder.password")}
+        placeholder={t("form.placeholder.password")}
         type="password"
       />
       <div className="flex justify-between items-center mt-4">
