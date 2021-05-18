@@ -1,3 +1,3 @@
 import { withMyApollo } from "../../utils/withMyApollo";
-import { LoginConnector } from "../../modules/account/Login/LoginConnector";
-export default withMyApollo({ ssr: false })(LoginConnector);
+import { LoginPage } from "../../modules/account/Login/LoginPage";
+export default withMyApollo({ ssr: false })(LoginPage);

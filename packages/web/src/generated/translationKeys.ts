@@ -85,6 +85,7 @@ export type TranslationKeys =
 	| "my_account.created_date"
 	| "my_account.delete_account"
 	| "my_account.delete_account_subtext"
+	| "login.title"
 	| "404_page.title"
 	| "404_page.heading"
 	| "404_page.subtext"

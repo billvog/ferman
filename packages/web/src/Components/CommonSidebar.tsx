@@ -1,7 +1,7 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
-import { BiUserCircle } from "react-icons/bi";
+import { BiLogIn, BiUserCircle } from "react-icons/bi";
 import { MySpinner } from "./MySpinner";
 
 interface CommonSidebarProps {
@@ -23,7 +23,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col items-center space-y-6 w-full p-4 border-t group hover:bg-primary-100 transition-colors">
+      <div className="flex flex-col items-center space-y-6 w-full p-4 border-t group hover:bg-primary-100 transition-colors duration-150">
         {typeof loggedUser === "undefined" ? (
           <div>
             <MySpinner />
@@ -55,15 +55,16 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
             </div>
           </Link>
         ) : (
-          <div>
-            <div className="font-semibold space-x-2 text-primary-600">
-              <Link href="/account/login">
-                <span className="cursor-pointer hover:underline">Login</span>
-              </Link>
-              <Link href="/account/register">
-                <span className="cursor-pointer hover:underline">Register</span>
-              </Link>
-            </div>
+          <div className="w-full flex justify-around font-semibold space-x-2 text-primary-600">
+            <Link href="/account/login">
+              <div className="flex items-center cursor-pointer hover:underline">
+                <BiLogIn />
+                <span className="ml-2">Login</span>
+              </div>
+            </Link>
+            <Link href="/account/register">
+              <div className="cursor-pointer hover:underline">Register</div>
+            </Link>
           </div>
         )}
       </div>

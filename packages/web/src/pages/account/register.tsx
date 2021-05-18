@@ -1,3 +1,3 @@
 import { withMyApollo } from "../../utils/withMyApollo";
-import { RegisterConnector } from "../../modules/account/Register/RegisterConnector";
-export default withMyApollo({ ssr: false })(RegisterConnector);
+import { RegisterPage } from "../../modules/account/Register/RegisterPage";
+export default withMyApollo({ ssr: false })(RegisterPage);

@@ -116,6 +116,12 @@
     "delete_account": "Delete Account",
     "delete_account_subtext": "This will completely remove your account and anything that's associated with it (posts, comments, likes, follows, etc). Be careful with this, any action cannot be undone. Deleting your account requires your password."
   },
+  "login": {
+    "title": "Login"
+  },
+  "register": {
+    "title": "Register"
+  },
   "404_page": {
     "title": "Page not found",
     "heading": "Page not found",

@@ -1,4 +1,3 @@
-import FormStyles from "../../css/form.module.css";
 import {
   ErrorMap,
   MyMessage,
@@ -7,7 +6,6 @@ import {
 } from "@ferman-pkgs/controller";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Layout } from "../../../components/Layout";
 import NextLink from "next/link";
 import {
   RegisterFourValidationSchema,
@@ -41,7 +39,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   const handleTogglePwd = () => setShowPwd(!showPwd);
 
   return (
-    <Layout size="md" title="Sign up – Ferman" isNotAuth>
+    <>
       {done ? (
         <MyAlert color="success">
           <h2 className="text-lg">Your account is finally ready!</h2>
@@ -224,6 +222,6 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           )}
         </Formik>
       )}
-    </Layout>
+    </>
   );
 };
