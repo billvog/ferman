@@ -35,23 +35,17 @@ export const ResetPasswordController: React.FC<ResetPasswordControllerProps> = (
     if (!data) {
       setMessage({
         type: "error",
-        text: "Internal server error, please try again later",
+        text: "errors.500",
       });
       return null;
     }
 
     if (data.resetPassword) {
-      if (data.resetPassword.field === "token") {
-        setMessage({
-          type: "error",
-          text: data.resetPassword.message,
-        });
-        return null;
-      }
-
-      return {
-        [data.resetPassword.field]: data.resetPassword.message,
-      };
+      setMessage({
+        type: "error",
+        text: data.resetPassword.message,
+      });
+      return null;
     }
 
     setDone(true);
