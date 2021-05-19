@@ -20,7 +20,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "send": "Send",
-    "reset": "Reset"
+    "reset": "Reset",
+    "update": "Update"
   },
   "errors": {
     "500": "Internal server error, please try again later",
@@ -38,7 +39,9 @@
       "password": "Password",
       "new_password": "New password",
       "date_of_birth": "Date of Birth",
-      "six_digit": "6-Digit Code"
+      "six_digit": "6-Digit Code",
+      "bio": "Bio",
+      "location": "Location"
     },
     "placeholder": {
       "uid": "Enter uid",
@@ -46,7 +49,9 @@
       "email": "Enter email",
       "new_password": "Enter new password",
       "password": "Enter password",
-      "six_digit": "Enter 6-digit code"
+      "six_digit": "Enter 6-digit code",
+      "bio": "Enter bio...",
+      "location": "Enter Location"
     },
     "helper": {
       "uid": "How others will search you. Choose it carefully, because you won't have the abillity to change it after is set.",
@@ -241,6 +246,10 @@
     "error": {
       "new_pwd_defer_from_old": "New password must defer from old"
     }
+  },
+  "edit_profile": {
+    "title": "Edit Profile",
+    "show_birthday_to_everybody": "Show birthday to everyone"
   },
   "404_page": {
     "title": "Page not found",

@@ -13,11 +13,12 @@ import { Form, FormikProps, withFormik } from "formik";
 import moment from "moment";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { InputField } from "../../../components/InputField";
-import { Layout } from "../../../components/Layout";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { MyCheckbox } from "../../../components/MyCheckbox";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 type EditProfileViewProps = {
   submit: (values: UpdateProfileFormValues) => Promise<ErrorMap | null>;
@@ -29,73 +30,64 @@ type EditProfileViewProps = {
 const C: React.FC<
   EditProfileViewProps & FormikProps<UpdateProfileFormValues>
 > = ({ myInitialValues, message, isSubmitting, router }) => {
+  const { i18n } = useTranslation();
+  const { t } = useTypeSafeTranslation();
+
   return (
-    <Layout title="Edit Profile – Ferman" size="md" isAuth>
-      <Form>
-        {message && message.type === "error" && (
-          <div className="mt-2">
-            <MyAlert color={message.type}>{message.text}</MyAlert>
-          </div>
-        )}
-        <h1 className="heading">Edit Profile</h1>
-        <InputField
-          label="Username"
-          name="username"
-          placeholder="Enter username"
-          type="text"
-          maxLength={UsernameMax}
-        />
-        <InputField
-          label="Bio"
-          name="bio"
-          placeholder="Enter Bio..."
-          type="text"
-          textarea={true}
-          maxLength={BioMax}
-        />
-        <InputField
-          label="Location"
-          name="location"
-          type="text"
-          placeholder="Enter Location"
-          maxLength={LocationMax}
-        />
-        <InputField
-          label="Date of Birth"
-          name="birthdate"
-          type="text"
-          value={moment(parseFloat(myInitialValues.birthdate)).format(
-            "MMMM Do YYYY"
-          )}
-          disabled={true}
-          helperText={
-            <span>
-              This field cannot change. If you typed it wrong, please{" "}
-              <a href="mailto:support@ferman.ga" className="link text-blue-600">
-                contact us
-              </a>
-              .
-            </span>
-          }
-        />
-        <MyCheckbox
-          label="Show birthdate to everyone"
-          name="showBirthdate"
-          defaultChecked={myInitialValues.showBirthdate}
-        />
-        <div className="flex justify-between items-center mt-4">
-          <MyButton type="submit" isLoading={isSubmitting}>
-            Update
-          </MyButton>
-          <span
-            className="text-primary-450 font-semibold text-sm cursor-pointer hover:underline"
-            onClick={router.back}
-          >
-            or Go Back
-          </span>
+    <Form>
+      {message && i18n.exists(message.text) && (
+        <div className="mb-2">
+          <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
         </div>
-      </Form>
-    </Layout>
+      )}
+      <InputField
+        label={t("form.label.username")}
+        name="username"
+        placeholder={t("form.placeholder.username")}
+        type="text"
+        maxLength={UsernameMax}
+      />
+      <InputField
+        label={t("form.label.bio")}
+        name="bio"
+        placeholder={t("form.placeholder.bio")}
+        type="text"
+        textarea={true}
+        maxLength={BioMax}
+      />
+      <InputField
+        label={t("form.label.location")}
+        name="location"
+        type="text"
+        placeholder={t("form.placeholder.location")}
+        maxLength={LocationMax}
+      />
+      <InputField
+        label={t("form.label.date_of_birth")}
+        name="birthdate"
+        type="text"
+        value={moment(parseFloat(myInitialValues.birthdate)).format(
+          "MMMM Do YYYY"
+        )}
+        disabled={true}
+      />
+      <MyCheckbox
+        label={t("edit_profile.show_birthday_to_everybody")}
+        name="showBirthdate"
+        defaultChecked={myInitialValues.showBirthdate}
+      />
+      <div className="flex justify-between items-center mt-4">
+        <MyButton type="submit" isLoading={isSubmitting}>
+          {t("button.update")}
+        </MyButton>
+        <span
+          className="text-primary-450 font-semibold text-sm cursor-pointer hover:underline"
+          onClick={router.back}
+        >
+          {t("common.or_go_back")}
+        </span>
+      </div>
+    </Form>
   );
 };
 

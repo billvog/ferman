@@ -122,7 +122,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
               ) : (
                 <MyButton
                   size="small"
-                  color={user.followingStatus ? "primary" : "accent"}
+                  color={user.followingStatus ? "danger" : "primary"}
                   onClick={followUserHandler}
                 >
                   <span>

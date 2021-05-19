@@ -18,6 +18,7 @@ import {
 import { MyDialog } from "../../../components/MyDialog";
 import { useTranslation } from "react-i18next";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { useRouter } from "next/router";
 
 interface AccDelViewProps {
   submit: (values: DeleteUserFormValues) => Promise<ErrorMap | null>;
@@ -34,9 +35,7 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
 }) => {
   const { i18n } = useTranslation();
   const { t } = useTypeSafeTranslation();
-
-  // confirm modal
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -111,51 +110,40 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
                     placeholder={t("form.placeholder.password")}
                     type="password"
                     helperText={t("delete_account.password_helper")}
-                    onKeyPress={(e) => {
-                      if (e.which === 13) {
-                        e.preventDefault();
-                        setConfirmModalOpen(true);
-                      }
-                    }}
                   />
                   <div className="flex justify-between items-center mt-4">
-                    <MyButton
-                      onClick={() => setConfirmModalOpen(true)}
-                      type="button"
-                      isLoading={isSubmitting}
-                    >
+                    <MyButton type="submit" isLoading={isSubmitting}>
                       {t("button.finish")}
                     </MyButton>
                   </div>
-                  {/* Confirm modal */}
-                  <MyDialog
-                    title={t("delete_account.confirm_modal.title")}
-                    body={t("delete_account.confirm_modal.body")}
-                    buttons={
-                      <>
-                        <MyButton
-                          color="danger"
-                          type="button"
-                          onClick={() => {
-                            setConfirmModalOpen(false);
-                            submitForm();
-                          }}
-                        >
-                          {t("button.sure")}
-                        </MyButton>
-                        <MyButton
-                          color="primary"
-                          type="button"
-                          onClick={() => setConfirmModalOpen(false)}
-                        >
-                          {t("delete_account.confirm_modal.changed_mind")}
-                        </MyButton>
-                      </>
-                    }
-                    isOpen={isConfirmModalOpen}
-                    onClose={() => setConfirmModalOpen(false)}
-                  />
                 </>
+              ) : phase === 3 ? (
+                <MyDialog
+                  title={t("delete_account.confirm_modal.title")}
+                  body={t("delete_account.confirm_modal.body")}
+                  buttons={
+                    <>
+                      <MyButton
+                        color="danger"
+                        type="button"
+                        onClick={() => {
+                          submitForm();
+                        }}
+                      >
+                        {t("button.sure")}
+                      </MyButton>
+                      <MyButton
+                        color="primary"
+                        type="button"
+                        onClick={() => router.replace("/account")}
+                      >
+                        {t("delete_account.confirm_modal.changed_mind")}
+                      </MyButton>
+                    </>
+                  }
+                  isOpen={true}
+                  onClose={() => {}}
+                />
               ) : null}
             </Form>
           )}

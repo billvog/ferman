@@ -823,6 +823,36 @@ export class UserResolver {
     return true;
   }
 
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async validateAccountDeletionTokenWithPassword(
+    @Arg("token") token: string,
+    @Arg("password") password: string,
+    @Ctx() { redis, req }: MyContext
+  ) {
+    const user = await User.findOne(req.session.userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const foundToken = await redis.get(
+      `${PROCEED_ACC_DEL_TOKEN_PREFIX}${token}`
+    );
+
+    // validate token
+    if (!foundToken || parseInt(foundToken) !== req.session.userId) {
+      return false;
+    }
+
+    // validate password
+    const valid = await verify(user.password, password);
+    if (!valid) {
+      return false;
+    }
+
+    return true;
+  }
+
   @Mutation(() => FieldError, { nullable: true })
   @UseMiddleware(isAuth)
   async finishAccountDeletion(

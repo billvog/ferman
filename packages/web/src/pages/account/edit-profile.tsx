@@ -1,5 +1,5 @@
 import { withMyApollo } from "../../utils/withMyApollo";
-import { EditProfileConnector } from "../../modules/account/EditProfile/EditProfileConnector";
+import { EditProfilePage } from "../../modules/account/EditProfile/EditProfilePage";
 export default withMyApollo({
   ssr: false,
-})(EditProfileConnector);
+})(EditProfilePage);

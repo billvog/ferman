@@ -71,6 +71,7 @@ export type Mutation = {
   resetPassword?: Maybe<FieldError>;
   accountDeletionRequest: Scalars['Boolean'];
   validateAccountDeletionToken: Scalars['Boolean'];
+  validateAccountDeletionTokenWithPassword: Scalars['Boolean'];
   finishAccountDeletion?: Maybe<FieldError>;
   likePost: MinimalPostResponse;
   createPost: PostResponse;
@@ -120,6 +121,12 @@ export type MutationResetPasswordArgs = {
 
 
 export type MutationValidateAccountDeletionTokenArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationValidateAccountDeletionTokenWithPasswordArgs = {
+  password: Scalars['String'];
   token: Scalars['String'];
 };
 
@@ -529,6 +536,17 @@ export type ValidateAccountDeletionTokenMutationVariables = Exact<{
 export type ValidateAccountDeletionTokenMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'validateAccountDeletionToken'>
+);
+
+export type ValidateAccountDeletionTokenWithPasswordMutationVariables = Exact<{
+  password: Scalars['String'];
+  token: Scalars['String'];
+}>;
+
+
+export type ValidateAccountDeletionTokenWithPasswordMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'validateAccountDeletionTokenWithPassword'>
 );
 
 export type ForgotPasswordMutationVariables = Exact<{
@@ -1189,6 +1207,38 @@ export function useValidateAccountDeletionTokenMutation(baseOptions?: Apollo.Mut
 export type ValidateAccountDeletionTokenMutationHookResult = ReturnType<typeof useValidateAccountDeletionTokenMutation>;
 export type ValidateAccountDeletionTokenMutationResult = Apollo.MutationResult<ValidateAccountDeletionTokenMutation>;
 export type ValidateAccountDeletionTokenMutationOptions = Apollo.BaseMutationOptions<ValidateAccountDeletionTokenMutation, ValidateAccountDeletionTokenMutationVariables>;
+export const ValidateAccountDeletionTokenWithPasswordDocument = gql`
+    mutation ValidateAccountDeletionTokenWithPassword($password: String!, $token: String!) {
+  validateAccountDeletionTokenWithPassword(password: $password, token: $token)
+}
+    `;
+export type ValidateAccountDeletionTokenWithPasswordMutationFn = Apollo.MutationFunction<ValidateAccountDeletionTokenWithPasswordMutation, ValidateAccountDeletionTokenWithPasswordMutationVariables>;
+
+/**
+ * __useValidateAccountDeletionTokenWithPasswordMutation__
+ *
+ * To run a mutation, you first call `useValidateAccountDeletionTokenWithPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useValidateAccountDeletionTokenWithPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [validateAccountDeletionTokenWithPasswordMutation, { data, loading, error }] = useValidateAccountDeletionTokenWithPasswordMutation({
+ *   variables: {
+ *      password: // value for 'password'
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useValidateAccountDeletionTokenWithPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ValidateAccountDeletionTokenWithPasswordMutation, ValidateAccountDeletionTokenWithPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ValidateAccountDeletionTokenWithPasswordMutation, ValidateAccountDeletionTokenWithPasswordMutationVariables>(ValidateAccountDeletionTokenWithPasswordDocument, options);
+      }
+export type ValidateAccountDeletionTokenWithPasswordMutationHookResult = ReturnType<typeof useValidateAccountDeletionTokenWithPasswordMutation>;
+export type ValidateAccountDeletionTokenWithPasswordMutationResult = Apollo.MutationResult<ValidateAccountDeletionTokenWithPasswordMutation>;
+export type ValidateAccountDeletionTokenWithPasswordMutationOptions = Apollo.BaseMutationOptions<ValidateAccountDeletionTokenWithPasswordMutation, ValidateAccountDeletionTokenWithPasswordMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email) {
