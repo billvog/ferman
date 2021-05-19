@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MySpinner } from "./MySpinner";
 
-interface AuthManagerProps {
+interface WaitAuthProps {
   RequireLoggedIn?: boolean;
   RequireNotLoggedIn?: boolean;
   children: (user: FullUserFragment | null | undefined) => JSX.Element;
 }
 
-export const AuthManager: React.FC<AuthManagerProps> = ({
+export const WaitAuth: React.FC<WaitAuthProps> = ({
   RequireLoggedIn = false,
   RequireNotLoggedIn = false,
   children,

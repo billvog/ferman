@@ -11,7 +11,7 @@ import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl
 import { WaitI18 } from "../../../components/WaitI18";
 import { HeaderController } from "../../display/HeaderController";
 import { CommentController } from "./CommentController";
-import { AuthManager } from "../../../components/AuthManager";
+import { WaitAuth } from "../../../components/WaitAuth";
 import { CommonSidebar } from "../../../components/CommonSidebar";
 import { MainLayout } from "../../../components/MainLayout";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
@@ -30,7 +30,7 @@ export const CommentPage = ({}) => {
               : "Ferman"
           }
         />
-        <AuthManager>
+        <WaitAuth>
           {(user) => (
             <>
               <MainLayout
@@ -41,7 +41,7 @@ export const CommentPage = ({}) => {
               </MainLayout>
             </>
           )}
-        </AuthManager>
+        </WaitAuth>
       </WaitI18>
     </CommentOpenGraphPreview>
   );

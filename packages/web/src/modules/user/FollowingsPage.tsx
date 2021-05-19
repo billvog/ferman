@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthManager } from "../../components/AuthManager";
+import { WaitAuth } from "../../components/WaitAuth";
 import { CommonSidebar } from "../../components/CommonSidebar";
 import { MainLayout } from "../../components/MainLayout";
 import { WaitI18 } from "../../components/WaitI18";
@@ -24,7 +24,7 @@ export const FollowingsPage = ({}) => {
             : "Ferman"
         }
       />
-      <AuthManager>
+      <WaitAuth>
         {(user) => (
           <>
             <MainLayout
@@ -48,7 +48,7 @@ export const FollowingsPage = ({}) => {
             </MainLayout>
           </>
         )}
-      </AuthManager>
+      </WaitAuth>
     </WaitI18>
   );
 };

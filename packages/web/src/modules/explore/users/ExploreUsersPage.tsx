@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthManager } from "../../../components/AuthManager";
+import { WaitAuth } from "../../../components/WaitAuth";
 import { CommonSidebar } from "../../../components/CommonSidebar";
 import { MainLayout } from "../../../components/MainLayout";
 import { WaitI18 } from "../../../components/WaitI18";
@@ -14,7 +14,7 @@ export const ExploreUsersPage: React.FC<ExploreUsersPageProps> = ({}) => {
   return (
     <WaitI18>
       <HeaderController title={t("explore.users.title")} />
-      <AuthManager>
+      <WaitAuth>
         {(user) => (
           <>
             <MainLayout
@@ -25,7 +25,7 @@ export const ExploreUsersPage: React.FC<ExploreUsersPageProps> = ({}) => {
             </MainLayout>
           </>
         )}
-      </AuthManager>
+      </WaitAuth>
     </WaitI18>
   );
 };

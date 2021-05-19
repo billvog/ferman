@@ -6,7 +6,7 @@ import { WrapperSize } from "./Wrapper";
 import NProgress from "nprogress";
 import { isServer } from "../utils/isServer";
 import { useTranslation } from "react-i18next";
-import { AuthManager } from "./AuthManager";
+import { WaitAuth } from "./WaitAuth";
 import { MainLayout } from "./MainLayout";
 import { PageHeader } from "./PageHeader";
 
@@ -46,7 +46,7 @@ export const Layout: React.FC<LayoutProps> = ({
         />
       </Head>
       <div className="flex flex-col items-center w-full">
-        <AuthManager RequireLoggedIn={isAuth} RequireNotLoggedIn={isNotAuth}>
+        <WaitAuth RequireLoggedIn={isAuth} RequireNotLoggedIn={isNotAuth}>
           {(user) => (
             <MainLayout loggedUser={user}>
               <div>
@@ -55,7 +55,7 @@ export const Layout: React.FC<LayoutProps> = ({
               </div>
             </MainLayout>
           )}
-        </AuthManager>
+        </WaitAuth>
       </div>
     </div>
   );

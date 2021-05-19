@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthManager } from "../../components/AuthManager";
+import { WaitAuth } from "../../components/WaitAuth";
 import { CommonSidebar } from "../../components/CommonSidebar";
 import { MainLayout } from "../../components/MainLayout";
 import { WaitI18 } from "../../components/WaitI18";
@@ -12,7 +12,7 @@ export const SearchPage = () => {
   return (
     <WaitI18>
       <HeaderController title={t("search.title")} />
-      <AuthManager>
+      <WaitAuth>
         {(user) => (
           <MainLayout
             title={t("search.title")}
@@ -21,7 +21,7 @@ export const SearchPage = () => {
             <SearchController />
           </MainLayout>
         )}
-      </AuthManager>
+      </WaitAuth>
     </WaitI18>
   );
 };

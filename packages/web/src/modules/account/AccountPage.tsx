@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthManager } from "../../components/AuthManager";
+import { WaitAuth } from "../../components/WaitAuth";
 import { CommonSidebar } from "../../components/CommonSidebar";
 import { MainLayout } from "../../components/MainLayout";
 import { WaitI18 } from "../../components/WaitI18";
@@ -12,13 +12,13 @@ export const AccountPage: React.FC = () => {
   return (
     <WaitI18>
       <HeaderController title={t("my_account.title")} />
-      <AuthManager RequireLoggedIn>
+      <WaitAuth RequireLoggedIn>
         {(loggedUser) => (
           <MainLayout leftSidebar={<CommonSidebar loggedUser={loggedUser} />}>
             <AccountController user={loggedUser} />
           </MainLayout>
         )}
-      </AuthManager>
+      </WaitAuth>
     </WaitI18>
   );
 };

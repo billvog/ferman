@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthManager } from "../../../components/AuthManager";
+import { WaitAuth } from "../../../components/WaitAuth";
 import { CommonSidebar } from "../../../components/CommonSidebar";
 import { MainLayout } from "../../../components/MainLayout";
 import { WaitI18 } from "../../../components/WaitI18";
@@ -15,7 +15,7 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({}) => {
   return (
     <WaitI18>
       <HeaderController title={t("forgot_pwd.title")} />
-      <AuthManager RequireNotLoggedIn>
+      <WaitAuth RequireNotLoggedIn>
         {(user) => (
           <MainLayout
             leftSidebar={<CommonSidebar loggedUser={user} />}
@@ -24,7 +24,7 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({}) => {
             <ForgotPasswordConnector />
           </MainLayout>
         )}
-      </AuthManager>
+      </WaitAuth>
     </WaitI18>
   );
 };

@@ -8,7 +8,7 @@ import { MyButton } from "../../components/MyButton";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
 import { WaitI18 } from "../../components/WaitI18";
 import { HeaderController } from "../display/HeaderController";
-import { AuthManager } from "../../components/AuthManager";
+import { WaitAuth } from "../../components/WaitAuth";
 import { FollowersController } from "./FollowersController";
 import { MainLayout } from "../../components/MainLayout";
 import { CommonSidebar } from "../../components/CommonSidebar";
@@ -30,7 +30,7 @@ export const FollowersPage = ({}) => {
             : "Ferman"
         }
       />
-      <AuthManager>
+      <WaitAuth>
         {(user) => (
           <MainLayout
             title={
@@ -52,7 +52,7 @@ export const FollowersPage = ({}) => {
             <FollowersController />
           </MainLayout>
         )}
-      </AuthManager>
+      </WaitAuth>
     </WaitI18>
   );
 };

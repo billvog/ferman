@@ -11,7 +11,7 @@ import { MdExplore } from "react-icons/md";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { WaitI18 } from "../../components/WaitI18";
 import { HeaderController } from "../display/HeaderController";
-import { AuthManager } from "../../components/AuthManager";
+import { WaitAuth } from "../../components/WaitAuth";
 import { MainLayout } from "../../components/MainLayout";
 import { FeedController } from "./FeedController";
 import { CommonSidebar } from "../../components/CommonSidebar";
@@ -21,7 +21,7 @@ export const FeedPage = () => {
   return (
     <WaitI18>
       <HeaderController title={t("index.title")} />
-      <AuthManager>
+      <WaitAuth>
         {(user) => (
           <>
             <MainLayout leftSidebar={<CommonSidebar loggedUser={user} />}>
@@ -29,7 +29,7 @@ export const FeedPage = () => {
             </MainLayout>
           </>
         )}
-      </AuthManager>
+      </WaitAuth>
     </WaitI18>
   );
 };
