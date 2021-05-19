@@ -1,0 +1,6 @@
+fragment MinimalCommentIdResponse on MinimalCommentIdResponse {
+  error
+  postId
+  parentCommentId
+  commentId
+}
