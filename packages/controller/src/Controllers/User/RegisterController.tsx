@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MyMessage } from "../../Types/MyMessage";
+import { MyMessage } from "../../types/MyMessage";
 import {
   MeDocument,
   MeQuery,
@@ -7,7 +7,7 @@ import {
   useRegisterMutation,
   useValidateRegisterTokenMutation,
 } from "../../generated/graphql";
-import { ErrorMap } from "../../Types/ErrorMap";
+import { ErrorMap } from "../../types/ErrorMap";
 
 export type RegisterPhase = 0 | 1 | 2 | 3;
 export interface RegisterFormValues {

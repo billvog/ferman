@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ErrorMap } from "../../Types/ErrorMap";
+import { ErrorMap } from "../../types/ErrorMap";
 import { useForgotPasswordMutation } from "../../generated/graphql";
-import { MyMessage } from "../../Types/MyMessage";
+import { MyMessage } from "../../types/MyMessage";
 
 export interface ForgotPasswordFormValues {
   email: string;

@@ -47,6 +47,12 @@ export type LoginInput = {
   password: Scalars['String'];
 };
 
+export type MinimalPostIdResponse = {
+  __typename?: 'MinimalPostIdResponse';
+  postId: Scalars['String'];
+  error: Scalars['Boolean'];
+};
+
 export type MinimalPostResponse = {
   __typename?: 'MinimalPostResponse';
   error?: Maybe<Scalars['Boolean']>;
@@ -75,7 +81,7 @@ export type Mutation = {
   finishAccountDeletion?: Maybe<FieldError>;
   likePost: MinimalPostResponse;
   createPost: PostResponse;
-  deletePost: Scalars['Boolean'];
+  deletePost: MinimalPostIdResponse;
   updateProfile: ProfileResponse;
   createComment: CommentResponse;
   deleteComment: Scalars['Boolean'];
@@ -380,6 +386,11 @@ export type FullUserFragment = (
   )> }
 );
 
+export type MinimalPostIdResponseFragment = (
+  { __typename?: 'MinimalPostIdResponse' }
+  & Pick<MinimalPostIdResponse, 'error' | 'postId'>
+);
+
 export type PaginatedCommentsFragment = (
   { __typename?: 'PaginatedComments' }
   & Pick<PaginatedComments, 'hasMore' | 'executionTime' | 'count'>
@@ -467,7 +478,10 @@ export type DeletePostMutationVariables = Exact<{
 
 export type DeletePostMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deletePost'>
+  & { deletePost: (
+    { __typename?: 'MinimalPostIdResponse' }
+    & MinimalPostIdResponseFragment
+  ) }
 );
 
 export type LikePostMutationVariables = Exact<{
@@ -800,6 +814,12 @@ export const FieldErrorFragmentDoc = gql`
   message
 }
     `;
+export const MinimalPostIdResponseFragmentDoc = gql`
+    fragment MinimalPostIdResponse on MinimalPostIdResponse {
+  error
+  postId
+}
+    `;
 export const FullCommentFragmentDoc = gql`
     fragment FullComment on Comment {
   id
@@ -1008,9 +1028,11 @@ export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMut
 export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
 export const DeletePostDocument = gql`
     mutation DeletePost($id: String!) {
-  deletePost(id: $id)
+  deletePost(id: $id) {
+    ...MinimalPostIdResponse
+  }
 }
-    `;
+    ${MinimalPostIdResponseFragmentDoc}`;
 export type DeletePostMutationFn = Apollo.MutationFunction<DeletePostMutation, DeletePostMutationVariables>;
 
 /**

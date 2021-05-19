@@ -1,3 +1,5 @@
 mutation DeletePost($id: String!) {
-  deletePost(id: $id)
+  deletePost(id: $id) {
+    ...MinimalPostIdResponse
+  }
 }

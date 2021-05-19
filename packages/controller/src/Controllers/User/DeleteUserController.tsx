@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ErrorMap } from "../../Types/ErrorMap";
-import { MyMessage } from "../../Types/MyMessage";
+import { ErrorMap } from "../../types/ErrorMap";
+import { MyMessage } from "../../types/MyMessage";
 import {
   useAccountDeletionRequestMutation,
   useValidateAccountDeletionTokenMutation,

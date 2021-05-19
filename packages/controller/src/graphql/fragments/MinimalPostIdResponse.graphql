@@ -1,0 +1,4 @@
+fragment MinimalPostIdResponse on MinimalPostIdResponse {
+  error
+  postId
+}

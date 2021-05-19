@@ -1,18 +1,24 @@
 // User Controller
-export * from "./Controllers/User/RegisterController";
-export * from "./Controllers/User/LoginController";
-export * from "./Controllers/User/ForgotPasswordController";
-export * from "./Controllers/User/ResetPasswordController";
-export * from "./Controllers/User/UpdateProfileController";
-export * from "./Controllers/User/DeleteUserController";
+export * from "./controllers/user/RegisterController";
+export * from "./controllers/user/LoginController";
+export * from "./controllers/user/ForgotPasswordController";
+export * from "./controllers/user/ResetPasswordController";
+export * from "./controllers/user/UpdateProfileController";
+export * from "./controllers/user/DeleteUserController";
+export * from "./options/user/FollowUserOptions";
 
 // Post Controller
-export * from "./Controllers/Post/PostController";
-export * from "./Controllers/Post/CommentController";
+export * from "./controllers/post/PostController";
+export * from "./controllers/post/CommentController";
+export * from "./options/post/LikePostOptions";
+export * from "./options/post/DeletePostOptions";
 
 // Custom Types
-export * from "./Types/MyMessage";
-export * from "./Types/ErrorMap";
+export * from "./types/MyMessage";
+export * from "./types/ErrorMap";
 
 // Graphql Hooks
 export * from "./generated/graphql";
+
+// Apollo client
+export * from "./MyApolloClient";
