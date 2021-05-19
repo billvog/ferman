@@ -13,7 +13,7 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { Db, getConnection } from "typeorm";
+import { getConnection } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import uniqid from "uniqid";
 import {
@@ -54,7 +54,6 @@ class UserErrorResponse {
 class MinimalUsersResponse {
   @Field(() => Boolean, { nullable: true })
   error?: Boolean;
-
   @Field(() => [User], { nullable: true })
   users?: User[];
 }

@@ -5,8 +5,10 @@ import { BsFillChatSquareFill } from "react-icons/bs";
 import { HiTrash } from "react-icons/hi";
 import { CgMoreAlt } from "react-icons/cg";
 import {
+  deletePostMutationOptions,
   FullPostFragment,
   FullUserFragment,
+  likePostMutationOptions,
   useDeletePostMutation,
   useLikePostMutation,
 } from "@ferman-pkgs/controller";
@@ -42,11 +44,11 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   const [likePost] = useLikePostMutation();
   const LikePostHandler = async () => {
-    const { data } = await likePost({
-      variables: {
+    const { data } = await likePost(
+      likePostMutationOptions({
         postId: post.id,
-      },
-    });
+      }) as any
+    );
 
     if (!data || data.likePost.error) {
       return toast.error("Could not like post");
@@ -55,26 +57,23 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   const [deletePost, { loading: deletePostLoading }] = useDeletePostMutation();
   const DeletePostHandler = async () => {
-    const response = await deletePost({
-      variables: {
+    const response = await deletePost(
+      deletePostMutationOptions({
         id: post.id,
-      },
-      update: (cache) => {
-        cache.evict({ id: "Post:" + post.id });
-      },
-    });
+      }) as any
+    );
 
     if (response.errors || !response.data?.deletePost) {
       return toast({
         title: "Error",
-        description: "Could not delete post",
+        description: t("post.alert.cannot_delete"),
         status: "error",
         duration: 5000,
       });
     }
 
     setDelModalOpen(false);
-    toast.success("Post deleted");
+    toast.success(t("post.alert.deleted"));
 
     if (typeof onDelete === "function") {
       return onDelete();

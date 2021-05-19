@@ -1,20 +1,11 @@
 import React from "react";
-import { Layout } from "../../components/Layout";
-import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
-import NextLink from "next/link";
-import { Post } from "../../components/Post";
-import { ErrorText } from "../../components/ErrorText";
-import { MyButton } from "../../components/MyButton";
-import { MySpinner } from "../../components/MySpinner";
-import { BsSearch } from "react-icons/bs";
-import { MdExplore } from "react-icons/md";
-import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WaitI18 } from "../../components/WaitI18";
-import { HeaderController } from "../display/HeaderController";
-import { WaitAuth } from "../../components/WaitAuth";
-import { MainLayout } from "../../components/MainLayout";
-import { FeedController } from "./FeedController";
 import { CommonSidebar } from "../../components/CommonSidebar";
+import { MainLayout } from "../../components/MainLayout";
+import { WaitAuth } from "../../components/WaitAuth";
+import { WaitI18 } from "../../components/WaitI18";
+import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { HeaderController } from "../display/HeaderController";
+import { FeedController } from "./FeedController";
 
 export const FeedPage = () => {
   const { t } = useTypeSafeTranslation();

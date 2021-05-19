@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 import { init_i18n } from "../lib/i18n";
 import { isServer } from "../utils/isServer";
-
 import "react-toastify/dist/ReactToastify.css";
 import "../css/global.css";
 

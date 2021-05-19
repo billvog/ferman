@@ -30,11 +30,15 @@ class CommentResponse {
 }
 
 @ObjectType()
-class CommentWithReplies {
-  @Field(() => Comment)
-  parent: Comment;
-  @Field(() => [Comment])
-  replies: Comment[];
+export class MinimalCommentIdResponse {
+  @Field(() => String)
+  commentId: string;
+  @Field(() => String, { nullable: true })
+  parentCommentId: string | null;
+  @Field(() => String)
+  postId: string;
+  @Field(() => Boolean)
+  error: boolean;
 }
 
 @InputType()
@@ -211,12 +215,12 @@ export class PostCommentResolver {
   }
 
   // DELETE COMMENT
-  @Mutation(() => Boolean)
+  @Mutation(() => MinimalCommentIdResponse)
   @UseMiddleware(isAuth)
   async deleteComment(
     @Arg("id", () => String) id: string,
     @Ctx() { req }: MyContext
-  ): Promise<Boolean> {
+  ): Promise<MinimalCommentIdResponse> {
     const comment = await Comment.findOne({
       where: {
         id,
@@ -225,10 +229,20 @@ export class PostCommentResolver {
     });
 
     if (!comment) {
-      return false;
+      return {
+        commentId: id,
+        postId: "",
+        parentCommentId: "",
+        error: true,
+      };
     }
 
     await comment.remove();
-    return true;
+    return {
+      commentId: id,
+      postId: comment.postId,
+      parentCommentId: comment.parentId,
+      error: false,
+    };
   }
 }

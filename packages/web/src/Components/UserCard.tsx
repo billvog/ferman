@@ -11,6 +11,7 @@ import { MyButton } from "./MyButton";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { followMutationOptions } from "@ferman-pkgs/controller";
 
 interface UserCardProps {
   user: FullUserFragment;
@@ -24,11 +25,11 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
   const [followUser] = useFollowMutation();
 
   const followUserHandler = async () => {
-    const { data } = await followUser({
-      variables: {
+    const { data } = await followUser(
+      followMutationOptions({
         userId: user.id,
-      },
-    });
+      }) as any
+    );
 
     if (!data || data.follow.error || !data.follow.users) {
       return toast.error(t("errors.500"));

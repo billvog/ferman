@@ -9,9 +9,12 @@ export * from "./options/user/FollowUserOptions";
 
 // Post Controller
 export * from "./controllers/post/PostController";
-export * from "./controllers/post/CommentController";
 export * from "./options/post/LikePostOptions";
 export * from "./options/post/DeletePostOptions";
+
+// Comment Controller
+export * from "./controllers/comment/CommentController";
+export * from "./options/comment/DeleteCommentOptions";
 
 // Custom Types
 export * from "./types/MyMessage";

@@ -1,11 +1,11 @@
 import { FullUserFragment, useFollowMutation } from "@ferman-pkgs/controller";
+import { followMutationOptions } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MyButton } from "./MyButton";
-import { MySpinner } from "./MySpinner";
 
 interface UserSummaryCardProps {
   user: FullUserFragment;
@@ -20,11 +20,11 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
 
   const [followUser, { loading: followLoading }] = useFollowMutation();
   const followUserHandler = async () => {
-    const { data } = await followUser({
-      variables: {
+    const { data } = await followUser(
+      followMutationOptions({
         userId: user.id,
-      },
-    });
+      }) as any
+    );
 
     if (!data || data.follow.error || !data.follow.users) {
       return toast.error("Internal server error");

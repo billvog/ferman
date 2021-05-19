@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { BiLogIn, BiUserCircle } from "react-icons/bi";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { LanguageSelector } from "./LanguageSelector";
 import { MySpinner } from "./MySpinner";
 
 interface CommonSidebarProps {
@@ -14,16 +15,17 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
 
   return (
     <div className="flex sticky top-0 flex-col justify-between w-full items-start space-y-6 h-screen">
-      <div className="p-4 flex justify-center items-center w-full">
-        <div>
+      <div className="p-4 flex flex-col justify-center w-full space-y-4">
+        <div className="flex flex-row justify-between items-center">
           <Link href="/">
-            <div className="flex justify-center items-center cursor-pointer w-full">
+            <div className="flex justify-items-start items-center cursor-pointer w-full">
               <img src="/favicon.ico" className="w-9 h-9 mr-3" />
-              <span className="text-4xl font-bold font-cursive text-primary-600 ">
+              <span className="text-3xl font-bold font-cursive text-primary-600 ">
                 Ferman's
               </span>
             </div>
           </Link>
+          <LanguageSelector />
         </div>
       </div>
       <div className="flex flex-col items-center space-y-6 w-full p-4 border-t group hover:bg-primary-100 transition-colors duration-150">

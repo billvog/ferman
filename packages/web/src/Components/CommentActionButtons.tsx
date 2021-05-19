@@ -1,4 +1,5 @@
 import {
+  deleteCommentMutationOptions,
   FullCommentFragment,
   FullUserFragment,
   useDeleteCommentMutation,
@@ -37,26 +38,15 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
 
   const [isDelModalOpen, setDelModalOpen] = useState(false);
 
-  const [
-    deleteComment,
-    { loading: deleteCommentLoading },
-  ] = useDeleteCommentMutation();
+  const [deleteComment, { loading: deleteCommentLoading }] =
+    useDeleteCommentMutation();
 
   const DeleteCommentHandler = async () => {
-    const response = await deleteComment({
-      variables: {
+    const response = await deleteComment(
+      deleteCommentMutationOptions({
         id: comment.id,
-      },
-      update: (cache, {}) => {
-        if (comment.parentId)
-          cache.evict({
-            id: "Comment:" + comment.parentId,
-          });
-
-        cache.evict({ id: "Comment:" + comment.id });
-        cache.evict({ id: "Post:" + comment.postId });
-      },
-    });
+      }) as any
+    );
 
     if (response.errors || !response.data?.deleteComment) {
       return toast.error("Could not delete comment");

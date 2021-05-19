@@ -6,7 +6,8 @@
     "body": "Body",
     "no_posts": "There are no posts",
     "found_x_results": "Found %count% results in %seconds% seconds",
-    "found_one_result": "Found one result in %seconds% seconds"
+    "found_one_result": "Found one result in %seconds% seconds",
+    "change_language": "Change Language"
   },
   "button": {
     "ok": "Ok",
@@ -114,7 +115,7 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": {
-      "title": "People that follow $1 on Ferman",
+      "title": "People that follow %user% on Ferman",
       "header_title": "%user% / followers %count%",
       "no_users": "There are no users following %user%"
     },
@@ -138,6 +139,10 @@
     "delete_dialog": {
       "title": "Are you sure?",
       "text": "Clicking \"Delete\" button, all likes and comments of this post will be deleted. Any further action will not be able to be undone."
+    },
+    "alert": {
+      "deleted": "Post deleted",
+      "cannot_delete": "Post couln't get deleted"
     }
   },
   "comment": {

@@ -6,6 +6,7 @@ import { MySpinner } from "../../components/MySpinner";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
 import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import processString from "react-process-string";
 
 interface FollowersControllerProps {}
 
@@ -45,10 +46,12 @@ export const FollowersController: React.FC<FollowersControllerProps> = ({}) => {
             <div>
               {followersData.followers?.count === 0 ? (
                 <div className="text-red-500 text-base">
-                  {t("user.followers.no_users").replace(
-                    "%user%",
-                    userData.user.username
-                  )}
+                  {processString([
+                    {
+                      regex: /%user%/,
+                      fn: () => <b>{userData.user?.username}</b>,
+                    },
+                  ])(t("user.followers.no_users"))}
                 </div>
               ) : (
                 <div className="space-y-2">

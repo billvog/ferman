@@ -2,6 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosGlobe } from "react-icons/io";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 interface LanguageSelectorProps {}
 
@@ -11,17 +12,20 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
     { value: "el", flag: "🇬🇷", label: "Ελληνικά" },
   ];
 
+  const { t } = useTypeSafeTranslation();
   const { i18n } = useTranslation();
   console.log(`Used: ${i18n.language}`);
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative flex items-center">
       {({ open }) => (
         <>
           <Menu.Button className="text-md text-accent focus:outline-none">
-            <div className="flex items-center font-semibold text-secondary-50 bg-secondary-600 text-md rounded-full px-2 py-1 transition-colors duration-150">
-              <IoIosGlobe />
-              <span className="ml-1.5">Language</span>
+            <div
+              className="flex justify-center items-center font-semibold text-accent hover:text-accent-washed-out hover:bg-accent-transparent text-md rounded-full p-1 transition-colors duration-150"
+              title={t("common.change_language")}
+            >
+              <IoIosGlobe size="21px" />
             </div>
           </Menu.Button>
           <Transition
@@ -36,13 +40,11 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
           >
             <Menu.Items
               static
-              className="absolute z-20 right-2 w-40 origin-top-right bg-secondary-50 rounded-xl focus:outline-none"
+              className="absolute z-20 w-40 origin-top-left bg-accent-transparent rounded-xl backdrop-filter backdrop-blur-lg focus:outline-none"
+              style={{
+                top: "-0.5px",
+              }}
             >
-              <div className="px-1 rounded-tl-xl bg-secondary-400 text-secondary-50">
-                <div className="p-1.5 text-vs font-bold leading-tight">
-                  Choose language
-                </div>
-              </div>
               <div className="p-1">
                 {options.map((option) => (
                   <Menu.Item>
@@ -50,8 +52,8 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
                       <button
                         className={`${
                           active
-                            ? "bg-secondary-600 text-secondary-50"
-                            : "text-secondary-600"
+                            ? "bg-accent-hover text-white"
+                            : "text-accent-600"
                         } group flex rounded-md items-center w-full p-1.5 text-xs font-bold space-x-1.5`}
                         onClick={() => {
                           i18n.changeLanguage(option.value);

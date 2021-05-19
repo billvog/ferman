@@ -29,6 +29,14 @@ class PostInput {
 }
 
 @ObjectType()
+export class MinimalPostIdResponse {
+  @Field(() => String)
+  postId: string;
+  @Field(() => Boolean)
+  error: boolean;
+}
+
+@ObjectType()
 export class PostResponse {
   @Field(() => FieldError, { nullable: true })
   error?: FieldError;
@@ -289,12 +297,12 @@ export class PostResolver {
   }
 
   // DELETE POST
-  @Mutation(() => Boolean)
+  @Mutation(() => MinimalPostIdResponse)
   @UseMiddleware(isAuth)
   async deletePost(
     @Arg("id", () => String) id: string,
     @Ctx() { req }: MyContext
-  ): Promise<Boolean> {
+  ): Promise<MinimalPostIdResponse> {
     if (
       !(await Post.findOne({
         where: {
@@ -304,7 +312,10 @@ export class PostResolver {
       }))
     ) {
       // the post isn't owned by you
-      return false;
+      return {
+        postId: id,
+        error: true,
+      };
     }
 
     getConnection().transaction(async (tm) => {
@@ -322,6 +333,9 @@ export class PostResolver {
       });
     });
 
-    return true;
+    return {
+      postId: id,
+      error: false,
+    };
   }
 }
