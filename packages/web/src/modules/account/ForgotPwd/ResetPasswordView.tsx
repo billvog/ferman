@@ -7,10 +7,11 @@ import {
 import { Form, FormikProps, withFormik } from "formik";
 import React, { useState } from "react";
 import { InputField } from "../../../components/InputField";
-import { Layout } from "../../../components/Layout";
 import NextLink from "next/link";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { useTranslation } from "react-i18next";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface ResetPasswordViewProps {
   submit: (values: ResetPasswordFormValues) => Promise<ErrorMap | null>;
@@ -21,37 +22,39 @@ interface ResetPasswordViewProps {
 const C: React.FC<
   ResetPasswordViewProps & FormikProps<ResetPasswordFormValues>
 > = ({ done, message, isSubmitting }) => {
+  const { i18n } = useTranslation();
+  const { t } = useTypeSafeTranslation();
+
   // toggle show/hide password
   const [showPwd, setShowPwd] = useState(false);
   const handleTogglePwd = () => setShowPwd(!showPwd);
 
   return (
-    <Layout size="sm" title="Reset Password – Ferman" isNotAuth>
+    <>
       {done ? (
         <MyAlert color="success">
-          <h2 className="text-lg">Your password has been reset!</h2>
+          <h2 className="text-lg">{t("reset_pwd.success_alert.title")}</h2>
           <p>
-            We're happy to announce you that your password has been reset!{" "}
+            {t("reset_pwd.success_alert.body")}
             <br />
             <NextLink href="/account/login">
               <MyButton color="success" style={{ marginTop: 10 }}>
-                Sign in
+                {t("reset_pwd.success_alert.sign_in")}
               </MyButton>
             </NextLink>
           </p>
         </MyAlert>
       ) : (
         <Form>
-          {message && (
+          {message && i18n.exists(message.text) && (
             <div className="mb-2">
-              <MyAlert color={message.type}>{message.text}</MyAlert>
+              <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
             </div>
           )}
-          <h1 className="heading">Reset password</h1>
           <InputField
-            label="Password"
+            label={t("form.label.new_password")}
             name="password"
-            placeholder="Enter password"
+            placeholder={t("form.placeholder.new_password")}
             type={showPwd ? "text" : "password"}
             passwordOptions={{
               handlePwdToggle: handleTogglePwd,
@@ -61,12 +64,12 @@ const C: React.FC<
           />
           <div className="flex justify-between items-center mt-4">
             <MyButton type="submit" isLoading={isSubmitting}>
-              Reset
+              {t("button.reset")}
             </MyButton>
           </div>
         </Form>
       )}
-    </Layout>
+    </>
   );
 };
 

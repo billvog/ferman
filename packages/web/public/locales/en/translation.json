@@ -19,7 +19,8 @@
     "back": "Back",
     "edit": "Edit",
     "delete": "Delete",
-    "send": "Send"
+    "send": "Send",
+    "reset": "Reset"
   },
   "errors": {
     "500": "Internal server error, please try again later",
@@ -35,6 +36,7 @@
       "username": "Username",
       "email": "Email",
       "password": "Password",
+      "new_password": "New password",
       "date_of_birth": "Date of Birth",
       "six_digit": "6-Digit Code"
     },
@@ -42,6 +44,7 @@
       "uid": "Enter uid",
       "username": "Enter username",
       "email": "Enter email",
+      "new_password": "Enter new password",
       "password": "Enter password",
       "six_digit": "Enter 6-digit code"
     },
@@ -64,7 +67,12 @@
       "birthday_limit": "You must be at least 13 years old to use our services",
       "post_body_length": "Length must be between 3 and 500",
       "comment_text_length": "Length must be between 3 and 200",
-      "wrong_credentials": "Wrong email or password"
+      "wrong_credentials": "Wrong email or password",
+      "invalid_token": "Invalid token, please make a new request"
+    },
+    "toggle_pwd_visibility": {
+      "show": "Show",
+      "hide": "Hide"
     }
   },
   "index": {
@@ -193,6 +201,17 @@
     "or_sign_in": "or Sign In",
     "message": {
       "success": "If a user exists with this email, an email has been sent with instructions."
+    }
+  },
+  "reset_pwd": {
+    "title": "Reset Password",
+    "success_alert": {
+      "title": "Your password has been reset!",
+      "body": "We're happy to announce you that your password has been reset!",
+      "sign_in": "Sign In" 
+    },
+    "error": {
+      "new_pwd_defer_from_old": "New password must defer from old"
     }
   },
   "404_page": {

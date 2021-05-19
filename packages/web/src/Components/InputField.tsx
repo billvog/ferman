@@ -58,12 +58,16 @@ export const InputField: React.FC<InputFieldProps> = ({
               >
                 {passwordOptions.showPassword ? (
                   <>
-                    <span style={{ marginRight: 5 }}>Hide</span>
+                    <span style={{ marginRight: 5 }}>
+                      {t("form.toggle_pwd_visibility.hide")}
+                    </span>
                     <AiOutlineEyeInvisible />
                   </>
                 ) : (
                   <>
-                    <span style={{ marginRight: 5 }}>Show</span>
+                    <span style={{ marginRight: 5 }}>
+                      {t("form.toggle_pwd_visibility.show")}
+                    </span>
                     <AiOutlineEye />
                   </>
                 )}

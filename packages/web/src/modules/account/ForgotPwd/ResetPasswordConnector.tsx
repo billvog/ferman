@@ -7,7 +7,6 @@ interface ResetPasswordConnectorProps {}
 export const ResetPasswordConnector: React.FC<ResetPasswordConnectorProps> = ({}) => {
   const router = useRouter();
   const token = router.query.token as string;
-
   return (
     <ResetPasswordController token={token}>
       {(props) => <ResetPasswordView {...props} />}
