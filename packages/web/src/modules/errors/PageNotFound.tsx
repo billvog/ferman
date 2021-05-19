@@ -15,7 +15,7 @@ export const PageNotFound = ({}) => {
       </div>
       <MyButton onClick={router.back} color="secondary">
         <IoMdArrowBack />
-        <span className="ml-1.5">{t("common.back")}</span>
+        <span className="ml-1.5">{t("button.back")}</span>
       </MyButton>
     </>
   );

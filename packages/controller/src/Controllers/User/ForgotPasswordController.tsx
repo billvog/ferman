@@ -28,7 +28,7 @@ export const ForgotPasswordController: React.FC<ForgotPasswordControllerProps> =
     if (!data) {
       setMessage({
         type: "error",
-        text: "Internal server error",
+        text: "errors.500",
       });
       return null;
     }
@@ -41,8 +41,7 @@ export const ForgotPasswordController: React.FC<ForgotPasswordControllerProps> =
 
     setMessage({
       type: "success",
-      text:
-        "If a user exists with this email, an email has been sent with instructions.",
+      text: "forgot_pwd.message.success",
     });
     return null;
   };

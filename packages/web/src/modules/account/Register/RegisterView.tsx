@@ -19,6 +19,7 @@ import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { useTranslation } from "react-i18next";
 
 interface RegisterViewProps {
   storedInitialValues?: RegisterFormValues;
@@ -35,6 +36,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   phase,
   done,
 }) => {
+  const { i18n } = useTranslation();
   const { t } = useTypeSafeTranslation();
 
   // toggle show/hide password
@@ -83,9 +85,11 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
         >
           {({ isSubmitting }) => (
             <Form>
-              {message && (
+              {message && i18n.exists(message.text) && (
                 <div className="mb-2">
-                  <MyAlert color={message.type}>{message.text}</MyAlert>
+                  <MyAlert color={message.type}>
+                    {t(message.text as any)}
+                  </MyAlert>
                 </div>
               )}
               <h1 className="heading">
@@ -131,7 +135,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                   />
                   <div className="flex justify-between items-center mt-4">
                     <MyButton type="submit" isLoading={isSubmitting}>
-                      {t("common.continue")}
+                      {t("button.continue")}
                     </MyButton>
                     <div>
                       <NextLink href="/account/login">
@@ -152,7 +156,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     helperText={t("form.helper.six_digit")}
                   />
                   <MyButton type="submit" isLoading={isSubmitting}>
-                    {t("common.continue")}
+                    {t("button.continue")}
                   </MyButton>
                 </>
               ) : phase === 2 ? (
@@ -169,7 +173,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     }}
                   />
                   <MyButton type="submit" isLoading={isSubmitting}>
-                    {t("common.continue")}
+                    {t("button.continue")}
                   </MyButton>
                 </>
               ) : phase === 3 ? (
@@ -216,7 +220,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     }}
                   />
                   <MyButton type="submit" isLoading={isSubmitting}>
-                    {t("common.finish")}
+                    {t("button.finish")}
                   </MyButton>
                 </>
               ) : null}

@@ -2,6 +2,13 @@
   "common": {
     "load_more": "Load More",
     "loading": "Loading...",
+    "or_go_back": "or Go Back",
+    "body": "Body",
+    "no_posts": "There are no posts",
+    "found_x_results": "Found %count% results in %seconds% seconds",
+    "found_one_result": "Found one result in %seconds% seconds"
+  },
+  "button": {
     "ok": "Ok",
     "yes": "Yes",
     "sure": "I'm sure",
@@ -12,11 +19,7 @@
     "back": "Back",
     "edit": "Edit",
     "delete": "Delete",
-    "or_go_back": "or Go Back",
-    "body": "Body",
-    "no_posts": "There are no posts",
-    "found_x_results": "Found %count% results in %seconds% seconds",
-    "found_one_result": "Found one result in %seconds% seconds"
+    "send": "Send"
   },
   "errors": {
     "500": "Internal server error, please try again later",
@@ -55,6 +58,7 @@
       "username_length": "Length must be between 6 and 32",
       "email_invalid": "Please enter a valid email",
       "password_length": "Length must be at least 6",
+      "six_digit_length": "Please provide a valid 6-Digit Code",
       "bio_length": "Length must be up to 160",
       "location_length": "Length must be up to 30",
       "birthday_limit": "You must be at least 13 years old to use our services",
@@ -174,10 +178,21 @@
       "set_password": "Set your password",
       "everything_alright": "Everything alright?"
     },
+    "message": {
+      "phase1_success": "An email has been sent to the email address you've given. There, are instructions on how to continue setting up your account.",
+      "phase2_invalid": "The provided code is not valid"
+    },
     "success_alert": {
       "title": "Your account is finally ready!",
       "body": "We're happy to announce you that your account is ready! What are you waiting for? Start posting!",
       "start_posting": "Start"
+    }
+  },
+  "forgot_pwd": {
+    "title": "Forgot Password",
+    "or_sign_in": "or Sign In",
+    "message": {
+      "success": "If a user exists with this email, an email has been sent with instructions."
     }
   },
   "404_page": {

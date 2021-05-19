@@ -1,5 +1,6 @@
 import { useField } from "formik";
 import React, { InputHTMLAttributes } from "react";
+import { useTranslation } from "react-i18next";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
@@ -29,6 +30,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   size: _,
   ...props
 }) => {
+  const { i18n } = useTranslation();
   const { t } = useTypeSafeTranslation();
   const [field, { error, touched }] = useField(props);
 
@@ -91,13 +93,13 @@ export const InputField: React.FC<InputFieldProps> = ({
       {helperText && (
         <div className="text-primary-400 mt-1 text-xs">{helperText}</div>
       )}
-      {error && touched && (
+      {error && touched && i18n.exists(`form.error.${error}`) && (
         <div
           className={`text-red-500 font-semibold mt-${
             textarea ? "0.5" : "1"
           } text-sm`}
         >
-          {t(`form.error.${error}` as any) || ""}
+          {t(`form.error.${error}` as any)}
         </div>
       )}
     </div>

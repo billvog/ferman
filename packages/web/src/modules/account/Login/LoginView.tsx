@@ -8,6 +8,7 @@ import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { MyButton } from "../../../components/MyButton";
 import { MyAlert } from "../../../components/MyAlert";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { useTranslation } from "react-i18next";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
@@ -18,14 +19,14 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   message,
   isSubmitting,
 }) => {
+  const { i18n } = useTranslation();
   const { t } = useTypeSafeTranslation();
+
   return (
     <Form>
-      {message && (
+      {message && i18n.exists(message.text) && (
         <div className="mb-2">
-          <MyAlert color={message.type}>
-            {t(`form.error.${message.text}` as any)}
-          </MyAlert>
+          <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
         </div>
       )}
       <InputField

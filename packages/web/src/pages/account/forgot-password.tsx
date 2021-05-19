@@ -1,5 +1,5 @@
-import { ForgotPasswordConnector } from "../../modules/account/ForgotPwd/ForgotPasswordConnector";
+import { ForgotPasswordPage } from "../../modules/account/ForgotPwd/ForgotPasswordPage";
 import { withMyApollo } from "../../utils/withMyApollo";
 export default withMyApollo({
   ssr: false,
-})(ForgotPasswordConnector);
+})(ForgotPasswordPage);

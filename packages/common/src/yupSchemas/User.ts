@@ -6,6 +6,7 @@ const UidRegexKey = "uid_format";
 const UsernameLengthKey = "username_length";
 const EmailInvalidKey = "email_invalid";
 const PasswordLengthKey = "password_length";
+const SixDigitCodeLengthKey = "six_digit_length";
 
 export const UidMin = 2;
 export const UidMax = 20;
@@ -41,7 +42,10 @@ export const PASSWORD_SHAPE = yup
   .max(255)
   .required(PasswordLengthKey)
   .label("Password");
-export const AUTH_CODE_SHAPE = yup.string().required().label("Code");
+export const AUTH_CODE_SHAPE = yup
+  .string()
+  .required(SixDigitCodeLengthKey)
+  .label("6-Digit Code");
 
 // Login
 export const LoginValidationSchema = yup.object().shape({

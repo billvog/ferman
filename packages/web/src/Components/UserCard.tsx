@@ -117,7 +117,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   onClick={() => router.push("/account/edit-profile")}
                 >
                   <FiEdit2 />
-                  <span className="ml-1.5">{t("common.edit")}</span>
+                  <span className="ml-1.5">{t("button.edit")}</span>
                 </MyButton>
               ) : (
                 <MyButton

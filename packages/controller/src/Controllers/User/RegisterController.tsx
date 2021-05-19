@@ -67,7 +67,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       if (!data) {
         setMessage({
           type: "error",
-          text: "Internal server error",
+          text: "errors.500",
         });
         return null;
       }
@@ -81,8 +81,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       setPhase(1);
       setMessage({
         type: "success",
-        text:
-          "An email has been sent to the email address you've given. There, are instructions on how to continue setting up your account.",
+        text: "register.message.phase1_success",
       });
     } else if (phase === 1) {
       const { data } = await validateToken({
@@ -92,7 +91,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       });
 
       if (!data?.validateRegisterToken) {
-        setMessage({ type: "error", text: "The provided code is not valid" });
+        setMessage({ type: "error", text: "register.message.phase2_invalid" });
         return null;
       }
 
@@ -115,7 +114,7 @@ export const RegisterController: React.FC<RegisterControllerProps> = ({
       });
 
       if (!data) {
-        setMessage({ type: "error", text: "Internal server error" });
+        setMessage({ type: "error", text: "errors.500" });
         return null;
       }
 

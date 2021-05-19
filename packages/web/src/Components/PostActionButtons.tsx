@@ -157,7 +157,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                             onClick={() => setDelModalOpen(true)}
                           >
                             <HiTrash />
-                            <span>{t("common.delete")}...</span>
+                            <span>{t("button.delete")}...</span>
                           </button>
                         )}
                       </Menu.Item>
@@ -181,10 +181,10 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
                 isLoading={deletePostLoading}
                 onClick={DeletePostHandler}
               >
-                {t("common.delete")}
+                {t("button.delete")}
               </MyButton>
               <MyButton color="primary" onClick={() => setDelModalOpen(false)}>
-                {t("common.cancel")}
+                {t("button.cancel")}
               </MyButton>
             </>
           }

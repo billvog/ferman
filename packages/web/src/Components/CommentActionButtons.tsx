@@ -123,7 +123,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                             onClick={() => setDelModalOpen(true)}
                           >
                             <HiTrash />
-                            <span>{t("common.delete")}...</span>
+                            <span>{t("button.delete")}...</span>
                           </button>
                         )}
                       </Menu.Item>
@@ -147,10 +147,10 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
                 isLoading={deleteCommentLoading}
                 onClick={DeleteCommentHandler}
               >
-                {t("common.delete")}
+                {t("button.delete")}
               </MyButton>
               <MyButton color="primary" onClick={() => setDelModalOpen(false)}>
-                {t("common.cancel")}
+                {t("button.cancel")}
               </MyButton>
             </>
           }

@@ -43,7 +43,7 @@ export const LoginController: React.FC<LoginControllerProps> = ({
     if (!data) {
       setMessage({
         type: "error",
-        text: "Internal server error",
+        text: "errors.500",
       });
       return null;
     }
@@ -51,7 +51,7 @@ export const LoginController: React.FC<LoginControllerProps> = ({
     if (data?.login.error) {
       setMessage({
         type: "error",
-        text: data.login.error.message,
+        text: `form.error.${data.login.error.message}`,
       });
       return null;
     }
