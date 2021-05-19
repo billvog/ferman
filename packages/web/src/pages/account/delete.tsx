@@ -1,3 +1,3 @@
-import { AccDelConnector } from "../../modules/account/Delete/AccDelConnector";
+import { AccDelPage } from "../../modules/account/Delete/AccDelPage";
 import { withMyApollo } from "../../utils/withMyApollo";
-export default withMyApollo({ ssr: false })(AccDelConnector);
+export default withMyApollo({ ssr: false })(AccDelPage);

@@ -486,7 +486,7 @@ export class UserResolver {
     if (await User.findOne({ where: { uid: options.uid } })) {
       return {
         field: "uid",
-        message: "Uid already used",
+        message: "uid_used",
       };
     }
 
@@ -494,7 +494,7 @@ export class UserResolver {
     if (await User.findOne({ where: { username: options.username } })) {
       return {
         field: "username",
-        message: "Username already taken",
+        message: "username_taken",
       };
     }
 
@@ -502,7 +502,7 @@ export class UserResolver {
     if (await User.findOne({ where: { email: options.email } })) {
       return {
         field: "email",
-        message: "Email already registed",
+        message: "email_taken",
       };
     }
 
@@ -560,8 +560,7 @@ export class UserResolver {
       return {
         error: {
           field: "token",
-          message:
-            "Invalid token used, probably expired. Please, make a new request.",
+          message: "invalid_token",
         },
       };
     }
@@ -590,8 +589,7 @@ export class UserResolver {
       return {
         error: {
           field: "token",
-          message:
-            "Invalid token used, probably expired. Please, make a new request.",
+          message: "invalid_token",
         },
       };
     }
@@ -599,7 +597,7 @@ export class UserResolver {
     // check for taken uid
     if (await User.findOne({ where: { uid: validation.uid } })) {
       return {
-        error: { field: "uid", message: "Uid already used" },
+        error: { field: "uid", message: "uid_used" },
       };
     }
 
@@ -608,7 +606,7 @@ export class UserResolver {
       return {
         error: {
           field: "username",
-          message: "Username already taken",
+          message: "username_taken",
         },
       };
     }
@@ -738,7 +736,7 @@ export class UserResolver {
     if (!foundToken) {
       return {
         field: "token",
-        message: "Token not found. Please make a new request.",
+        message: "form.error.invalid_token",
       };
     }
 
@@ -747,7 +745,7 @@ export class UserResolver {
     if (!user) {
       return {
         field: "token",
-        message: "Invalid token. Please make a new request.",
+        message: "form.error.invalid_token",
       };
     }
 
@@ -758,7 +756,7 @@ export class UserResolver {
     if (await verify(user.password, password)) {
       return {
         field: "password",
-        message: "New password must defer from old",
+        message: "reset_pwd.error.new_pwd_defer_from_old",
       };
     }
 
@@ -844,7 +842,7 @@ export class UserResolver {
     if (!foundToken || parseInt(foundToken) !== user.id) {
       return {
         field: "code",
-        message: "Incorrect code given",
+        message: "delete_account.message.phase2_invalid",
       };
     }
 
@@ -853,7 +851,7 @@ export class UserResolver {
     if (!valid) {
       return {
         field: "password",
-        message: "Incorrect password",
+        message: "delete_account.message.phase3_wrong",
       };
     }
 

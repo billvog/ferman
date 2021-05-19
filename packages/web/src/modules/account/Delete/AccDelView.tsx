@@ -15,8 +15,9 @@ import {
   AccountDeletionTwo,
   EmptySchema,
 } from "@ferman-pkgs/common";
-import { Dialog, Transition } from "@headlessui/react";
 import { MyDialog } from "../../../components/MyDialog";
+import { useTranslation } from "react-i18next";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface AccDelViewProps {
   submit: (values: DeleteUserFormValues) => Promise<ErrorMap | null>;
@@ -31,134 +32,135 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
   message,
   done,
 }) => {
+  const { i18n } = useTranslation();
+  const { t } = useTypeSafeTranslation();
+
   // confirm modal
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   return (
     <>
-      <Layout size="md" title="Delete Account – Ferman" isAuth>
-        {done ? (
-          <MyAlert color="success">
-            <h2 className="text-lg">Your account is deleted!</h2>
-            <p>Your account is finaly deleted. Hope we see you again!</p>
-          </MyAlert>
-        ) : (
-          <Formik
-            validateOnChange={false}
-            validationSchema={() =>
-              phase === 1
-                ? AccountDeletionOne
-                : phase === 2
-                ? AccountDeletionTwo
-                : EmptySchema
-            }
-            initialValues={{ code: "", password: "" }}
-            onSubmit={async (values, { setErrors }) => {
-              const errors = await submit(values);
-              if (errors) setErrors(errors);
-            }}
-          >
-            {({ isSubmitting, submitForm }) => (
-              <Form>
-                {message && (
-                  <div className="mb-2">
-                    <MyAlert color={message.type}>{message.text}</MyAlert>
+      {done ? (
+        <MyAlert color="success">
+          <h2 className="text-lg">{t("delete_account.success_alert.title")}</h2>
+          <p>{t("delete_account.success_alert.body")}</p>
+        </MyAlert>
+      ) : (
+        <Formik
+          validateOnChange={false}
+          validationSchema={() =>
+            phase === 1
+              ? AccountDeletionOne
+              : phase === 2
+              ? AccountDeletionTwo
+              : EmptySchema
+          }
+          initialValues={{ code: "", password: "" }}
+          onSubmit={async (values, { setErrors }) => {
+            const errors = await submit(values);
+            if (errors) setErrors(errors);
+          }}
+        >
+          {({ isSubmitting, submitForm }) => (
+            <Form>
+              {message && i18n.exists(message.text) && (
+                <div className="mb-2">
+                  <MyAlert color={message.type}>
+                    {t(message.text as any)}
+                  </MyAlert>
+                </div>
+              )}
+              <h1 className="heading">
+                {phase === 0
+                  ? t("delete_account.phase.delete_account")
+                  : phase === 1
+                  ? t("delete_account.phase.verify_email")
+                  : phase === 2
+                  ? t("delete_account.phase.verify_identity")
+                  : null}
+              </h1>
+              {phase === 0 ? (
+                <>
+                  <div className="text-sm text-primary-400 font-semibold mb-2 leading-snug">
+                    {t("delete_account.subtext")}
                   </div>
-                )}
-                <h1 className="heading">
-                  {phase === 0
-                    ? "Delete Your Account"
-                    : phase === 1
-                    ? "Verify your email"
-                    : phase === 2
-                    ? "Verify your identity"
-                    : null}
-                </h1>
-                {phase === 0 ? (
-                  <>
-                    <div className="text-sm text-secondary-400 font-semibold mb-2 leading-snug">
-                      Deleting your account, requires you to pass a two-factor
-                      authentication process to proove you are the owner of this
-                      account.
-                    </div>
+                  <MyButton type="submit" isLoading={isSubmitting}>
+                    {t("delete_account.send_request")}
+                  </MyButton>
+                </>
+              ) : phase === 1 ? (
+                <>
+                  <InputField
+                    label={t("form.label.six_digit")}
+                    name="code"
+                    type="text"
+                    placeholder={t("form.placeholder.six_digit")}
+                    helperText={t("form.helper.six_digit")}
+                  />
+                  <div className="flex justify-between items-center mt-4">
                     <MyButton type="submit" isLoading={isSubmitting}>
-                      Submit Request
+                      {t("button.continue")}
                     </MyButton>
-                  </>
-                ) : phase === 1 ? (
-                  <>
-                    <InputField
-                      label="Code"
-                      name="code"
-                      type="text"
-                      placeholder="Enter 6-digit code"
-                      helperText="Enter the 6-digit code sent to your email."
-                    />
-                    <div className="flex justify-between items-center mt-4">
-                      <MyButton type="submit" isLoading={isSubmitting}>
-                        Continue
-                      </MyButton>
-                    </div>
-                  </>
-                ) : phase === 2 ? (
-                  <>
-                    <InputField
-                      label="Password"
-                      name="password"
-                      placeholder="Enter your password"
-                      type="password"
-                      helperText="Enter your password to prove your identity."
-                      onKeyPress={(e) => {
-                        if (e.which === 13) {
-                          e.preventDefault();
-                          setConfirmModalOpen(true);
-                        }
-                      }}
-                    />
-                    <div className="flex justify-between items-center mt-4">
-                      <MyButton
-                        onClick={() => setConfirmModalOpen(true)}
-                        type="button"
-                        isLoading={isSubmitting}
-                      >
-                        Finish
-                      </MyButton>
-                    </div>
-                    {/* Confirm modal */}
-                    <MyDialog
-                      title="After this, there's no comeback."
-                      body="By deleting your account, all your posts, comments, follows, likes will be deleted. Any action cannot be undone and will be permanent."
-                      buttons={
-                        <>
-                          <MyButton
-                            color="danger"
-                            type="button"
-                            onClick={() => {
-                              setConfirmModalOpen(false);
-                              submitForm();
-                            }}
-                          >
-                            I'm sure
-                          </MyButton>
-                          <MyButton
-                            color="secondary"
-                            type="button"
-                            onClick={() => setConfirmModalOpen(false)}
-                          >
-                            I changed my mind
-                          </MyButton>
-                        </>
+                  </div>
+                </>
+              ) : phase === 2 ? (
+                <>
+                  <InputField
+                    label={t("form.label.password")}
+                    name="password"
+                    placeholder={t("form.placeholder.password")}
+                    type="password"
+                    helperText={t("delete_account.password_helper")}
+                    onKeyPress={(e) => {
+                      if (e.which === 13) {
+                        e.preventDefault();
+                        setConfirmModalOpen(true);
                       }
-                      isOpen={isConfirmModalOpen}
-                      onClose={() => setConfirmModalOpen(false)}
-                    />
-                  </>
-                ) : null}
-              </Form>
-            )}
-          </Formik>
-        )}
-      </Layout>
+                    }}
+                  />
+                  <div className="flex justify-between items-center mt-4">
+                    <MyButton
+                      onClick={() => setConfirmModalOpen(true)}
+                      type="button"
+                      isLoading={isSubmitting}
+                    >
+                      {t("button.finish")}
+                    </MyButton>
+                  </div>
+                  {/* Confirm modal */}
+                  <MyDialog
+                    title={t("delete_account.confirm_modal.title")}
+                    body={t("delete_account.confirm_modal.body")}
+                    buttons={
+                      <>
+                        <MyButton
+                          color="danger"
+                          type="button"
+                          onClick={() => {
+                            setConfirmModalOpen(false);
+                            submitForm();
+                          }}
+                        >
+                          {t("button.sure")}
+                        </MyButton>
+                        <MyButton
+                          color="primary"
+                          type="button"
+                          onClick={() => setConfirmModalOpen(false)}
+                        >
+                          {t("delete_account.confirm_modal.changed_mind")}
+                        </MyButton>
+                      </>
+                    }
+                    isOpen={isConfirmModalOpen}
+                    onClose={() => setConfirmModalOpen(false)}
+                  />
+                </>
+              ) : null}
+            </Form>
+          )}
+        </Formik>
+      )}
     </>
   );
 };

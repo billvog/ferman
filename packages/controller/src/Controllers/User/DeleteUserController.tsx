@@ -41,7 +41,7 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
       if (!data || !data.accountDeletionRequest) {
         setMessage({
           type: "error",
-          text: "Internal server error",
+          text: "errors.500",
         });
         return null;
       }
@@ -49,8 +49,7 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
       setPhase(1);
       setMessage({
         type: "success",
-        text:
-          "An email has been sent to your email address. There, are instructions on how to proceed.",
+        text: "delete_account.message.phase1_success",
       });
     } else if (phase === 1) {
       const { data } = await validateToken({
@@ -62,13 +61,16 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
       if (!data) {
         setMessage({
           type: "error",
-          text: "Internal server error",
+          text: "errors.500",
         });
         return null;
       }
 
       if (!data.validateAccountDeletionToken) {
-        setMessage({ type: "error", text: "The provided code is not valid" });
+        setMessage({
+          type: "error",
+          text: "delete_account.message.phase2_invalid",
+        });
         return null;
       }
 
@@ -85,16 +87,17 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
       if (!data) {
         setMessage({
           type: "error",
-          text: "Internal server error",
+          text: "errors.500",
         });
         return null;
       }
 
       if (data.finishAccountDeletion) {
-        return {
-          [data.finishAccountDeletion.field]:
-            data.finishAccountDeletion.message,
-        };
+        setMessage({
+          type: "error",
+          text: data.finishAccountDeletion.message,
+        });
+        return null;
       }
 
       setDone(true);

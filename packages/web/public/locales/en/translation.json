@@ -58,8 +58,11 @@
     "error": {
       "uid_length": "Length must be between 2 and 20",
       "uid_format": "Allowed characters: latin letters, numbers, dashes. The first and last character cannot be a dash.",
+      "uid_used": "Uid already used",
       "username_length": "Length must be between 6 and 32",
+      "username_taken": "Username already taken",
       "email_invalid": "Please enter a valid email",
+      "email_taken": "Email already registered",
       "password_length": "Length must be at least 6",
       "six_digit_length": "Please provide a valid 6-Digit Code",
       "bio_length": "Length must be up to 160",
@@ -169,7 +172,7 @@
     "date_of_birth": "Date of Birth",
     "created_date": "Account Created Date",
     "delete_account": "Delete Account",
-    "delete_account_subtext": "This will completely remove your account and anything that's associated with it (posts, comments, likes, follows, etc). Be careful with this, any action cannot be undone. Deleting your account requires your password."
+    "delete_account_subtext": "This will completely remove your account and anything that's associated with it (posts, comments, likes, etc). Be careful with this, any action cannot be undone. Deleting your account requires your password."
   },
   "login": {
     "title": "Login",
@@ -194,6 +197,31 @@
       "title": "Your account is finally ready!",
       "body": "We're happy to announce you that your account is ready! What are you waiting for? Start posting!",
       "start_posting": "Start"
+    }
+  },
+  "delete_account": {
+    "title": "Delete Account",
+    "subtext": "Deleting your account, requires you to pass a two-factor authentication process to proove you are the owner of this account.",
+    "send_request": "Send Request",
+    "password_helper": "Enter your password to prove your identity.",
+    "phase": {
+      "delete_account": "Delete Account",
+      "verify_email": "Verify your email",
+      "verify_identity": "Verify your identity"
+    },
+    "message": {
+      "phase1_success": "An email has been sent to your email address. There, are instructions on how to proceed.",
+      "phase2_invalid": "The provided code is not valid",
+      "phase3_wrong": "Incorrect password"
+    },
+    "confirm_modal": {
+      "title": "After this, there's no comeback.",
+      "body": "By deleting your account, all your posts, comments, likes will be deleted. Any action cannot be undone, it will be permanent.",
+      "changed_mind": "I changed my mind"
+    },
+    "success_alert": {
+      "title": "Your account is deleted!",
+      "body": "Your account is finally deleted. Hope we see you again!"
     }
   },
   "forgot_pwd": {
