@@ -18,6 +18,7 @@ import {
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface RegisterViewProps {
   storedInitialValues?: RegisterFormValues;
@@ -34,6 +35,8 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   phase,
   done,
 }) => {
+  const { t } = useTypeSafeTranslation();
+
   // toggle show/hide password
   const [showPwd, setShowPwd] = useState(false);
   const handleTogglePwd = () => setShowPwd(!showPwd);
@@ -42,13 +45,12 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
     <>
       {done ? (
         <MyAlert color="success">
-          <h2 className="text-lg">Your account is finally ready!</h2>
+          <h2 className="text-lg">{t("register.success_alert.title")}</h2>
           <p>
-            We're happy to announce you that your account is ready! What are you
-            waiting for? Start posting! <br />
+            {t("register.success_alert.body")} <br />
             <NextLink href="/">
               <MyButton color="success" style={{ marginTop: 10 }}>
-                Start
+                {t("register.success_alert.start_posting")}
               </MyButton>
             </NextLink>
           </p>
@@ -88,53 +90,53 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
               )}
               <h1 className="heading">
                 {phase === 0
-                  ? "Sign up"
+                  ? t("register.phase.sign_up")
                   : phase === 1
-                  ? "Verify your email"
+                  ? t("register.phase.verify")
                   : phase === 2
-                  ? "Set your password"
+                  ? t("register.phase.set_password")
                   : phase === 3
-                  ? "Everything alright?"
+                  ? t("register.phase.everything_alright")
                   : null}
               </h1>
               {phase === 0 ? (
                 <>
                   <InputField
-                    label="User Id"
+                    label={t("form.label.uid")}
                     name="uid"
-                    placeholder="Enter uid"
+                    placeholder={t("form.placeholder.uid")}
                     type="text"
                     maxLength={UidMax}
-                    helperText="How others will search you. Choose it carefully, because you won't have the abillity to change it after is set."
+                    helperText={t("form.helper.uid")}
                   />
                   <InputField
-                    label="Username"
+                    label={t("form.label.username")}
                     name="username"
-                    placeholder="Enter username"
+                    placeholder={t("form.placeholder.username")}
                     type="text"
                     maxLength={UsernameMax}
-                    helperText="Your real name, will be displayed in your profile."
+                    helperText={t("form.helper.username")}
                   />
                   <InputField
-                    label="Email"
+                    label={t("form.label.email")}
                     name="email"
-                    placeholder="Enter email"
+                    placeholder={t("form.placeholder.email")}
                     type="email"
                   />
                   <InputField
-                    label="Date of birth"
+                    label={t("my_account.date_of_birth")}
                     name="birthdate"
                     type="date"
-                    helperText="This won't be visible to the public."
+                    helperText={t("form.helper.date_of_birth")}
                   />
                   <div className="flex justify-between items-center mt-4">
                     <MyButton type="submit" isLoading={isSubmitting}>
-                      Continue
+                      {t("common.continue")}
                     </MyButton>
                     <div>
                       <NextLink href="/account/login">
                         <div className="text-primary-450 font-semibold text-sm cursor-pointer hover:underline">
-                          or Sign in
+                          {t("register.or_sign_in")}
                         </div>
                       </NextLink>
                     </div>
@@ -143,22 +145,22 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
               ) : phase === 1 ? (
                 <>
                   <InputField
-                    label="6-Digit Code"
+                    label={t("form.label.six_digit")}
                     name="code"
-                    placeholder="Enter code"
+                    placeholder={t("form.placeholder.six_digit")}
                     type="text"
-                    helperText="A 6-digit code has been sent to the email you have provided."
+                    helperText={t("form.helper.six_digit")}
                   />
                   <MyButton type="submit" isLoading={isSubmitting}>
-                    Continue
+                    {t("common.continue")}
                   </MyButton>
                 </>
               ) : phase === 2 ? (
                 <>
                   <InputField
-                    label="Password"
+                    label={t("form.label.password")}
                     name="password"
-                    placeholder="Enter password"
+                    placeholder={t("form.placeholder.password")}
                     type={showPwd ? "text" : "password"}
                     passwordOptions={{
                       handlePwdToggle: handleTogglePwd,
@@ -167,45 +169,45 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     }}
                   />
                   <MyButton type="submit" isLoading={isSubmitting}>
-                    Continue
+                    {t("common.continue")}
                   </MyButton>
                 </>
               ) : phase === 3 ? (
                 <>
                   <InputField
-                    label="User Id"
+                    label={t("form.label.uid")}
                     name="uid"
-                    placeholder="Enter uid"
+                    placeholder={t("form.placeholder.uid")}
                     type="text"
                     maxLength={UidMax}
-                    helperText="How others will search you. Choose it carefully, because you won't have the abillity to change it after is set."
+                    helperText={t("form.helper.uid")}
                   />
                   <InputField
-                    label="Username"
+                    label={t("form.label.username")}
                     name="username"
-                    placeholder="Enter username"
+                    placeholder={t("form.placeholder.username")}
                     type="text"
                     maxLength={UsernameMax}
-                    helperText="Your real name, will be displayed in your profile."
+                    helperText={t("form.helper.username")}
                   />
                   <InputField
-                    label="Email"
+                    label={t("form.label.email")}
                     name="email"
-                    placeholder="Enter email"
+                    placeholder={t("form.placeholder.email")}
                     type="email"
                     disabled
-                    helperText="This field cannot change now."
+                    helperText={t("form.helper.cannot_change")}
                   />
                   <InputField
-                    label="Date of birth"
+                    label={t("my_account.date_of_birth")}
                     name="birthdate"
                     type="date"
-                    helperText="This won't be visible to the public."
+                    helperText={t("form.helper.date_of_birth")}
                   />
                   <InputField
-                    label="Password"
+                    label={t("form.label.password")}
                     name="password"
-                    placeholder="Enter password"
+                    placeholder={t("form.placeholder.password")}
                     type={showPwd ? "text" : "password"}
                     passwordOptions={{
                       handlePwdToggle: handleTogglePwd,
@@ -214,7 +216,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     }}
                   />
                   <MyButton type="submit" isLoading={isSubmitting}>
-                    Finish
+                    {t("common.finish")}
                   </MyButton>
                 </>
               ) : null}

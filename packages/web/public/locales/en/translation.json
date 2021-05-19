@@ -8,6 +8,7 @@
     "no": "No",
     "cancel": "Cancel",
     "continue": "Continue",
+    "finish": "Finish",
     "back": "Back",
     "edit": "Edit",
     "delete": "Delete",
@@ -27,11 +28,26 @@
   },
   "form": {
     "label": {
-      "email": "Email", "password": "Password"
+      "uid": "User Id",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "date_of_birth": "Date of Birth",
+      "six_digit": "6-Digit Code"
     },
     "placeholder": {
+      "uid": "Enter uid",
+      "username": "Enter username",
       "email": "Enter email",
-      "password": "Enter password"
+      "password": "Enter password",
+      "six_digit": "Enter 6-digit code"
+    },
+    "helper": {
+      "uid": "How others will search you. Choose it carefully, because you won't have the abillity to change it after is set.",
+      "username": "Your real name, will be displayed in your profile.",
+      "date_of_birth": "This won't be visible to the public.",
+      "six_digit": "A 6-digit code has been sent to the email you have provided.",
+      "cannot_change": "This field cannot change now"
     },
     "error": {
       "uid_length": "Length must be between 2 and 20",
@@ -150,7 +166,19 @@
     "forgot_pwd": "Forgot Password? Reset"
   },
   "register": {
-    "title": "Register"
+    "title": "Register",
+    "or_sign_in": "or Sign In",
+    "phase": {
+      "sign_up": "Sign up",
+      "verify": "Verify your email",
+      "set_password": "Set your password",
+      "everything_alright": "Everything alright?"
+    },
+    "success_alert": {
+      "title": "Your account is finally ready!",
+      "body": "We're happy to announce you that your account is ready! What are you waiting for? Start posting!",
+      "start_posting": "Start"
+    }
   },
   "404_page": {
     "title": "Page not found",

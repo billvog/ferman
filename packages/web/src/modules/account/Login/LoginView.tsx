@@ -24,7 +24,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
       {message && (
         <div className="mb-2">
           <MyAlert color={message.type}>
-            {t(`form.errors.${message.text}` as any)}
+            {t(`form.error.${message.text}` as any)}
           </MyAlert>
         </div>
       )}
