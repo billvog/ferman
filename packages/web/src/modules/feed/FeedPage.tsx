@@ -17,6 +17,13 @@ export const FeedPage = () => {
         {(user) => (
           <>
             <MainGrid
+              title={
+                typeof user === "undefined"
+                  ? ""
+                  : user
+                  ? t("index.feed")
+                  : t("index.recent_posts")
+              }
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >

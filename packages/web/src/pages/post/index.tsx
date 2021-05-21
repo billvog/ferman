@@ -1,3 +1,3 @@
 import { withMyApollo } from "../../utils/withMyApollo";
-import { CreatePostConnector } from "../../modules/post/create/CreatePostConnector";
-export default withMyApollo({ ssr: false })(CreatePostConnector);
+import { CreatePostPage } from "../../modules/post/create/CreatePostPage";
+export default withMyApollo({ ssr: false })(CreatePostPage);

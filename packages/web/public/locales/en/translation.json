@@ -32,6 +32,10 @@
       "button_title": "Change Language",
       "dialog_header": "Choose Language"
     },
+    "home": "Home",
+    "search": "Search",
+    "post": "Post",
+    "explore": "Explore",
     "login": "Login",
     "register": "Register"
   },
@@ -88,12 +92,9 @@
     }
   },
   "index": {
-    "title": "Feed",
+    "title": "Home",
     "feed": "Feed",
-    "recent_posts": "Most recent posts",
-    "post_now": "post now",
-    "explore_posts": "Explore posts",
-    "search_posts": "Search posts"
+    "recent_posts": "Most recent posts"
   },
   "search": {
     "title": "Search",
