@@ -23,7 +23,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
           <Menu.Button className="text-md text-accent focus:outline-none">
             <div
               className="flex justify-center items-center font-semibold text-accent hover:text-accent-washed-out hover:bg-accent-transparent text-md rounded-full p-1 transition-colors duration-150"
-              title={t("common.change_language")}
+              title={t("common_sidebar.change_language.button_title")}
             >
               <IoIosGlobe size="21px" />
             </div>
@@ -40,31 +40,38 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
           >
             <Menu.Items
               static
-              className="absolute z-20 w-40 origin-top-left bg-accent-transparent rounded-xl backdrop-filter backdrop-blur-lg focus:outline-none"
+              className="absolute z-20 w-40 origin-top bg-accent-transparent rounded-xl backdrop-filter backdrop-blur-lg focus:outline-none divide-y-2 divide-accent-transparent"
               style={{
                 top: "-0.5px",
               }}
             >
+              <div className="px-3 py-1.5 select-none">
+                <div className="text-md font-bold text-accent-washed-out">
+                  {t("common_sidebar.change_language.dialog_header")}
+                </div>
+              </div>
               <div className="p-1">
-                {options.map((option) => (
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`${
-                          active
-                            ? "bg-accent-hover text-white"
-                            : "text-accent-600"
-                        } group flex rounded-md items-center w-full p-1.5 text-xs font-bold space-x-1.5`}
-                        onClick={() => {
-                          i18n.changeLanguage(option.value);
-                        }}
-                      >
-                        <span className="mr-1.5">{option.flag}</span>
-                        <span>{option.label}</span>
-                      </button>
-                    )}
-                  </Menu.Item>
-                ))}
+                <div className="max-h-40 overflow-auto">
+                  {options.map((option) => (
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={`${
+                            active
+                              ? "bg-accent-hover text-white"
+                              : "text-accent-600"
+                          } group flex rounded-md items-center w-full p-1.5 text-xs font-bold space-x-1.5`}
+                          onClick={() => {
+                            i18n.changeLanguage(option.value);
+                          }}
+                        >
+                          <span className="mr-1.5">{option.flag}</span>
+                          <span>{option.label}</span>
+                        </button>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </div>
               </div>
             </Menu.Items>
           </Transition>

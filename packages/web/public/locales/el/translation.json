@@ -6,14 +6,20 @@
     "no_posts": "Δεν υπάρχουν δημοσιεύσεις",
     "found_x_results": "Βρέθηκαν %count% αποτελέσματα σε %seconds% δευτερόλεπτα",
     "found_one_result": "Βρέθηκε ένα αποτέλεσμα σε %seconds% δευτερόλεπτα",
-    "body": "Σώμα",
-    "change_language": "Αλλαγή γλώσσας"
+    "body": "Σώμα"
   },
   "errors": {
     "404": "Δε βρέθηκε",
     "500": "Υπάρχει πρόβλημα, παρακαλώ προσπαθήστε αργότερα"
   },
-  "common_sidebar": { "login": "Σύνδεση", "register": "Εγγραφή" },
+  "common_sidebar": {
+    "login": "Σύνδεση",
+    "register": "Εγγραφή",
+    "change_language": {
+      "button_title": "Αλλαγή γλώσσας",
+      "dialog_header": "Επιλέξτε γλώσσα"
+    }
+  },
   "index": {
     "title": "Αρχική σελίδα",
     "feed": "Τροφοδοσία",
