@@ -1,6 +1,7 @@
 import React from "react";
+import { CommonBottomNav } from "../../components/CommonBottomNav";
 import { CommonSidebar } from "../../components/CommonSidebar";
-import { MainLayout } from "../../components/MainLayout";
+import { MainGrid } from "../../components/MainGrid";
 import { WaitAuth } from "../../components/WaitAuth";
 import { WaitI18 } from "../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
@@ -15,9 +16,12 @@ export const FeedPage = () => {
       <WaitAuth>
         {(user) => (
           <>
-            <MainLayout leftSidebar={<CommonSidebar loggedUser={user} />}>
+            <MainGrid
+              bottomNav={<CommonBottomNav loggedUser={user} />}
+              leftSidebar={<CommonSidebar loggedUser={user} />}
+            >
               <FeedController user={user} />
-            </MainLayout>
+            </MainGrid>
           </>
         )}
       </WaitAuth>

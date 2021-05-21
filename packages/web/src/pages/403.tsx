@@ -1,6 +1,6 @@
 import React from "react";
 import { HeaderController } from "../modules/display/HeaderController";
-import { MainLayout } from "../components/MainLayout";
+import { MainGrid } from "../components/MainGrid";
 import { WaitI18 } from "../components/WaitI18";
 import { AccessDenied } from "../modules/errors/AccessDenied";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
@@ -11,9 +11,9 @@ const AccessDeniedPage = ({}) => {
   return (
     <WaitI18>
       <HeaderController title={t("503_page.title")} />
-      <MainLayout>
+      <MainGrid>
         <AccessDenied />
-      </MainLayout>
+      </MainGrid>
     </WaitI18>
   );
 };

@@ -54,9 +54,9 @@ module.exports = {
         },
       },
       screens: {
-        'tablet': '892px',
-        'xs': '500px',
-        'mobile': '400px'
+        '2cols': '912px',
+        '1cols': '800px',
+        'fullscreen': '612px',
       },
       borderRadius: {
         '35': '35%'

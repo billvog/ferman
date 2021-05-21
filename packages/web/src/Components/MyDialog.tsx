@@ -46,7 +46,7 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-full xs:max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl xs:rounded-2xl">
+            <div className="inline-block w-full max-w-full fullscreen:max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl fullscreen:rounded-2xl">
               <Dialog.Title
                 as="h3"
                 className="text-lg font-medium leading-6 text-primary-900"

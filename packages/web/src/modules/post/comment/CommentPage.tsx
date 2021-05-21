@@ -1,20 +1,14 @@
-import { useRouter } from "next/router";
 import React from "react";
-import { ErrorText } from "../../../components/ErrorText";
-import { Layout } from "../../../components/Layout";
-import { PostComment } from "../../../components/PostComment";
-import { useMeQuery, useCommentQuery } from "@ferman-pkgs/controller";
-import { MySpinner } from "../../../components/MySpinner";
-import { MyButton } from "../../../components/MyButton";
-import { CommentOpenGraphPreview } from "./CommentOpenGraphPreview";
-import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl";
+import { CommonBottomNav } from "../../../components/CommonBottomNav";
+import { CommonSidebar } from "../../../components/CommonSidebar";
+import { MainGrid } from "../../../components/MainGrid";
+import { WaitAuth } from "../../../components/WaitAuth";
 import { WaitI18 } from "../../../components/WaitI18";
+import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { HeaderController } from "../../display/HeaderController";
 import { CommentController } from "./CommentController";
-import { WaitAuth } from "../../../components/WaitAuth";
-import { CommonSidebar } from "../../../components/CommonSidebar";
-import { MainLayout } from "../../../components/MainLayout";
-import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { CommentOpenGraphPreview } from "./CommentOpenGraphPreview";
 
 export const CommentPage = ({}) => {
   const { t } = useTypeSafeTranslation();
@@ -33,12 +27,13 @@ export const CommentPage = ({}) => {
         <WaitAuth>
           {(user) => (
             <>
-              <MainLayout
+              <MainGrid
                 title={t("comment.header_title")}
+                bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
                 <CommentController />
-              </MainLayout>
+              </MainGrid>
             </>
           )}
         </WaitAuth>

@@ -1,11 +1,12 @@
 import React from "react";
 import { WaitAuth } from "../../../components/WaitAuth";
 import { CommonSidebar } from "../../../components/CommonSidebar";
-import { MainLayout } from "../../../components/MainLayout";
+import { MainGrid } from "../../../components/MainGrid";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { HeaderController } from "../../display/HeaderController";
 import { ExplorePostsController } from "./ExplorePostsController";
+import { CommonBottomNav } from "../../../components/CommonBottomNav";
 
 interface ExplorePostsPageProps {}
 export const ExplorePostsPage: React.FC<ExplorePostsPageProps> = ({}) => {
@@ -17,12 +18,13 @@ export const ExplorePostsPage: React.FC<ExplorePostsPageProps> = ({}) => {
       <WaitAuth>
         {(user) => (
           <>
-            <MainLayout
+            <MainGrid
               title={t("explore.posts.title")}
+              bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >
               <ExplorePostsController />
-            </MainLayout>
+            </MainGrid>
           </>
         )}
       </WaitAuth>

@@ -16,7 +16,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   return (
     <>
       {title.length > 0 && (
-        <div className="sticky top-0 flex items-center bg-primary-100 text-primary-450 p-3">
+        <div className="sticky z-10 top-0 flex items-center bg-primary-100 text-primary-450 p-3">
           {showBackButton && (
             <div className="flex mr-2">
               <button

@@ -27,69 +27,62 @@ type EditProfileViewProps = {
   router: NextRouter;
 };
 
-const C: React.FC<
-  EditProfileViewProps & FormikProps<UpdateProfileFormValues>
-> = ({ myInitialValues, message, isSubmitting, router }) => {
-  const { i18n } = useTranslation();
-  const { t } = useTypeSafeTranslation();
+const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
+  ({ myInitialValues, message, isSubmitting, router }) => {
+    const { i18n } = useTranslation();
+    const { t } = useTypeSafeTranslation();
 
-  return (
-    <Form>
-      {message && i18n.exists(message.text) && (
-        <div className="mb-2">
-          <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
-        </div>
-      )}
-      <InputField
-        label={t("form.label.username")}
-        name="username"
-        placeholder={t("form.placeholder.username")}
-        type="text"
-        maxLength={UsernameMax}
-      />
-      <InputField
-        label={t("form.label.bio")}
-        name="bio"
-        placeholder={t("form.placeholder.bio")}
-        type="text"
-        textarea={true}
-        maxLength={BioMax}
-      />
-      <InputField
-        label={t("form.label.location")}
-        name="location"
-        type="text"
-        placeholder={t("form.placeholder.location")}
-        maxLength={LocationMax}
-      />
-      <InputField
-        label={t("form.label.date_of_birth")}
-        name="birthdate"
-        type="text"
-        value={moment(parseFloat(myInitialValues.birthdate)).format(
-          "MMMM Do YYYY"
+    return (
+      <Form>
+        {message && i18n.exists(message.text) && (
+          <div className="mb-2">
+            <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
+          </div>
         )}
-        disabled={true}
-      />
-      <MyCheckbox
-        label={t("edit_profile.show_birthday_to_everybody")}
-        name="showBirthdate"
-        defaultChecked={myInitialValues.showBirthdate}
-      />
-      <div className="flex justify-between items-center mt-4">
-        <MyButton type="submit" isLoading={isSubmitting}>
-          {t("button.update")}
-        </MyButton>
-        <span
-          className="text-primary-450 font-semibold text-sm cursor-pointer hover:underline"
-          onClick={router.back}
-        >
-          {t("common.or_go_back")}
-        </span>
-      </div>
-    </Form>
-  );
-};
+        <InputField
+          label={t("form.label.username")}
+          name="username"
+          placeholder={t("form.placeholder.username")}
+          type="text"
+          maxLength={UsernameMax}
+        />
+        <InputField
+          label={t("form.label.bio")}
+          name="bio"
+          placeholder={t("form.placeholder.bio")}
+          type="text"
+          textarea={true}
+          maxLength={BioMax}
+        />
+        <InputField
+          label={t("form.label.location")}
+          name="location"
+          type="text"
+          placeholder={t("form.placeholder.location")}
+          maxLength={LocationMax}
+        />
+        <InputField
+          label={t("form.label.date_of_birth")}
+          name="birthdate"
+          type="text"
+          value={moment(parseFloat(myInitialValues.birthdate)).format(
+            "MMMM Do YYYY"
+          )}
+          disabled={true}
+        />
+        <MyCheckbox
+          label={t("edit_profile.show_birthday_to_everybody")}
+          name="showBirthdate"
+          defaultChecked={myInitialValues.showBirthdate}
+        />
+        <div className="mt-4">
+          <MyButton type="submit" isLoading={isSubmitting}>
+            {t("button.update")}
+          </MyButton>
+        </div>
+      </Form>
+    );
+  };
 
 export const EditProfileView = withRouter(
   withFormik<EditProfileViewProps, UpdateProfileFormValues>({

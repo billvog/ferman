@@ -1,6 +1,7 @@
 import React from "react";
+import { CommonBottomNav } from "../../../components/CommonBottomNav";
 import { CommonSidebar } from "../../../components/CommonSidebar";
-import { MainLayout } from "../../../components/MainLayout";
+import { MainGrid } from "../../../components/MainGrid";
 import { WaitAuth } from "../../../components/WaitAuth";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
@@ -16,12 +17,13 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({}) => {
       <HeaderController title={t("edit_profile.title")} />
       <WaitAuth RequireLoggedIn>
         {(user) => (
-          <MainLayout
+          <MainGrid
+            bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
             title={t("edit_profile.title")}
           >
             <EditProfileConnector />
-          </MainLayout>
+          </MainGrid>
         )}
       </WaitAuth>
     </WaitI18>

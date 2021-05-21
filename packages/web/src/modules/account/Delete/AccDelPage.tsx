@@ -1,6 +1,7 @@
 import React from "react";
+import { CommonBottomNav } from "../../../components/CommonBottomNav";
 import { CommonSidebar } from "../../../components/CommonSidebar";
-import { MainLayout } from "../../../components/MainLayout";
+import { MainGrid } from "../../../components/MainGrid";
 import { WaitAuth } from "../../../components/WaitAuth";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
@@ -15,12 +16,13 @@ export const AccDelPage: React.FC<AccDelPageProps> = ({}) => {
       <HeaderController title={t("delete_account.title")} />
       <WaitAuth RequireLoggedIn>
         {(user) => (
-          <MainLayout
+          <MainGrid
+            bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
             title={t("delete_account.title")}
           >
             <AccDelConnector />
-          </MainLayout>
+          </MainGrid>
         )}
       </WaitAuth>
     </WaitI18>

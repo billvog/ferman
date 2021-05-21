@@ -1,18 +1,13 @@
 import React from "react";
-import { ErrorText } from "../../components/ErrorText";
-import { Layout } from "../../components/Layout";
-import { useMeQuery, useFollowersQuery } from "@ferman-pkgs/controller";
-import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
-import { MySpinner } from "../../components/MySpinner";
-import { MyButton } from "../../components/MyButton";
-import { UserSummaryCard } from "../../components/UserSummaryCard";
-import { WaitI18 } from "../../components/WaitI18";
-import { HeaderController } from "../display/HeaderController";
-import { WaitAuth } from "../../components/WaitAuth";
-import { FollowersController } from "./FollowersController";
-import { MainLayout } from "../../components/MainLayout";
+import { CommonBottomNav } from "../../components/CommonBottomNav";
 import { CommonSidebar } from "../../components/CommonSidebar";
+import { MainGrid } from "../../components/MainGrid";
+import { WaitAuth } from "../../components/WaitAuth";
+import { WaitI18 } from "../../components/WaitI18";
+import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { HeaderController } from "../display/HeaderController";
+import { FollowersController } from "./FollowersController";
 
 export const FollowersPage = ({}) => {
   const { t } = useTypeSafeTranslation();
@@ -32,7 +27,7 @@ export const FollowersPage = ({}) => {
       />
       <WaitAuth>
         {(user) => (
-          <MainLayout
+          <MainGrid
             title={
               userData?.user?.username
                 ? t("user.followers.header_title")
@@ -47,10 +42,11 @@ export const FollowersPage = ({}) => {
                     )
                 : undefined
             }
+            bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >
             <FollowersController />
-          </MainLayout>
+          </MainGrid>
         )}
       </WaitAuth>
     </WaitI18>

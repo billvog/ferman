@@ -1,6 +1,6 @@
 import React from "react";
 import { HeaderController } from "../modules/display/HeaderController";
-import { MainLayout } from "../components/MainLayout";
+import { MainGrid } from "../components/MainGrid";
 import { WaitI18 } from "../components/WaitI18";
 import { PageNotFound } from "../modules/errors/PageNotFound";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
@@ -12,9 +12,9 @@ const NotFoundPage = ({}) => {
   return (
     <WaitI18>
       <HeaderController title={t("404_page.title")} />
-      <MainLayout>
+      <MainGrid>
         <PageNotFound />
-      </MainLayout>
+      </MainGrid>
     </WaitI18>
   );
 };

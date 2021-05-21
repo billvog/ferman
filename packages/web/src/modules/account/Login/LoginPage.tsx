@@ -1,11 +1,12 @@
 import React from "react";
 import { WaitAuth } from "../../../components/WaitAuth";
 import { CommonSidebar } from "../../../components/CommonSidebar";
-import { MainLayout } from "../../../components/MainLayout";
+import { MainGrid } from "../../../components/MainGrid";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { HeaderController } from "../../display/HeaderController";
 import { LoginConnector } from "./LoginConnector";
+import { CommonBottomNav } from "../../../components/CommonBottomNav";
 
 interface LoginPageProps {}
 export const LoginPage: React.FC<LoginPageProps> = ({}) => {
@@ -16,12 +17,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({}) => {
       <HeaderController title={t("login.title")} />
       <WaitAuth RequireNotLoggedIn>
         {(user) => (
-          <MainLayout
+          <MainGrid
+            bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
             title={t("login.title")}
           >
             <LoginConnector />
-          </MainLayout>
+          </MainGrid>
         )}
       </WaitAuth>
     </WaitI18>
