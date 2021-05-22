@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { useScreenType } from "../shared-hooks/useScreenType";
-import { GlobalModalManager } from "./GlobalModalManager";
 import { PageHeader } from "./PageHeader";
 
 interface MainGridProps {
@@ -29,7 +28,6 @@ export const MainGrid: React.FC<MainGridProps> = ({
       id="main"
       className="relative flex flex-col items-center w-full h-screen"
     >
-      <GlobalModalManager />
       <div
         className={`relative w-full h-screen 2cols:w-auto fullscreen:h-auto divide-x ${
           leftSidebar ? "1cols:border-l 1cols:border-r" : ""

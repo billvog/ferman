@@ -1,7 +1,7 @@
 import { FullUserFragment, useMeQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { MySpinner } from "./MySpinner";
+import { MyCenterSpinner } from "./MyCenterSpinner";
 
 interface WaitAuthProps {
   RequireLoggedIn?: boolean;
@@ -49,15 +49,5 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
     }
   }, [data, loading, router]);
 
-  return (
-    <>
-      {ok ? (
-        children(data?.me)
-      ) : (
-        <div className="flex justify-center items-center w-screen h-screen">
-          <MySpinner />
-        </div>
-      )}
-    </>
-  );
+  return <>{ok ? children(data?.me) : <MyCenterSpinner />}</>;
 };

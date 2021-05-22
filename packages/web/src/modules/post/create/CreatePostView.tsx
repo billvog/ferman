@@ -9,9 +9,7 @@ import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreatePostViewProps {
-  submit: (
-    values: PostFormValues
-  ) => Promise<{
+  submit: (values: PostFormValues) => Promise<{
     postId?: string;
     errors: ErrorMap | null;
   }>;
@@ -21,6 +19,7 @@ interface CreatePostViewProps {
 
 const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
   message,
+  router,
   isSubmitting,
 }) => {
   const { t } = useTypeSafeTranslation();

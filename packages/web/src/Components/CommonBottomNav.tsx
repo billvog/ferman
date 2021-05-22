@@ -16,7 +16,7 @@ const NavbarItem: React.FC<NavbarItemProps> = (props) => {
       className="flex flex-row justify-center items-center"
       onClick={props.onClick}
     >
-      <span>{props.icon}</span>
+      {props.icon}
     </div>
   );
 };

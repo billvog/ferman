@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { init_i18n } from "../lib/i18n";
 import { isServer } from "../utils/isServer";
+import CreatePostGlobalModal from "../modules/post/create/CreatePostGlobalModal";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/global.css";
 
@@ -20,7 +21,12 @@ function MyApp({ Component, pageProps }: any) {
     toastClassName: "toast-component",
   });
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <CreatePostGlobalModal />
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default MyApp;
