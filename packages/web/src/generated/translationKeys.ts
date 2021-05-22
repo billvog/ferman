@@ -99,6 +99,8 @@ export type TranslationKeys =
 	| "user.joined"
 	| "user.birthday"
 	| "user.location"
+	| "user.posts"
+	| "user.comments"
 	| "post.header_title"
 	| "post.post"
 	| "post.not_found"

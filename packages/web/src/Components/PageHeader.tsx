@@ -42,7 +42,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             ) : (
               <img
                 src={loggedUser.profile?.avatarUrl}
-                className="w-7 h-7 rounded-full ring-2 ring-primary-300"
+                className="w-8 h-8 rounded-35"
                 onClick={() => router.push("/account")}
               />
             )}

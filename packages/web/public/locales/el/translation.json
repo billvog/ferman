@@ -73,7 +73,9 @@
     "unfollow": "Άρση ακολούθησης",
     "joined": "Έγινε μέλος",
     "birthday": "Γενέθλια",
-    "location": "Τοποθεσία"
+    "location": "Τοποθεσία",
+    "posts": "Δημοσιεύσεις",
+    "comments": "Σχόλια"
   },
   "post": {
     "header_title": "Δημοσίευση",

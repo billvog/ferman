@@ -130,7 +130,9 @@
     },
     "joined": "Joined",
     "birthday": "Birthday",
-    "location": "Location"
+    "location": "Location",
+    "posts": "Posts",
+    "comments": "Comments"
   },
   "post": {
     "header_title": "Post",

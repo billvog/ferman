@@ -37,10 +37,10 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
   };
 
   return (
-    <div className="bg-primary-100 rounded-xl text-primary-700 divide-y-2">
+    <div className="bg-primary-100 text-primary-700 divide-y-2">
       <div className="flex justify-between flex-col">
         <div
-          className="w-full rounded-t-xl bg-cover bg-center bg-no-repeat object-cover"
+          className="w-full bg-cover bg-center bg-no-repeat object-cover"
           style={{
             backgroundImage: `url(${user.profile?.bannerUrl})`,
             backgroundColor: user.profile?.bannerUrl,
