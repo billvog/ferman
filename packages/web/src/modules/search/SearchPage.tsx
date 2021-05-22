@@ -21,7 +21,7 @@ export const SearchPage = () => {
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >
-            <SearchController />
+            <SearchController loggedUser={user} />
           </MainGrid>
         )}
       </WaitAuth>

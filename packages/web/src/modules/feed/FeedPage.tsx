@@ -28,7 +28,7 @@ export const FeedPage = () => {
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >
-              <FeedController user={user} />
+              <FeedController loggedUser={user} />
             </MainGrid>
           </>
         )}

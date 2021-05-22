@@ -1,21 +1,18 @@
-import { FullUserFragment, useMeQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ErrorText } from "../../../components/ErrorText";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { PostComment } from "../../../components/PostComment";
 import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { PageWithAuthProps } from "../../../types/PageWithAuthProps";
 import { CreateCommentModal } from "./create/CreateCommentModal";
 
-interface CommentControllerProps {
-  user: FullUserFragment | undefined | null;
-}
+interface CommentControllerProps extends PageWithAuthProps {}
 
 export const CommentController: React.FC<CommentControllerProps> = ({
-  user,
+  loggedUser,
 }) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
@@ -32,7 +29,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
 
   return (
     <div>
-      {(!commentData && commentLoading) || typeof user === "undefined" ? (
+      {(!commentData && commentLoading) || typeof loggedUser === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
@@ -46,7 +43,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
             <div>
               <PostComment
                 comment={commentData.comment.parent}
-                me={user}
+                me={loggedUser}
                 onDelete={router.back}
               />
             </div>
@@ -58,7 +55,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
                 {commentData.comment.count > 1 &&
                   `(${commentData.comment.count})`}
               </div>
-              {user && (
+              {loggedUser && (
                 <MyButton onClick={() => setShowCreateComment(true)}>
                   {t("comment.reply")}
                 </MyButton>
@@ -72,7 +69,11 @@ export const CommentController: React.FC<CommentControllerProps> = ({
               ) : (
                 <div className="divide-y border-t border-b">
                   {commentData.comment.comments?.map((comment) => (
-                    <PostComment key={comment.id} comment={comment} me={user} />
+                    <PostComment
+                      key={comment.id}
+                      comment={comment}
+                      me={loggedUser}
+                    />
                   ))}
                 </div>
               )}

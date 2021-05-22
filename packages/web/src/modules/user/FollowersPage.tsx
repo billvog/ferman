@@ -46,7 +46,7 @@ export const FollowersPage = ({}) => {
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >
-            <FollowersController />
+            <FollowersController loggedUser={user} />
           </MainGrid>
         )}
       </WaitAuth>

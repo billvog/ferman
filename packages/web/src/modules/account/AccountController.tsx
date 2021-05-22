@@ -1,22 +1,21 @@
 import { useApolloClient } from "@apollo/client";
-import { FullUserFragment, useLogoutMutation } from "@ferman-pkgs/controller";
+import { useLogoutMutation } from "@ferman-pkgs/controller";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React from "react";
+import processString from "react-process-string";
 import { toast } from "react-toastify";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserCard } from "../../components/UserCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import processString from "react-process-string";
+import { PageWithAuthProps } from "../../types/PageWithAuthProps";
 
-interface AccountControllerProps {
-  user: FullUserFragment | null | undefined;
-}
+interface AccountControllerProps extends PageWithAuthProps {}
 
 export const AccountController: React.FC<AccountControllerProps> = ({
-  user,
+  loggedUser,
 }) => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
@@ -25,14 +24,14 @@ export const AccountController: React.FC<AccountControllerProps> = ({
 
   return (
     <div>
-      {typeof user === "undefined" ? (
+      {typeof loggedUser === "undefined" ? (
         <MySpinner />
-      ) : !user ? (
+      ) : !loggedUser ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="divide-y-2 space-y-3">
           <div>
-            <UserCard me={user} user={user} />
+            <UserCard me={loggedUser} user={loggedUser} />
             <div className="text-primary-400 text-xs font-semibold mt-3 mb-4">
               {processString([
                 {
@@ -53,7 +52,7 @@ export const AccountController: React.FC<AccountControllerProps> = ({
             </div>
             <div className="flex flex-row space-x-2">
               <MyButton
-                onClick={() => router.push(`/user/${user.uid}`)}
+                onClick={() => router.push(`/loggedUser/${loggedUser.uid}`)}
                 color="accent"
               >
                 {t("my_account.my_profile")}
@@ -89,17 +88,17 @@ export const AccountController: React.FC<AccountControllerProps> = ({
             </div>
             <div className="text-primary-500 text-sm">
               <div>
-                <b>{t("my_account.email")}:</b> {user.email}
+                <b>{t("my_account.email")}:</b> {loggedUser.email}
               </div>
               <div>
                 <b>{t("my_account.date_of_birth")}:</b>{" "}
-                {moment(parseFloat(user.profile?.birthdate || "0")).format(
-                  "MMM Do YYYY"
-                )}
+                {moment(
+                  parseFloat(loggedUser.profile?.birthdate || "0")
+                ).format("MMM Do YYYY")}
               </div>
               <div>
                 <b>{t("my_account.created_date")}:</b>{" "}
-                {moment(parseFloat(user.createdAt))
+                {moment(parseFloat(loggedUser.createdAt))
                   .local()
                   .format("MMMM Do YYYY, h:mm:ss a")}
               </div>

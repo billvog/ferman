@@ -1,20 +1,21 @@
-import { useMeQuery, useFollowingsQuery } from "@ferman-pkgs/controller";
+import { useFollowingsQuery } from "@ferman-pkgs/controller";
 import React from "react";
+import processString from "react-process-string";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
 import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import processString from "react-process-string";
+import { PageWithAuthProps } from "../../types/PageWithAuthProps";
 
-interface FollowingsControllerProps {}
-export const FollowingsController: React.FC<FollowingsControllerProps> = ({}) => {
+interface FollowingsControllerProps extends PageWithAuthProps {}
+
+export const FollowingsController: React.FC<FollowingsControllerProps> = ({
+  loggedUser,
+}) => {
   const { t } = useTypeSafeTranslation();
 
-  const { data: meData, loading: meLoading } = useMeQuery({
-    ssr: false,
-  });
   const { data: userData, loading: userLoading } = useGetUserFromUrl();
   const {
     data: followingsData,
@@ -33,11 +34,15 @@ export const FollowingsController: React.FC<FollowingsControllerProps> = ({}) =>
 
   return (
     <div>
-      {userLoading || (!followingsData && followingsLoading) || meLoading ? (
-        <MySpinner />
+      {userLoading ||
+      (!followingsData && followingsLoading) ||
+      typeof loggedUser === "undefined" ? (
+        <div className="p-4">
+          <MySpinner />
+        </div>
       ) : !userData?.user ? (
         <ErrorText>{t("user.not_found")}</ErrorText>
-      ) : !userData || !followingsData || !meData ? (
+      ) : !userData || !followingsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div>
@@ -57,7 +62,7 @@ export const FollowingsController: React.FC<FollowingsControllerProps> = ({}) =>
                   {followingsData.followings?.users.map((follow) => (
                     <UserSummaryCard
                       key={follow.id}
-                      me={meData.me || null}
+                      me={loggedUser}
                       user={follow}
                     />
                   ))}

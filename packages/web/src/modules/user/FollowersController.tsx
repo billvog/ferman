@@ -1,21 +1,21 @@
-import { useMeQuery, useFollowersQuery } from "@ferman-pkgs/controller";
+import { useFollowersQuery } from "@ferman-pkgs/controller";
 import React from "react";
+import processString from "react-process-string";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
 import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import processString from "react-process-string";
+import { PageWithAuthProps } from "../../types/PageWithAuthProps";
 
-interface FollowersControllerProps {}
+interface FollowersControllerProps extends PageWithAuthProps {}
 
-export const FollowersController: React.FC<FollowersControllerProps> = ({}) => {
+export const FollowersController: React.FC<FollowersControllerProps> = ({
+  loggedUser,
+}) => {
   const { t } = useTypeSafeTranslation();
 
-  const { data: meData, loading: meLoading } = useMeQuery({
-    ssr: false,
-  });
   const { data: userData, loading: userLoading } = useGetUserFromUrl();
   const {
     data: followersData,
@@ -34,11 +34,15 @@ export const FollowersController: React.FC<FollowersControllerProps> = ({}) => {
 
   return (
     <div>
-      {userLoading || meLoading || (!followersData && followersLoading) ? (
-        <MySpinner />
+      {userLoading ||
+      (!followersData && followersLoading) ||
+      typeof loggedUser === "undefined" ? (
+        <div className="p-4">
+          <MySpinner />
+        </div>
       ) : !userData?.user ? (
         <ErrorText>{t("user.not_found")}</ErrorText>
-      ) : !userData || !followersData || !meData ? (
+      ) : !userData || !followersData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div>
@@ -58,7 +62,7 @@ export const FollowersController: React.FC<FollowersControllerProps> = ({}) => {
                   {followersData.followers?.users.map((follower) => (
                     <UserSummaryCard
                       key={follower.id}
-                      me={meData.me || null}
+                      me={loggedUser}
                       user={follower}
                     />
                   ))}

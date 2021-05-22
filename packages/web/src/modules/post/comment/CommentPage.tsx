@@ -33,7 +33,7 @@ export const CommentPage = ({}) => {
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
-                <CommentController user={user} />
+                <CommentController loggedUser={user} />
               </MainGrid>
             </>
           )}

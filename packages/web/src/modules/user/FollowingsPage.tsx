@@ -47,7 +47,7 @@ export const FollowingsPage = ({}) => {
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >
-              <FollowingsController />
+              <FollowingsController loggedUser={user} />
             </MainGrid>
           </>
         )}

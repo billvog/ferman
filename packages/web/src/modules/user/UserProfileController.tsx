@@ -1,4 +1,4 @@
-import { useMeQuery, usePostsQuery } from "@ferman-pkgs/controller";
+import { usePostsQuery } from "@ferman-pkgs/controller";
 import React from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
@@ -7,14 +7,15 @@ import { Post } from "../../components/Post";
 import { UserCard } from "../../components/UserCard";
 import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { PageWithAuthProps } from "../../types/PageWithAuthProps";
 
-interface UserProfileControllerProps {}
-export const UserProfileController: React.FC<UserProfileControllerProps> = ({}) => {
+interface UserProfileControllerProps extends PageWithAuthProps {}
+
+export const UserProfileController: React.FC<UserProfileControllerProps> = ({
+  loggedUser,
+}) => {
   const { t } = useTypeSafeTranslation();
 
-  const { data: meData, loading: meLoading } = useMeQuery({
-    ssr: false,
-  });
   const { data: userData, loading: userLoading } = useGetUserFromUrl();
   const {
     data: postsData,
@@ -33,23 +34,27 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({}) 
 
   return (
     <div>
-      {userLoading || meLoading || (postsLoading && !postsData) ? (
-        <MySpinner />
+      {userLoading ||
+      (postsLoading && !postsData) ||
+      typeof loggedUser === "undefined" ? (
+        <div className="p-4">
+          <MySpinner />
+        </div>
       ) : !userData?.user ? (
         <ErrorText>{t("user.not_found")}</ErrorText>
-      ) : !userData || !meData || !postsData ? (
+      ) : !userData || !postsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="relative flex flex-col space-y-4">
           <div className="w-full">
             <div>
-              <UserCard user={userData.user} me={meData.me || null} />
+              <UserCard user={userData.user} me={loggedUser} />
             </div>
           </div>
           <div className="w-full">
             <div className="space-y-2">
               {postsData.posts.posts.map((post) => (
-                <Post key={post.id} post={post} me={meData.me || null} />
+                <Post key={post.id} post={post} me={loggedUser} />
               ))}
             </div>
           </div>

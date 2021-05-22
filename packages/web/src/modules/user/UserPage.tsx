@@ -33,7 +33,7 @@ export const UserPage: React.FC = () => {
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
-                <UserProfileController />
+                <UserProfileController user={user} />
               </MainGrid>
             </>
           )}

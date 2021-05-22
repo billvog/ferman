@@ -1,8 +1,4 @@
-import {
-  FullUserFragment,
-  useCommentsQuery,
-  useUserQuery,
-} from "@ferman-pkgs/controller";
+import { useCommentsQuery, useUserQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
@@ -12,13 +8,14 @@ import { Post } from "../../components/Post";
 import { PostComment } from "../../components/PostComment";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { PageWithAuthProps } from "../../types/PageWithAuthProps";
 import { CreateCommentModal } from "./comment/create/CreateCommentModal";
 
-interface PostControllerProps {
-  user: FullUserFragment | null | undefined;
-}
+interface PostControllerProps extends PageWithAuthProps {}
 
-export const PostController: React.FC<PostControllerProps> = ({ user }) => {
+export const PostController: React.FC<PostControllerProps> = ({
+  loggedUser,
+}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
 
@@ -50,8 +47,10 @@ export const PostController: React.FC<PostControllerProps> = ({ user }) => {
     <div>
       {(postLoading && !postData) ||
       userLoading ||
-      typeof user === "undefined" ? (
-        <MySpinner />
+      typeof loggedUser === "undefined" ? (
+        <div className="p-4">
+          <MySpinner />
+        </div>
       ) : !postData?.post ? (
         <ErrorText>{t("post.not_found")}</ErrorText>
       ) : !postData || !userData ? (
@@ -63,7 +62,7 @@ export const PostController: React.FC<PostControllerProps> = ({ user }) => {
               <Post
                 key={postData.post.id}
                 post={postData.post}
-                me={user}
+                me={loggedUser}
                 onDelete={() => router.back()}
               />
             </div>
@@ -83,7 +82,7 @@ export const PostController: React.FC<PostControllerProps> = ({ user }) => {
                     {!!postData.post.commentsCount &&
                       `(${postData.post.commentsCount})`}
                   </div>
-                  {user && (
+                  {loggedUser && (
                     <MyButton onClick={() => setShowCreateComment(true)}>
                       {t("post.comment")}
                     </MyButton>
@@ -100,7 +99,7 @@ export const PostController: React.FC<PostControllerProps> = ({ user }) => {
                         <PostComment
                           key={comment.id}
                           comment={comment}
-                          me={user || null}
+                          me={loggedUser}
                         />
                       ))}
                     </div>

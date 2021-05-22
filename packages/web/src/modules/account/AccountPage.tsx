@@ -21,7 +21,7 @@ export const AccountPage: React.FC = () => {
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >
-            <AccountController user={user} />
+            <AccountController loggedUser={user} />
           </MainGrid>
         )}
       </WaitAuth>

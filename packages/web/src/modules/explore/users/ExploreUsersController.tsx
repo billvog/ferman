@@ -1,4 +1,8 @@
-import { useMeQuery, useUsersLazyQuery } from "@ferman-pkgs/controller";
+import {
+  FullUserFragment,
+  useMeQuery,
+  useUsersLazyQuery,
+} from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { ErrorText } from "../../../components/ErrorText";
@@ -8,8 +12,13 @@ import { UserSummaryCard } from "../../../components/UserSummaryCard";
 import randomCountry from "random-country-name";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
-interface ExploreUsersControllerProps {}
-export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({}) => {
+interface ExploreUsersControllerProps {
+  loggedUser: FullUserFragment | null | undefined;
+}
+
+export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({
+  loggedUser,
+}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
 
@@ -17,10 +26,6 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({}
     (router.query.location as string) || (randomCountry.random() as string)
   );
   const [locationQuery, setLocationQuery] = useState(locationDebouncedQuery);
-
-  const { data: meData, loading: meLoading } = useMeQuery({
-    ssr: false,
-  });
 
   const [
     runUsersQuery,
@@ -82,8 +87,10 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({}
           onChange={(e) => setLocationQuery(e.target.value)}
         />
       </div>
-      {meLoading || (usersLoading && !usersData) ? (
-        <MySpinner />
+      {typeof loggedUser === "undefined" || (usersLoading && !usersData) ? (
+        <div className="p-4">
+          <MySpinner />
+        </div>
       ) : !usersData && usersQueryCalled ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : usersQueryCalled && usersData!.users.users.length === 0 ? (
@@ -113,11 +120,7 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({}
           </div>
           <div className="space-y-2">
             {usersData!.users.users.map((user) => (
-              <UserSummaryCard
-                me={meData?.me || null}
-                user={user}
-                key={user.id}
-              />
+              <UserSummaryCard me={loggedUser} user={user} key={user.id} />
             ))}
           </div>
         </>

@@ -1,14 +1,19 @@
+import { usePostsLazyQuery } from "@ferman-pkgs/controller";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
-import { Post } from "../../components/Post";
-import { useMeQuery, usePostsLazyQuery } from "@ferman-pkgs/controller";
-import { useRouter } from "next/router";
-import { MySpinner } from "../../components/MySpinner";
 import { MyButton } from "../../components/MyButton";
+import { MySpinner } from "../../components/MySpinner";
+import { Post } from "../../components/Post";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { PageWithAuthProps } from "../../types/PageWithAuthProps";
 import { SearchTips } from "./SearchTips";
 
-export const SearchController = () => {
+interface SearchControllerProps extends PageWithAuthProps {}
+
+export const SearchController: React.FC<SearchControllerProps> = ({
+  loggedUser,
+}) => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
 
@@ -16,10 +21,6 @@ export const SearchController = () => {
   const [debouncedQuery, setDebouncedQuery] = useState(
     (router.query.query as string) || ""
   );
-
-  const { data: meData, loading: meLoading } = useMeQuery({
-    ssr: false,
-  });
 
   const [
     runPostsQuery,
@@ -92,8 +93,10 @@ export const SearchController = () => {
         </div>
       </div>
       {(postsQueryCalled && ((postsLoading && !postsData) || !postsData)) ||
-      meLoading ? (
-        <MySpinner />
+      typeof loggedUser === "undefined" ? (
+        <div className="p-4">
+          <MySpinner />
+        </div>
       ) : postsError && !postsData && !postsQueryCalled ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : !postsData ? (
@@ -133,7 +136,7 @@ export const SearchController = () => {
           </div>
           <div className="divide-y border-t border-b">
             {postsData.posts.posts.map((post) => (
-              <Post key={post.id} post={post} me={meData?.me || null} />
+              <Post key={post.id} post={post} me={loggedUser} />
             ))}
           </div>
         </div>
