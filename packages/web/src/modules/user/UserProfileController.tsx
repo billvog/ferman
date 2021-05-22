@@ -97,7 +97,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                 onClick={() => setTabState(1)}
               />
             </div>
-            <div className="divide-y border-t border-b">
+            <div className="divide-y border-b">
               {tabState === 0
                 ? postsData.posts.posts.map((post) => (
                     <Post key={post.id} post={post} me={loggedUser} />

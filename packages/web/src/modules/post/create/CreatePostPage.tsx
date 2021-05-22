@@ -33,7 +33,9 @@ export const CreatePostPage: React.FC<CreatePostPageProps> = ({}) => {
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >
-              <CreatePostConnector />
+              <div className="px-3">
+                <CreatePostConnector />
+              </div>
             </MainGrid>
           ) : (
             <MyCenterSpinner />

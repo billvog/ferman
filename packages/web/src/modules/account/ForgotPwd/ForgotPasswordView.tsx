@@ -25,7 +25,7 @@ const C: React.FC<
   const { t } = useTypeSafeTranslation();
 
   return (
-    <Form>
+    <Form className="px-3">
       {message && i18n.exists(message.text) && (
         <div className="mb-2">
           <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>

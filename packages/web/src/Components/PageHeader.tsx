@@ -20,35 +20,33 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   const screenType = useScreenType();
 
   return (
-    <>
-      <div className="sticky z-10 top-0 flex justify-between items-center bg-primary-100 text-primary-450 p-3">
-        <div className="fullscreen:ml-0 ml-1 flex items-center">
-          {showBackButton && (
-            <div className="flex mr-2">
-              <button
-                className="hover:text-primary-500"
-                onClick={() => router.back()}
-              >
-                <BiArrowBack />
-              </button>
-            </div>
-          )}
-          <div className="select-none">{title || "Ferman"}</div>
-        </div>
-        {screenType === "fullscreen" && loggedUser !== null && (
-          <div>
-            {typeof loggedUser === "undefined" ? (
-              <MySpinner />
-            ) : (
-              <img
-                src={loggedUser.profile?.avatarUrl}
-                className="w-8 h-8 rounded-35"
-                onClick={() => router.push("/account")}
-              />
-            )}
+    <div className="sticky z-10 top-0 flex justify-between items-center bg-primary-100 text-primary-450 p-3">
+      <div className="fullscreen:ml-0 ml-1 flex items-center">
+        {showBackButton && (
+          <div className="flex mr-2">
+            <button
+              className="hover:text-primary-500"
+              onClick={() => router.back()}
+            >
+              <BiArrowBack />
+            </button>
           </div>
         )}
+        <div className="select-none">{title}</div>
       </div>
-    </>
+      {screenType === "fullscreen" && loggedUser !== null && (
+        <div>
+          {typeof loggedUser === "undefined" ? (
+            <MySpinner />
+          ) : (
+            <img
+              src={loggedUser.profile?.avatarUrl}
+              className="w-8 h-8 rounded-35"
+              onClick={() => router.push("/account")}
+            />
+          )}
+        </div>
+      )}
+    </div>
   );
 };

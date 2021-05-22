@@ -2,7 +2,6 @@ import { ErrorMap, LoginFormValues, MyMessage } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import React from "react";
 import { InputField } from "../../../components/InputField";
-import { Layout } from "../../../components/Layout";
 import NextLink from "next/link";
 import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { MyButton } from "../../../components/MyButton";
@@ -23,7 +22,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   const { t } = useTypeSafeTranslation();
 
   return (
-    <Form>
+    <Form className="px-3">
       {message && i18n.exists(message.text) && (
         <div className="mb-2">
           <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>

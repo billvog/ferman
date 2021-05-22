@@ -25,61 +25,65 @@ export const AccountController: React.FC<AccountControllerProps> = ({
   return (
     <div>
       {typeof loggedUser === "undefined" ? (
-        <MySpinner />
+        <div className="p-2">
+          <MySpinner />
+        </div>
       ) : !loggedUser ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="divide-y-2 space-y-3">
           <div>
             <UserCard me={loggedUser} user={loggedUser} />
-            <div className="text-primary-400 text-xs font-semibold mt-3 mb-4">
-              {processString([
-                {
-                  regex: /@(.*)@/,
-                  fn: (key: any, res: any) => (
-                    <a
-                      href="http://en.gravatar.com/support/what-is-gravatar/"
-                      target="blank"
-                      key={key}
-                    >
-                      <span className="text-accent hover:text-accent-washed-out hover:underline font-bold cursor-pointer">
-                        {res[1]}
-                      </span>
-                    </a>
-                  ),
-                },
-              ])(t("my_account.gravatar_info"))}
-            </div>
-            <div className="flex flex-row space-x-2">
-              <MyButton
-                onClick={() => router.push(`/loggedUser/${loggedUser.uid}`)}
-                color="accent"
-              >
-                {t("my_account.my_profile")}
-              </MyButton>
-              <MyButton
-                color="secondary"
-                onClick={() => router.push("/account/settings")}
-              >
-                {t("my_account.settings")}
-              </MyButton>
-              <MyButton
-                color="primary"
-                onClick={async () => {
-                  const reponse = await logout();
-                  if (!reponse.data?.logout) {
-                    return toast.error(t("errors.500"));
-                  }
+            <div className="p-3">
+              <div className="text-primary-400 text-xs font-semibold mb-4">
+                {processString([
+                  {
+                    regex: /@(.*)@/,
+                    fn: (key: any, res: any) => (
+                      <a
+                        href="http://en.gravatar.com/support/what-is-gravatar/"
+                        target="blank"
+                        key={key}
+                      >
+                        <span className="text-accent hover:text-accent-washed-out hover:underline font-bold cursor-pointer">
+                          {res[1]}
+                        </span>
+                      </a>
+                    ),
+                  },
+                ])(t("my_account.gravatar_info"))}
+              </div>
+              <div className="flex flex-row space-x-2">
+                <MyButton
+                  onClick={() => router.push(`/loggedUser/${loggedUser.uid}`)}
+                  color="accent"
+                >
+                  {t("my_account.my_profile")}
+                </MyButton>
+                <MyButton
+                  color="secondary"
+                  onClick={() => router.push("/account/settings")}
+                >
+                  {t("my_account.settings")}
+                </MyButton>
+                <MyButton
+                  color="primary"
+                  onClick={async () => {
+                    const reponse = await logout();
+                    if (!reponse.data?.logout) {
+                      return toast.error(t("errors.500"));
+                    }
 
-                  await apolloClient.resetStore();
-                  router.replace("/");
-                }}
-              >
-                {t("my_account.sign_out")}
-              </MyButton>
+                    await apolloClient.resetStore();
+                    router.replace("/");
+                  }}
+                >
+                  {t("my_account.sign_out")}
+                </MyButton>
+              </div>
             </div>
           </div>
-          <div className="pt-2.5">
+          <div className="p-3 pt-5">
             <div className="leading-snug font-bold text-primary">
               {t("my_account.private_info")}
             </div>
@@ -104,14 +108,14 @@ export const AccountController: React.FC<AccountControllerProps> = ({
               </div>
             </div>
           </div>
-          <div className="pt-4">
+          <div className="p-4">
             <MyButton
               onClick={() => router.push("/account/delete")}
               color="danger"
             >
               {t("my_account.delete_account")}
             </MyButton>
-            <div className="text-xs text-primary-400 mt-1">
+            <div className="text-xs text-primary-400 mt-2">
               {t("my_account.delete_account_subtext")}
             </div>
           </div>

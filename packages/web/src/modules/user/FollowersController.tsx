@@ -46,48 +46,43 @@ export const FollowersController: React.FC<FollowersControllerProps> = ({
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div>
-          <div>
-            <div>
-              {followersData.followers?.count === 0 ? (
-                <div className="text-red-500 text-base">
-                  {processString([
-                    {
-                      regex: /%user%/,
-                      fn: () => <b>{userData.user?.username}</b>,
-                    },
-                  ])(t("user.followers.no_users"))}
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {followersData.followers?.users.map((follower) => (
-                    <UserSummaryCard
-                      key={follower.id}
-                      me={loggedUser}
-                      user={follower}
-                    />
-                  ))}
-                </div>
-              )}
-              {followersData?.followers?.users &&
-                followersData?.followers.hasMore && (
-                  <div className="flex justify-center mt-5">
-                    <MyButton
-                      isLoading={followersLoading}
-                      onClick={() => {
-                        fetchMoreFollowers!({
-                          variables: {
-                            ...followersVariables,
-                            skip: followersData.followers?.users.length,
-                          },
-                        });
-                      }}
-                    >
-                      {t("common.load_more")}
-                    </MyButton>
-                  </div>
-                )}
+          {followersData.followers?.count === 0 ? (
+            <div className="text-red-500 text-base">
+              {processString([
+                {
+                  regex: /%user%/,
+                  fn: () => <b>{userData.user?.username}</b>,
+                },
+              ])(t("user.followers.no_users"))}
             </div>
-          </div>
+          ) : (
+            <div className="divide-y border-b">
+              {followersData.followers?.users.map((follower) => (
+                <UserSummaryCard
+                  key={follower.id}
+                  me={loggedUser}
+                  user={follower}
+                />
+              ))}
+            </div>
+          )}
+          {followersData?.followers?.users && followersData?.followers.hasMore && (
+            <div className="flex justify-center mt-5">
+              <MyButton
+                isLoading={followersLoading}
+                onClick={() => {
+                  fetchMoreFollowers!({
+                    variables: {
+                      ...followersVariables,
+                      skip: followersData.followers?.users.length,
+                    },
+                  });
+                }}
+              >
+                {t("common.load_more")}
+              </MyButton>
+            </div>
+          )}
         </div>
       )}
     </div>

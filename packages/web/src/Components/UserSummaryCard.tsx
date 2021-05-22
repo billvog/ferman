@@ -2,8 +2,10 @@ import { FullUserFragment, useFollowMutation } from "@ferman-pkgs/controller";
 import { followMutationOptions } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import React from "react";
+import { AiOutlineUserAdd, AiOutlineUserDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
+import { useScreenType } from "../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MyButton } from "./MyButton";
 
@@ -17,6 +19,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
   me,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const screenType = useScreenType();
 
   const [followUser, { loading: followLoading }] = useFollowMutation();
   const followUserHandler = async () => {
@@ -31,8 +34,17 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
     }
   };
 
+  const FollowButtonText = user.followingStatus
+    ? t("user.unfollow")
+    : t("user.follow");
+  const FollowButtonIcon = user.followingStatus ? (
+    <AiOutlineUserDelete />
+  ) : (
+    <AiOutlineUserAdd />
+  );
+
   return (
-    <div className="bg-primary-100 rounded-xl p-2 flex flex-col">
+    <div className="p-3 flex flex-col">
       <div className="flex">
         <div>
           <Link href={`/user/${encodeURIComponent(user.uid)}`}>
@@ -74,13 +86,14 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                 <MyButton
                   size="small"
                   isLoading={followLoading}
+                  square={screenType === "fullscreen"}
                   color={user.followingStatus ? "danger" : "primary"}
                   onClick={followUserHandler}
                 >
                   <span>
-                    {user.followingStatus
-                      ? t("user.unfollow")
-                      : t("user.follow")}
+                    {screenType === "fullscreen"
+                      ? FollowButtonIcon
+                      : FollowButtonText}
                   </span>
                 </MyButton>
               )}

@@ -37,7 +37,7 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
   const router = useRouter();
 
   return (
-    <>
+    <div className="px-3">
       {done ? (
         <MyAlert color="success">
           <h2 className="text-lg">{t("delete_account.success_alert.title")}</h2>
@@ -148,6 +148,6 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
           )}
         </Formik>
       )}
-    </>
+    </div>
   );
 };

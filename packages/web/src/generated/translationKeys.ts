@@ -5,6 +5,7 @@ export type TranslationKeys =
 	| "common.or_go_back"
 	| "common.body"
 	| "common.no_posts"
+	| "common.error"
 	| "common.found_x_results"
 	| "common.found_one_result"
 	| "button.ok"

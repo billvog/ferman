@@ -44,7 +44,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   const handleTogglePwd = () => setShowPwd(!showPwd);
 
   return (
-    <>
+    <div className="px-3">
       {done ? (
         <MyAlert color="success">
           <h2 className="text-lg">{t("register.success_alert.title")}</h2>
@@ -228,6 +228,6 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           )}
         </Formik>
       )}
-    </>
+    </div>
   );
 };

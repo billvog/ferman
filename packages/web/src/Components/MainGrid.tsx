@@ -42,11 +42,13 @@ export const MainGrid: React.FC<MainGridProps> = ({
       >
         {screenType !== "fullscreen" && leftSidebar}
         <div className="flex-1 flex flex-col">
-          <PageHeader
-            title={title}
-            showBackButton={route !== "/"}
-            loggedUser={loggedUser}
-          />
+          {title.length > 0 && (
+            <PageHeader
+              title={title}
+              showBackButton={route !== "/"}
+              loggedUser={loggedUser}
+            />
+          )}
           <div className="flex-1">{children}</div>
           {screenType === "fullscreen" && bottomNav}
         </div>

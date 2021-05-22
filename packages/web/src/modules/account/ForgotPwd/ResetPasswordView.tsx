@@ -30,7 +30,7 @@ const C: React.FC<
   const handleTogglePwd = () => setShowPwd(!showPwd);
 
   return (
-    <>
+    <div className="px-3">
       {done ? (
         <MyAlert color="success">
           <h2 className="text-lg">{t("reset_pwd.success_alert.title")}</h2>
@@ -69,7 +69,7 @@ const C: React.FC<
           </div>
         </Form>
       )}
-    </>
+    </div>
   );
 };
 
