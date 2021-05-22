@@ -34,7 +34,10 @@ const Page: React.FC = () => {
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
-                <UserProfileController loggedUser={user} />
+                <UserProfileController
+                  user={userData?.user}
+                  loggedUser={user}
+                />
               </MainGrid>
             </>
           )}

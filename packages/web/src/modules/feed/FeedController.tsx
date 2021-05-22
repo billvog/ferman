@@ -37,7 +37,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({
       ) : postsError || !postsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <div className="text-primary-450">{t("common.no_posts")}</div>
+        <div className="p-4 text-primary-450">{t("common.no_posts")}</div>
       ) : (
         <div className="divide-y">
           {postsData.posts.posts.map((post) => (

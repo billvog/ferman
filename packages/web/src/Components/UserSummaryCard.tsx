@@ -38,9 +38,9 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
     ? t("user.unfollow")
     : t("user.follow");
   const FollowButtonIcon = user.followingStatus ? (
-    <AiOutlineUserDelete />
+    <AiOutlineUserDelete size="16px" className="text-red-600" />
   ) : (
-    <AiOutlineUserAdd />
+    <AiOutlineUserAdd size="16px" className="text-primary-700" />
   );
 
   return (
@@ -50,15 +50,11 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
           <Link href={`/user/${encodeURIComponent(user.uid)}`}>
             <img
               src={user.profile?.avatarUrl}
-              className="rounded-35 cursor-pointer"
-              style={{
-                width: 42,
-                height: 42,
-              }}
+              className="w-9 h-9 rounded-35 cursor-pointer"
             />
           </Link>
         </div>
-        <div className="flex flex-1 flex-col ml-2">
+        <div className="flex flex-1 flex-col ml-3">
           <div className="flex justify-between flex-1">
             <div>
               <Link href={`/user/${encodeURIComponent(user.uid)}`}>
@@ -86,15 +82,18 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
                 <MyButton
                   size="small"
                   isLoading={followLoading}
-                  square={screenType === "fullscreen"}
-                  color={user.followingStatus ? "danger" : "primary"}
+                  color={
+                    screenType === "fullscreen"
+                      ? "transparent"
+                      : user.followingStatus
+                      ? "danger"
+                      : "primary"
+                  }
                   onClick={followUserHandler}
                 >
-                  <span>
-                    {screenType === "fullscreen"
-                      ? FollowButtonIcon
-                      : FollowButtonText}
-                  </span>
+                  {screenType === "fullscreen"
+                    ? FollowButtonIcon
+                    : FollowButtonText}
                 </MyButton>
               )}
             </div>

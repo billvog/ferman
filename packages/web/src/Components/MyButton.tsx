@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes } from "react";
 const sizeClassnames = {
   big: "py-2 px-3.5 text-sm rounded-lg",
   small: "px-2 py-1 text-xs rounded-md",
-  tiny: "px-1 text-xs rounded-5",
+  tiny: "px-1.5 text-xs rounded-sm",
 };
 
 const colorClassnames = {
@@ -25,7 +25,6 @@ type MyButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean;
   size?: keyof typeof sizeClassnames;
   color?: keyof typeof colorClassnames;
-  square?: boolean;
 };
 
 export const MyButton: React.FC<MyButtonProps> = ({
@@ -33,13 +32,12 @@ export const MyButton: React.FC<MyButtonProps> = ({
   isLoading,
   size = "big",
   color = "secondary",
-  square = false,
   ...props
 }) => {
   return (
     <button
       className={`relative flex justify-center items-center text-button select-none border-none rounded-lg group ${
-        square ? "w-9 h-9 rounded-xl" : sizeClassnames[size]
+        sizeClassnames[size]
       } ${
         colorClassnames[color]
       } transition-all ease-in-out duration-150 cursor-pointer font-semibold focus:ring-2 ring-offset-2 ring-transparent ${

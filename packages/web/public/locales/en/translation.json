@@ -180,7 +180,7 @@
   },
   "my_account": {
     "title": "My Account",
-    "gravatar_info": "Ferman uses gravatar for avatars. Learn more about gravatar @here@.",
+    "gravatar_info": "Manage you avatar using @Gravatar@.",
     "my_profile": "My Profile",
     "settings": "Settings",
     "sign_out": "Sign out",

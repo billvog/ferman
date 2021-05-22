@@ -74,24 +74,28 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
             icon={<NavIcons.SearchIcon size="24px" />}
             text={t("common_sidebar.search")}
           />
-          <SidebarItem
-            onClick={() => {
-              router.push(
-                {
-                  pathname: router.pathname,
-                  query: router.query,
-                },
-                "/post"
-              );
-            }}
-            icon={<NavIcons.PostIcon size="24px" />}
-            text={t("common_sidebar.post")}
-          />
-          <SidebarItem
-            onClick={() => router.push("/explore/posts")}
-            icon={<NavIcons.ExploreIcon size="24px" />}
-            text={t("common_sidebar.explore")}
-          />
+          {loggedUser && (
+            <>
+              <SidebarItem
+                onClick={() => {
+                  router.push(
+                    {
+                      pathname: router.pathname,
+                      query: router.query,
+                    },
+                    "/post"
+                  );
+                }}
+                icon={<NavIcons.PostIcon size="24px" />}
+                text={t("common_sidebar.post")}
+              />
+              <SidebarItem
+                onClick={() => router.push("/explore/posts")}
+                icon={<NavIcons.ExploreIcon size="24px" />}
+                text={t("common_sidebar.explore")}
+              />
+            </>
+          )}
         </div>
         <div className="flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150">
           {typeof loggedUser === "undefined" ? (

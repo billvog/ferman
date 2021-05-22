@@ -1,9 +1,7 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useNavIcons } from "../shared-hooks/useNavIcons";
-import { MySpinner } from "./MySpinner";
 
 interface NavbarItemProps {
   onClick: () => any;
@@ -39,17 +37,21 @@ export const CommonBottomNav: React.FC<CommonBottomNavProps> = ({
           icon={<NavIcons.HomeIcon size="24px" />}
         />
         <NavbarItem
-          onClick={() => router.push("/post")}
-          icon={<NavIcons.PostIcon size="24px" />}
-        />
-        <NavbarItem
           onClick={() => router.push("/search")}
           icon={<NavIcons.SearchIcon size="24px" />}
         />
-        <NavbarItem
-          onClick={() => router.push("/explore/posts")}
-          icon={<NavIcons.ExploreIcon size="24px" />}
-        />
+        {loggedUser && (
+          <>
+            <NavbarItem
+              onClick={() => router.push("/post")}
+              icon={<NavIcons.PostIcon size="24px" />}
+            />
+            <NavbarItem
+              onClick={() => router.push("/explore/posts")}
+              icon={<NavIcons.ExploreIcon size="24px" />}
+            />
+          </>
+        )}
       </div>
     </div>
   );

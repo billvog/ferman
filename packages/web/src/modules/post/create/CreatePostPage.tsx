@@ -8,11 +8,11 @@ import { WaitAuth } from "../../../components/WaitAuth";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useScreenType } from "../../../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { withMyApollo } from "../../../utils/withMyApollo";
 import { HeaderController } from "../../display/HeaderController";
 import { CreatePostConnector } from "./CreatePostConnector";
 
-interface CreatePostPageProps {}
-export const CreatePostPage: React.FC<CreatePostPageProps> = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
   const screenType = useScreenType();
@@ -45,3 +45,5 @@ export const CreatePostPage: React.FC<CreatePostPageProps> = ({}) => {
     </WaitI18>
   );
 };
+
+export const CreatePostPage = withMyApollo()(Page);

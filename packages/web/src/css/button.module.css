@@ -10,7 +10,7 @@
   bottom: 0;
   margin: auto;
   border: 2.5px solid transparent;
-  border-top-color: white;
+  border-top-color: inherit;
   border-radius: 50%;
   animation: loading-button-spinner 1s linear infinite;
 }

@@ -1,4 +1,4 @@
-import { usePostsQuery } from "@ferman-pkgs/controller";
+import { FullUserFragment, usePostsQuery } from "@ferman-pkgs/controller";
 import React, { useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
@@ -36,13 +36,16 @@ const TabItem: React.FC<TabItemProps> = (props) => {
   );
 };
 
-interface UserProfileControllerProps extends PageWithAuthProps {}
+interface UserProfileControllerProps extends PageWithAuthProps {
+  user: FullUserFragment | null | undefined;
+}
+
 export const UserProfileController: React.FC<UserProfileControllerProps> = ({
   loggedUser,
+  user,
 }) => {
   const { t } = useTypeSafeTranslation();
 
-  const { data: userData, loading: userLoading } = useGetUserFromUrl();
   const {
     data: postsData,
     loading: postsLoading,
@@ -50,11 +53,11 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
     variables: postsVariables,
   } = usePostsQuery({
     notifyOnNetworkStatusChange: true,
-    skip: !userData?.user?.id,
+    skip: !user?.id,
     variables: {
       limit: 15,
       skip: null,
-      userId: userData?.user?.id,
+      userId: user?.id,
     },
   });
 
@@ -62,21 +65,21 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
 
   return (
     <div>
-      {userLoading ||
+      {typeof user === "undefined" ||
       (postsLoading && !postsData) ||
       typeof loggedUser === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
-      ) : !userData?.user ? (
+      ) : !user ? (
         <ErrorText>{t("user.not_found")}</ErrorText>
-      ) : !userData || !postsData ? (
+      ) : !postsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="relative flex flex-col">
           <div className="w-full">
             <div>
-              <UserCard user={userData.user} me={loggedUser} />
+              <UserCard user={user} me={loggedUser} />
             </div>
           </div>
           <div className="w-full">
@@ -98,11 +101,13 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
               />
             </div>
             <div className="divide-y border-b">
-              {tabState === 0
-                ? postsData.posts.posts.map((post) => (
-                    <Post key={post.id} post={post} me={loggedUser} />
-                  ))
-                : "TODO: add comments made by user..."}
+              {tabState === 0 ? (
+                postsData.posts.posts.map((post) => (
+                  <Post key={post.id} post={post} me={loggedUser} />
+                ))
+              ) : (
+                <div className="p-4">TODO: add comments made by user...</div>
+              )}
             </div>
           </div>
         </div>
