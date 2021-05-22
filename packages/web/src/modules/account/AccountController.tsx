@@ -59,6 +59,12 @@ export const AccountController: React.FC<AccountControllerProps> = ({
                 {t("my_account.my_profile")}
               </MyButton>
               <MyButton
+                color="secondary"
+                onClick={() => router.push("/account/settings")}
+              >
+                {t("my_account.settings")}
+              </MyButton>
+              <MyButton
                 color="primary"
                 onClick={async () => {
                   const reponse = await logout();

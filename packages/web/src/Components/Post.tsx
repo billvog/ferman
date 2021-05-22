@@ -13,8 +13,8 @@ interface PostProps {
 
 export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
   return (
-    <div className="border border-primary-200 rounded-xl">
-      <div className="flex p-3">
+    <div>
+      <div className="flex p-4 pb-0">
         <div className="min-w-max">
           <img
             className="w-8 h-8 rounded-35 mr-3"

@@ -1,4 +1,4 @@
-import { useMeQuery } from "@ferman-pkgs/controller";
+import { FullUserFragment, useMeQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -10,14 +10,16 @@ import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { CreateCommentModal } from "./create/CreateCommentModal";
 
-interface CommentControllerProps {}
-export const CommentController: React.FC<CommentControllerProps> = ({}) => {
+interface CommentControllerProps {
+  user: FullUserFragment | undefined | null;
+}
+
+export const CommentController: React.FC<CommentControllerProps> = ({
+  user,
+}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
 
-  const { data: meData, loading: meLoading } = useMeQuery({
-    ssr: false,
-  });
   const {
     data: commentData,
     loading: commentLoading,
@@ -26,58 +28,55 @@ export const CommentController: React.FC<CommentControllerProps> = ({}) => {
   } = useGetCommentFromUrl();
 
   const [showCreateComment, setShowCreateComment] = useState(false);
-
   useEffect(() => setShowCreateComment(false), []);
 
   return (
     <div>
-      {(!commentData && commentLoading) || meLoading ? (
-        <MySpinner />
-      ) : !commentData?.comment.parent ? (
-        <ErrorText>{t("comment.not_found")}</ErrorText>
-      ) : !commentData || !meData ? (
+      {(!commentData && commentLoading) || typeof user === "undefined" ? (
+        <div className="p-4">
+          <MySpinner />
+        </div>
+      ) : !commentData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
+      ) : !commentData.comment.parent ? (
+        <ErrorText>{t("comment.not_found")}</ErrorText>
       ) : (
-        <div className="relative flex flex-col space-y-4">
-          <div className="w-full">
+        <div className="relative flex flex-col">
+          <div className="w-full border-b">
             <div>
               <PostComment
                 comment={commentData.comment.parent}
-                me={meData.me || null}
+                me={user}
                 onDelete={router.back}
               />
             </div>
           </div>
           <div className="w-full">
-            <div className="flex mt-5 justify-between items-center">
+            <div className="flex p-3 justify-between items-center">
               <div className="text-lg text-primary-600">
                 <b>{t("comment.replies")}</b>{" "}
-                {!!commentData?.comment?.count &&
-                  `(${commentData?.comment?.count})`}
+                {commentData.comment.count > 1 &&
+                  `(${commentData.comment.count})`}
               </div>
-              {meData?.me && (
+              {user && (
                 <MyButton onClick={() => setShowCreateComment(true)}>
                   {t("comment.reply")}
                 </MyButton>
               )}
             </div>
             <div>
-              {commentData.comment?.count === 0 ? (
-                <div className="text-sm text-primary-450">
+              {commentData.comment.count === 0 ? (
+                <div className="text-sm text-primary-450 px-3">
                   {t("comment.there_are_no_replies")}
                 </div>
               ) : (
-                <div className="mt-3 space-y-2">
+                <div className="divide-y border-t border-b">
                   {commentData.comment.comments?.map((comment) => (
-                    <PostComment
-                      key={comment.id}
-                      comment={comment}
-                      me={meData?.me || null}
-                    />
+                    <PostComment key={comment.id} comment={comment} me={user} />
                   ))}
                 </div>
               )}
-              {commentData?.comment.comments && commentData.comment.hasMore && (
+              {commentData.comment.comments && commentData.comment.hasMore && (
                 <div className="flex justify-center mt-5">
                   <MyButton
                     isLoading={commentLoading}

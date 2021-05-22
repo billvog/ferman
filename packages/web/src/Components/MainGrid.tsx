@@ -47,7 +47,7 @@ export const MainGrid: React.FC<MainGridProps> = ({
             showBackButton={route !== "/"}
             loggedUser={loggedUser}
           />
-          <div className="p-4 flex-1">{children}</div>
+          <div className="flex-1">{children}</div>
           {screenType === "fullscreen" && bottomNav}
         </div>
       </div>

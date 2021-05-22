@@ -87,7 +87,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
   }
 
   return (
-    <div className="p-1 bg-primary-50 rounded-b-xl">
+    <div className="p-1">
       <div className="flex justify-center items-center space-x-7 text-xs leading-none">
         <button
           title={post.likeStatus ? t("post.unlike") : t("post.like")}

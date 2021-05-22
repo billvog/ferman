@@ -41,7 +41,7 @@ export const PostPage: React.FC = () => {
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
-                <PostController />
+                <PostController user={user} />
               </MainGrid>
             </>
           )}

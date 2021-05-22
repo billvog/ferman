@@ -129,6 +129,7 @@ export type TranslationKeys =
 	| "my_account.title"
 	| "my_account.gravatar_info"
 	| "my_account.my_profile"
+	| "my_account.settings"
 	| "my_account.sign_out"
 	| "my_account.private_info"
 	| "my_account.private_info_subtext"

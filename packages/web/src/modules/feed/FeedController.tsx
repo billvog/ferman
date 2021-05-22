@@ -43,7 +43,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({ user }) => {
           ) : postsData.posts.posts.length === 0 ? (
             <div className="text-primary-450">{t("common.no_posts")}</div>
           ) : (
-            <div className="space-y-2">
+            <div className="divide-y">
               {postsData.posts.posts.map((post) => (
                 <Post key={post.id} post={post} me={user} />
               ))}

@@ -61,7 +61,7 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
   };
 
   return (
-    <div className="p-1 bg-primary-50 rounded-b-xl">
+    <div className="p-1">
       <div className="flex justify-center items-center space-x-7 text-xs leading-none">
         <Link href={`/post/${comment.postId}/comment/${comment.id}`}>
           <div className={`text-secondary-50 ${actionClassname}`}>

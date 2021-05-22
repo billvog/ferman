@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
-import { Layout } from "../../components/Layout";
 import { Post } from "../../components/Post";
 import { useMeQuery, usePostsLazyQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
@@ -79,7 +78,7 @@ export const SearchController = () => {
 
   return (
     <>
-      <div>
+      <div className="p-3 pb-0">
         <div className="flex leading-tight">
           <div className="flex-1 mb-1">
             <input
@@ -98,14 +97,14 @@ export const SearchController = () => {
       ) : postsError && !postsData && !postsQueryCalled ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : !postsData ? (
-        <div>
+        <div className="p-3 pt-0">
           <div className="text-red-400 mt-2 text-sm">
             {t("search.search_field_subtext")}
           </div>
           {<SearchTips />}
         </div>
       ) : postsData.posts.posts.length === 0 ? (
-        <div>
+        <div className="p-3">
           <div className="text-red-400 mt-2 text-sm">
             {t("search.found_nothing")}
           </div>
@@ -113,7 +112,7 @@ export const SearchController = () => {
         </div>
       ) : (
         <div>
-          <div className="mb-4 mt-1 font-semibold text-primary-400 text-xs">
+          <div className="p-3 pt-0.5 mb-2 font-semibold text-primary-400 text-xs">
             {postsData.posts.count !== 1 ? (
               <div>
                 {t("common.found_x_results")
@@ -132,7 +131,7 @@ export const SearchController = () => {
               </div>
             )}
           </div>
-          <div className="space-y-2">
+          <div className="divide-y border-t border-b">
             {postsData.posts.posts.map((post) => (
               <Post key={post.id} post={post} me={meData?.me || null} />
             ))}

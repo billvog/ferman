@@ -1,5 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
+import { useScreenType } from "../shared-hooks/useScreenType";
+import { MdClose } from "react-icons/md";
 
 interface MyDialogProps {
   title: JSX.Element | string;
@@ -10,6 +12,8 @@ interface MyDialogProps {
 }
 
 export const MyDialog: React.FC<MyDialogProps> = (props) => {
+  const screenType = useScreenType();
+
   return (
     <Transition show={props.isOpen} as={Fragment}>
       <Dialog
@@ -39,19 +43,24 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
           </span>
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-300"
+            enter="ease-out duration-150"
             enterFrom="opacity-0 scale-95"
             enterTo="opacity-100 scale-100"
             leave="ease-in duration-200"
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-full fullscreen:max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl fullscreen:rounded-2xl">
+            <div className="inline-block w-full max-w-full h-screen fullscreen:h-auto fullscreen:max-w-md p-6 fullscreen:my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl fullscreen:rounded-2xl">
               <Dialog.Title
                 as="h3"
-                className="text-lg font-medium leading-6 text-primary-900"
+                className="flex items-center justify-between text-lg font-medium leading-6 text-primary-900"
               >
-                {props.title}
+                <span>{props.title}</span>
+                {screenType === "fullscreen" && (
+                  <div onClick={props.onClose}>
+                    <MdClose />
+                  </div>
+                )}
               </Dialog.Title>
               <div>
                 {typeof props.body === "undefined" &&

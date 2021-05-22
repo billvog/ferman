@@ -17,8 +17,8 @@ export const PostComment: React.FC<PostCommentProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="border border-gray-200 rounded-xl">
-      <div className={`flex p-3`}>
+    <div>
+      <div className="flex p-3 pb-0">
         <div>
           <img
             className="w-8 h-8 rounded-35 mr-3"
