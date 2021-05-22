@@ -81,8 +81,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                   pathname: router.pathname,
                   query: router.query,
                 },
-                "/post",
-                { shallow: true }
+                "/post"
               );
             }}
             icon={<NavIcons.PostIcon size="24px" />}
