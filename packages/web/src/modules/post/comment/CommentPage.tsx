@@ -6,11 +6,12 @@ import { WaitAuth } from "../../../components/WaitAuth";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { withMyApollo } from "../../../utils/withMyApollo";
 import { HeaderController } from "../../display/HeaderController";
 import { CommentController } from "./CommentController";
 import { CommentOpenGraphPreview } from "./CommentOpenGraphPreview";
 
-export const CommentPage = ({}) => {
+const Page: React.FC = ({}) => {
   const { t } = useTypeSafeTranslation();
   const { data: commentData } = useGetCommentFromUrl();
 
@@ -42,3 +43,5 @@ export const CommentPage = ({}) => {
     </CommentOpenGraphPreview>
   );
 };
+
+export const CommentPage = withMyApollo()(Page);

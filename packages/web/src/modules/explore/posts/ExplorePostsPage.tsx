@@ -7,9 +7,9 @@ import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTransla
 import { HeaderController } from "../../display/HeaderController";
 import { ExplorePostsController } from "./ExplorePostsController";
 import { CommonBottomNav } from "../../../components/CommonBottomNav";
+import { withMyApollo } from "../../../utils/withMyApollo";
 
-interface ExplorePostsPageProps {}
-export const ExplorePostsPage: React.FC<ExplorePostsPageProps> = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
 
   return (
@@ -32,3 +32,5 @@ export const ExplorePostsPage: React.FC<ExplorePostsPageProps> = ({}) => {
     </WaitI18>
   );
 };
+
+export const ExplorePostsPage = withMyApollo()(Page);

@@ -6,11 +6,12 @@ import { WaitAuth } from "../../components/WaitAuth";
 import { WaitI18 } from "../../components/WaitI18";
 import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { withMyApollo } from "../../utils/withMyApollo";
 import { HeaderController } from "../display/HeaderController";
 import { UserOpenGraphPreview } from "./UserOpenGraphPreview";
 import { UserProfileController } from "./UserProfileController";
 
-export const UserPage: React.FC = () => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   const { data: userData } = useGetUserFromUrl();
 
@@ -42,3 +43,7 @@ export const UserPage: React.FC = () => {
     </UserOpenGraphPreview>
   );
 };
+
+export const UserPage = withMyApollo({
+  ssr: true,
+})(Page);

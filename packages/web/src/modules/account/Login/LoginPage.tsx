@@ -7,9 +7,9 @@ import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTransla
 import { HeaderController } from "../../display/HeaderController";
 import { LoginConnector } from "./LoginConnector";
 import { CommonBottomNav } from "../../../components/CommonBottomNav";
+import { withMyApollo } from "../../../utils/withMyApollo";
 
-interface LoginPageProps {}
-export const LoginPage: React.FC<LoginPageProps> = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
 
   return (
@@ -29,3 +29,5 @@ export const LoginPage: React.FC<LoginPageProps> = ({}) => {
     </WaitI18>
   );
 };
+
+export const LoginPage = withMyApollo()(Page);

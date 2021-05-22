@@ -5,12 +5,11 @@ import { MainGrid } from "../../../components/MainGrid";
 import { WaitAuth } from "../../../components/WaitAuth";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { withMyApollo } from "../../../utils/withMyApollo";
 import { HeaderController } from "../../display/HeaderController";
 import { ResetPasswordConnector } from "./ResetPasswordConnector";
 
-interface ResetPasswordPageProps {}
-
-export const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   return (
     <WaitI18>
@@ -29,3 +28,5 @@ export const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({}) => {
     </WaitI18>
   );
 };
+
+export const ResetPasswordPage = withMyApollo()(Page);

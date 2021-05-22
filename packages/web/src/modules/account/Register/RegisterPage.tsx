@@ -7,9 +7,9 @@ import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTransla
 import { HeaderController } from "../../display/HeaderController";
 import { RegisterConnector } from "./RegisterConnector";
 import { CommonBottomNav } from "../../../components/CommonBottomNav";
+import { withMyApollo } from "../../../utils/withMyApollo";
 
-interface RegisterPageProps {}
-export const RegisterPage: React.FC<RegisterPageProps> = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   return (
     <WaitI18>
@@ -28,3 +28,5 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({}) => {
     </WaitI18>
   );
 };
+
+export const RegisterPage = withMyApollo()(Page);

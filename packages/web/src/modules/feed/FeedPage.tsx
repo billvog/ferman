@@ -5,10 +5,11 @@ import { MainGrid } from "../../components/MainGrid";
 import { WaitAuth } from "../../components/WaitAuth";
 import { WaitI18 } from "../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { withMyApollo } from "../../utils/withMyApollo";
 import { HeaderController } from "../display/HeaderController";
 import { FeedController } from "./FeedController";
 
-export const FeedPage = () => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   return (
     <WaitI18>
@@ -36,3 +37,5 @@ export const FeedPage = () => {
     </WaitI18>
   );
 };
+
+export const FeedPage = withMyApollo()(Page);

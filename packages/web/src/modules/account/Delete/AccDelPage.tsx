@@ -5,11 +5,11 @@ import { MainGrid } from "../../../components/MainGrid";
 import { WaitAuth } from "../../../components/WaitAuth";
 import { WaitI18 } from "../../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { withMyApollo } from "../../../utils/withMyApollo";
 import { HeaderController } from "../../display/HeaderController";
 import { AccDelConnector } from "./AccDelConnector";
 
-interface AccDelPageProps {}
-export const AccDelPage: React.FC<AccDelPageProps> = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   return (
     <WaitI18>
@@ -29,3 +29,5 @@ export const AccDelPage: React.FC<AccDelPageProps> = ({}) => {
     </WaitI18>
   );
 };
+
+export const AccDelPage = withMyApollo()(Page);

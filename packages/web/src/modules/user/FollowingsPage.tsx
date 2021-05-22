@@ -6,10 +6,11 @@ import { WaitAuth } from "../../components/WaitAuth";
 import { WaitI18 } from "../../components/WaitI18";
 import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { withMyApollo } from "../../utils/withMyApollo";
 import { HeaderController } from "../display/HeaderController";
 import { FollowingsController } from "./FollowingsController";
 
-export const FollowingsPage = ({}) => {
+const Page: React.FC = ({}) => {
   const { t } = useTypeSafeTranslation();
   const { data: userData } = useGetUserFromUrl();
 
@@ -55,3 +56,5 @@ export const FollowingsPage = ({}) => {
     </WaitI18>
   );
 };
+
+export const FollowingsPage = withMyApollo()(Page);

@@ -7,10 +7,9 @@ import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTransla
 import { HeaderController } from "../../display/HeaderController";
 import { ForgotPasswordConnector } from "./ForgotPasswordConnector";
 import { CommonBottomNav } from "../../../components/CommonBottomNav";
+import { withMyApollo } from "../../../utils/withMyApollo";
 
-interface ForgotPasswordPageProps {}
-
-export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
 
   return (
@@ -30,3 +29,5 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({}) => {
     </WaitI18>
   );
 };
+
+export const ForgotPasswordPage = withMyApollo()(Page);

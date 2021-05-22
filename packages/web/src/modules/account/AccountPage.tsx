@@ -7,8 +7,9 @@ import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslatio
 import { HeaderController } from "../display/HeaderController";
 import { AccountController } from "./AccountController";
 import { CommonBottomNav } from "../../components/CommonBottomNav";
+import { withMyApollo } from "../../utils/withMyApollo";
 
-export const AccountPage: React.FC = () => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   return (
     <WaitI18>
@@ -28,3 +29,5 @@ export const AccountPage: React.FC = () => {
     </WaitI18>
   );
 };
+
+export const AccountPage = withMyApollo()(Page);

@@ -10,8 +10,9 @@ import { PostOpenGraphPreview } from "./PostOpenGraphPreview";
 import { PostController } from "./PostController";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { CommonBottomNav } from "../../components/CommonBottomNav";
+import { withMyApollo } from "../../utils/withMyApollo";
 
-export const PostPage: React.FC = () => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
 
   const { data: postData } = useGetPostFromUrl();
@@ -50,3 +51,7 @@ export const PostPage: React.FC = () => {
     </PostOpenGraphPreview>
   );
 };
+
+export const PostPage = withMyApollo({
+  ssr: true,
+})(Page);
