@@ -30,4 +30,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const ForgotPasswordPage = withMyApollo()(Page);
+export const ForgotPasswordPage = withMyApollo({ ssr: false })(Page);

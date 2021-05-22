@@ -33,4 +33,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const ExploreUsersPage = withMyApollo()(Page);
+export const ExploreUsersPage = withMyApollo({ ssr: false })(Page);

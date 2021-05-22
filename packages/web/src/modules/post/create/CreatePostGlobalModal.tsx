@@ -37,4 +37,4 @@ const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({}) => {
   );
 };
 
-export default withMyApollo()(CreatePostGlobalModal);
+export default withMyApollo({ ssr: false })(CreatePostGlobalModal);

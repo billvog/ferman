@@ -12,7 +12,7 @@ import { FollowersController } from "./FollowersController";
 
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
-  const { data: userData, loading: userLoading } = useGetUserFromUrl();
+  const { data: userData } = useGetUserFromUrl();
 
   return (
     <WaitI18>
@@ -47,7 +47,7 @@ const Page: React.FC = () => {
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >
-            <FollowersController loggedUser={user} />
+            <FollowersController user={userData?.user} loggedUser={user} />
           </MainGrid>
         )}
       </WaitAuth>
@@ -55,4 +55,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const FollowersPage = withMyApollo()(Page);
+export const FollowersPage = withMyApollo({ ssr: false })(Page);

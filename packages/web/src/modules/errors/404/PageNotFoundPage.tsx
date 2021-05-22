@@ -6,7 +6,7 @@ import { withMyApollo } from "../../../utils/withMyApollo";
 import { HeaderController } from "../../display/HeaderController";
 import { PageNotFound } from "./PageNotFound";
 
-export const PageNotFoundPage: React.FC = withMyApollo()(({}) => {
+export const PageNotFoundPage: React.FC = withMyApollo({ ssr: false })(({}) => {
   const { t } = useTypeSafeTranslation();
   return (
     <WaitI18>

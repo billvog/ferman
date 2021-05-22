@@ -44,4 +44,6 @@ const Page: React.FC = ({}) => {
   );
 };
 
-export const CommentPage = withMyApollo()(Page);
+export const CommentPage = withMyApollo({
+  ssr: true,
+})(Page);

@@ -29,4 +29,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const RegisterPage = withMyApollo()(Page);
+export const RegisterPage = withMyApollo({ ssr: false })(Page);

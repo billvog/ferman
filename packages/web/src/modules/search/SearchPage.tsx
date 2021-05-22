@@ -30,4 +30,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const SearchPage = withMyApollo()(Page);
+export const SearchPage = withMyApollo({ ssr: false })(Page);

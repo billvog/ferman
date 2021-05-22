@@ -38,4 +38,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const FeedPage = withMyApollo()(Page);
+export const FeedPage = withMyApollo({ ssr: false })(Page);

@@ -8,16 +8,16 @@ import { AccessDenied } from "./AccessDenied";
 
 interface AccessDeniedPageProps {}
 
-export const AccessDeniedPage: React.FC<AccessDeniedPageProps> = withMyApollo()(
-  ({}) => {
-    const { t } = useTypeSafeTranslation();
-    return (
-      <WaitI18>
-        <HeaderController title={t("503_page.title")} />
-        <MainGrid title={t("common.error")}>
-          <AccessDenied />
-        </MainGrid>
-      </WaitI18>
-    );
-  }
-);
+export const AccessDeniedPage: React.FC<AccessDeniedPageProps> = withMyApollo({
+  ssr: false,
+})(({}) => {
+  const { t } = useTypeSafeTranslation();
+  return (
+    <WaitI18>
+      <HeaderController title={t("503_page.title")} />
+      <MainGrid title={t("common.error")}>
+        <AccessDenied />
+      </MainGrid>
+    </WaitI18>
+  );
+});

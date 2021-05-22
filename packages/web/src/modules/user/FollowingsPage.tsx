@@ -10,7 +10,7 @@ import { withMyApollo } from "../../utils/withMyApollo";
 import { HeaderController } from "../display/HeaderController";
 import { FollowingsController } from "./FollowingsController";
 
-const Page: React.FC = ({}) => {
+const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   const { data: userData } = useGetUserFromUrl();
 
@@ -48,7 +48,7 @@ const Page: React.FC = ({}) => {
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >
-              <FollowingsController loggedUser={user} />
+              <FollowingsController user={userData?.user} loggedUser={user} />
             </MainGrid>
           </>
         )}
@@ -57,4 +57,4 @@ const Page: React.FC = ({}) => {
   );
 };
 
-export const FollowingsPage = withMyApollo()(Page);
+export const FollowingsPage = withMyApollo({ ssr: false })(Page);

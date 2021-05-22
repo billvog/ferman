@@ -30,4 +30,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const AccDelPage = withMyApollo()(Page);
+export const AccDelPage = withMyApollo({ ssr: false })(Page);

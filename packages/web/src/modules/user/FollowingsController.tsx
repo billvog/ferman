@@ -1,22 +1,23 @@
-import { useFollowingsQuery } from "@ferman-pkgs/controller";
+import { FullUserFragment, useFollowingsQuery } from "@ferman-pkgs/controller";
 import React from "react";
 import processString from "react-process-string";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
-import { useGetUserFromUrl } from "../../shared-hooks/useGetUserFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { PageWithAuthProps } from "../../types/PageWithAuthProps";
 
-interface FollowingsControllerProps extends PageWithAuthProps {}
+interface FollowingsControllerProps extends PageWithAuthProps {
+  user: FullUserFragment | null | undefined;
+}
 
 export const FollowingsController: React.FC<FollowingsControllerProps> = ({
   loggedUser,
+  user,
 }) => {
   const { t } = useTypeSafeTranslation();
 
-  const { data: userData, loading: userLoading } = useGetUserFromUrl();
   const {
     data: followingsData,
     loading: followingsLoading,
@@ -24,9 +25,9 @@ export const FollowingsController: React.FC<FollowingsControllerProps> = ({
     variables: followingsVariables,
   } = useFollowingsQuery({
     notifyOnNetworkStatusChange: true,
-    skip: !userData?.user?.id,
+    skip: !user?.id,
     variables: {
-      userId: userData?.user?.id || -1,
+      userId: user?.id || -1,
       limit: 15,
       skip: 0,
     },
@@ -34,15 +35,15 @@ export const FollowingsController: React.FC<FollowingsControllerProps> = ({
 
   return (
     <div>
-      {userLoading ||
+      {typeof user === "undefined" ||
       (!followingsData && followingsLoading) ||
       typeof loggedUser === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
-      ) : !userData?.user ? (
+      ) : !user ? (
         <ErrorText>{t("user.not_found")}</ErrorText>
-      ) : !userData || !followingsData ? (
+      ) : !followingsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div>
@@ -51,7 +52,7 @@ export const FollowingsController: React.FC<FollowingsControllerProps> = ({
               {processString([
                 {
                   regex: /%user%/,
-                  fn: () => <b>{userData.user?.username}</b>,
+                  fn: () => <b>{user.username}</b>,
                 },
               ])(t("user.followings.no_users"))}
             </div>

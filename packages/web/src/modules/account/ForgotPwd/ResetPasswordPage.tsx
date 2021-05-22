@@ -29,4 +29,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const ResetPasswordPage = withMyApollo()(Page);
+export const ResetPasswordPage = withMyApollo({ ssr: false })(Page);

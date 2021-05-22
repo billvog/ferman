@@ -12,9 +12,9 @@
     "i18": "yarn gen:i18:keys && yarn sync:i18"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.11",
-    "@ferman-pkgs/common": "^0.0.22",
-    "@ferman-pkgs/controller": "^0.0.38",
+    "@apollo/client": "^3.3.19",
+    "@ferman-pkgs/common": "^0.0.3",
+    "@ferman-pkgs/controller": "^0.0.4",
     "@headlessui/react": "^1.1.1",
     "@tailwindcss/forms": "^0.3.2",
     "formik": "^2.2.6",
@@ -45,7 +45,6 @@
     "@types/prettier": "^2.2.3",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.5",
-    "@types/react-i18next": "^8.1.0",
     "@types/react-responsive": "^8.0.2",
     "autoprefixer": "^10.2.5",
     "nodemon": "^2.0.7",
