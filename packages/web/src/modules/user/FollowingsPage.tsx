@@ -43,6 +43,7 @@ export const FollowingsPage = ({}) => {
                       )
                   : undefined
               }
+              loggedUser={user}
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >

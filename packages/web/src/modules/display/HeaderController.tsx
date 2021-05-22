@@ -21,7 +21,14 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
 }) => {
   return (
     <Head>
-      {title ? <title>{title} – Ferman</title> : <title>Ferman</title>}
+      {title ? (
+        <title>
+          {title}
+          {!title.match(/ferman/gi) ? " – Ferman" : ""}
+        </title>
+      ) : (
+        <title>Ferman</title>
+      )}
       <meta name="description" content={description} />
       <meta
         name="keywords"

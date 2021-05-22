@@ -17,6 +17,7 @@ export const SearchPage = () => {
         {(user) => (
           <MainGrid
             title={t("search.title")}
+            loggedUser={user}
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >

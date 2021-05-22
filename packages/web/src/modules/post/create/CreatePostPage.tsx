@@ -29,6 +29,7 @@ export const CreatePostPage: React.FC<CreatePostPageProps> = ({}) => {
           screenType === "fullscreen" ? (
             <MainGrid
               title={t("post.header_title")}
+              loggedUser={user}
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >

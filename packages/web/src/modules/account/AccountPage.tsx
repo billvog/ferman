@@ -17,6 +17,7 @@ export const AccountPage: React.FC = () => {
         {(user) => (
           <MainGrid
             title={t("my_account.title")}
+            loggedUser={user}
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >

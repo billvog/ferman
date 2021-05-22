@@ -29,6 +29,7 @@ export const UserPage: React.FC = () => {
             <>
               <MainGrid
                 title={userData?.user?.username}
+                loggedUser={user}
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >

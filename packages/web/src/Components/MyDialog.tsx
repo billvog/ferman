@@ -14,7 +14,7 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
     <Transition show={props.isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto backdrop-filter backdrop-blur-sm bg-black bg-opacity-20"
+        className="fixed inset-0 z-30 overflow-y-auto backdrop-filter backdrop-blur-sm bg-black bg-opacity-20"
         static
         open={props.isOpen}
         onClose={props.onClose}

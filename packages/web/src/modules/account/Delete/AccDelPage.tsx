@@ -17,9 +17,10 @@ export const AccDelPage: React.FC<AccDelPageProps> = ({}) => {
       <WaitAuth RequireLoggedIn>
         {(user) => (
           <MainGrid
-            bottomNav={<CommonBottomNav loggedUser={user} />}
-            leftSidebar={<CommonSidebar loggedUser={user} />}
             title={t("delete_account.title")}
+            loggedUser={user}
+            leftSidebar={<CommonSidebar loggedUser={user} />}
+            bottomNav={<CommonBottomNav loggedUser={user} />}
           >
             <AccDelConnector />
           </MainGrid>

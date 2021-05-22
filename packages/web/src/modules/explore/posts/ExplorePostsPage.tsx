@@ -20,6 +20,7 @@ export const ExplorePostsPage: React.FC<ExplorePostsPageProps> = ({}) => {
           <>
             <MainGrid
               title={t("explore.posts.title")}
+              loggedUser={user}
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >

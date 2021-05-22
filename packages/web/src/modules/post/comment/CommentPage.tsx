@@ -29,6 +29,7 @@ export const CommentPage = ({}) => {
             <>
               <MainGrid
                 title={t("comment.header_title")}
+                loggedUser={user}
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >

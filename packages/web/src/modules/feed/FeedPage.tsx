@@ -24,6 +24,7 @@ export const FeedPage = () => {
                   ? t("index.feed")
                   : t("index.recent_posts")
               }
+              loggedUser={user}
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >

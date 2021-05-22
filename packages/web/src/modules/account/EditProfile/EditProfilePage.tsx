@@ -18,9 +18,10 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({}) => {
       <WaitAuth RequireLoggedIn>
         {(user) => (
           <MainGrid
-            bottomNav={<CommonBottomNav loggedUser={user} />}
-            leftSidebar={<CommonSidebar loggedUser={user} />}
             title={t("edit_profile.title")}
+            loggedUser={user}
+            leftSidebar={<CommonSidebar loggedUser={user} />}
+            bottomNav={<CommonBottomNav loggedUser={user} />}
           >
             <EditProfileConnector />
           </MainGrid>

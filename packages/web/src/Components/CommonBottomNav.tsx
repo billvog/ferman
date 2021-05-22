@@ -32,7 +32,7 @@ export const CommonBottomNav: React.FC<CommonBottomNavProps> = ({
   const NavIcons = useNavIcons();
 
   return (
-    <div className="sticky bottom-0 p-4 bg-accent-transparent backdrop-filter backdrop-blur w-full">
+    <div className="sticky z-20 bottom-0 p-4 bg-accent-transparent backdrop-filter backdrop-blur w-full">
       <div className="flex flex-row space-x-10 justify-center items-center text-accent">
         <NavbarItem
           onClick={() => router.push("/")}

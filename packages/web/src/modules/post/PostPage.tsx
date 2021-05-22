@@ -37,6 +37,7 @@ export const PostPage: React.FC = () => {
             <>
               <MainGrid
                 title={t("post.header_title")}
+                loggedUser={user}
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >

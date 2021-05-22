@@ -1,3 +1,4 @@
+import { FullUserFragment } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
 import { useScreenType } from "../shared-hooks/useScreenType";
@@ -5,12 +6,14 @@ import { PageHeader } from "./PageHeader";
 
 interface MainGridProps {
   title?: string;
+  loggedUser?: FullUserFragment | null | undefined;
   leftSidebar?: JSX.Element;
   bottomNav?: JSX.Element;
 }
 
 export const MainGrid: React.FC<MainGridProps> = ({
   title = "",
+  loggedUser = null,
   leftSidebar = null,
   bottomNav = null,
   children,
@@ -39,7 +42,11 @@ export const MainGrid: React.FC<MainGridProps> = ({
       >
         {screenType !== "fullscreen" && leftSidebar}
         <div className="flex-1 flex flex-col">
-          <PageHeader title={title} showBackButton={route !== "/"} />
+          <PageHeader
+            title={title}
+            showBackButton={route !== "/"}
+            loggedUser={loggedUser}
+          />
           <div className="p-4 flex-1">{children}</div>
           {screenType === "fullscreen" && bottomNav}
         </div>

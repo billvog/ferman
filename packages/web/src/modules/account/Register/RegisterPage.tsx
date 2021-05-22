@@ -17,9 +17,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({}) => {
       <WaitAuth RequireNotLoggedIn>
         {(user) => (
           <MainGrid
+            title={t("register.title")}
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
-            title={t("register.title")}
           >
             <RegisterConnector />
           </MainGrid>
