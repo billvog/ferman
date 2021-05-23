@@ -26,10 +26,10 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
         <div className="min-h-screen xs:px-4 text-center">
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-100"
+            enter="duration-200"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="ease-in duration-100"
+            leave="duration-200"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
@@ -43,14 +43,14 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
           </span>
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-150"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
+            enter="duration-200"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
-            <div className="inline-block w-full max-w-full h-screen fullscreen:h-auto fullscreen:max-w-md p-6 fullscreen:my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl fullscreen:rounded-2xl">
+            <div className="absolute left-0 fullscreen:relative inline-block w-full max-w-full h-screen fullscreen:h-auto fullscreen:max-w-md p-6 fullscreen:my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl fullscreen:rounded-2xl">
               <Dialog.Title
                 as="h3"
                 className="flex items-center justify-between text-lg font-medium leading-6 text-primary-900"
