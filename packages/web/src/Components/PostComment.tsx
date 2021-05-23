@@ -34,24 +34,42 @@ export const PostComment: React.FC<PostCommentProps> = ({
                 {
                   regex: /%user%/,
                   fn: (key: any, res: any) => (
-                    <Link href={`/user/${comment.post.creator.uid}`} key={key}>
-                      <b className="hover:underline cursor-pointer">
-                        {comment.post.creator.username}
-                      </b>
+                    <Link
+                      href={`/user/${
+                        comment.parent?.user.uid || comment.post.creator.uid
+                      }`}
+                      key={key}
+                    >
+                      <span className="font-semibold hover:underline cursor-pointer">
+                        {comment.parent?.user.uid || comment.post.creator.uid}
+                      </span>
                     </Link>
                   ),
                 },
                 {
                   regex: /@(.*)@/,
                   fn: (key: any, res: any) => (
-                    <Link href={`/post/${comment.postId}`} key={key}>
+                    <Link
+                      href={
+                        comment.parent
+                          ? `/post/${comment.postId}/comment/${comment.parentId}`
+                          : `/post/${comment.postId}`
+                      }
+                      key={key}
+                    >
                       <span className="hover:underline cursor-pointer">
                         {res[1]}
                       </span>
                     </Link>
                   ),
                 },
-              ])(t("comment.reply_to"))}
+              ])(
+                t(
+                  comment.parentId
+                    ? "comment.reply_to_comment"
+                    : "comment.reply_to_post"
+                )
+              )}
             </span>
           </div>
         )}

@@ -75,6 +75,16 @@ export class PostCommentResolver {
     return postLoader.load(comment.postId);
   }
 
+  // PARENT COMMENT
+  @FieldResolver(() => Comment)
+  parent(@Root() comment: Comment, @Ctx() { commentLoader }: MyContext) {
+    if (comment.parentId) {
+      return commentLoader.load(comment.parentId);
+    }
+
+    return null;
+  }
+
   // REPLIES COUNT
   @FieldResolver(() => Int)
   repliesCount(@Root() comment: Comment) {

@@ -162,7 +162,8 @@
     "replies": "Replies",
     "there_are_no_comments": "There are no comments",
     "there_are_no_replies": "There are no replies",
-    "reply_to": "reply to @post@ by %user%",
+    "reply_to_post": "reply to @post@ by %user%",
+    "reply_to_comment": "reply to @comment@ by %user%",
     "delete_dialog": {
       "title": "Are you sure?",
       "text": "Clicking \"Delete\" button, all replies of this comment will be deleted. Any further action, will not be able to be undone."

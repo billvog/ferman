@@ -5,6 +5,11 @@ fragment FullComment on Comment {
   repliesCount
   text
   createdAt
+  parent {
+    user {
+      ...BasicUser
+    }
+  }
   post {
     creator {
       uid

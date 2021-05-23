@@ -24,6 +24,7 @@ export type Comment = {
   createdAt: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
   repliesCount: Scalars['Float'];
+  parent?: Maybe<Comment>;
   post: Post;
 };
 
@@ -76,6 +77,12 @@ export type MinimalUsersResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  likePost: MinimalPostResponse;
+  createPost: PostResponse;
+  deletePost: MinimalPostIdResponse;
+  createComment: CommentResponse;
+  deleteComment: MinimalCommentIdResponse;
+  updateProfile: ProfileResponse;
   follow: MinimalUsersResponse;
   logout: Scalars['Boolean'];
   login: UserErrorResponse;
@@ -88,12 +95,38 @@ export type Mutation = {
   validateAccountDeletionToken: Scalars['Boolean'];
   validateAccountDeletionTokenWithPassword: Scalars['Boolean'];
   finishAccountDeletion?: Maybe<FieldError>;
-  likePost: MinimalPostResponse;
-  createPost: PostResponse;
-  deletePost: MinimalPostIdResponse;
-  updateProfile: ProfileResponse;
-  createComment: CommentResponse;
-  deleteComment: MinimalCommentIdResponse;
+};
+
+
+export type MutationLikePostArgs = {
+  postId: Scalars['String'];
+};
+
+
+export type MutationCreatePostArgs = {
+  options: PostInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationCreateCommentArgs = {
+  options: CommentInput;
+  parentId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteCommentArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateProfileArgs = {
+  options: ProfileInput;
 };
 
 
@@ -149,38 +182,6 @@ export type MutationValidateAccountDeletionTokenWithPasswordArgs = {
 export type MutationFinishAccountDeletionArgs = {
   password: Scalars['String'];
   token: Scalars['String'];
-};
-
-
-export type MutationLikePostArgs = {
-  postId: Scalars['String'];
-};
-
-
-export type MutationCreatePostArgs = {
-  options: PostInput;
-};
-
-
-export type MutationDeletePostArgs = {
-  id: Scalars['String'];
-};
-
-
-export type MutationUpdateProfileArgs = {
-  options: ProfileInput;
-};
-
-
-export type MutationCreateCommentArgs = {
-  options: CommentInput;
-  parentId?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-};
-
-
-export type MutationDeleteCommentArgs = {
-  id: Scalars['String'];
 };
 
 export type PaginatedComments = {
@@ -259,42 +260,15 @@ export type ProfileResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  posts: PaginatedPosts;
+  post?: Maybe<Post>;
+  comments: PaginatedComments;
+  comment: PaginatedComments;
   followers?: Maybe<PaginatedUsers>;
   followings?: Maybe<PaginatedUsers>;
   user?: Maybe<User>;
   users: PaginatedUsers;
   me?: Maybe<User>;
-  posts: PaginatedPosts;
-  post?: Maybe<Post>;
-  comments: PaginatedComments;
-  comment: PaginatedComments;
-};
-
-
-export type QueryFollowersArgs = {
-  userId: Scalars['Int'];
-  skip?: Maybe<Scalars['Int']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QueryFollowingsArgs = {
-  userId: Scalars['Int'];
-  skip?: Maybe<Scalars['Int']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QueryUserArgs = {
-  uid?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryUsersArgs = {
-  location?: Maybe<Scalars['String']>;
-  skip?: Maybe<Scalars['Int']>;
-  limit: Scalars['Int'];
 };
 
 
@@ -327,6 +301,33 @@ export type QueryCommentArgs = {
   limit: Scalars['Int'];
 };
 
+
+export type QueryFollowersArgs = {
+  userId: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryFollowingsArgs = {
+  userId: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryUserArgs = {
+  uid?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryUsersArgs = {
+  location?: Maybe<Scalars['String']>;
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
+};
+
 export type RegisterInput = {
   uid: Scalars['String'];
   username: Scalars['String'];
@@ -355,6 +356,20 @@ export type UserErrorResponse = {
   user?: Maybe<User>;
 };
 
+export type BasicProfileFragment = (
+  { __typename?: 'Profile' }
+  & Pick<Profile, 'avatarUrl' | 'postsCount' | 'commentsCount' | 'likesCount'>
+);
+
+export type BasicUserFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'uid' | 'username'>
+  & { profile?: Maybe<(
+    { __typename?: 'Profile' }
+    & BasicProfileFragment
+  )> }
+);
+
 export type FieldErrorFragment = (
   { __typename?: 'FieldError' }
   & Pick<FieldError, 'field' | 'message'>
@@ -363,7 +378,13 @@ export type FieldErrorFragment = (
 export type FullCommentFragment = (
   { __typename?: 'Comment' }
   & Pick<Comment, 'id' | 'postId' | 'parentId' | 'repliesCount' | 'text' | 'createdAt'>
-  & { post: (
+  & { parent?: Maybe<(
+    { __typename?: 'Comment' }
+    & { user: (
+      { __typename?: 'User' }
+      & BasicUserFragment
+    ) }
+  )>, post: (
     { __typename?: 'Post' }
     & { creator: (
       { __typename?: 'User' }
@@ -858,6 +879,24 @@ export const MinimalPostIdResponseFragmentDoc = gql`
   postId
 }
     `;
+export const BasicProfileFragmentDoc = gql`
+    fragment BasicProfile on Profile {
+  avatarUrl
+  postsCount
+  commentsCount
+  likesCount
+}
+    `;
+export const BasicUserFragmentDoc = gql`
+    fragment BasicUser on User {
+  id
+  uid
+  username
+  profile {
+    ...BasicProfile
+  }
+}
+    ${BasicProfileFragmentDoc}`;
 export const FullCommentFragmentDoc = gql`
     fragment FullComment on Comment {
   id
@@ -866,6 +905,11 @@ export const FullCommentFragmentDoc = gql`
   repliesCount
   text
   createdAt
+  parent {
+    user {
+      ...BasicUser
+    }
+  }
   post {
     creator {
       uid
@@ -881,7 +925,7 @@ export const FullCommentFragmentDoc = gql`
     }
   }
 }
-    `;
+    ${BasicUserFragmentDoc}`;
 export const PaginatedCommentsFragmentDoc = gql`
     fragment PaginatedComments on PaginatedComments {
   hasMore

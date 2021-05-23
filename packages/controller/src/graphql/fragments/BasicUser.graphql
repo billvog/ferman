@@ -1,0 +1,8 @@
+fragment BasicUser on User {
+  id
+  uid
+  username
+  profile {
+    ...BasicProfile
+  }
+}

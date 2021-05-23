@@ -1,0 +1,6 @@
+fragment BasicProfile on Profile {
+  avatarUrl
+  postsCount
+  commentsCount
+  likesCount
+}

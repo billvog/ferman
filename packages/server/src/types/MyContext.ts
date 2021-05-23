@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Redis } from "ioredis";
-import { createPostLoader } from "src/dataloaders/createPostLoader";
+import { createCommentLoader } from "src/dataloaders/createCommentLoader";
+import { createPostLoader } from "../dataloaders/createPostLoader";
 import { createLikeLoader } from "../dataloaders/createLikeLoader";
 import { createUserLoader } from "../dataloaders/createUserLoader";
 
@@ -12,7 +13,8 @@ export type MyContext = {
   };
   res: Response;
   redis: Redis;
-  postLoader: ReturnType<typeof createPostLoader>;
   userLoader: ReturnType<typeof createUserLoader>;
+  postLoader: ReturnType<typeof createPostLoader>;
+  commentLoader: ReturnType<typeof createCommentLoader>;
   likeLoader: ReturnType<typeof createLikeLoader>;
 };

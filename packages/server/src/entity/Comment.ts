@@ -53,6 +53,7 @@ export class Comment extends BaseEntity {
   })
   replies: Comment[];
 
+  @Field({ nullable: true })
   @ManyToOne(() => Comment, (comment) => comment.replies, {
     onDelete: "CASCADE",
   })

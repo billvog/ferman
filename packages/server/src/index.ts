@@ -1,29 +1,30 @@
-import "reflect-metadata";
-require("dotenv-safe").config();
-import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolvers/User";
-import { createConnection } from "typeorm";
-import { MyContext } from "./types/MyContext";
-import session from "express-session";
 import connectRedis from "connect-redis";
-import Redis from "ioredis";
-import { SESSION_COOKIE_NAME, __prod__ } from "./constants";
-import { PostResolver } from "./resolvers/Post";
 import cors from "cors";
-import { ProfileResolver } from "./resolvers/Profile";
-import { createUserLoader } from "./dataloaders/createUserLoader";
-import { createLikeLoader } from "./dataloaders/createLikeLoader";
-import { PostCommentResolver } from "./resolvers/PostComments";
+import express from "express";
+import session from "express-session";
+import Redis from "ioredis";
 import path from "path";
+import "reflect-metadata";
+import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
+import { SESSION_COOKIE_NAME, __prod__ } from "./constants";
+import { createCommentLoader } from "./dataloaders/createCommentLoader";
+import { createLikeLoader } from "./dataloaders/createLikeLoader";
+import { createPostLoader } from "./dataloaders/createPostLoader";
+import { createUserLoader } from "./dataloaders/createUserLoader";
+import { Comment } from "./entity/Comment";
+import { Follow } from "./entity/Follow";
+import { Like } from "./entity/Like";
+import { Post } from "./entity/Post";
 import { Profile } from "./entity/Profile";
 import { User } from "./entity/User";
-import { Follow } from "./entity/Follow";
-import { Post } from "./entity/Post";
-import { Comment } from "./entity/Comment";
-import { Like } from "./entity/Like";
-import { createPostLoader } from "./dataloaders/createPostLoader";
+import { PostResolver } from "./resolvers/Post";
+import { PostCommentResolver } from "./resolvers/PostComments";
+import { ProfileResolver } from "./resolvers/Profile";
+import { UserResolver } from "./resolvers/User";
+import { MyContext } from "./types/MyContext";
+require("dotenv-safe").config();
 
 (async () => {
   // setup redis
@@ -98,8 +99,9 @@ import { createPostLoader } from "./dataloaders/createPostLoader";
       req,
       res,
       redis,
-      postLoader: createPostLoader(),
       userLoader: createUserLoader(),
+      postLoader: createPostLoader(),
+      commentLoader: createCommentLoader(),
       likeLoader: createLikeLoader(),
     }),
   });
