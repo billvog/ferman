@@ -124,8 +124,8 @@ export class PostResolver {
     @Arg("skip", () => Int, { nullable: true }) skip: number,
     @Arg("userId", () => Int, { nullable: true }) userId: number,
     @Arg("query", () => String, { nullable: true }) query: string,
-    @Arg("feedMode", () => Boolean, { nullable: true })
-    feedMode: boolean,
+    @Arg("feedMode", () => Boolean, { nullable: true }) feedMode: boolean,
+    @Arg("likedBy", () => Int, { nullable: true }) likedBy: number,
     @Ctx() { req }: MyContext
   ): Promise<PaginatedPosts> {
     const start = Date.now();
@@ -149,7 +149,7 @@ export class PostResolver {
       .limit(realLimitPlusOne);
 
     if (userId) {
-      qb.where(
+      qb.andWhere(
         `
           p."creatorId" = :userId
         `,
@@ -169,6 +169,15 @@ export class PostResolver {
       qb.addOrderBy(
         `ts_rank(${docWithWeight}, plainto_tsquery(:query))`,
         "DESC"
+      );
+    }
+
+    if (likedBy) {
+      qb.andWhere(
+        `
+          p.id in (select "postId" from likes l where l."userId" = :likedBy)
+        `,
+        { likedBy }
       );
     }
 

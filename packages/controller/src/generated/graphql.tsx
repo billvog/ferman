@@ -24,6 +24,7 @@ export type Comment = {
   createdAt: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
   repliesCount: Scalars['Float'];
+  post: Post;
 };
 
 export type CommentInput = {
@@ -238,6 +239,9 @@ export type Profile = {
   location: Scalars['String'];
   birthdate: Scalars['String'];
   showBirthdate: Scalars['Boolean'];
+  postsCount: Scalars['Int'];
+  commentsCount: Scalars['Int'];
+  likesCount: Scalars['Int'];
 };
 
 export type ProfileInput = {
@@ -295,6 +299,7 @@ export type QueryUsersArgs = {
 
 
 export type QueryPostsArgs = {
+  likedBy?: Maybe<Scalars['Int']>;
   feedMode?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
@@ -309,7 +314,8 @@ export type QueryPostArgs = {
 
 
 export type QueryCommentsArgs = {
-  postId: Scalars['String'];
+  userId?: Maybe<Scalars['Int']>;
+  postId?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
 };
@@ -357,7 +363,13 @@ export type FieldErrorFragment = (
 export type FullCommentFragment = (
   { __typename?: 'Comment' }
   & Pick<Comment, 'id' | 'postId' | 'parentId' | 'repliesCount' | 'text' | 'createdAt'>
-  & { user: (
+  & { post: (
+    { __typename?: 'Post' }
+    & { creator: (
+      { __typename?: 'User' }
+      & Pick<User, 'uid' | 'username'>
+    ) }
+  ), user: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'uid' | 'username'>
     & { profile?: Maybe<(
@@ -382,7 +394,7 @@ export type FullPostFragment = (
 
 export type FullProfileFragment = (
   { __typename?: 'Profile' }
-  & Pick<Profile, 'avatarUrl' | 'bannerUrl' | 'bio' | 'location' | 'birthdate' | 'showBirthdate'>
+  & Pick<Profile, 'avatarUrl' | 'bannerUrl' | 'bio' | 'location' | 'birthdate' | 'showBirthdate' | 'postsCount' | 'commentsCount' | 'likesCount'>
 );
 
 export type FullUserFragment = (
@@ -712,7 +724,8 @@ export type CommentQuery = (
 export type CommentsQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip?: Maybe<Scalars['Int']>;
-  postId: Scalars['String'];
+  postId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -743,6 +756,7 @@ export type PostsQueryVariables = Exact<{
   userId?: Maybe<Scalars['Int']>;
   query?: Maybe<Scalars['String']>;
   feedMode?: Maybe<Scalars['Boolean']>;
+  likedBy?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -852,6 +866,12 @@ export const FullCommentFragmentDoc = gql`
   repliesCount
   text
   createdAt
+  post {
+    creator {
+      uid
+      username
+    }
+  }
   user {
     id
     uid
@@ -911,6 +931,9 @@ export const FullProfileFragmentDoc = gql`
   location
   birthdate
   showBirthdate
+  postsCount
+  commentsCount
+  likesCount
 }
     `;
 export const FullUserFragmentDoc = gql`
@@ -1602,8 +1625,8 @@ export type CommentQueryHookResult = ReturnType<typeof useCommentQuery>;
 export type CommentLazyQueryHookResult = ReturnType<typeof useCommentLazyQuery>;
 export type CommentQueryResult = Apollo.QueryResult<CommentQuery, CommentQueryVariables>;
 export const CommentsDocument = gql`
-    query Comments($limit: Int!, $skip: Int, $postId: String!) {
-  comments(limit: $limit, skip: $skip, postId: $postId) {
+    query Comments($limit: Int!, $skip: Int, $postId: String, $userId: Int) {
+  comments(limit: $limit, skip: $skip, postId: $postId, userId: $userId) {
     ...PaginatedComments
   }
 }
@@ -1624,6 +1647,7 @@ export const CommentsDocument = gql`
  *      limit: // value for 'limit'
  *      skip: // value for 'skip'
  *      postId: // value for 'postId'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -1674,13 +1698,14 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String, $feedMode: Boolean) {
+    query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String, $feedMode: Boolean, $likedBy: Int) {
   posts(
     limit: $limit
     skip: $skip
     userId: $userId
     query: $query
     feedMode: $feedMode
+    likedBy: $likedBy
   ) {
     ...PaginatedPosts
   }
@@ -1704,6 +1729,7 @@ export const PostsDocument = gql`
  *      userId: // value for 'userId'
  *      query: // value for 'query'
  *      feedMode: // value for 'feedMode'
+ *      likedBy: // value for 'likedBy'
  *   },
  * });
  */

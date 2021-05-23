@@ -1,0 +1,5 @@
+query Comments($limit: Int!, $skip: Int, $postId: String, $userId: Int) {
+  comments(limit: $limit, skip: $skip, postId: $postId, userId: $userId) {
+    ...PaginatedComments
+  }
+}

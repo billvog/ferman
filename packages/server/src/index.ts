@@ -23,6 +23,7 @@ import { Follow } from "./entity/Follow";
 import { Post } from "./entity/Post";
 import { Comment } from "./entity/Comment";
 import { Like } from "./entity/Like";
+import { createPostLoader } from "./dataloaders/createPostLoader";
 
 (async () => {
   // setup redis
@@ -97,6 +98,7 @@ import { Like } from "./entity/Like";
       req,
       res,
       redis,
+      postLoader: createPostLoader(),
       userLoader: createUserLoader(),
       likeLoader: createLikeLoader(),
     }),

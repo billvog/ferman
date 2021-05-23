@@ -4,6 +4,7 @@ import {
   Field,
   FieldResolver,
   InputType,
+  Int,
   Mutation,
   ObjectType,
   Resolver,
@@ -18,6 +19,9 @@ import { UpdateProfileValidationSchema } from "@ferman-pkgs/common";
 import { FieldError } from "./FieldError";
 import fetch from "node-fetch";
 import { createHash } from "crypto";
+import { Post } from "../entity/Post";
+import { Comment } from "../entity/Comment";
+import { Like } from "../entity/Like";
 
 @ObjectType()
 class ProfileResponse {
@@ -49,6 +53,33 @@ export class ProfileResolver {
     }
 
     return "";
+  }
+
+  // POSTS COUNT
+  @FieldResolver(() => Int)
+  async postsCount(@Root() profile: Profile) {
+    const [, count] = await Post.findAndCount({
+      where: { creatorId: profile.userId },
+    });
+    return count;
+  }
+
+  // COMMENTS COUNT
+  @FieldResolver(() => Int)
+  async commentsCount(@Root() profile: Profile) {
+    const [, count] = await Comment.findAndCount({
+      where: { userId: profile.userId },
+    });
+    return count;
+  }
+
+  // LIKES COUNT
+  @FieldResolver(() => Int)
+  async likesCount(@Root() profile: Profile) {
+    const [, count] = await Like.findAndCount({
+      where: { userId: profile.userId },
+    });
+    return count;
   }
 
   // AVATAR URL

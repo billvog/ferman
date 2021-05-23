@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, Int, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
 @ObjectType()
@@ -29,4 +29,11 @@ export class Profile extends BaseEntity {
   @Field()
   @Column({ default: false })
   showBirthdate: boolean;
+
+  @Field(() => Int)
+  postsCount: number;
+  @Field(() => Int)
+  commentsCount: number;
+  @Field(() => Int)
+  likesCount: number;
 }

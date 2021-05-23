@@ -69,6 +69,12 @@ export class PostCommentResolver {
     return userLoader.load(comment.userId);
   }
 
+  // POST
+  @FieldResolver(() => Post)
+  post(@Root() comment: Comment, @Ctx() { postLoader }: MyContext) {
+    return postLoader.load(comment.postId);
+  }
+
   // REPLIES COUNT
   @FieldResolver(() => Int)
   repliesCount(@Root() comment: Comment) {
@@ -84,7 +90,8 @@ export class PostCommentResolver {
   async comments(
     @Arg("limit", () => Int) limit: number,
     @Arg("skip", () => Int, { nullable: true }) skip: number,
-    @Arg("postId", () => String) postId: string
+    @Arg("postId", () => String, { nullable: true }) postId: string,
+    @Arg("userId", () => Int, { nullable: true }) userId: number
   ): Promise<PaginatedComments> {
     const start = Date.now();
 
@@ -94,10 +101,19 @@ export class PostCommentResolver {
     const qb = getConnection()
       .getRepository(Comment)
       .createQueryBuilder("c")
-      .where('c."postId" = :postId and c."parentId" is null', {
-        postId,
-      })
       .limit(realLimitPlusOne);
+
+    if (postId) {
+      qb.andWhere('c."postId" = :postId and c."parentId" is null', {
+        postId,
+      });
+    }
+
+    if (userId) {
+      qb.andWhere('c."userId" = :userId', {
+        userId,
+      });
+    }
 
     if (skip && skip > 0) {
       qb.offset(skip);

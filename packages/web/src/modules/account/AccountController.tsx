@@ -55,7 +55,7 @@ export const AccountController: React.FC<AccountControllerProps> = ({
               </div>
               <div className="flex flex-row space-x-2">
                 <MyButton
-                  onClick={() => router.push(`/loggedUser/${loggedUser.uid}`)}
+                  onClick={() => router.push(`/user/${loggedUser.uid}`)}
                   color="accent"
                 >
                   {t("my_account.my_profile")}

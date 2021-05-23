@@ -4,6 +4,7 @@ query Posts(
   $userId: Int
   $query: String
   $feedMode: Boolean
+  $likedBy: Int
 ) {
   posts(
     limit: $limit
@@ -11,6 +12,7 @@ query Posts(
     userId: $userId
     query: $query
     feedMode: $feedMode
+    likedBy: $likedBy
   ) {
     ...PaginatedPosts
   }

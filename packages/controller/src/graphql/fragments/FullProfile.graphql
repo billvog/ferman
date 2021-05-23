@@ -5,4 +5,7 @@ fragment FullProfile on Profile {
   location
   birthdate
   showBirthdate
+  postsCount
+  commentsCount
+  likesCount
 }
