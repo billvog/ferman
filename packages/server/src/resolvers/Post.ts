@@ -130,14 +130,6 @@ export class PostResolver {
   ): Promise<PaginatedPosts> {
     const start = Date.now();
 
-    if (feedMode === null || typeof feedMode === "undefined") {
-      feedMode = !userId && !query && req.session.userId ? true : false;
-    } else if (feedMode == true) {
-      if (!req.session.userId) {
-        feedMode = false;
-      }
-    }
-
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
 

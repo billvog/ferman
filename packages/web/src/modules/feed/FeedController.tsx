@@ -23,6 +23,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
+      feedMode: true,
       skip: null,
       query: null,
     },

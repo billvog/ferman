@@ -8,7 +8,7 @@ export const PageNotFound = ({}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
   return (
-    <div className="p-3">
+    <div className="px-4 py-2">
       <h1 className="heading leading-tight">{t("404_page.heading")}</h1>
       <div className="text-primary-450 text-sm font-semibold mb-3">
         {t("404_page.subtext")}

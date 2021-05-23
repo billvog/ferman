@@ -23,7 +23,7 @@ const Page: React.FC = () => {
 
   return (
     <WaitI18>
-      <HeaderController title={t("post.header_title")} />
+      <HeaderController title={t("post.post")} />
       <WaitAuth>
         {(user) =>
           screenType === "fullscreen" ? (

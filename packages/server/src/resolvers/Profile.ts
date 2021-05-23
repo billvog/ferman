@@ -79,6 +79,7 @@ export class ProfileResolver {
     const [, count] = await Like.findAndCount({
       where: { userId: profile.userId },
     });
+
     return count;
   }
 

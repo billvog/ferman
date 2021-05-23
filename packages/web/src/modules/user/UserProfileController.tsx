@@ -120,39 +120,47 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
           </div>
           <div className="w-full">
             <div className="flex justify-center items-center">
-              <TabItem
-                text={
-                  <span>
-                    <b>{t("user.posts")}</b>{" "}
-                    {(user.profile?.postsCount || 0) > 1 &&
-                      `(${user.profile?.postsCount})`}
-                  </span>
-                }
-                isCurrent={tabState === 0}
-                onClick={() => setTabState(0)}
-              />
-              <TabItem
-                text={
-                  <span>
-                    <b>{t("user.comments")}</b>{" "}
-                    {(user.profile?.commentsCount || 0) > 1 &&
-                      `(${user.profile?.commentsCount})`}
-                  </span>
-                }
-                isCurrent={tabState === 1}
-                onClick={() => setTabState(1)}
-              />
-              <TabItem
-                text={
-                  <span>
-                    <b>{t("user.liked_posts")}</b>{" "}
-                    {(user.profile?.likesCount || 0) > 1 &&
-                      `(${user.profile?.likesCount})`}
-                  </span>
-                }
-                isCurrent={tabState === 2}
-                onClick={() => setTabState(2)}
-              />
+              {!user.profile ? (
+                <div className="p-2">
+                  <MySpinner />
+                </div>
+              ) : (
+                <>
+                  <TabItem
+                    text={
+                      <span>
+                        <b>{t("user.posts")}</b>{" "}
+                        {user.profile.postsCount > 1 &&
+                          `(${user.profile.postsCount})`}
+                      </span>
+                    }
+                    isCurrent={tabState === 0}
+                    onClick={() => setTabState(0)}
+                  />
+                  <TabItem
+                    text={
+                      <span>
+                        <b>{t("user.comments")}</b>{" "}
+                        {user.profile.commentsCount > 1 &&
+                          `(${user.profile.commentsCount})`}
+                      </span>
+                    }
+                    isCurrent={tabState === 1}
+                    onClick={() => setTabState(1)}
+                  />
+                  <TabItem
+                    text={
+                      <span>
+                        <b>{t("user.liked_posts")}</b>{" "}
+                        {user.profile.likesCount > 1 &&
+                          `(${user.profile.likesCount})`}
+                      </span>
+                    }
+                    isCurrent={tabState === 2}
+                    onClick={() => setTabState(2)}
+                  />
+                </>
+              )}
             </div>
             <div>
               {tabState === 0 || tabState === 2 ? (
