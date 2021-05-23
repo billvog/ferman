@@ -134,7 +134,10 @@
     "location": "Location",
     "posts": "Posts",
     "comments": "Comments",
-    "liked_posts": "Likes"
+    "liked_posts": "Likes",
+    "no_posts": "%user% hasn't posted anything",
+    "no_comments": "%user% hasn't commented or replied anything",
+    "no_liked_posts": "%user% hasn't liked any post"
   },
   "post": {
     "header_title": "Post",

@@ -69,7 +69,7 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({
         </div>
       ) : (
         <div>
-          <div className="divide-y">
+          <div className="divide-y border-b">
             {postsData.posts.posts.map((post) => (
               <Post key={post.id} post={post} me={loggedUser} />
             ))}

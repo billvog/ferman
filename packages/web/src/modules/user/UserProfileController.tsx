@@ -23,16 +23,16 @@ interface TabItemProps {
 const TabItem: React.FC<TabItemProps> = (props) => {
   return (
     <div
-      className="relative w-full flex-1 text-center text-md fullscreen:text-lg text-primary-600 transition-colors cursor-pointer hover:bg-primary-50"
+      className="relative w-full flex-1 text-center text-md fullscreen:text-lg text-primary-600 transition-colors cursor-pointer hover:bg-primary-100"
       onClick={props.onClick}
     >
       <div className="p-3">{props.text}</div>
       {props.isCurrent && (
         <div
-          className="absolute left-1/2 transform -translate-x-1/2 bottom-1 rounded-full bg-primary-500"
+          className="absolute left-1/2 transform -translate-x-1/2 bottom-1.5 rounded-full bg-primary-300"
           style={{
             width: "25%",
-            height: "3px",
+            height: "2px",
           }}
         />
       )}
@@ -87,7 +87,6 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
   });
 
   const [tabState, setTabState] = useState<TabState>(0);
-  useEffect(() => setTabState(0), []);
 
   useEffect(() => {
     if (tabState === 0) {
@@ -173,11 +172,21 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                     <ErrorText>{t("errors.500")}</ErrorText>
                   ) : (
                     <>
-                      <div className="divide-y border-b">
-                        {postsData.posts.posts.map((post) => (
-                          <Post key={post.id} post={post} me={loggedUser} />
-                        ))}
-                      </div>
+                      {postsData.posts.count === 0 ? (
+                        <div className="p-3 text-sm text-primary-450 font-semibold">
+                          {t(
+                            tabState === 0
+                              ? "user.no_posts"
+                              : "user.no_liked_posts"
+                          ).replace("%user%", user.username)}
+                        </div>
+                      ) : (
+                        <div className="divide-y border-b">
+                          {postsData.posts.posts.map((post) => (
+                            <Post key={post.id} post={post} me={loggedUser} />
+                          ))}
+                        </div>
+                      )}
                       {postsData.posts.hasMore && (
                         <div className="flex justify-center p-5">
                           <MyButton
@@ -209,16 +218,25 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                     <ErrorText>{t("errors.500")}</ErrorText>
                   ) : (
                     <>
-                      <div className="divide-y border-b">
-                        {commentsData.comments.comments.map((comment) => (
-                          <PostComment
-                            key={comment.id}
-                            comment={comment}
-                            me={loggedUser}
-                            showPostInfo
-                          />
-                        ))}
-                      </div>
+                      {commentsData.comments.count === 0 ? (
+                        <div className="p-3 text-sm text-primary-450 font-semibold">
+                          {t("user.no_comments").replace(
+                            "%user%",
+                            user.username
+                          )}
+                        </div>
+                      ) : (
+                        <div className="divide-y border-b">
+                          {commentsData.comments.comments.map((comment) => (
+                            <PostComment
+                              key={comment.id}
+                              comment={comment}
+                              me={loggedUser}
+                              showPostInfo
+                            />
+                          ))}
+                        </div>
+                      )}
                       {commentsData.comments.hasMore && (
                         <div className="flex justify-center p-5">
                           <MyButton
