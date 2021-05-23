@@ -40,7 +40,7 @@ export const CommonBottomNav: React.FC<CommonBottomNavProps> = ({
           onClick={() => router.push("/search")}
           icon={<NavIcons.SearchIcon size="24px" />}
         />
-        {loggedUser && (
+        {loggedUser ? (
           <>
             <NavbarItem
               onClick={() => router.push("/post")}
@@ -49,6 +49,13 @@ export const CommonBottomNav: React.FC<CommonBottomNavProps> = ({
             <NavbarItem
               onClick={() => router.push("/explore/posts")}
               icon={<NavIcons.ExploreIcon size="24px" />}
+            />
+          </>
+        ) : (
+          <>
+            <NavbarItem
+              onClick={() => router.push("/account/login")}
+              icon={<NavIcons.LoginIcon size="24px" />}
             />
           </>
         )}

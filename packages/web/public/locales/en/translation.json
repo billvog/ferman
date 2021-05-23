@@ -243,7 +243,7 @@
     }
   },
   "forgot_pwd": {
-    "title": "Forgot Password",
+    "title": "Reset your password",
     "or_sign_in": "or Sign In",
     "message": {
       "success": "If a user exists with this email, an email has been sent with instructions."

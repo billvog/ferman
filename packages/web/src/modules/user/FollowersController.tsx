@@ -48,7 +48,7 @@ export const FollowersController: React.FC<FollowersControllerProps> = ({
       ) : (
         <div>
           {followersData.followers?.count === 0 ? (
-            <div className="text-red-500 text-base">
+            <div className="p-4 text-red-500 text-base">
               {processString([
                 {
                   regex: /%user%/,

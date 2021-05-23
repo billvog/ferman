@@ -1,10 +1,8 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { createPortal } from "react-dom";
-import { BiLogIn, BiUserCircle } from "react-icons/bi";
-import { CreatePostModal } from "../modules/post/create/CreatePostModal";
+import React from "react";
+import { BiUserCircle } from "react-icons/bi";
 import { useNavIcons } from "../shared-hooks/useNavIcons";
 import { useScreenType } from "../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
@@ -40,8 +38,6 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
   const router = useRouter();
   const screenType = useScreenType();
   const NavIcons = useNavIcons();
-
-  const [showPostModal, setShowPostModal] = useState(false);
 
   return (
     <>
@@ -97,7 +93,12 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
             </>
           )}
         </div>
-        <div className="flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150">
+        <div
+          className={`flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150 ${
+            !loggedUser ? "cursor-pointer" : ""
+          }`}
+          onClick={() => !loggedUser && router.push("/account/login")}
+        >
           {typeof loggedUser === "undefined" ? (
             <div>
               <MySpinner />
@@ -140,30 +141,15 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
               </div>
             </Link>
           ) : (
-            <div className="w-full flex justify-around font-semibold space-x-2 text-primary-600">
-              <Link href="/account/login">
-                <div className="flex items-center cursor-pointer hover:underline">
-                  <BiLogIn />
-                  <span className="ml-2">{t("common_sidebar.login")}</span>
-                </div>
-              </Link>
-              <Link href="/account/register">
-                <div className="cursor-pointer hover:underline">
-                  {t("common_sidebar.register")}
-                </div>
-              </Link>
+            <div className="font-semibold text-primary-600 group-hover:underline">
+              <div className="flex items-center">
+                <NavIcons.LoginIcon />
+                <span className="ml-2">{t("common_sidebar.login")}</span>
+              </div>
             </div>
           )}
         </div>
       </div>
-      {showPostModal &&
-        createPortal(
-          <CreatePostModal
-            isOpen={true}
-            onClose={() => setShowPostModal(false)}
-          />,
-          document.querySelector("#main")!
-        )}
     </>
   );
 };
