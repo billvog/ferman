@@ -141,8 +141,10 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
           ) : (
             <div className="font-semibold text-primary-600 group-hover:underline">
               <div className="flex items-center">
-                <NavIcons.LoginIcon />
-                <span className="ml-2">{t("common_sidebar.login")}</span>
+                <NavIcons.LoginIcon size="24px" />
+                {screenType === "2-cols" && (
+                  <span className="ml-2">{t("common_sidebar.login")}</span>
+                )}
               </div>
             </div>
           )}

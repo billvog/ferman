@@ -44,7 +44,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   const handleTogglePwd = () => setShowPwd(!showPwd);
 
   return (
-    <div className="px-3">
+    <div className="px-4 py-2">
       {done ? (
         <MyAlert color="success">
           <h2 className="text-lg">{t("register.success_alert.title")}</h2>

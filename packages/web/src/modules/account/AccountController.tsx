@@ -25,7 +25,7 @@ export const AccountController: React.FC<AccountControllerProps> = ({
   return (
     <div>
       {typeof loggedUser === "undefined" ? (
-        <div className="p-2">
+        <div className="p-4">
           <MySpinner />
         </div>
       ) : !loggedUser ? (

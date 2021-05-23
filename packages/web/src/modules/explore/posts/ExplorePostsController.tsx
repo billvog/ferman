@@ -1,18 +1,12 @@
-import {
-  FullUserFragment,
-  useMeQuery,
-  usePostsQuery,
-} from "@ferman-pkgs/controller";
-import Link from "next/link";
+import { FullUserFragment, usePostsQuery } from "@ferman-pkgs/controller";
+import { useRouter } from "next/router";
 import React from "react";
+import processString from "react-process-string";
 import { ErrorText } from "../../../components/ErrorText";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { Post } from "../../../components/Post";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import processString from "react-process-string";
-import { useState } from "react";
-import { CreatePostModal } from "../../post/create/CreatePostModal";
 
 interface ExplorePostsControllerProps {
   loggedUser: FullUserFragment | undefined | null;
@@ -22,6 +16,7 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({
   loggedUser,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const router = useRouter();
 
   const {
     loading: postsLoading,
@@ -38,8 +33,6 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({
     },
   });
 
-  const [showCreatePost, setShowCreatePost] = useState(false);
-
   return (
     <div>
       {(postsLoading && !postsData) ||
@@ -51,23 +44,28 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({
       ) : postsError && !postsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : postsData.posts.posts.length === 0 ? (
-        <div className="text-primary-400 text-sm">
-          {t("explore.posts.no_posts")} <br />
-          {loggedUser &&
-            processString([
-              {
-                regex: /@(.*)@/,
-                fn: (key: any, res: any) => (
-                  <span
-                    key={key}
-                    className="text-accent hover:text-accent-washed-out hover:underline font-bold cursor-pointer"
-                    onClick={() => setShowCreatePost(true)}
-                  >
-                    {res[1]}
-                  </span>
-                ),
-              },
-            ])(t("explore.posts.maybe_you_want_to_post"))}
+        <div className="text-primary-400 text-sm p-4">
+          <span className="mb-2 block">{t("explore.posts.no_posts")}</span>
+          {loggedUser && (
+            <span>
+              {processString([
+                {
+                  regex: /@(.*)@/,
+                  fn: (key: any, res: any) => (
+                    <span
+                      key={key}
+                      className="text-accent hover:text-accent-washed-out hover:underline font-bold cursor-pointer"
+                      onClick={() =>
+                        router.push(router.pathname, "/post", { shallow: true })
+                      }
+                    >
+                      {res[1]}
+                    </span>
+                  ),
+                },
+              ])(t("explore.posts.maybe_you_want_to_post"))}
+            </span>
+          )}
         </div>
       ) : (
         <div>
@@ -79,7 +77,7 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({
         </div>
       )}
       {postsData?.posts.posts && postsData?.posts?.hasMore && (
-        <div className="flex justify-center mt-5">
+        <div className="flex justify-center p-5">
           <MyButton
             isLoading={postsLoading}
             onClick={() => {
@@ -95,10 +93,6 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({
           </MyButton>
         </div>
       )}
-      <CreatePostModal
-        isOpen={showCreatePost}
-        onClose={() => setShowCreatePost(false)}
-      />
     </div>
   );
 };

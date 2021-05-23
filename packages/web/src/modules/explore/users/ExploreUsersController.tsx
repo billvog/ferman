@@ -1,15 +1,11 @@
-import {
-  FullUserFragment,
-  useMeQuery,
-  useUsersLazyQuery,
-} from "@ferman-pkgs/controller";
+import { FullUserFragment, useUsersLazyQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
+import randomCountry from "random-country-name";
 import React, { useEffect, useState } from "react";
 import { ErrorText } from "../../../components/ErrorText";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { UserSummaryCard } from "../../../components/UserSummaryCard";
-import randomCountry from "random-country-name";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface ExploreUsersControllerProps {
@@ -22,10 +18,8 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
 
-  const [locationDebouncedQuery, setLocationDebouncedQuery] = useState(
-    (router.query.location as string) || (randomCountry.random() as string)
-  );
-  const [locationQuery, setLocationQuery] = useState(locationDebouncedQuery);
+  const [locationDebouncedQuery, setLocationDebouncedQuery] = useState("");
+  const [locationQuery, setLocationQuery] = useState("");
 
   const [
     runUsersQuery,
@@ -44,6 +38,14 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({
       location: "",
     },
   });
+
+  useEffect(() => {
+    if (router.query.location) {
+      setLocationQuery(router.query.location as string);
+    } else {
+      setLocationQuery(randomCountry.random() as string);
+    }
+  }, [router.query.location]);
 
   useEffect(() => {
     const handle = setTimeout(() => {
@@ -77,12 +79,12 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({
 
   return (
     <div>
-      <div className="flex flex-col mb-3 xs:flex-row xs:items-center xs:mb-1 leading-none">
+      <div className="flex flex-col p-3 pb-0 1cols:flex-row 1cols:items-center 1cols:mb-1 leading-none">
         <h1 className="text-xl font-bold text-primary-600">
           {t("explore.users.find_users_loc_at")}
         </h1>
         <input
-          className="flex-1 xs:ml-2.5 outline-none border-b-2 border-dotted border-primary-450 text-xl text-primary-600 font-semibold"
+          className="flex-1 1cols:ml-2.5 outline-none border-b-2 border-dotted border-primary-450 text-xl text-primary-600 font-semibold"
           value={locationQuery}
           onChange={(e) => setLocationQuery(e.target.value)}
         />
@@ -94,12 +96,12 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({
       ) : !usersData && usersQueryCalled ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : usersQueryCalled && usersData!.users.users.length === 0 ? (
-        <div className="text-red-500 font-semibold text-sm mt-2">
+        <div className="text-red-500 font-semibold text-sm p-3">
           {t("explore.users.no_users_location")}
         </div>
       ) : !usersData ? null : usersQueryCalled ? (
         <>
-          <div className="xs:mb-4 mb-5 font-semibold text-primary-400 text-xs">
+          <div className="p-3 pt-0 font-semibold text-primary-400 text-vs">
             {usersData.users.count !== 1 ? (
               <div>
                 {t("common.found_x_results")
@@ -118,7 +120,7 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({
               </div>
             )}
           </div>
-          <div className="space-y-2">
+          <div className="divide-y border-t border-b">
             {usersData!.users.users.map((user) => (
               <UserSummaryCard me={loggedUser} user={user} key={user.id} />
             ))}
@@ -126,7 +128,7 @@ export const ExploreUsersController: React.FC<ExploreUsersControllerProps> = ({
         </>
       ) : null}
       {usersData?.users.users && usersData?.users.hasMore && (
-        <div className="flex justify-center mt-5">
+        <div className="flex justify-center p-5">
           <MyButton
             isLoading={usersLoading}
             onClick={() => {

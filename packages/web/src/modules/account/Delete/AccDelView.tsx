@@ -37,7 +37,7 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
   const router = useRouter();
 
   return (
-    <div className="px-3">
+    <div className="px-4 py-2">
       {done ? (
         <MyAlert color="success">
           <h2 className="text-lg">{t("delete_account.success_alert.title")}</h2>
