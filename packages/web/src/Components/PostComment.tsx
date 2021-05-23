@@ -27,7 +27,7 @@ export const PostComment: React.FC<PostCommentProps> = ({
     <div>
       <div className="flex flex-col p-3 pb-0">
         {showPostInfo && (
-          <div className="flex items-center text-sm text-primary-400 pb-2">
+          <div className="flex items-center text-vs 1cols:text-sm text-primary-400 pb-2">
             <CgMailReply />
             <span className="ml-1.5">
               {processString([
@@ -63,16 +63,16 @@ export const PostComment: React.FC<PostCommentProps> = ({
             />
           </div>
           <div className="flex-1">
-            <div className="flex items-start justify-between tablet:justify-start tablet:items-center tablet:mb-0 mb-1.5 leading-none text-primary-450 space-x-1.5">
+            <div className="flex items-start justify-between 1cols:justify-start 1cols:items-center 1cols:mb-0 mb-1.5 leading-none text-primary-450 space-x-1.5">
               <Link href={`/user/${comment.user.uid}`}>
-                <div className="group flex flex-col tablet:flex-row tablet:items-center tablet:space-x-1.5 cursor-pointer">
+                <div className="group flex flex-col 1cols:flex-row 1cols:items-center 1cols:space-x-1.5 cursor-pointer">
                   <div className="group-hover:underline text-sm text-primary-700 font-bold">
                     {comment.user.username}
                   </div>
                   <div className="text-xs">@{comment.user.uid}</div>
                 </div>
               </Link>
-              <div className="hidden tablet:block">·</div>
+              <div className="hidden 1cols:block">·</div>
               <div className="text-xs leading-normal">
                 {moment(parseFloat(comment.createdAt)).local().fromNow()}
               </div>

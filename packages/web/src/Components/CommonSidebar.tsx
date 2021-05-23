@@ -94,52 +94,50 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
           )}
         </div>
         <div
-          className={`flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150 ${
-            !loggedUser ? "cursor-pointer" : ""
-          }`}
-          onClick={() => !loggedUser && router.push("/account/login")}
+          className="flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150 cursor-pointer"
+          onClick={() =>
+            loggedUser ? router.push("/account") : router.push("/account/login")
+          }
         >
           {typeof loggedUser === "undefined" ? (
             <div>
               <MySpinner />
             </div>
           ) : loggedUser ? (
-            <Link href="/account/">
-              <div className="flex flex-row justify-center 2cols:justify-between items-center w-full cursor-pointer">
-                {screenType === "2-cols" ? (
-                  <>
-                    <div className="flex flex-row items-center">
-                      <div className="mr-2.5">
-                        <img
-                          src={loggedUser.profile?.avatarUrl}
-                          className="w-10 h-10 rounded-35"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="font-bold text-base leading-none text-primary-600 group-hover:underline">
-                          {loggedUser.username}
-                        </span>
-                        <span className="text-sm font-semibold text-primary-450">
-                          @{loggedUser.uid}
-                        </span>
-                      </div>
+            <div className="flex flex-row justify-center 2cols:justify-between items-center w-full">
+              {screenType === "2-cols" ? (
+                <>
+                  <div className="flex flex-row items-center">
+                    <div className="mr-2.5">
+                      <img
+                        src={loggedUser.profile?.avatarUrl}
+                        className="w-10 h-10 rounded-35"
+                      />
                     </div>
-                    <div>
-                      <div className="text-accent-hover p-2 rounded-full group-hover:bg-accent-transparent group-hover:text-accent-washed-out">
-                        <BiUserCircle />
-                      </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-base leading-none text-primary-600 group-hover:underline">
+                        {loggedUser.username}
+                      </span>
+                      <span className="text-sm font-semibold text-primary-450">
+                        @{loggedUser.uid}
+                      </span>
                     </div>
-                  </>
-                ) : (
-                  <div>
-                    <img
-                      src={loggedUser.profile?.avatarUrl}
-                      className="w-10 h-10 rounded-35"
-                    />
                   </div>
-                )}
-              </div>
-            </Link>
+                  <div>
+                    <div className="text-accent-hover p-2 rounded-full group-hover:bg-accent-transparent group-hover:text-accent-washed-out">
+                      <BiUserCircle />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <img
+                    src={loggedUser.profile?.avatarUrl}
+                    className="w-10 h-10 rounded-35"
+                  />
+                </div>
+              )}
+            </div>
           ) : (
             <div className="font-semibold text-primary-600 group-hover:underline">
               <div className="flex items-center">
