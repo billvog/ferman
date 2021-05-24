@@ -6,7 +6,6 @@ import { BiUserCircle } from "react-icons/bi";
 import { useNavIcons } from "../shared-hooks/useNavIcons";
 import { useScreenType } from "../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
-import { LanguageSelector } from "./LanguageSelector";
 import { MySpinner } from "./MySpinner";
 
 interface SidebarItemProps {
@@ -43,9 +42,9 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
     <>
       <div className="flex sticky top-0 flex-col justify-between items-start space-y-6 h-screen divide-y">
         <div className="flex flex-col justify-center w-full divide-y">
-          <div className="p-4 flex flex-col 2cols:flex-row justify-between items-center 2cols:divide-y-0 divide-y 2cols:space-y-0 space-y-4">
+          <div className="p-4 flex items-center">
             <Link href="/">
-              <div className="flex justify-items-start items-center cursor-pointer 2cols:w-full group">
+              <div className="flex justify-center items-center cursor-pointer w-full group">
                 <img src="/favicon.ico" className="w-9 h-9 2cols:mr-3" />
                 {screenType === "2-cols" && (
                   <span className="text-3xl font-bold font-cursive text-primary-600 ">
@@ -54,11 +53,6 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                 )}
               </div>
             </Link>
-            {screenType === "2-cols" && (
-              <div className="2cols:p-0">
-                <LanguageSelector />
-              </div>
-            )}
           </div>
           <SidebarItem
             onClick={() => router.push("/")}

@@ -6,7 +6,7 @@ import {
   AiOutlineHome,
 } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
-import { BsPlusCircleFill } from "react-icons/bs";
+import { BsGear, BsGearFill, BsPlusCircleFill } from "react-icons/bs";
 import {
   IoLogIn,
   IoLogInOutline,
@@ -19,6 +19,7 @@ export const useNavIcons = () => {
   const { route } = useRouter();
 
   const HomeIcon = route === "/" ? AiFillHome : AiOutlineHome;
+  const SettingsIcon = route === "/account/settings" ? BsGearFill : BsGear;
   const PostIcon = route === "/post" ? BsPlusCircleFill : BiPlus;
   const SearchIcon = route === "/search" ? IoSearchSharp : IoSearchOutline;
   const ExploreIcon =
@@ -28,6 +29,7 @@ export const useNavIcons = () => {
 
   return {
     HomeIcon,
+    SettingsIcon,
     PostIcon,
     SearchIcon,
     ExploreIcon,
