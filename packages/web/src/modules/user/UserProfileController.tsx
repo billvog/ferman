@@ -31,7 +31,7 @@ const TabItem: React.FC<TabItemProps> = (props) => {
         <div
           className="absolute left-1/2 transform -translate-x-1/2 bottom-1.5 rounded-full bg-primary-300"
           style={{
-            width: "25%",
+            width: "18%",
             height: "2px",
           }}
         />
@@ -129,7 +129,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                     text={
                       <span>
                         <b>{t("user.posts")}</b>{" "}
-                        {user.profile.postsCount > 1 &&
+                        {user.profile.postsCount > 0 &&
                           `(${user.profile.postsCount})`}
                       </span>
                     }
@@ -140,7 +140,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                     text={
                       <span>
                         <b>{t("user.comments")}</b>{" "}
-                        {user.profile.commentsCount > 1 &&
+                        {user.profile.commentsCount > 0 &&
                           `(${user.profile.commentsCount})`}
                       </span>
                     }
@@ -151,7 +151,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                     text={
                       <span>
                         <b>{t("user.liked_posts")}</b>{" "}
-                        {user.profile.likesCount > 1 &&
+                        {user.profile.likesCount > 0 &&
                           `(${user.profile.likesCount})`}
                       </span>
                     }
@@ -173,7 +173,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                   ) : (
                     <>
                       {postsData.posts.count === 0 ? (
-                        <div className="p-3 text-sm text-primary-450 font-semibold">
+                        <div className="p-6 text-base text-center text-red-500 font-semibold">
                           {t(
                             tabState === 0
                               ? "user.no_posts"
@@ -219,7 +219,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                   ) : (
                     <>
                       {commentsData.comments.count === 0 ? (
-                        <div className="p-3 text-sm text-primary-450 font-semibold">
+                        <div className="p-6 text-base text-center text-red-500 font-semibold">
                           {t("user.no_comments").replace(
                             "%user%",
                             user.username
