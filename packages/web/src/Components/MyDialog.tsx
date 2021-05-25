@@ -23,7 +23,7 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
         open={props.isOpen}
         onClose={props.onClose}
       >
-        <div className="min-h-screen xs:px-4 text-center">
+        <div className="min-h-screen text-center">
           <Transition.Child
             as={Fragment}
             enter="duration-200"
@@ -50,17 +50,12 @@ export const MyDialog: React.FC<MyDialogProps> = (props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="absolute left-0 fullscreen:relative inline-block w-full max-w-full h-screen fullscreen:h-auto fullscreen:max-w-md p-6 fullscreen:my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl fullscreen:rounded-2xl">
+            <div className="relative inline-block w-full fullscreen:max-w-md p-6 fullscreen:my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl fullscreen:rounded-2xl">
               <Dialog.Title
                 as="h3"
                 className="flex items-center justify-between text-lg font-medium leading-6 text-primary-900"
               >
                 <span>{props.title}</span>
-                {screenType === "fullscreen" && (
-                  <div onClick={props.onClose}>
-                    <MdClose />
-                  </div>
-                )}
               </Dialog.Title>
               <div>
                 {typeof props.body === "undefined" &&
