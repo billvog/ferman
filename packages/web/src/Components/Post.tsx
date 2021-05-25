@@ -36,7 +36,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
               {moment(parseFloat(post.createdAt)).local().fromNow()}
             </div>
           </div>
-          <div className="table table-fixed w-full whitespace-pre-wrap break-words text-vs">
+          <div className="table table-fixed w-full whitespace-pre-wrap break-word text-vs">
             {useRichBodyText(post.body)}
           </div>
         </div>

@@ -95,7 +95,7 @@ export const PostComment: React.FC<PostCommentProps> = ({
                 {moment(parseFloat(comment.createdAt)).local().fromNow()}
               </div>
             </div>
-            <div className="table table-fixed whitespace-pre-wrap break-words text-xs">
+            <div className="table table-fixed whitespace-pre-wrap break-word text-xs">
               {useRichBodyText(comment.text)}
             </div>
           </div>

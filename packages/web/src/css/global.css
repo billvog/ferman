@@ -58,6 +58,10 @@ button:focus {
     margin-bottom: 2pt;
     color: var(--color-primary-600);
   }
+
+  .break-word {
+    word-break: break-word;
+  }
 }
 
 body {

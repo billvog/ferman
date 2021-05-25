@@ -5,8 +5,8 @@ yarn build:server
 
 echo Building image...
 # I have an Macbook with M1, so, I use
-# docker's buildx to build my image for amd64
-# which is supported by heroku
+# docker's buildx to build and convert my image from arm to amd64
+# which is supported by Heroku
 docker buildx use default
 docker buildx build --platform linux/amd64 -t billvog/ferman:latest . --load
 

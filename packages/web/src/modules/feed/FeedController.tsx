@@ -21,9 +21,10 @@ export const FeedController: React.FC<FeedContollerProps> = ({
     variables: postsVariables,
   } = usePostsQuery({
     notifyOnNetworkStatusChange: true,
+    skip: typeof loggedUser === "undefined",
     variables: {
       limit: 15,
-      feedMode: true,
+      feedMode: !!loggedUser,
       skip: null,
       query: null,
     },
