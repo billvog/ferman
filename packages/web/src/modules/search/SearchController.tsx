@@ -79,7 +79,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
 
   return (
     <>
-      <div className="p-3 pb-0">
+      <div className="p-4 pb-0">
         <div className="flex leading-tight">
           <div className="flex-1 mb-1">
             <input
@@ -100,14 +100,14 @@ export const SearchController: React.FC<SearchControllerProps> = ({
       ) : postsError && !postsData && !postsQueryCalled ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : !postsData ? (
-        <div className="p-3 pt-0">
+        <div className="p-4 pt-0">
           <div className="text-red-400 mt-2 text-sm">
             {t("search.search_field_subtext")}
           </div>
           {<SearchTips />}
         </div>
       ) : postsData.posts.posts.length === 0 ? (
-        <div className="p-3">
+        <div className="p-4 pt-0">
           <div className="text-red-400 mt-2 text-sm">
             {t("search.found_nothing")}
           </div>
@@ -115,7 +115,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
         </div>
       ) : (
         <div>
-          <div className="p-3 pt-0.5 mb-2 font-semibold text-primary-400 text-xs">
+          <div className="p-4 pt-1 font-semibold text-primary-400 text-xs">
             {postsData.posts.count !== 1 ? (
               <div>
                 {t("common.found_x_results")
