@@ -21,7 +21,7 @@ const Page: React.FC = () => {
           userData?.user?.username
             ? t("user.followers.title").replace(
                 "%user%",
-                userData.user.username
+                `${userData.user.username} (@${userData.user.uid})`
               )
             : "Ferman"
         }

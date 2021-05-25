@@ -62,14 +62,14 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
 
   return (
     <div className="p-1">
-      <div className="flex justify-center items-center space-x-7 text-xs leading-none">
+      <div className="flex justify-center items-center space-x-7 text-sm leading-none">
         <Link href={`/post/${comment.postId}/comment/${comment.id}`}>
           <div className={`text-secondary-50 ${actionClassname}`}>
             <div
               className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.secondary}`}
               title={t("comment.replies")}
             >
-              <BsFillChatSquareFill />
+              <BsFillChatSquareFill size="14px" />
             </div>
             <span className="ml-1.5 font-semibold">{comment.repliesCount}</span>
           </div>
@@ -78,12 +78,12 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
           <Menu as="div" className="relative inline-block text-left">
             {({ open }) => (
               <>
-                <Menu.Button className="text-md text-accent focus:outline-none">
+                <Menu.Button className="text-accent focus:outline-none">
                   <div className={`text-accent ${actionClassname}`}>
                     <div
                       className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.accent}`}
                     >
-                      <CgMoreAlt />
+                      <CgMoreAlt size="16px" />
                     </div>
                   </div>
                 </Menu.Button>

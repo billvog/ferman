@@ -17,6 +17,7 @@ import { MyButton } from "./MyButton";
 import { MyDialog } from "./MyDialog";
 import Link from "next/link";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { MySpinner } from "./MySpinner";
 
 const actionClassname =
   "flex items-center border-none outline-none cursor-pointer disabled:cursor-default bg-transparent group";
@@ -42,7 +43,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   const [isDelModalOpen, setDelModalOpen] = useState(false);
 
-  const [likePost] = useLikePostMutation();
+  const [likePost, { loading: likeLoading }] = useLikePostMutation();
   const LikePostHandler = async () => {
     const { data } = await likePost(
       likePostMutationOptions({
@@ -88,7 +89,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   return (
     <div className="p-1.5">
-      <div className="flex justify-center items-center space-x-7 text-xs leading-none">
+      <div className="flex justify-center items-center space-x-7 text-sm leading-none">
         <button
           title={post.likeStatus ? t("post.unlike") : t("post.like")}
           className={`text-red-${canILike ? "500" : "300"} ${actionClassname}`}
@@ -100,7 +101,11 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
               canILike ? actionIconColorClassnames.red : "text-red-300"
             }`}
           >
-            <LikeIconComponent size="14px" />
+            {likeLoading ? (
+              <MySpinner size="tiny" />
+            ) : (
+              <LikeIconComponent size="16px" />
+            )}
           </div>
           <span className="ml-1 font-semibold">{post.points}</span>
         </button>
@@ -112,7 +117,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
             <div
               className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.secondary}`}
             >
-              <BsFillChatSquareFill />
+              <BsFillChatSquareFill size="14px" />
             </div>
             <span className="ml-1 font-semibold">{post.commentsCount}</span>
           </div>

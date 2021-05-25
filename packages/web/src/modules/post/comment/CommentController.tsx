@@ -46,7 +46,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
             </div>
           </div>
           <div className="w-full">
-            <div className="flex p-3 justify-between items-center">
+            <div className="flex p-3 pb-0 justify-between items-center">
               <div className="text-lg text-primary-600">
                 <b>{t("comment.replies")}</b>{" "}
                 {commentData.comment.count > 1 &&
@@ -74,7 +74,7 @@ export const CommentController: React.FC<CommentControllerProps> = ({
                   {t("comment.there_are_no_replies")}
                 </div>
               ) : (
-                <div className="divide-y border-t border-b">
+                <div className="divide-y border-t border-b mt-3">
                   {commentData.comment.comments?.map((comment) => (
                     <PostComment
                       key={comment.id}

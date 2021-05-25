@@ -22,7 +22,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
   const { t } = useTypeSafeTranslation();
 
   const router = useRouter();
-  const [followUser] = useFollowMutation();
+  const [followUser, { loading: followLoading }] = useFollowMutation();
 
   const followUserHandler = async () => {
     const { data } = await followUser(
@@ -96,6 +96,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   size="small"
                   color={user.followingStatus ? "danger" : "primary"}
                   onClick={followUserHandler}
+                  isLoading={followLoading}
                 >
                   <span>
                     {user.followingStatus

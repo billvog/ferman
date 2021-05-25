@@ -57,12 +57,12 @@
     "title": "Ο %user% στο Ferman",
     "followers": {
       "no_users": "Δεν υπάρχουν χρήστες που ακολουθούν τον χρήστη %user%",
-      "title": "Άνθρωποι που ακολουθούν τον %user% στο Ferman",
+      "title": "Άτομα που ακολουθούν τον %user% στο Ferman",
       "header_title": "%user% / ακόλουθοι %count%"
     },
     "followings": {
       "no_users": "Δεν υπάρχουν χρήστες που ακολουθούνται απο τον %user%",
-      "title": "Άνθρωποι που ακολουθεί ο %user% στο Ferman",
+      "title": "Άτομα που ακολουθεί ο %user% στο Ferman",
       "header_title": "%user% / ακολουθείτε %count%"
     },
     "follows_you": "Σας ακολουθεί",

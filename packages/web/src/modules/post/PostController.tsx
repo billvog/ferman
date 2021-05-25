@@ -74,7 +74,7 @@ export const PostController: React.FC<PostControllerProps> = ({
               <ErrorText>{t("errors.500")}</ErrorText>
             ) : (
               <div>
-                <div className="flex p-3 justify-between items-center">
+                <div className="flex p-3 pb-0 justify-between items-center">
                   <div className="text-lg text-primary-600">
                     <b>{t("comment.comments")}</b>{" "}
                     {!!postData.post.commentsCount &&
@@ -102,7 +102,7 @@ export const PostController: React.FC<PostControllerProps> = ({
                       {t("comment.there_are_no_comments")}
                     </div>
                   ) : (
-                    <div className="divide-y border-t border-b">
+                    <div className="divide-y border-t border-b mt-3">
                       {commentsData.comments.comments.map((comment) => (
                         <PostComment
                           key={comment.id}
