@@ -89,7 +89,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   return (
     <div className="p-1.5">
-      <div className="flex justify-center items-center space-x-7 text-sm leading-none">
+      <div className="flex justify-center items-center space-x-7 text-vs leading-none">
         <button
           title={post.likeStatus ? t("post.unlike") : t("post.like")}
           className={`text-red-${canILike ? "500" : "300"} ${actionClassname}`}
@@ -104,7 +104,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
             {likeLoading ? (
               <MySpinner size="tiny" />
             ) : (
-              <LikeIconComponent size="16px" />
+              <LikeIconComponent size="14px" />
             )}
           </div>
           <span className="ml-1 font-semibold">{post.points}</span>
@@ -117,7 +117,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
             <div
               className={`rounded-full p-2 transition-colors duration-150 ${actionIconColorClassnames.secondary}`}
             >
-              <BsFillChatSquareFill size="14px" />
+              <BsFillChatSquareFill />
             </div>
             <span className="ml-1 font-semibold">{post.commentsCount}</span>
           </div>

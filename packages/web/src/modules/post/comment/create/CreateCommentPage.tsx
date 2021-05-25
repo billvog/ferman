@@ -19,11 +19,7 @@ export const Page: React.FC<CreateCommentPageProps> = ({}) => {
   const screenType = useScreenType();
 
   useEffect(() => {
-    if (!router.query.postId) router.replace("/", undefined, { shallow: true });
-  }, []);
-
-  if (screenType !== "fullscreen") {
-    if (router.query.postId) {
+    if (screenType !== "fullscreen" && router.query.postId) {
       router.replace(
         {
           pathname: `/post/[postId]${
@@ -41,10 +37,8 @@ export const Page: React.FC<CreateCommentPageProps> = ({}) => {
           shallow: true,
         }
       );
-    } else {
-      router.replace("/", undefined, { shallow: true });
     }
-  }
+  }, [screenType, router.query]);
 
   return (
     <WaitI18>

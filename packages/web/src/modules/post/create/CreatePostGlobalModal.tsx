@@ -18,7 +18,19 @@ const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({}) => {
   return (
     <>
       {router.asPath === "/post" && router.pathname !== "/post" ? (
-        <CreatePostModal isOpen={true} onClose={() => router.back()} />
+        <CreatePostModal
+          isOpen={true}
+          onClose={() =>
+            router.replace(
+              {
+                pathname: router.pathname,
+                query: router.query,
+              },
+              undefined,
+              { shallow: true }
+            )
+          }
+        />
       ) : null}
     </>
   );

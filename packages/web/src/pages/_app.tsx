@@ -24,9 +24,9 @@ function MyApp({ Component, pageProps }: any) {
 
   return (
     <>
+      <Component {...pageProps} />
       <CreatePostGlobalModal />
       <CreateCommentGlobalModal />
-      <Component {...pageProps} />
     </>
   );
 }

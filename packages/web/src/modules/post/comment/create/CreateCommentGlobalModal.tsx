@@ -38,8 +38,8 @@ const CreateCommentGlobalModal: React.FC<CreateCommentGlobalModalProps> =
 
     return (
       <>
-        {(router.pathname === "/post/[postId]" ||
-          router.pathname === "/post/[postId]/comment/[commentId]") &&
+        {router.pathname !== "/post/[postId]/comment" &&
+        router.pathname !== "/post/[postId]/comment/[commentId]/reply" &&
         router.asPath.match(CreateCommentMatchUrl) ? (
           <CreateCommentModal isOpen={true} onClose={() => router.back()} />
         ) : null}
