@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { MyDialog } from "../../../../components/MyDialog";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
+import { HeaderController } from "../../../display/HeaderController";
 import { CreateCommentConnector } from "./CreateCommentConnector";
 
 interface CreateCommentModalProps {
@@ -13,9 +15,19 @@ export const CreateCommentModal: React.FC<CreateCommentModalProps> = ({
   onClose,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const { query } = useRouter();
   return (
-    <MyDialog title={t("comment.comment")} isOpen={isOpen} onClose={onClose}>
-      <CreateCommentConnector onFinish={onClose} />
-    </MyDialog>
+    <>
+      <HeaderController
+        title={t(query.commentId ? "comment.reply" : "comment.comment")}
+      />
+      <MyDialog
+        title={t(query.commentId ? "comment.reply" : "comment.comment")}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <CreateCommentConnector onFinish={onClose} />
+      </MyDialog>
+    </>
   );
 };

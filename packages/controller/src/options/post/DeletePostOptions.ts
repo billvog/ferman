@@ -15,7 +15,7 @@ export const deletePostMutationOptions = (
       result: ApolloQueryResult<DeletePostMutation>
     ) => {
       if (result.data.deletePost.error) return;
-      cache.evict({ id: "Post" + result.data.deletePost.postId });
+      cache.evict({ id: "Post:" + result.data.deletePost.postId });
     },
   };
 };

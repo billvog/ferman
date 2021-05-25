@@ -24,9 +24,6 @@ export const CommentController: React.FC<CommentControllerProps> = ({
     variables: commentVariables,
   } = useGetCommentFromUrl();
 
-  const [showCreateComment, setShowCreateComment] = useState(false);
-  useEffect(() => setShowCreateComment(false), []);
-
   return (
     <div>
       {(!commentData && commentLoading) || typeof loggedUser === "undefined" ? (
@@ -56,7 +53,17 @@ export const CommentController: React.FC<CommentControllerProps> = ({
                   `(${commentData.comment.count})`}
               </div>
               {loggedUser && (
-                <MyButton onClick={() => setShowCreateComment(true)}>
+                <MyButton
+                  onClick={() =>
+                    router.push(
+                      {
+                        pathname: router.pathname,
+                        query: router.query,
+                      },
+                      `/post/${router.query.postId}/comment/${router.query.commentId}/reply`
+                    )
+                  }
+                >
                   {t("comment.reply")}
                 </MyButton>
               )}
@@ -98,10 +105,6 @@ export const CommentController: React.FC<CommentControllerProps> = ({
           </div>
         </div>
       )}
-      <CreateCommentModal
-        isOpen={showCreateComment}
-        onClose={() => setShowCreateComment(false)}
-      />
     </div>
   );
 };

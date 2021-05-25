@@ -41,8 +41,6 @@ export const PostController: React.FC<PostControllerProps> = ({
     },
   });
 
-  const [showCreateComment, setShowCreateComment] = useState(false);
-
   return (
     <div>
       {(postLoading && !postData) ||
@@ -83,7 +81,17 @@ export const PostController: React.FC<PostControllerProps> = ({
                       `(${postData.post.commentsCount})`}
                   </div>
                   {loggedUser && (
-                    <MyButton onClick={() => setShowCreateComment(true)}>
+                    <MyButton
+                      onClick={() =>
+                        router.push(
+                          {
+                            pathname: router.pathname,
+                            query: router.query,
+                          },
+                          `/post/${router.query.postId}/comment`
+                        )
+                      }
+                    >
                       {t("post.comment")}
                     </MyButton>
                   )}
@@ -127,10 +135,6 @@ export const PostController: React.FC<PostControllerProps> = ({
           </div>
         </div>
       )}
-      <CreateCommentModal
-        isOpen={showCreateComment}
-        onClose={() => setShowCreateComment(false)}
-      />
     </div>
   );
 };

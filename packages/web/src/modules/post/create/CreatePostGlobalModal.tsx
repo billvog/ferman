@@ -11,27 +11,14 @@ const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({}) => {
 
   useEffect(() => {
     if (router.asPath === "/post" && screenType === "fullscreen") {
-      router.push("/post", "/post", { shallow: true });
+      router.replace("/post", "/post", { shallow: true });
     }
   }, [router.asPath, screenType]);
 
   return (
     <>
-      {/* Create Post Modal */}
       {router.asPath === "/post" && router.pathname !== "/post" ? (
-        <CreatePostModal
-          isOpen={true}
-          onClose={() =>
-            router.push(
-              {
-                pathname: router.pathname,
-                query: router.query,
-              },
-              undefined,
-              { shallow: true }
-            )
-          }
-        />
+        <CreatePostModal isOpen={true} onClose={() => router.back()} />
       ) : null}
     </>
   );
