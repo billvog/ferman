@@ -2,22 +2,28 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { CreatePostModal } from "./CreatePostModal";
 import { useScreenType } from "../../../shared-hooks/useScreenType";
-import { withMyApollo } from "../../../utils/withMyApollo";
+import { WithAuthProps } from "../../../types/WithAuthProps";
 
-interface CreatePostGlobalModalProps {}
-const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({}) => {
+interface CreatePostGlobalModalProps extends WithAuthProps {}
+export const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({
+  loggedUser,
+}) => {
   const router = useRouter();
   const screenType = useScreenType();
 
   useEffect(() => {
-    if (router.asPath === "/post" && screenType === "fullscreen") {
+    if (router.asPath === "/post" && !loggedUser) {
+      router.replace("/", undefined, { shallow: true });
+    } else if (router.asPath === "/post" && screenType === "fullscreen") {
       router.replace("/post", "/post", { shallow: true });
     }
-  }, [router.asPath, screenType]);
+  }, [router.asPath, screenType, loggedUser]);
 
   return (
     <>
-      {router.asPath === "/post" && router.pathname !== "/post" ? (
+      {loggedUser &&
+      router.asPath === "/post" &&
+      router.pathname !== "/post" ? (
         <CreatePostModal
           isOpen={true}
           onClose={() =>
@@ -35,5 +41,3 @@ const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({}) => {
     </>
   );
 };
-
-export default withMyApollo({ ssr: false })(CreatePostGlobalModal);

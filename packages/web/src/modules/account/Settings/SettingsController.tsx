@@ -3,7 +3,7 @@ import React from "react";
 import { HiChevronRight } from "react-icons/hi";
 import { IoIosGlobe } from "react-icons/io";
 import { MySpinner } from "../../../components/MySpinner";
-import { PageWithAuthProps } from "../../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../../types/WithAuthProps";
 
 interface ListItemProps {
   icon: JSX.Element;
@@ -30,7 +30,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   );
 };
 
-interface SettingsControllerProps extends PageWithAuthProps {}
+interface SettingsControllerProps extends WithAuthProps {}
 export const SettingsController: React.FC<SettingsControllerProps> = ({
   loggedUser,
 }) => {

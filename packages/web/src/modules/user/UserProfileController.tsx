@@ -11,7 +11,7 @@ import { Post } from "../../components/Post";
 import { PostComment } from "../../components/PostComment";
 import { UserCard } from "../../components/UserCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../types/WithAuthProps";
 
 type TabState = 0 | 1 | 2;
 interface TabItemProps {
@@ -40,7 +40,7 @@ const TabItem: React.FC<TabItemProps> = (props) => {
   );
 };
 
-interface UserProfileControllerProps extends PageWithAuthProps {
+interface UserProfileControllerProps extends WithAuthProps {
   user: FullUserFragment | null | undefined;
 }
 

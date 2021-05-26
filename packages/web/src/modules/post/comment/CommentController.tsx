@@ -6,10 +6,10 @@ import { MySpinner } from "../../../components/MySpinner";
 import { PostComment } from "../../../components/PostComment";
 import { useGetCommentFromUrl } from "../../../shared-hooks/useGetCommentFromUrl";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../../types/WithAuthProps";
 import { CreateCommentModal } from "./create/CreateCommentModal";
 
-interface CommentControllerProps extends PageWithAuthProps {}
+interface CommentControllerProps extends WithAuthProps {}
 
 export const CommentController: React.FC<CommentControllerProps> = ({
   loggedUser,

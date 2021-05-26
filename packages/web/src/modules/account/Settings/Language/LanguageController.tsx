@@ -3,9 +3,9 @@ import { GrRadialSelected } from "react-icons/gr";
 import { useTranslation } from "react-i18next";
 import { MySpinner } from "../../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../../../types/WithAuthProps";
 
-interface LanguageControllerProps extends PageWithAuthProps {}
+interface LanguageControllerProps extends WithAuthProps {}
 export const LanguageController: React.FC<LanguageControllerProps> = ({
   loggedUser,
 }) => {

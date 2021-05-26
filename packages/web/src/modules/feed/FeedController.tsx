@@ -5,9 +5,9 @@ import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../types/WithAuthProps";
 
-interface FeedContollerProps extends PageWithAuthProps {}
+interface FeedContollerProps extends WithAuthProps {}
 export const FeedController: React.FC<FeedContollerProps> = ({
   loggedUser,
 }) => {
@@ -41,7 +41,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({
       ) : postsData.posts.posts.length === 0 ? (
         <div className="p-4 text-primary-450">{t("common.no_posts")}</div>
       ) : (
-        <div className="divide-y">
+        <div className="divide-y border-b">
           {postsData.posts.posts.map((post) => (
             <Post key={post.id} post={post} me={loggedUser} />
           ))}

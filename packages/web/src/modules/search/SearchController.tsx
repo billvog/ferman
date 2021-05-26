@@ -6,10 +6,10 @@ import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../types/WithAuthProps";
 import { SearchTips } from "./SearchTips";
 
-interface SearchControllerProps extends PageWithAuthProps {}
+interface SearchControllerProps extends WithAuthProps {}
 
 export const SearchController: React.FC<SearchControllerProps> = ({
   loggedUser,

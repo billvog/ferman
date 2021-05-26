@@ -10,9 +10,9 @@ import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserCard } from "../../components/UserCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../types/WithAuthProps";
 
-interface AccountControllerProps extends PageWithAuthProps {}
+interface AccountControllerProps extends WithAuthProps {}
 
 export const AccountController: React.FC<AccountControllerProps> = ({
   loggedUser,

@@ -1,5 +1,5 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
 
-export interface PageWithAuthProps {
+export interface WithAuthProps {
   loggedUser: FullUserFragment | null | undefined;
 }

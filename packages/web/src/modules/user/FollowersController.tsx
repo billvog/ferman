@@ -6,9 +6,9 @@ import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../types/WithAuthProps";
 
-interface FollowersControllerProps extends PageWithAuthProps {
+interface FollowersControllerProps extends WithAuthProps {
   user: FullUserFragment | null | undefined;
 }
 

@@ -24,7 +24,7 @@ const Page: React.FC = () => {
   return (
     <WaitI18>
       <HeaderController title={t("post.post")} />
-      <WaitAuth>
+      <WaitAuth RequireLoggedIn>
         {(user) =>
           screenType === "fullscreen" ? (
             <MainGrid

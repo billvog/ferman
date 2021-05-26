@@ -8,10 +8,10 @@ import { Post } from "../../components/Post";
 import { PostComment } from "../../components/PostComment";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { PageWithAuthProps } from "../../types/PageWithAuthProps";
+import { WithAuthProps } from "../../types/WithAuthProps";
 import { CreateCommentModal } from "./comment/create/CreateCommentModal";
 
-interface PostControllerProps extends PageWithAuthProps {}
+interface PostControllerProps extends WithAuthProps {}
 
 export const PostController: React.FC<PostControllerProps> = ({
   loggedUser,

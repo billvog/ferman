@@ -2,19 +2,35 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { CreateCommentModal } from "./CreateCommentModal";
 import { useScreenType } from "../../../../shared-hooks/useScreenType";
-import { withMyApollo } from "../../../../utils/withMyApollo";
+import { WithAuthProps } from "../../../../types/WithAuthProps";
 
 const CreateCommentMatchUrl =
   /^(\/post\/[0-9]+\/comment\/[0-9]+\/reply)|(\/post\/[0-9]+\/comment)$/;
 
-interface CreateCommentGlobalModalProps {}
-const CreateCommentGlobalModal: React.FC<CreateCommentGlobalModalProps> =
-  ({}) => {
+interface CreateCommentGlobalModalProps extends WithAuthProps {}
+export const CreateCommentGlobalModal: React.FC<CreateCommentGlobalModalProps> =
+  ({ loggedUser }) => {
     const router = useRouter();
     const screenType = useScreenType();
 
     useEffect(() => {
-      if (
+      if (router.asPath.match(CreateCommentMatchUrl) && !loggedUser) {
+        router.replace(
+          {
+            pathname: `/post/[postId]${
+              router.query.commentId ? "/comment/[commentId]" : ""
+            }`,
+            query: {
+              postId: router.query.postId,
+              commentId: router.query.commentId,
+            },
+          },
+          `/post/${router.query.postId}${
+            router.query.commentId ? `/comment/${router.query.commentId}` : ""
+          }`,
+          { shallow: true }
+        );
+      } else if (
         router.asPath.match(CreateCommentMatchUrl) &&
         screenType === "fullscreen"
       ) {
@@ -34,11 +50,12 @@ const CreateCommentGlobalModal: React.FC<CreateCommentGlobalModalProps> =
           { shallow: true }
         );
       }
-    }, [router.asPath, screenType]);
+    }, [router.asPath, screenType, loggedUser]);
 
     return (
       <>
-        {router.pathname !== "/post/[postId]/comment" &&
+        {loggedUser &&
+        router.pathname !== "/post/[postId]/comment" &&
         router.pathname !== "/post/[postId]/comment/[commentId]/reply" &&
         router.asPath.match(CreateCommentMatchUrl) ? (
           <CreateCommentModal isOpen={true} onClose={() => router.back()} />
@@ -46,5 +63,3 @@ const CreateCommentGlobalModal: React.FC<CreateCommentGlobalModalProps> =
       </>
     );
   };
-
-export default withMyApollo({ ssr: false })(CreateCommentGlobalModal);
