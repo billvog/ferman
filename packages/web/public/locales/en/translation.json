@@ -29,10 +29,6 @@
     "404": "Not found"
   },
   "common_sidebar": {
-    "change_language": {
-      "button_title": "Change Language",
-      "dialog_header": "Choose Language"
-    },
     "home": "Home",
     "search": "Search",
     "post": "Post",
@@ -140,7 +136,7 @@
     "no_liked_posts": "%user% hasn't liked any post"
   },
   "post": {
-    "header_title": "Post",
+    "title": "Post",
     "post": "Post",
     "not_found": "Post could not be found",
     "comment": "comment",
@@ -157,7 +153,7 @@
     }
   },
   "comment": {
-    "header_title": "Comment",
+    "title": "Comment",
     "not_found": "Comment could not be found",
     "comment": "Comment",
     "reply": "Comment",
@@ -197,6 +193,15 @@
     "created_date": "Account Created Date",
     "delete_account": "Delete Account",
     "delete_account_subtext": "This will completely remove your account and anything that's associated with it (posts, comments, likes, etc). Be careful with this, any action cannot be undone. Deleting your account requires your password."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": {
+      "title": "Change Language",
+      "text": "Language",
+      "search_placeholder": "Search...",
+      "selected_language": "Selected language"
+    }
   },
   "login": {
     "title": "Login",

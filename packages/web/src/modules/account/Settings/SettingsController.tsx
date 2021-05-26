@@ -3,6 +3,7 @@ import React from "react";
 import { HiChevronRight } from "react-icons/hi";
 import { IoIosGlobe } from "react-icons/io";
 import { MySpinner } from "../../../components/MySpinner";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
 
 interface ListItemProps {
@@ -21,7 +22,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     >
       <div className="flex items-center">
         <div>{props.icon}</div>
-        <div className="ml-2">{props.text}</div>
+        <div className="ml-2.5">{props.text}</div>
       </div>
       <div>
         <HiChevronRight size="20px" />
@@ -35,6 +36,7 @@ export const SettingsController: React.FC<SettingsControllerProps> = ({
   loggedUser,
 }) => {
   const router = useRouter();
+  const { t } = useTypeSafeTranslation();
 
   return (
     <div>
@@ -43,11 +45,11 @@ export const SettingsController: React.FC<SettingsControllerProps> = ({
           <MySpinner />
         </div>
       ) : (
-        <div className="divide-y">
+        <div className="divide-y border-b">
           <ListItem
             icon={<IoIosGlobe />}
-            text="Language"
-            title="Change language"
+            text={t("settings.language.text")}
+            title={t("settings.language.title")}
             onClick={() => router.push("/account/settings/language")}
           />
         </div>

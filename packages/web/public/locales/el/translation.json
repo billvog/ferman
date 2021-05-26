@@ -83,7 +83,7 @@
     "no_liked_posts": "Ο %user% δεν έχει καμία επισήμανση \"μου αρέσει\""
   },
   "post": {
-    "header_title": "Δημοσίευση",
+    "title": "Δημοσίευση",
     "post": "Δημοσιεύστε",
     "not_found": "Η δημοσίευση δεν βρέθηκε",
     "comment": "Σχολίαστε",
@@ -101,7 +101,7 @@
     }
   },
   "comment": {
-    "header_title": "Σχόλια",
+    "title": "Σχόλια",
     "comment": "Σχολιάστε",
     "reply": "Απαντήστε",
     "comments": "Σχόλια",
@@ -278,5 +278,14 @@
   "edit_profile": {
     "title": "Επεξεργασία προφίλ",
     "show_birthday_to_everybody": "Εμφάνιση γενεθλίων σε όλους"
+  },
+  "settings": {
+    "title": "Ρυθμίσεις",
+    "language": {
+      "title": "Αλλαγή γλώσσας",
+      "text": "Γλώσσα",
+      "search_placeholder": "Ψάξτε...",
+      "selected_language": "Επιλεγμένη γλώσσα"
+    }
   }
 }

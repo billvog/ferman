@@ -28,7 +28,7 @@ const Page: React.FC = () => {
         {(user) =>
           screenType === "fullscreen" ? (
             <MainGrid
-              title={t("post.header_title")}
+              title={t("post.title")}
               loggedUser={user}
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}

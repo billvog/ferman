@@ -45,7 +45,7 @@ export const Page: React.FC<CreateCommentPageProps> = ({}) => {
       <HeaderController
         title={t(router.query.reply ? "comment.reply" : "comment.comment")}
       />
-      <WaitAuth>
+      <WaitAuth RequireLoggedIn>
         {(user) =>
           screenType === "fullscreen" && router.query.postId ? (
             <MainGrid

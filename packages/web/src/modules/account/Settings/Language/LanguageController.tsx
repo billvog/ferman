@@ -31,7 +31,7 @@ export const LanguageController: React.FC<LanguageControllerProps> = ({
             <input
               className="bg-primary-50 px-4 py-3 hover:bg-transparent focus:bg-primary-50 transition-colors border-none w-full text-md leading-6 focus:ring-0"
               type="text"
-              placeholder="Search"
+              placeholder={t("settings.language.search_placeholder")}
               value={query}
               onChange={(e) => setQuery(e.currentTarget.value)}
             />
@@ -43,7 +43,7 @@ export const LanguageController: React.FC<LanguageControllerProps> = ({
               option.label.toLowerCase().includes(query.toLowerCase()) ? (
                 <div
                   key={option.value}
-                  className="flex justify-between items-center w-full p-3 text-md font-semibold hover:bg-primary-100 cursor-pointer transition-colors"
+                  className="flex justify-between items-center w-full p-3 text-md text-primary-700 font-semibold hover:bg-primary-50 cursor-pointer transition-colors"
                   onClick={() => {
                     i18n.changeLanguage(option.value);
                   }}
@@ -53,7 +53,7 @@ export const LanguageController: React.FC<LanguageControllerProps> = ({
                     <div>{option.label}</div>
                   </div>
                   {option.value === i18n.language && (
-                    <div title="Selected language">
+                    <div title={t("settings.language.selected_language")}>
                       <GrRadialSelected size="12px" />
                     </div>
                   )}
