@@ -29,7 +29,7 @@ const Page: React.FC = ({}) => {
           {(user) => (
             <>
               <MainGrid
-                title={t("comment.header_title")}
+                title={t("comment.comment")}
                 loggedUser={user}
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
