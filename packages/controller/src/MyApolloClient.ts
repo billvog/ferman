@@ -17,7 +17,7 @@ export const MyApolloClient = (apiBaseUrl: string, authCookie: string) =>
         Query: {
           fields: {
             users: {
-              keyArgs: ["id", "location"],
+              keyArgs: ["id", "query", "location"],
               merge(
                 existing: PaginatedUsers | undefined,
                 incoming: PaginatedUsers

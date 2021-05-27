@@ -1,4 +1,4 @@
-export type TabState = 0 | 1 | 2;
+export type TabState = 0 | 1;
 
 interface TabItemProps {
   text: string | JSX.Element;
