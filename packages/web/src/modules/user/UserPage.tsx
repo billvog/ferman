@@ -13,7 +13,7 @@ import { UserProfileController } from "./UserProfileController";
 
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
-  const { data: userData } = useGetUserFromUrl();
+  const { data: userData, loading: userLoading } = useGetUserFromUrl();
 
   return (
     <UserOpenGraphPreview user={userData?.user}>
@@ -22,6 +22,8 @@ const Page: React.FC = () => {
           title={
             userData?.user
               ? t("user.title").replace("%user%", userData?.user.username)
+              : !userLoading
+              ? t("user.not_found")
               : undefined
           }
         />
@@ -29,7 +31,7 @@ const Page: React.FC = () => {
           {(user) => (
             <>
               <MainGrid
-                title={userData?.user?.username}
+                title={userData?.user?.username || t("common.error")}
                 loggedUser={user}
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}

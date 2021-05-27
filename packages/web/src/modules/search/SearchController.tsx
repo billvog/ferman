@@ -90,11 +90,23 @@ export const SearchController: React.FC<SearchControllerProps> = ({
   }, [query]);
 
   useEffect(() => {
+    // update query
     router.replace({
-      query: {
-        query: !!query ? query : undefined,
-        tab: tabState === 0 ? null : tabState,
-      },
+      query:
+        !query && tabState === 0
+          ? undefined
+          : !query
+          ? {
+              tab: tabState === 0 ? null : tabState,
+            }
+          : tabState === 0
+          ? {
+              query: !!query ? query : undefined,
+            }
+          : {
+              tab: tabState,
+              query: query,
+            },
     });
 
     if (debouncedQuery.length > 0) {
@@ -136,9 +148,9 @@ export const SearchController: React.FC<SearchControllerProps> = ({
             />
           </div>
         </div>
-        {(tabState === 0 && postsData?.posts) ||
-        (tabState === 1 && usersData?.users) ? (
-          <div className="mt-1.5 font-semibold text-primary-400 text-xs">
+        {(tabState === 0 && postsData?.posts.count) ||
+        (tabState === 1 && usersData?.users.count) ? (
+          <div className="mt-2 font-semibold text-primary-400 text-xs fullscreen:text-vs">
             {tabState === 0 && postsData?.posts.count ? (
               postsData.posts.count !== 1 ? (
                 <div>
@@ -179,7 +191,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
           </div>
         ) : null}
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center border-t">
         <TabItem
           text={
             <span>
@@ -230,7 +242,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
               </div>
             ) : (
               <>
-                <div className="divide-y border-t border-b">
+                <div className="divide-y border-b">
                   {postsData.posts.posts.map((post) => (
                     <Post key={post.id} post={post} me={loggedUser} />
                   ))}
@@ -277,7 +289,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
               </div>
             ) : (
               <>
-                <div className="divide-y border-t border-b">
+                <div className="divide-y border-b">
                   {usersData.users.users.map((user) => (
                     <UserSummaryCard
                       key={user.id}
