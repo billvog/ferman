@@ -141,7 +141,7 @@ export class PostResolver {
       .limit(realLimitPlusOne);
 
     if (userId) {
-      qb.andWhere(
+      qb.where(
         `
           p."creatorId" = :userId
         `,
@@ -173,12 +173,20 @@ export class PostResolver {
       );
     }
 
-    if (feedMode) {
-      qb.andWhere(
+    if (feedMode && req.session.userId) {
+      // from your followers
+      qb.where(
         `p."creatorId" in (select "followingUserId" from follows where "userId" = :userId)`,
         {
           userId: req.session.userId,
         }
+      );
+      // don't show your posts
+      qb.andWhere(
+        `
+          p."creatorId" != :userId
+        `,
+        { userId: req.session.userId }
       );
     }
 

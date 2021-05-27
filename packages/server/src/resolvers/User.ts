@@ -342,7 +342,8 @@ export class UserResolver {
   async users(
     @Arg("limit", () => Int) limit: number,
     @Arg("skip", () => Int, { nullable: true }) skip: number,
-    @Arg("location", () => String, { nullable: true }) location: string
+    @Arg("location", () => String, { nullable: true }) location: string,
+    @Arg("query", () => String, { nullable: true }) query: string
   ): Promise<PaginatedUsers> {
     const start = Date.now();
 
@@ -359,6 +360,20 @@ export class UserResolver {
       qb.andWhere(`lower(p.location) ilike lower(:location)`, {
         location: `%${location}%`,
       });
+    }
+
+    if (query) {
+      const formattedQuery = query.trim().replace(/ /g, " | ");
+      const docWithWeight = `
+        setweight(to_tsvector(u.uid), 'A') || setweight(to_tsvector(u.username), 'B')
+      `;
+      qb.andWhere(`${docWithWeight} @@ plainto_tsquery(:query)`, {
+        query: `${formattedQuery}:*`,
+      });
+      qb.addOrderBy(
+        `ts_rank(${docWithWeight}, plainto_tsquery(:query))`,
+        "DESC"
+      );
     }
 
     if (skip && skip > 0) {

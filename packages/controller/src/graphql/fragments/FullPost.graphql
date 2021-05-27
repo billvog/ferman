@@ -6,11 +6,6 @@ fragment FullPost on Post {
   likeStatus
   createdAt
   creator {
-    id
-    uid
-    username
-    profile {
-      avatarUrl
-    }
+    ...BasicUser
   }
 }

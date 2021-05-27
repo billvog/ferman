@@ -22,7 +22,7 @@ const SidebarItem: React.FC<SidebarItemProps> = (props) => {
       title={props.text}
       onClick={props.onClick}
     >
-      <span className="mr-0 2cols:mr-2">{props.icon}</span>
+      <span className="mr-0 2cols:mr-3">{props.icon}</span>
       {screenType === "2-cols" && <span>{props.text}</span>}
     </div>
   );
@@ -41,7 +41,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
   return (
     <>
       <div className="flex sticky top-0 flex-col justify-between items-start space-y-6 h-screen divide-y">
-        <div className="flex flex-col justify-center w-full divide-y">
+        <div className="flex flex-col justify-center w-full divide-y border-b">
           <div className="p-4 flex items-center">
             <Link href="/">
               <div className="flex justify-center items-center cursor-pointer w-full group">

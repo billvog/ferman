@@ -7,15 +7,17 @@ import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../types/WithAuthProps";
+import { TabItem, TabState } from "./SearchTabs";
 import { SearchTips } from "./SearchTips";
 
 interface SearchControllerProps extends WithAuthProps {}
-
 export const SearchController: React.FC<SearchControllerProps> = ({
   loggedUser,
 }) => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
+
+  const [tabState, setTabState] = useState<TabState>(0);
 
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState(
@@ -77,9 +79,13 @@ export const SearchController: React.FC<SearchControllerProps> = ({
     }
   }, [debouncedQuery]);
 
-  return (
+  return typeof loggedUser === "undefined" ? (
+    <div className="p-4">
+      <MySpinner />
+    </div>
+  ) : (
     <>
-      <div className="p-4 pb-0">
+      <div className="p-4">
         <div className="flex leading-tight">
           <div className="flex-1 mb-1">
             <input
@@ -92,72 +98,93 @@ export const SearchController: React.FC<SearchControllerProps> = ({
           </div>
         </div>
       </div>
-      {(postsQueryCalled && ((postsLoading && !postsData) || !postsData)) ||
-      typeof loggedUser === "undefined" ? (
-        <div className="p-4">
-          <MySpinner />
-        </div>
-      ) : postsError && !postsData && !postsQueryCalled ? (
-        <ErrorText>{t("errors.500")}</ErrorText>
-      ) : !postsData ? (
-        <div className="p-4 pt-0">
-          <div className="text-red-400 mt-2 text-sm">
-            {t("search.search_field_subtext")}
-          </div>
-          {<SearchTips />}
-        </div>
-      ) : postsData.posts.posts.length === 0 ? (
-        <div className="p-4 pt-0">
-          <div className="text-red-400 mt-2 text-sm">
-            {t("search.found_nothing")}
-          </div>
-          {<SearchTips />}
-        </div>
-      ) : (
-        <div>
-          <div className="p-4 pt-1 font-semibold text-primary-400 text-xs">
-            {postsData.posts.count !== 1 ? (
-              <div>
-                {t("common.found_x_results")
-                  .replace("%count%", postsData.posts.count.toString())
-                  .replace(
-                    "%seconds%",
-                    Number(postsData?.posts.executionTime / 1000).toString()
-                  )}
+      <div className="flex justify-center items-center">
+        <TabItem
+          text={<b>Posts</b>}
+          isCurrent={tabState === 0}
+          onClick={() => setTabState(0)}
+        />
+        <TabItem
+          text={<b>People</b>}
+          isCurrent={tabState === 1}
+          onClick={() => setTabState(1)}
+        />
+      </div>
+      <div>
+        {postsError && !postsData ? (
+          <ErrorText>{t("errors.500")}</ErrorText>
+        ) : tabState === 0 ? (
+          <>
+            {postsQueryCalled && postsLoading && !postsData ? (
+              <div className="p-4">
+                <MySpinner />
+              </div>
+            ) : !postsData ? (
+              <div className="p-4 pt-0">
+                <div className="text-red-400 mt-2 text-sm">
+                  {t("search.search_field_subtext")}
+                </div>
+                {<SearchTips />}
+              </div>
+            ) : postsData.posts.count === 0 ? (
+              <div className="p-4 pt-0">
+                <div className="text-red-400 mt-2 text-sm">
+                  {t("search.found_nothing")}
+                </div>
+                {<SearchTips />}
               </div>
             ) : (
-              <div>
-                {t("common.found_one_result").replace(
-                  "%seconds%",
-                  Number(postsData?.posts.executionTime / 1000).toString()
+              <>
+                <div className="p-4 pt-1 font-semibold text-primary-400 text-xs">
+                  {postsData.posts.count !== 1 ? (
+                    <div>
+                      {t("common.found_x_results")
+                        .replace("%count%", postsData.posts.count.toString())
+                        .replace(
+                          "%seconds%",
+                          Number(
+                            postsData?.posts.executionTime / 1000
+                          ).toString()
+                        )}
+                    </div>
+                  ) : (
+                    <div>
+                      {t("common.found_one_result").replace(
+                        "%seconds%",
+                        Number(postsData?.posts.executionTime / 1000).toString()
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="divide-y border-t border-b">
+                  {postsData.posts.posts.map((post) => (
+                    <Post key={post.id} post={post} me={loggedUser} />
+                  ))}
+                </div>
+                {postsData.posts.hasMore && (
+                  <div className="flex justify-center mt-5">
+                    <MyButton
+                      isLoading={postsLoading}
+                      onClick={() => {
+                        fetchMorePosts!({
+                          variables: {
+                            ...postsVariables,
+                            skip: postsData.posts.posts.length,
+                          },
+                        });
+                      }}
+                    >
+                      {t("common.load_more")}
+                    </MyButton>
+                  </div>
                 )}
-              </div>
+              </>
             )}
-          </div>
-          <div className="divide-y border-t border-b">
-            {postsData.posts.posts.map((post) => (
-              <Post key={post.id} post={post} me={loggedUser} />
-            ))}
-          </div>
-        </div>
-      )}
-      {postsData?.posts.posts && postsData?.posts?.hasMore && (
-        <div className="flex justify-center mt-5">
-          <MyButton
-            isLoading={postsLoading}
-            onClick={() => {
-              fetchMorePosts!({
-                variables: {
-                  ...postsVariables,
-                  skip: postsData.posts.posts.length,
-                },
-              });
-            }}
-          >
-            {t("common.load_more")}
-          </MyButton>
-        </div>
-      )}
+          </>
+        ) : tabState === 1 ? (
+          <></>
+        ) : null}
+      </div>
     </>
   );
 };

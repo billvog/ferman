@@ -1,5 +1,5 @@
-query Users($limit: Int!, $skip: Int, $location: String) {
-  users(limit: $limit, skip: $skip, location: $location) {
+query Users($limit: Int!, $skip: Int, $query: String, $location: String) {
+  users(limit: $limit, skip: $skip, query: $query, location: $location) {
     ...PaginatedUsers
   }
 }

@@ -323,6 +323,7 @@ export type QueryUserArgs = {
 
 
 export type QueryUsersArgs = {
+  query?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
@@ -405,11 +406,7 @@ export type FullPostFragment = (
   & Pick<Post, 'id' | 'body' | 'points' | 'commentsCount' | 'likeStatus' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'uid' | 'username'>
-    & { profile?: Maybe<(
-      { __typename?: 'Profile' }
-      & Pick<Profile, 'avatarUrl'>
-    )> }
+    & BasicUserFragment
   ) }
 );
 
@@ -847,6 +844,7 @@ export type UserQuery = (
 export type UsersQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
 }>;
 
@@ -948,15 +946,10 @@ export const FullPostFragmentDoc = gql`
   likeStatus
   createdAt
   creator {
-    id
-    uid
-    username
-    profile {
-      avatarUrl
-    }
+    ...BasicUser
   }
 }
-    `;
+    ${BasicUserFragmentDoc}`;
 export const PaginatedPostsFragmentDoc = gql`
     fragment PaginatedPosts on PaginatedPosts {
   hasMore
@@ -1933,8 +1926,8 @@ export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UsersDocument = gql`
-    query Users($limit: Int!, $skip: Int, $location: String) {
-  users(limit: $limit, skip: $skip, location: $location) {
+    query Users($limit: Int!, $skip: Int, $query: String, $location: String) {
+  users(limit: $limit, skip: $skip, query: $query, location: $location) {
     ...PaginatedUsers
   }
 }
@@ -1954,6 +1947,7 @@ export const UsersDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      skip: // value for 'skip'
+ *      query: // value for 'query'
  *      location: // value for 'location'
  *   },
  * });
