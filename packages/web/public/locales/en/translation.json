@@ -95,8 +95,9 @@
   },
   "search": {
     "title": "Search",
-    "search_field_placeholder": "Search keywords, @mentions, #hashtags",
-    "search_field_subtext": "Enter keywords, #hashtags or @mentions in the search field to get some results.",
+    "search_field_placeholder": "Search terms",
+    "search_posts_field_subtext": "Enter keywords, #hashtags or @mentions in the search field to get some results.",
+    "search_users_field_subtext": "Enter a username or a uid in the search field to get some results.",
     "found_nothing": "We found nothing matching the given terms",
     "tabs": {
       "posts_tab": "Posts",

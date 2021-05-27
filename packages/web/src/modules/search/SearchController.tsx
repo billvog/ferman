@@ -69,12 +69,10 @@ export const SearchController: React.FC<SearchControllerProps> = ({
 
   useEffect(() => {
     if (router.query.tab) {
-      const formattedTabIndex = Number.parseInt(
-        router.query.tab as string
-      ) as TabState;
+      const formattedTabIndex = Number.parseInt(router.query.tab as string);
 
       if (formattedTabIndex !== tabState) {
-        setTabState(formattedTabIndex);
+        setTabState((formattedTabIndex as TabState) || 0);
       }
     }
   }, [router.query.tab]);
@@ -92,21 +90,18 @@ export const SearchController: React.FC<SearchControllerProps> = ({
   useEffect(() => {
     // update query
     router.replace({
-      query:
-        !query && tabState === 0
-          ? undefined
-          : !query
-          ? {
-              tab: tabState === 0 ? null : tabState,
-            }
-          : tabState === 0
-          ? {
-              query: !!query ? query : undefined,
-            }
-          : {
-              tab: tabState,
-              query: query,
-            },
+      query: !debouncedQuery
+        ? {
+            tab: tabState,
+          }
+        : tabState === 0
+        ? {
+            query: debouncedQuery,
+          }
+        : {
+            tab: tabState,
+            query: debouncedQuery,
+          },
     });
 
     if (debouncedQuery.length > 0) {
@@ -227,14 +222,14 @@ export const SearchController: React.FC<SearchControllerProps> = ({
                 <MySpinner />
               </div>
             ) : !postsData ? (
-              <div className="p-4 pt-0">
+              <div className="p-4 pt-2">
                 <div className="text-red-400 mt-2 text-sm">
-                  {t("search.search_field_subtext")}
+                  {t("search.search_posts_field_subtext")}
                 </div>
                 {<SearchTips />}
               </div>
             ) : postsData.posts.count === 0 ? (
-              <div className="p-4 pt-0">
+              <div className="p-4 pt-2">
                 <div className="text-red-400 mt-2 text-sm">
                   {t("search.found_nothing")}
                 </div>
@@ -274,14 +269,14 @@ export const SearchController: React.FC<SearchControllerProps> = ({
                 <MySpinner />
               </div>
             ) : !usersData ? (
-              <div className="p-4 pt-0">
+              <div className="p-4 pt-2">
                 <div className="text-red-400 mt-2 text-sm">
-                  {t("search.search_field_subtext")}
+                  {t("search.search_users_field_subtext")}
                 </div>
                 {<SearchTips />}
               </div>
             ) : usersData.users.count === 0 ? (
-              <div className="p-4 pt-0">
+              <div className="p-4 pt-2">
                 <div className="text-red-400 mt-2 text-sm">
                   {t("search.found_nothing")}
                 </div>
