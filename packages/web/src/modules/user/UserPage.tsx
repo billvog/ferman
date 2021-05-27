@@ -31,7 +31,13 @@ const Page: React.FC = () => {
           {(user) => (
             <>
               <MainGrid
-                title={userData?.user?.username || t("common.error")}
+                title={
+                  userData?.user
+                    ? userData?.user?.username
+                    : !userLoading
+                    ? t("common.error")
+                    : undefined
+                }
                 loggedUser={user}
                 bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}

@@ -195,7 +195,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
         <TabItem
           text={
             <span>
-              <b>Posts</b>
+              <b>{t("search.tabs.posts_tab")}</b>
               {!!postsData?.posts.count && (
                 <span> ({postsData.posts.count})</span>
               )}
@@ -207,7 +207,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
         <TabItem
           text={
             <span>
-              <b>People</b>
+              <b>{t("search.tabs.users_tab")}</b>
               {!!usersData?.users.count && (
                 <span> ({usersData?.users.count})</span>
               )}
@@ -223,7 +223,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
         ) : tabState === 0 ? (
           <>
             {postsQueryCalled && postsLoading && !postsData ? (
-              <div className="p-4">
+              <div className="p-6">
                 <MySpinner />
               </div>
             ) : !postsData ? (
@@ -270,7 +270,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
         ) : tabState === 1 ? (
           <>
             {usersQueryCalled && usersLoading && !usersData ? (
-              <div className="p-4">
+              <div className="p-6">
                 <MySpinner />
               </div>
             ) : !usersData ? (

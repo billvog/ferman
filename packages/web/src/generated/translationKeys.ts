@@ -76,6 +76,8 @@ export type TranslationKeys =
 	| "search.search_field_placeholder"
 	| "search.search_field_subtext"
 	| "search.found_nothing"
+	| "search.tabs.posts_tab"
+	| "search.tabs.users_tab"
 	| "search.search_tips.heading"
 	| "search.search_tips.tip_1"
 	| "search.search_tips.tip_2"

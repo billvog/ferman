@@ -42,8 +42,8 @@ function createDateFormatOptions(format: string): Intl.DateTimeFormatOptions {
   }
 }
 
-export const init_i18n = async () => {
-  await i18n
+export const init_i18n = () => {
+  i18n
     // import & load translations from -> /public/locales
     .use(Backend)
     // https://github.com/i18next/i18next-browser-languageDetector
