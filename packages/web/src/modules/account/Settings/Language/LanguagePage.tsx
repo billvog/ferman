@@ -16,7 +16,7 @@ const Page: React.FC<LanguagePageProps> = ({}) => {
   return (
     <WaitI18>
       <HeaderController title={t("settings.language.title")} />
-      <WaitAuth>
+      <WaitAuth RequireLoggedIn>
         {(user) => (
           <MainGrid
             title={t("settings.language.title")}
