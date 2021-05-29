@@ -1,17 +1,20 @@
+import {
+  followMutationOptions,
+  FullUserFragment,
+  useFollowMutation,
+} from "@ferman-pkgs/controller";
+import dayjs from "dayjs";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import { FullUserFragment, useFollowMutation } from "@ferman-pkgs/controller";
-import { ImLocation2 } from "react-icons/im";
-import { GiBalloons } from "react-icons/gi";
 import { AiFillCalendar } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
-import NextLink from "next/link";
-import { useRichBodyText } from "../shared-hooks/useRichBodyText";
-import moment from "moment";
-import { MyButton } from "./MyButton";
-import { useRouter } from "next/router";
+import { GiBalloons } from "react-icons/gi";
+import { ImLocation2 } from "react-icons/im";
 import { toast } from "react-toastify";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
-import { followMutationOptions } from "@ferman-pkgs/controller";
+import { MyButton } from "./MyButton";
 
 interface UserCardProps {
   user: FullUserFragment;
@@ -151,9 +154,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
             <AiFillCalendar />
             <span className="space-x-1">
               <span>{t("user.joined")}:</span>
-              <b>
-                {moment(parseFloat(user.createdAt)).local().format("MMMM YYYY")}
-              </b>
+              <b>{dayjs(parseFloat(user.createdAt)).format("MMMM YYYY")}</b>
             </span>
           </div>
           {user.profile?.showBirthdate && (
@@ -165,9 +166,9 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
               <span className="space-x-1">
                 <span>{t("user.birthday")}:</span>
                 <b>
-                  {moment(parseFloat(user.profile.birthdate))
-                    .local()
-                    .format("MMM Do YYYY")}
+                  {dayjs(parseFloat(user.profile.birthdate)).format(
+                    "MMM DD YYYY"
+                  )}
                 </b>
               </span>
             </div>

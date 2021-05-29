@@ -1,9 +1,9 @@
 import React from "react";
 import { FullPostFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import { PostActionButtons } from "./PostActionButtons";
-import moment from "moment";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 interface PostProps {
   me: FullUserFragment | null;
@@ -33,7 +33,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
             </Link>
             <div className="hidden fullscreen:block">·</div>
             <div className="text-xs leading-normal">
-              {moment(parseFloat(post.createdAt)).local().fromNow()}
+              {dayjs(parseFloat(post.createdAt)).fromNow()}
             </div>
           </div>
           <div className="table table-fixed w-full whitespace-pre-wrap break-word text-vs">

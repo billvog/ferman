@@ -18,7 +18,7 @@ const SidebarItem: React.FC<SidebarItemProps> = (props) => {
   const screenType = useScreenType();
   return (
     <div
-      className="flex flex-row justify-center items-center p-4 cursor-pointer transition duration-150 text-primary-600 hover:bg-primary-50"
+      className="flex flex-row justify-center 2cols:justify-start items-center p-4 cursor-pointer transition duration-150 text-primary-600 hover:bg-primary-50"
       title={props.text}
       onClick={props.onClick}
     >

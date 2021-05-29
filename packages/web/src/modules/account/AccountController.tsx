@@ -1,6 +1,6 @@
 import { useApolloClient } from "@apollo/client";
 import { useLogoutMutation } from "@ferman-pkgs/controller";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
 import processString from "react-process-string";
@@ -96,15 +96,15 @@ export const AccountController: React.FC<AccountControllerProps> = ({
               </div>
               <div>
                 <b>{t("my_account.date_of_birth")}:</b>{" "}
-                {moment(
-                  parseFloat(loggedUser.profile?.birthdate || "0")
-                ).format("MMM Do YYYY")}
+                {dayjs(parseFloat(loggedUser.profile?.birthdate || "0")).format(
+                  "MMM DD YYYY"
+                )}
               </div>
               <div>
                 <b>{t("my_account.created_date")}:</b>{" "}
-                {moment(parseFloat(loggedUser.createdAt))
-                  .local()
-                  .format("MMMM Do YYYY, h:mm:ss a")}
+                {dayjs(parseFloat(loggedUser.createdAt)).format(
+                  "MMMM DD YYYY, h:mm:ss a"
+                )}
               </div>
             </div>
           </div>

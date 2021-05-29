@@ -9,8 +9,8 @@ import {
   MyMessage,
   UpdateProfileFormValues,
 } from "@ferman-pkgs/controller";
+import dayjs from "dayjs";
 import { Form, FormikProps, withFormik } from "formik";
-import moment from "moment";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -65,8 +65,8 @@ const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
           label={t("form.label.date_of_birth")}
           name="birthdate"
           type="text"
-          value={moment(parseFloat(myInitialValues.birthdate)).format(
-            "MMMM Do YYYY"
+          value={dayjs(parseFloat(myInitialValues.birthdate)).format(
+            "MMMM DD YYYY"
           )}
           disabled={true}
         />

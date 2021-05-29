@@ -1,12 +1,12 @@
-import React from "react";
 import { FullCommentFragment, FullUserFragment } from "@ferman-pkgs/controller";
-import { CommentActionButtons } from "./CommentActionButtons";
-import moment from "moment";
-import { useRichBodyText } from "../shared-hooks/useRichBodyText";
+import dayjs from "dayjs";
 import Link from "next/link";
+import React from "react";
 import { CgMailReply } from "react-icons/cg";
-import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import processString from "react-process-string";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { CommentActionButtons } from "./CommentActionButtons";
 
 interface PostCommentProps {
   me: FullUserFragment | null;
@@ -92,7 +92,7 @@ export const PostComment: React.FC<PostCommentProps> = ({
               </Link>
               <div className="hidden 1cols:block">·</div>
               <div className="text-xs leading-normal">
-                {moment(parseFloat(comment.createdAt)).local().fromNow()}
+                {dayjs(parseFloat(comment.createdAt)).fromNow()}
               </div>
             </div>
             <div className="table table-fixed whitespace-pre-wrap break-word text-xs">
