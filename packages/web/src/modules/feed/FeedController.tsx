@@ -1,4 +1,5 @@
 import { usePostsQuery } from "@ferman-pkgs/controller";
+import dayjs from "dayjs";
 import React from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
@@ -42,6 +43,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({
         <div className="p-4 text-primary-450">{t("common.no_posts")}</div>
       ) : (
         <div className="divide-y border-b">
+          {dayjs("1999-01-01").fromNow()}
           {postsData.posts.posts.map((post) => (
             <Post key={post.id} post={post} me={loggedUser} />
           ))}

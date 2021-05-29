@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { MySpinner } from "../../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../../types/WithAuthProps";
+import dayjs from "dayjs";
 
 interface LanguageControllerProps extends WithAuthProps {}
 export const LanguageController: React.FC<LanguageControllerProps> = ({
@@ -46,6 +47,7 @@ export const LanguageController: React.FC<LanguageControllerProps> = ({
                   className="flex justify-between items-center w-full p-3 text-md text-primary-700 font-semibold hover:bg-primary-50 cursor-pointer transition-colors"
                   onClick={() => {
                     i18n.changeLanguage(option.value);
+                    dayjs.locale(option.value);
                   }}
                 >
                   <div className="flex items-center">

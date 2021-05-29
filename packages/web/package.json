@@ -8,8 +8,9 @@
     "start": "next start",
     "export": "next export",
     "gen:i18:keys": "ts-node --project scripts/tsconfig.json scripts/generateTranslationTypes.ts",
+    "gen:i18:locale_imports": "ts-node --project scripts/tsconfig.json scripts/genereteLocaleImports.ts",
     "sync:i18": "ts-node --project scripts/tsconfig.json scripts/syncTranslations.ts",
-    "i18": "yarn gen:i18:keys && yarn sync:i18"
+    "i18": "yarn gen:i18:keys && yarn gen:i18:locale_imports && yarn sync:i18"
   },
   "dependencies": {
     "@apollo/client": "^3.3.19",
@@ -17,6 +18,7 @@
     "@ferman-pkgs/controller": "^0.0.42",
     "@headlessui/react": "^1.1.1",
     "@tailwindcss/forms": "^0.3.2",
+    "dayjs": "^1.10.5",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "i18next": "^20.2.2",

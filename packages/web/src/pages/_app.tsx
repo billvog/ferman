@@ -1,12 +1,16 @@
 import { toast } from "react-toastify";
 import { init_i18n } from "../lib/i18n";
+import { init_dayjs } from "../lib/dayjs";
 import { isServer } from "../utils/isServer";
 import { GlobalModals } from "../modules/display/GlobalModals";
 import "react-toastify/dist/ReactToastify.css";
 import "../css/global.css";
 
 if (!isServer()) {
-  init_i18n();
+  (async () => {
+    await init_i18n();
+    init_dayjs();
+  })();
 }
 
 function MyApp({ Component, pageProps }: any) {
