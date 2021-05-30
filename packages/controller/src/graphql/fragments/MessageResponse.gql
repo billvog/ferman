@@ -1,0 +1,6 @@
+fragment MessageResponse on MessageResponse {
+  message {
+    ...FullMessage
+  }
+  error
+}

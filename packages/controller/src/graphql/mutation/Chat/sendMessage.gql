@@ -1,0 +1,5 @@
+mutation SendMessage($chatId: Int!, $options: MessageInput!) {
+  sendMessage(chatId: $chatId, options: $options) {
+    ...MessageResponse
+  }
+}

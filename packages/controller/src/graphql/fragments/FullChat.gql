@@ -1,0 +1,12 @@
+fragment FullChat on Chat {
+  id
+  senderId
+  sender {
+    ...BasicUser
+  }
+  recieverId
+  reciever {
+    ...BasicUser
+  }
+  createdAt
+}

@@ -21,6 +21,7 @@ import { User } from "../entity/User";
 import { Message } from "../entity/Message";
 import { NEW_MESSAGE_KEY } from "../constants";
 import { PubSub, withFilter } from "graphql-subscriptions";
+import { chatAuth } from "../middleware/chatAuth";
 
 const pubsub = new PubSub();
 
@@ -48,38 +49,35 @@ export class MessageInput {
 
 type NewMessagePayload = {
   chatId: number;
-  newChatMessage: Message;
+  newMessage: Message;
 };
 
 @Resolver(() => Chat)
 export class ChatResolver {
-  // MESSAGES
-  @FieldResolver(() => [Message])
-  messages(@Root() chat: Chat, @Ctx() { req }: MyContext) {
-    if (
-      chat.senderId !== req.session.userId &&
-      chat.recieverId !== req.session.userId
-    ) {
-      return [];
-    }
-
-    return Message.find({
-      where: {
-        chatId: chat.id,
-      },
-    });
+  // SENDER
+  @UseMiddleware(chatAuth)
+  @FieldResolver(() => User)
+  sender(@Root() chat: Chat, @Ctx() { userLoader }: MyContext) {
+    return userLoader.load(chat.senderId);
   }
 
-  @UseMiddleware(isAuth)
+  // RECIEVER
+  @UseMiddleware(chatAuth)
+  @FieldResolver(() => User)
+  reciever(@Root() chat: Chat, @Ctx() { userLoader }: MyContext) {
+    return userLoader.load(chat.recieverId);
+  }
+
+  @UseMiddleware(chatAuth)
   @Query(() => ChatResponse)
   async chat(
-    @Arg("recieverId", () => Int) recieverId: number,
+    @Arg("chatId", () => Int) chatId: number,
     @Ctx() { req }: MyContext
   ): Promise<ChatResponse> {
     const chat = await Chat.findOne({
       where: {
         senderId: req.session.userId,
-        recieverId,
+        id: chatId,
       },
     });
 
@@ -90,6 +88,7 @@ export class ChatResolver {
     return { chat, error: false };
   }
 
+  @UseMiddleware(chatAuth)
   @Subscription(() => Message, {
     nullable: true,
     subscribe: withFilter(
@@ -97,29 +96,11 @@ export class ChatResolver {
       (payload, args) => payload.chatId === args.chatId
     ),
   })
-  async newChatMessage(
+  async newMessage(
     @Root() payload: NewMessagePayload,
-    @Arg("chatId", () => Int) chatId: number,
-    @Ctx() { connection }: MyContext
+    @Arg("chatId", () => Int) chatId: number
   ): Promise<Message | null> {
-    const chat = await Chat.findOne({
-      where: [
-        {
-          id: chatId,
-          senderId: connection?.context.req.session.userId,
-        },
-        {
-          id: chatId,
-          recieverId: connection?.context.req.session.userId,
-        },
-      ],
-    });
-
-    if (!chat) {
-      throw new Error("403");
-    }
-
-    return payload.newChatMessage;
+    return payload.newMessage;
   }
 
   @UseMiddleware(isAuth)
@@ -137,43 +118,34 @@ export class ChatResolver {
       };
     }
 
-    const chat = await Chat.insert({
-      senderId: sender.id,
-      recieverId: reciever.id,
-    });
+    let chat: Chat;
+    try {
+      chat = Chat.create({
+        senderId: sender.id,
+        recieverId: reciever.id,
+      });
+
+      await Chat.insert(chat);
+    } catch (error) {
+      console.log(error);
+      return {
+        error: true,
+      };
+    }
 
     return {
       error: false,
-      chat: chat.generatedMaps[0] as any,
+      chat,
     };
   }
 
-  @UseMiddleware(isAuth)
+  @UseMiddleware(chatAuth)
   @Mutation(() => MessageResponse)
   async sendMessage(
     @Arg("chatId", () => Int) chatId: number,
     @Arg("options", () => MessageInput) options: MessageInput,
     @Ctx() { req }: MyContext
   ): Promise<MessageResponse> {
-    const chat = await Chat.findOne({
-      where: [
-        {
-          id: chatId,
-          senderId: req.session.userId,
-        },
-        {
-          id: chatId,
-          recieverId: req.session.userId,
-        },
-      ],
-    });
-
-    if (!chat) {
-      return {
-        error: true,
-      };
-    }
-
     let message: Message;
     try {
       message = Message.create({
@@ -186,7 +158,7 @@ export class ChatResolver {
 
       pubsub.publish(NEW_MESSAGE_KEY, {
         chatId,
-        newChatMessage: message,
+        newMessage: message,
       });
     } catch (error) {
       console.log(error);

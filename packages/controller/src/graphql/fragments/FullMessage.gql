@@ -1,0 +1,9 @@
+fragment FullMessage on Message {
+  id
+  userId
+  user {
+    ...BasicUser
+  }
+  text
+  createdAt
+}

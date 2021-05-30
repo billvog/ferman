@@ -396,7 +396,7 @@ export class UserResolver {
   // LOGGED USER
   @Query(() => User, { nullable: true })
   async me(@Ctx() { req }: MyContext): Promise<User | null> {
-    if (typeof req.session.userId === "undefined") {
+    if (!req.session.userId) {
       return null;
     }
 

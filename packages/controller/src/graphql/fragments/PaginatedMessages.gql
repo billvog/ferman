@@ -1,0 +1,8 @@
+fragment PaginatedMessages on PaginatedMessages {
+  hasMore
+  executionTime
+  count
+  messages {
+    ...FullMessage
+  }
+}

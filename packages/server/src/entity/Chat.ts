@@ -22,17 +22,18 @@ export class Chat extends BaseEntity {
   @Column()
   senderId: number;
 
-  @ManyToOne(() => User, (user) => user.likes)
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.messages)
   sender: User;
 
   @Field(() => Int)
   @Column()
   recieverId: number;
 
-  @ManyToOne(() => User, (user) => user.likes)
-  reciver: User;
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.messages)
+  reciever: User;
 
-  @Field(() => [Message])
   @OneToMany(() => Message, (message) => message.chat, {
     onDelete: "CASCADE",
   })

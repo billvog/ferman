@@ -1,16 +1,45 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache, split } from "@apollo/client";
+import { WebSocketLink } from "@apollo/client/link/ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 import {
   PaginatedUsers,
   PaginatedPosts,
   PaginatedComments,
 } from "./generated/graphql";
 
-export const MyApolloClient = (apiBaseUrl: string, authCookie: string) =>
-  new ApolloClient({
-    uri: apiBaseUrl,
+export const MyApolloClient = (
+  ApiUrl: string,
+  WebSocketUrl: string,
+  AuthCookie: string
+) => {
+  const httpLink = new HttpLink({
+    uri: ApiUrl,
+  });
+
+  const wsLink = new WebSocketLink({
+    uri: WebSocketUrl,
+    options: {
+      reconnect: true,
+    },
+  });
+
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+      );
+    },
+    wsLink,
+    httpLink
+  );
+
+  return new ApolloClient({
+    link: splitLink,
     credentials: "include",
     headers: {
-      cookie: authCookie,
+      cookie: AuthCookie,
     },
     cache: new InMemoryCache({
       typePolicies: {
@@ -106,3 +135,4 @@ export const MyApolloClient = (apiBaseUrl: string, authCookie: string) =>
       },
     }),
   });
+};

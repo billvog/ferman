@@ -1,0 +1,5 @@
+query Messages($chatId: Int!, $limit: Int!, $skip: Int) {
+  messages(chatId: $chatId, limit: $limit, skip: $skip) {
+    ...PaginatedMessages
+  }
+}
