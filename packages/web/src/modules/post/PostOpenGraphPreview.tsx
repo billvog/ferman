@@ -17,7 +17,7 @@ export const PostOpenGraphPreview: React.FC<PostOpenGraphPreviewProps> = ({
         title={`${post.creator.username} on Ferman`}
         description={post.body}
         user={post.creator.username}
-        image={post.creator.profile?.avatarUrl || ""}
+        image={post.creator.profile?.avatarUrl}
         additionalKeywords={[post.creator.username, post.creator.uid]}
         type="article"
       />

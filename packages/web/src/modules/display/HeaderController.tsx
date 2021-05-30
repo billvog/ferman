@@ -32,7 +32,7 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
       <meta name="description" content={description} />
       <meta
         name="keywords"
-        content={`ferman,${additionalKeywords?.map((k) => ` ${k}`)}`}
+        content={`ferman${additionalKeywords?.map((k) => `, ${k}`)}`}
       />
       <meta name="og:title" content={title || "Ferman"} />
       <meta name="og:type" content={type} />
