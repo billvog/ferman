@@ -3,26 +3,29 @@ import connectRedis from "connect-redis";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
+import { execute, subscribe } from "graphql";
+import { PubSub } from "graphql-subscriptions";
+import http from "http";
 import Redis from "ioredis";
 import path from "path";
 import "reflect-metadata";
-import { buildSchema } from "type-graphql";
+import { SubscriptionServer } from "subscriptions-transport-ws";
 import { createConnection } from "typeorm";
 import { SESSION_COOKIE_NAME, __prod__ } from "./constants";
 import { createCommentLoader } from "./dataloaders/createCommentLoader";
 import { createLikeLoader } from "./dataloaders/createLikeLoader";
+import { createMessageLoader } from "./dataloaders/createMessageLoader";
 import { createPostLoader } from "./dataloaders/createPostLoader";
 import { createUserLoader } from "./dataloaders/createUserLoader";
+import { Chat } from "./entity/Chat";
 import { Comment } from "./entity/Comment";
 import { Follow } from "./entity/Follow";
 import { Like } from "./entity/Like";
+import { Message } from "./entity/Message";
 import { Post } from "./entity/Post";
 import { Profile } from "./entity/Profile";
 import { User } from "./entity/User";
-import { PostResolver } from "./resolvers/Post";
-import { PostCommentResolver } from "./resolvers/PostComments";
-import { ProfileResolver } from "./resolvers/Profile";
-import { UserResolver } from "./resolvers/User";
+import { MySchema } from "./MySchema";
 import { MyContext } from "./types/MyContext";
 require("dotenv-safe").config();
 
@@ -32,6 +35,8 @@ require("dotenv-safe").config();
   const redis = new Redis(process.env.REDIS_URL);
 
   const app = express();
+  const httpServer = http.createServer(app);
+
   app.set("trust proxy", 1);
 
   // express middleware
@@ -49,8 +54,7 @@ require("dotenv-safe").config();
         maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 year
         httpOnly: true,
         sameSite: "lax",
-        // secure: __prod__,
-        secure: false,
+        secure: __prod__,
         domain: __prod__ ? ".ferman.ga" : undefined,
       },
       store: new RedisStore({ client: redis }),
@@ -68,7 +72,7 @@ require("dotenv-safe").config();
     logger: "simple-console",
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migration/*")],
-    entities: [User, Profile, Follow, Post, Like, Comment],
+    entities: [User, Profile, Follow, Post, Like, Comment, Message, Chat],
     ssl: __prod__,
     extra: __prod__
       ? {
@@ -86,15 +90,7 @@ require("dotenv-safe").config();
 
   // setup apollo
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [
-        UserResolver,
-        ProfileResolver,
-        PostResolver,
-        PostCommentResolver,
-      ],
-      validate: false,
-    }),
+    schema: await MySchema(),
     context: ({ req, res }: MyContext) => ({
       req,
       res,
@@ -103,13 +99,15 @@ require("dotenv-safe").config();
       postLoader: createPostLoader(),
       commentLoader: createCommentLoader(),
       likeLoader: createLikeLoader(),
+      messageLoader: createMessageLoader(),
     }),
   });
 
   apolloServer.applyMiddleware({ app, cors: false });
+  apolloServer.installSubscriptionHandlers(httpServer);
 
   // start server
-  app.listen(process.env.PORT, () => {
-    console.log("Listening at:", process.env.PORT);
+  httpServer.listen(process.env.PORT, async () => {
+    console.log("🚀 Server started @", process.env.PORT);
   });
 })();

@@ -10,9 +10,11 @@ import {
   JoinColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Chat } from "./Chat";
 import { Comment } from "./Comment";
 import { Follow } from "./Follow";
 import { Like } from "./Like";
+import { Message } from "./Message";
 import { Post } from "./Post";
 import { Profile } from "./Profile";
 
@@ -64,6 +66,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Follow, (follow) => follow.followingUser)
   followers: Follow[];
+
+  @OneToMany(() => Chat, (chat) => chat.sender || chat.reciver)
+  chats: Chat[];
+
+  @OneToMany(() => Message, (message) => message.userId)
+  messages: Message[];
 
   @Field(() => Boolean, { nullable: true }) followsYouStatus: boolean;
   @Field(() => Boolean, { nullable: true }) followingStatus: boolean;
