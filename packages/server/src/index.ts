@@ -3,18 +3,14 @@ import connectRedis from "connect-redis";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
-import { execute, subscribe } from "graphql";
-import { PubSub } from "graphql-subscriptions";
 import http from "http";
 import Redis from "ioredis";
 import path from "path";
 import "reflect-metadata";
-import { SubscriptionServer } from "subscriptions-transport-ws";
 import { createConnection } from "typeorm";
 import { SESSION_COOKIE_NAME, __prod__ } from "./constants";
 import { createCommentLoader } from "./dataloaders/createCommentLoader";
 import { createLikeLoader } from "./dataloaders/createLikeLoader";
-import { createMessageLoader } from "./dataloaders/createMessageLoader";
 import { createPostLoader } from "./dataloaders/createPostLoader";
 import { createUserLoader } from "./dataloaders/createUserLoader";
 import { Chat } from "./entity/Chat";
@@ -37,32 +33,30 @@ require("dotenv-safe").config();
   const app = express();
   const httpServer = http.createServer(app);
 
-  app.set("trust proxy", 1);
-
   // express middleware
+  const sessionMiddleware = session({
+    name: SESSION_COOKIE_NAME,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 year
+      httpOnly: true,
+      sameSite: "lax",
+      secure: __prod__,
+      domain: __prod__ ? ".ferman.ga" : undefined,
+    },
+    store: new RedisStore({ client: redis }),
+    secret: process.env.SESSION_SECRET as string,
+    saveUninitialized: false,
+    resave: false,
+  });
+
+  app.set("trust proxy", 1);
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
-
-  app.use(
-    session({
-      name: SESSION_COOKIE_NAME,
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 1, // 1 year
-        httpOnly: true,
-        sameSite: "lax",
-        secure: __prod__,
-        domain: __prod__ ? ".ferman.ga" : undefined,
-      },
-      store: new RedisStore({ client: redis }),
-      secret: process.env.SESSION_SECRET as string,
-      saveUninitialized: false,
-      resave: false,
-    })
-  );
+  app.use(sessionMiddleware);
 
   // create db connection
   const conn = await createConnection({
@@ -91,15 +85,26 @@ require("dotenv-safe").config();
   // setup apollo
   const apolloServer = new ApolloServer({
     schema: await MySchema(),
-    context: ({ req, res }: MyContext) => ({
+    subscriptions: {
+      onConnect: (_, ws: any) => {
+        return new Promise((res) =>
+          sessionMiddleware(ws.upgradeReq, {} as any, () => {
+            res({
+              req: ws.upgradeReq,
+            });
+          })
+        );
+      },
+    },
+    context: ({ req, res, connection }: MyContext) => ({
       req,
       res,
       redis,
+      connection,
       userLoader: createUserLoader(),
       postLoader: createPostLoader(),
       commentLoader: createCommentLoader(),
       likeLoader: createLikeLoader(),
-      messageLoader: createMessageLoader(),
     }),
   });
 

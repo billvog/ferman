@@ -97,10 +97,28 @@ export class ChatResolver {
       (payload, args) => payload.chatId === args.chatId
     ),
   })
-  newChatMessage(
+  async newChatMessage(
     @Root() payload: NewMessagePayload,
-    @Arg("chatId", () => Int) chatId: number
-  ): Message | null {
+    @Arg("chatId", () => Int) chatId: number,
+    @Ctx() { connection }: MyContext
+  ): Promise<Message | null> {
+    const chat = await Chat.findOne({
+      where: [
+        {
+          id: chatId,
+          senderId: connection?.context.req.session.userId,
+        },
+        {
+          id: chatId,
+          recieverId: connection?.context.req.session.userId,
+        },
+      ],
+    });
+
+    if (!chat) {
+      throw new Error("403");
+    }
+
     return payload.newChatMessage;
   }
 
