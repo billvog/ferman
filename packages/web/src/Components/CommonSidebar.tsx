@@ -35,11 +35,13 @@ interface UserActionProps {
 
 const UserAction: React.FC<UserActionProps> = (props) => {
   return (
-    <div
-      className="hover:bg-accent-transparent cursor-pointer transition-colors text-accent p-2 rounded-full"
-      onClick={props.onClick}
-    >
-      {props.icon}
+    <div className="flex-1 flex justify-center items-center p-2">
+      <div
+        className="hover:bg-accent-transparent cursor-pointer transition-colors text-accent p-2 rounded-full"
+        onClick={props.onClick}
+      >
+        {props.icon}
+      </div>
     </div>
   );
 };
@@ -109,7 +111,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
         </div>
         <div className="w-full divide-y">
           {typeof loggedUser !== "undefined" && loggedUser && (
-            <div className="flex divide-x-4 justify-center p-2">
+            <div className="flex 2cols:flex-row flex-col divide-y 2cols:divide-y-0 2cols:space-x-2 justify-center">
               <UserAction
                 icon={<NavIcons.ChatIcon size="20px" />}
                 onClick={() => router.push("/chat")}

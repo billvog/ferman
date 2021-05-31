@@ -2,6 +2,7 @@ import { FullUserFragment } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { useNavIcons } from "../shared-hooks/useNavIcons";
 import { useScreenType } from "../shared-hooks/useScreenType";
 import { MySpinner } from "./MySpinner";
 
@@ -18,6 +19,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 }) => {
   const router = useRouter();
   const screenType = useScreenType();
+  const NavIcons = useNavIcons();
 
   return (
     <div className="sticky z-10 top-0 flex justify-between items-center bg-primary-100 text-primary-450 p-3">
@@ -35,15 +37,22 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         <div className="select-none">{title}</div>
       </div>
       {screenType === "fullscreen" && loggedUser !== null && (
-        <div>
+        <div className="flex items-center space-x-6">
           {typeof loggedUser === "undefined" ? (
             <MySpinner />
           ) : (
-            <img
-              src={loggedUser.profile?.avatarUrl}
-              className="w-8 h-8 rounded-35"
-              onClick={() => router.push("/account")}
-            />
+            <>
+              <NavIcons.ChatIcon
+                size="20px"
+                className="text-primary-600"
+                onClick={() => router.push("/chat")}
+              />
+              <img
+                src={loggedUser.profile?.avatarUrl}
+                className="w-8 h-8 rounded-35"
+                onClick={() => router.push("/account")}
+              />
+            </>
           )}
         </div>
       )}
