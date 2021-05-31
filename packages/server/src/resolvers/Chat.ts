@@ -68,6 +68,20 @@ export class ChatResolver {
     return userLoader.load(chat.recieverId);
   }
 
+  // LATEST MESSAGE
+  @UseMiddleware(chatAuth)
+  @FieldResolver(() => Message, { nullable: true })
+  latestMessage(@Root() chat: Chat) {
+    return Message.findOne({
+      where: {
+        chatId: chat.id,
+      },
+      order: {
+        createdAt: "ASC",
+      },
+    });
+  }
+
   @UseMiddleware(chatAuth)
   @Query(() => ChatResponse)
   async chat(

@@ -209,6 +209,11 @@
       "selected_language": "Selected language"
     }
   },
+  "chat": {
+    "title": "Chat",
+    "new_chat": "New Chat",
+    "chat_between": "Chat between %sender% and %reciever%"
+  },
   "login": {
     "title": "Login",
     "sign_in": "Sign In",

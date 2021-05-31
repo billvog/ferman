@@ -8,5 +8,8 @@ fragment FullChat on Chat {
   reciever {
     ...BasicUser
   }
+  latestMessage {
+    ...FullMessage
+  }
   createdAt
 }

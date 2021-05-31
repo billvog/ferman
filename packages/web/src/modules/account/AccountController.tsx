@@ -1,11 +1,11 @@
 import { useApolloClient } from "@apollo/client";
+import { ErrorText } from "../../components/ErrorText";
 import { useLogoutMutation } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
 import processString from "react-process-string";
 import { toast } from "react-toastify";
-import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserCard } from "../../components/UserCard";

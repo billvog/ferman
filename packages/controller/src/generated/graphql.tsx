@@ -23,6 +23,7 @@ export type Chat = {
   sender: User;
   recieverId: Scalars['Int'];
   reciever: User;
+  latestMessage?: Maybe<Message>;
   createdAt: Scalars['String'];
 };
 
@@ -493,7 +494,10 @@ export type FullChatFragment = (
   ), reciever: (
     { __typename?: 'User' }
     & BasicUserFragment
-  ) }
+  ), latestMessage?: Maybe<(
+    { __typename?: 'Message' }
+    & FullMessageFragment
+  )> }
 );
 
 export type FullCommentFragment = (
@@ -1113,6 +1117,17 @@ export const BasicUserFragmentDoc = gql`
   }
 }
     ${BasicProfileFragmentDoc}`;
+export const FullMessageFragmentDoc = gql`
+    fragment FullMessage on Message {
+  id
+  userId
+  user {
+    ...BasicUser
+  }
+  text
+  createdAt
+}
+    ${BasicUserFragmentDoc}`;
 export const FullChatFragmentDoc = gql`
     fragment FullChat on Chat {
   id
@@ -1124,9 +1139,13 @@ export const FullChatFragmentDoc = gql`
   reciever {
     ...BasicUser
   }
+  latestMessage {
+    ...FullMessage
+  }
   createdAt
 }
-    ${BasicUserFragmentDoc}`;
+    ${BasicUserFragmentDoc}
+${FullMessageFragmentDoc}`;
 export const ChatResponseFragmentDoc = gql`
     fragment ChatResponse on ChatResponse {
   chat {
@@ -1141,17 +1160,6 @@ export const FieldErrorFragmentDoc = gql`
   message
 }
     `;
-export const FullMessageFragmentDoc = gql`
-    fragment FullMessage on Message {
-  id
-  userId
-  user {
-    ...BasicUser
-  }
-  text
-  createdAt
-}
-    ${BasicUserFragmentDoc}`;
 export const MessageResponseFragmentDoc = gql`
     fragment MessageResponse on MessageResponse {
   message {
