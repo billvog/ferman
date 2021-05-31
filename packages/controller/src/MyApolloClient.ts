@@ -6,6 +6,7 @@ import {
   PaginatedPosts,
   PaginatedComments,
 } from "./generated/graphql";
+import { isServer } from "./utils/isServer";
 
 export const MyApolloClient = (
   ApiUrl: string,
@@ -14,30 +15,34 @@ export const MyApolloClient = (
 ) => {
   const httpLink = new HttpLink({
     uri: ApiUrl,
+    credentials: "include",
   });
 
-  const wsLink = new WebSocketLink({
-    uri: WebSocketUrl,
-    options: {
-      reconnect: true,
-    },
-  });
+  const wsLink = isServer()
+    ? null
+    : new WebSocketLink({
+        uri: WebSocketUrl,
+        options: {
+          reconnect: true,
+        },
+      });
 
-  const splitLink = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query);
-      return (
-        definition.kind === "OperationDefinition" &&
-        definition.operation === "subscription"
+  const splitLink = isServer()
+    ? httpLink
+    : split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+          return (
+            definition.kind === "OperationDefinition" &&
+            definition.operation === "subscription"
+          );
+        },
+        wsLink!,
+        httpLink
       );
-    },
-    wsLink,
-    httpLink
-  );
 
   return new ApolloClient({
     link: splitLink,
-    credentials: "include",
     headers: {
       cookie: AuthCookie,
     },
