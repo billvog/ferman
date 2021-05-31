@@ -13,7 +13,6 @@ import {
   Query,
   InputType,
   Subscription,
-  Args,
 } from "type-graphql";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "src/types/MyContext";
@@ -22,6 +21,8 @@ import { Message } from "../entity/Message";
 import { NEW_MESSAGE_KEY } from "../constants";
 import { PubSub, withFilter } from "graphql-subscriptions";
 import { chatAuth } from "../middleware/chatAuth";
+import { FieldError } from "./FieldError";
+import { Follow } from "../entity/Follow";
 
 const pubsub = new PubSub();
 
@@ -29,6 +30,16 @@ const pubsub = new PubSub();
 export class ChatResponse {
   @Field(() => Chat, { nullable: true })
   chat?: Chat;
+
+  @Field(() => FieldError, { nullable: true })
+  error?: FieldError;
+}
+
+@ObjectType()
+export class MinimalChatResponse {
+  @Field(() => Chat, { nullable: true })
+  chat?: Chat;
+
   @Field(() => Boolean)
   error: boolean;
 }
@@ -83,11 +94,11 @@ export class ChatResolver {
   }
 
   @UseMiddleware(chatAuth)
-  @Query(() => ChatResponse)
+  @Query(() => MinimalChatResponse)
   async chat(
     @Arg("chatId", () => Int) chatId: number,
     @Ctx() { req }: MyContext
-  ): Promise<ChatResponse> {
+  ): Promise<MinimalChatResponse> {
     const chat = await Chat.findOne({
       where: {
         senderId: req.session.userId,
@@ -120,15 +131,45 @@ export class ChatResolver {
   @UseMiddleware(isAuth)
   @Mutation(() => ChatResponse)
   async createChat(
-    @Arg("recieverId", () => Int) recieverId: number,
+    @Arg("recieverUID", () => String) recieverUID: string,
     @Ctx() { req }: MyContext
   ): Promise<ChatResponse> {
     const sender = await User.findOne(req.session.userId);
-    const reciever = await User.findOne(recieverId);
+    const reciever = await User.findOne({
+      where: {
+        uid: recieverUID,
+      },
+    });
 
-    if (!sender || !reciever) {
+    if (!sender) {
       return {
-        error: true,
+        error: {
+          field: "_",
+          message: "errors.500",
+        },
+      };
+    }
+
+    if (!reciever) {
+      return {
+        error: {
+          field: "reciever",
+          message: "chat.create_chat.errors.reciever_404",
+        },
+      };
+    }
+
+    const followingReciever = await Follow.findOne({
+      userId: sender.id,
+      followingUserId: reciever.id,
+    });
+
+    if (!followingReciever) {
+      return {
+        error: {
+          field: "reciever",
+          message: "chat.create_chat.errors.reciever_not_followed",
+        },
       };
     }
 
@@ -143,12 +184,14 @@ export class ChatResolver {
     } catch (error) {
       console.log(error);
       return {
-        error: true,
+        error: {
+          field: "_",
+          message: "errors.500",
+        },
       };
     }
 
     return {
-      error: false,
       chat,
     };
   }

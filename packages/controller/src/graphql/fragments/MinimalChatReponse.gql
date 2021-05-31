@@ -1,0 +1,6 @@
+fragment MinimalChatResponse on MinimalChatResponse {
+  chat {
+    ...FullChat
+  }
+  error
+}

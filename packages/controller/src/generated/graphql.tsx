@@ -30,7 +30,7 @@ export type Chat = {
 export type ChatResponse = {
   __typename?: 'ChatResponse';
   chat?: Maybe<Chat>;
-  error: Scalars['Boolean'];
+  error?: Maybe<FieldError>;
 };
 
 export type Comment = {
@@ -89,6 +89,12 @@ export type MessageResponse = {
   error: Scalars['Boolean'];
 };
 
+export type MinimalChatResponse = {
+  __typename?: 'MinimalChatResponse';
+  chat?: Maybe<Chat>;
+  error: Scalars['Boolean'];
+};
+
 export type MinimalCommentIdResponse = {
   __typename?: 'MinimalCommentIdResponse';
   commentId: Scalars['String'];
@@ -141,7 +147,7 @@ export type Mutation = {
 
 
 export type MutationCreateChatArgs = {
-  recieverId: Scalars['Int'];
+  recieverUID: Scalars['String'];
 };
 
 
@@ -329,7 +335,7 @@ export type ProfileResponse = {
 
 export type Query = {
   __typename?: 'Query';
-  chat: ChatResponse;
+  chat: MinimalChatResponse;
   messages: PaginatedMessages;
   posts: PaginatedPosts;
   post?: Maybe<Post>;
@@ -413,6 +419,7 @@ export type QueryUserArgs = {
 
 
 export type QueryUsersArgs = {
+  iFollow?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
@@ -473,10 +480,12 @@ export type BasicUserFragment = (
 
 export type ChatResponseFragment = (
   { __typename?: 'ChatResponse' }
-  & Pick<ChatResponse, 'error'>
   & { chat?: Maybe<(
     { __typename?: 'Chat' }
     & FullChatFragment
+  )>, error?: Maybe<(
+    { __typename?: 'FieldError' }
+    & FieldErrorFragment
   )> }
 );
 
@@ -566,6 +575,15 @@ export type MessageResponseFragment = (
   )> }
 );
 
+export type MinimalChatResponseFragment = (
+  { __typename?: 'MinimalChatResponse' }
+  & Pick<MinimalChatResponse, 'error'>
+  & { chat?: Maybe<(
+    { __typename?: 'Chat' }
+    & FullChatFragment
+  )> }
+);
+
 export type MinimalCommentIdResponseFragment = (
   { __typename?: 'MinimalCommentIdResponse' }
   & Pick<MinimalCommentIdResponse, 'error' | 'postId' | 'parentCommentId' | 'commentId'>
@@ -625,7 +643,7 @@ export type PaginatedUsersFragment = (
 );
 
 export type CreateChatMutationVariables = Exact<{
-  recieverId: Scalars['Int'];
+  recieverUID: Scalars['String'];
 }>;
 
 
@@ -919,8 +937,8 @@ export type ChatQueryVariables = Exact<{
 export type ChatQuery = (
   { __typename?: 'Query' }
   & { chat: (
-    { __typename?: 'ChatResponse' }
-    & ChatResponseFragment
+    { __typename?: 'MinimalChatResponse' }
+    & MinimalChatResponseFragment
   ) }
 );
 
@@ -1146,20 +1164,23 @@ export const FullChatFragmentDoc = gql`
 }
     ${BasicUserFragmentDoc}
 ${FullMessageFragmentDoc}`;
-export const ChatResponseFragmentDoc = gql`
-    fragment ChatResponse on ChatResponse {
-  chat {
-    ...FullChat
-  }
-  error
-}
-    ${FullChatFragmentDoc}`;
 export const FieldErrorFragmentDoc = gql`
     fragment FieldError on FieldError {
   field
   message
 }
     `;
+export const ChatResponseFragmentDoc = gql`
+    fragment ChatResponse on ChatResponse {
+  chat {
+    ...FullChat
+  }
+  error {
+    ...FieldError
+  }
+}
+    ${FullChatFragmentDoc}
+${FieldErrorFragmentDoc}`;
 export const MessageResponseFragmentDoc = gql`
     fragment MessageResponse on MessageResponse {
   message {
@@ -1168,6 +1189,14 @@ export const MessageResponseFragmentDoc = gql`
   error
 }
     ${FullMessageFragmentDoc}`;
+export const MinimalChatResponseFragmentDoc = gql`
+    fragment MinimalChatResponse on MinimalChatResponse {
+  chat {
+    ...FullChat
+  }
+  error
+}
+    ${FullChatFragmentDoc}`;
 export const MinimalCommentIdResponseFragmentDoc = gql`
     fragment MinimalCommentIdResponse on MinimalCommentIdResponse {
   error
@@ -1307,8 +1336,8 @@ export const PaginatedUsersFragmentDoc = gql`
 }
     ${FullUserFragmentDoc}`;
 export const CreateChatDocument = gql`
-    mutation CreateChat($recieverId: Int!) {
-  createChat(recieverId: $recieverId) {
+    mutation CreateChat($recieverUID: String!) {
+  createChat(recieverUID: $recieverUID) {
     ...ChatResponse
   }
 }
@@ -1328,7 +1357,7 @@ export type CreateChatMutationFn = Apollo.MutationFunction<CreateChatMutation, C
  * @example
  * const [createChatMutation, { data, loading, error }] = useCreateChatMutation({
  *   variables: {
- *      recieverId: // value for 'recieverId'
+ *      recieverUID: // value for 'recieverUID'
  *   },
  * });
  */
@@ -2001,10 +2030,10 @@ export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, L
 export const ChatDocument = gql`
     query Chat($chatId: Int!) {
   chat(chatId: $chatId) {
-    ...ChatResponse
+    ...MinimalChatResponse
   }
 }
-    ${ChatResponseFragmentDoc}`;
+    ${MinimalChatResponseFragmentDoc}`;
 
 /**
  * __useChatQuery__

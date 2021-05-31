@@ -16,6 +16,9 @@ export * from "./options/post/DeletePostOptions";
 export * from "./controllers/comment/CommentController";
 export * from "./options/comment/DeleteCommentOptions";
 
+// Chat Controller
+export * from "./controllers/chat/CreateChatController";
+
 // Custom Types
 export * from "./types/MyMessage";
 export * from "./types/ErrorMap";

@@ -1,5 +1,9 @@
-import { BodyMax, PostValidationSchema } from "@ferman-pkgs/common";
-import { ErrorMap, MyMessage, PostFormValues } from "@ferman-pkgs/controller";
+import { UidMax } from "@ferman-pkgs/common";
+import {
+  CreateChatFormValues,
+  ErrorMap,
+  MyMessage,
+} from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
@@ -8,16 +12,16 @@ import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
-interface CreatePostViewProps {
-  submit: (values: PostFormValues) => Promise<{
-    postId?: string;
+interface CreateChatViewProps {
+  submit: (values: CreateChatFormValues) => Promise<{
+    chatId?: number;
     errors: ErrorMap | null;
   }>;
   message: MyMessage | null;
   router: NextRouter;
 }
 
-const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
+const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
   message,
   isSubmitting,
 }) => {
@@ -27,31 +31,30 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
     <Form>
       {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
       <InputField
-        textarea
-        label={t("common.body")}
-        name="body"
-        placeholder={`${t("common.body")}...`}
+        label={t("chat.create_chat.label.reciever")}
+        name="reciever"
+        placeholder={t("chat.create_chat.placeholder.reciever")}
         type="text"
-        maxLength={BodyMax}
+        maxLength={UidMax}
       />
       <MyButton type="submit" isLoading={isSubmitting}>
-        {t("post.post")}
+        {t("chat.new_chat")}
       </MyButton>
     </Form>
   );
 };
 
-export const CreatePostView = withRouter(
-  withFormik<CreatePostViewProps, PostFormValues>({
-    validateOnBlur: true,
-    validationSchema: PostValidationSchema,
+export const CreateChatView = withRouter(
+  withFormik<CreateChatViewProps, CreateChatFormValues>({
+    // validateOnBlur: true,
+    // validationSchema: PostValidationSchema,
     mapPropsToValues: () => ({
-      body: "",
+      reciever: "",
     }),
     handleSubmit: async (values, { setErrors, props }) => {
-      const { errors, postId } = await props.submit(values);
+      const { errors, chatId } = await props.submit(values);
       if (errors) setErrors(errors);
-      else props.router.replace(`/post/${postId}`);
+      else props.router.replace(`/chat/${chatId}`);
     },
   })(C)
 );

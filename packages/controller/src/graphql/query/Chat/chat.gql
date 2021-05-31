@@ -1,5 +1,5 @@
 query Chat($chatId: Int!) {
   chat(chatId: $chatId) {
-    ...ChatResponse
+    ...MinimalChatResponse
   }
 }

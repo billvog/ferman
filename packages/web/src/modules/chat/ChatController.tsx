@@ -1,11 +1,12 @@
 import { useChatsQuery } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../types/WithAuthProps";
+import { CreateChatModal } from "./create/CreateChatModal";
 
 interface ChatControllerProps extends WithAuthProps {}
 export const ChatController: React.FC<ChatControllerProps> = ({
@@ -26,8 +27,14 @@ export const ChatController: React.FC<ChatControllerProps> = ({
     },
   });
 
+  const [createChatOpen, setCreateChatOpen] = useState(false);
+
   return (
     <div>
+      <CreateChatModal
+        isOpen={createChatOpen && !!loggedUser}
+        onClose={() => setCreateChatOpen(false)}
+      />
       {typeof loggedUser === "undefined" || (chatsLoading && !chatsData) ? (
         <div className="p-4">
           <MySpinner />
@@ -42,7 +49,9 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               {(chatsData?.chats.count || 0) > 1 &&
                 `(${chatsData?.chats.count})`}
             </div>
-            <MyButton onClick={() => {}}>{t("chat.new_chat")}</MyButton>
+            <MyButton onClick={() => setCreateChatOpen(true)}>
+              {t("chat.new_chat")}
+            </MyButton>
           </div>
           <div className="divide-y border-t border-b">
             {chatsData?.chats.count === 0 ? (

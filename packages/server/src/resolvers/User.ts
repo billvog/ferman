@@ -393,7 +393,9 @@ export class UserResolver {
     @Arg("limit", () => Int) limit: number,
     @Arg("skip", () => Int, { nullable: true }) skip: number,
     @Arg("location", () => String, { nullable: true }) location: string,
-    @Arg("query", () => String, { nullable: true }) query: string
+    @Arg("query", () => String, { nullable: true }) query: string,
+    @Arg("iFollow", () => Boolean, { nullable: true }) iFollow: boolean,
+    @Ctx() { req }: MyContext
   ): Promise<PaginatedUsers> {
     const start = Date.now();
 
@@ -405,6 +407,15 @@ export class UserResolver {
       .createQueryBuilder("u")
       .innerJoin(Profile, "p", 'p."userId" = u.id')
       .limit(realLimitPlusOne);
+
+    if (iFollow && req.session.userId) {
+      qb.andWhere(
+        ':userId in (select id from followers f where f."followingUserId" = u.id)',
+        {
+          userId: req.session.userId,
+        }
+      );
+    }
 
     if (location) {
       qb.andWhere(`lower(p.location) ilike lower(:location)`, {

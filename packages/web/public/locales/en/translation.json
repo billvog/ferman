@@ -213,7 +213,20 @@
     "chats": "Your chats",
     "new_chat": "New Chat",
     "you_have_no_chats": "You have no chats yet",
-    "chat_between": "Chat between %user1% and you"
+    "chat_between": "Chat between %user1% and you",
+    "create_chat": {
+      "title": "Create Chat",
+      "errors": {
+        "reciever_404": "Reciever not found",
+        "reciever_not_followed": "Reciever not followed"
+      },
+      "label": {
+        "reciever": "Reciever"
+      },
+      "placeholder": {
+        "reciever": "Enter username"
+      }
+    }
   },
   "login": {
     "title": "Login",
