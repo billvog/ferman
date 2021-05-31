@@ -1,16 +1,15 @@
 import { useChatsQuery } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../types/WithAuthProps";
-import { CreateChatModal } from "./create/CreateChatModal";
 
-interface ChatControllerProps extends WithAuthProps {}
-export const ChatController: React.FC<ChatControllerProps> = ({
+interface ChatsControllerProps extends WithAuthProps {}
+export const ChatsController: React.FC<ChatsControllerProps> = ({
   loggedUser,
 }) => {
   const { t } = useTypeSafeTranslation();

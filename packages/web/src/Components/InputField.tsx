@@ -9,7 +9,7 @@ const InputUtils = `font-sans relative w-full outline-none border-none transitio
 type InputFieldProps = InputHTMLAttributes<
   HTMLInputElement | HTMLTextAreaElement
 > & {
-  label: string;
+  label?: string;
   name: string;
   type: string;
   textarea?: boolean;
@@ -35,47 +35,49 @@ export const InputField: React.FC<InputFieldProps> = ({
   const [field, { error, touched }] = useField(props);
 
   return (
-    <div className="w-full mb-2">
-      <label
-        className="text-sm text-primary-500 select-none"
-        htmlFor={field.name}
-      >
-        <div className="flex justify-between items-center mt-3 mb-1">
-          <div className="flex items-center">
-            <span>{label}</span>
-            {props.maxLength && (
-              <span className="text-primary-400 text-xs ml-2">
-                {field.value.length}/{props.maxLength}
-              </span>
+    <div className="w-full">
+      {!!label && (
+        <label
+          className="text-sm text-primary-500 select-none"
+          htmlFor={field.name}
+        >
+          <div className="flex justify-between items-center mt-3 mb-1">
+            <div className="flex items-center">
+              <span>{label}</span>
+              {props.maxLength && (
+                <span className="text-primary-400 text-xs ml-2">
+                  {field.value.length}/{props.maxLength}
+                </span>
+              )}
+            </div>
+            {passwordOptions && (
+              <div>
+                <button
+                  className="flex items-center leading-normal border-none bg-primary-600 transition-colors text-button font-semibold cursor-pointer px-2 py-0.5 text-xs rounded-lg"
+                  onClick={passwordOptions.handlePwdToggle}
+                  type="button"
+                >
+                  {passwordOptions.showPassword ? (
+                    <>
+                      <span style={{ marginRight: 5 }}>
+                        {t("form.toggle_pwd_visibility.hide")}
+                      </span>
+                      <AiOutlineEyeInvisible />
+                    </>
+                  ) : (
+                    <>
+                      <span style={{ marginRight: 5 }}>
+                        {t("form.toggle_pwd_visibility.show")}
+                      </span>
+                      <AiOutlineEye />
+                    </>
+                  )}
+                </button>
+              </div>
             )}
           </div>
-          {passwordOptions && (
-            <div>
-              <button
-                className="flex items-center leading-normal border-none bg-primary-600 transition-colors text-button font-semibold cursor-pointer px-2 py-0.5 text-xs rounded-lg"
-                onClick={passwordOptions.handlePwdToggle}
-                type="button"
-              >
-                {passwordOptions.showPassword ? (
-                  <>
-                    <span style={{ marginRight: 5 }}>
-                      {t("form.toggle_pwd_visibility.hide")}
-                    </span>
-                    <AiOutlineEyeInvisible />
-                  </>
-                ) : (
-                  <>
-                    <span style={{ marginRight: 5 }}>
-                      {t("form.toggle_pwd_visibility.show")}
-                    </span>
-                    <AiOutlineEye />
-                  </>
-                )}
-              </button>
-            </div>
-          )}
-        </div>
-      </label>
+        </label>
+      )}
       {passwordOptions?.isPassword ? (
         <input
           {...field}
