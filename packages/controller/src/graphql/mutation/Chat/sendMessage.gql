@@ -1,4 +1,4 @@
-mutation SendMessage($chatId: Int!, $options: MessageInput!) {
+mutation SendMessage($chatId: String!, $options: MessageInput!) {
   sendMessage(chatId: $chatId, options: $options) {
     ...MessageResponse
   }

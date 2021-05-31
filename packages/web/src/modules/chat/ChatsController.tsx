@@ -1,5 +1,6 @@
 import { useChatsQuery } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
@@ -13,6 +14,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
   loggedUser,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const router = useRouter();
 
   const {
     data: chatsData,
@@ -27,14 +29,8 @@ export const ChatController: React.FC<ChatControllerProps> = ({
     },
   });
 
-  const [createChatOpen, setCreateChatOpen] = useState(false);
-
   return (
     <div>
-      <CreateChatModal
-        isOpen={createChatOpen && !!loggedUser}
-        onClose={() => setCreateChatOpen(false)}
-      />
       {typeof loggedUser === "undefined" || (chatsLoading && !chatsData) ? (
         <div className="p-4">
           <MySpinner />
@@ -49,7 +45,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               {(chatsData?.chats.count || 0) > 1 &&
                 `(${chatsData?.chats.count})`}
             </div>
-            <MyButton onClick={() => setCreateChatOpen(true)}>
+            <MyButton onClick={() => router.push("/chat/new")}>
               {t("chat.new_chat")}
             </MyButton>
           </div>

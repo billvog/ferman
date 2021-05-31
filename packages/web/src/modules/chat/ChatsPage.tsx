@@ -7,7 +7,7 @@ import { WaitI18 } from "../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { withMyApollo } from "../../utils/withMyApollo";
 import { HeaderController } from "../display/HeaderController";
-import { ChatController } from "./ChatController";
+import { ChatController } from "./ChatsController";
 
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
@@ -32,4 +32,4 @@ const Page: React.FC = () => {
   );
 };
 
-export const ChatPage = withMyApollo({ ssr: false })(Page);
+export const ChatsPage = withMyApollo({ ssr: false })(Page);

@@ -39,7 +39,7 @@ export class MessageResolver {
   @UseMiddleware(chatAuth)
   @Query(() => PaginatedMessages)
   async messages(
-    @Arg("chatId", () => Int) chatId: number,
+    @Arg("chatId", () => String) chatId: string,
     @Arg("limit", () => Int) limit: number,
     @Arg("skip", () => Int, { nullable: true }) skip: number
   ): Promise<PaginatedMessages> {

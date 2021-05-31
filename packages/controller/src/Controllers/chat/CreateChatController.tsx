@@ -4,14 +4,14 @@ import { MyMessage } from "../../types/MyMessage";
 import { useCreateChatMutation } from "../../generated/graphql";
 
 export interface CreateChatFormValues {
-  recieverUID: string;
+  reciever_uid: string;
 }
 
 interface CreateChatControllerProps {
   onFinish: () => any;
   children: (data: {
     submit: (values: CreateChatFormValues) => Promise<{
-      chatId?: number;
+      chatId?: string;
       errors: ErrorMap | null;
     }>;
     message: MyMessage | null;
@@ -28,7 +28,7 @@ export const CreateChatController: React.FC<CreateChatControllerProps> = ({
   const submit = async (values: CreateChatFormValues) => {
     const { data, errors } = await createChat({
       variables: {
-        recieverUID: values.recieverUID,
+        reciever_uid: values.reciever_uid,
       },
       update: (cache) => {
         cache.evict({ fieldName: "Chats" });

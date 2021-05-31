@@ -1,5 +1,5 @@
-mutation CreateChat($recieverUID: String!) {
-  createChat(recieverUID: $recieverUID) {
+mutation CreateChat($reciever_uid: String!) {
+  createChat(reciever_uid: $reciever_uid) {
     ...ChatResponse
   }
 }

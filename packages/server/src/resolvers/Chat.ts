@@ -96,13 +96,13 @@ export class ChatResolver {
   @UseMiddleware(chatAuth)
   @Query(() => MinimalChatResponse)
   async chat(
-    @Arg("chatId", () => Int) chatId: number,
+    @Arg("chatId", () => String) chatId: string,
     @Ctx() { req }: MyContext
   ): Promise<MinimalChatResponse> {
     const chat = await Chat.findOne({
       where: {
-        senderId: req.session.userId,
         id: chatId,
+        senderId: req.session.userId,
       },
     });
 
@@ -123,7 +123,7 @@ export class ChatResolver {
   })
   async newMessage(
     @Root() payload: NewMessagePayload,
-    @Arg("chatId", () => Int) chatId: number
+    @Arg("chatId", () => String) chatId: string
   ): Promise<Message | null> {
     return payload.newMessage;
   }
@@ -131,13 +131,13 @@ export class ChatResolver {
   @UseMiddleware(isAuth)
   @Mutation(() => ChatResponse)
   async createChat(
-    @Arg("recieverUID", () => String) recieverUID: string,
+    @Arg("reciever_uid", () => String) reciever_uid: string,
     @Ctx() { req }: MyContext
   ): Promise<ChatResponse> {
     const sender = await User.findOne(req.session.userId);
     const reciever = await User.findOne({
       where: {
-        uid: recieverUID,
+        uid: reciever_uid,
       },
     });
 
@@ -153,22 +153,8 @@ export class ChatResolver {
     if (!reciever) {
       return {
         error: {
-          field: "reciever",
+          field: "reciever_uid",
           message: "chat.create_chat.errors.reciever_404",
-        },
-      };
-    }
-
-    const followingReciever = await Follow.findOne({
-      userId: sender.id,
-      followingUserId: reciever.id,
-    });
-
-    if (!followingReciever) {
-      return {
-        error: {
-          field: "reciever",
-          message: "chat.create_chat.errors.reciever_not_followed",
         },
       };
     }
@@ -199,7 +185,7 @@ export class ChatResolver {
   @UseMiddleware(chatAuth)
   @Mutation(() => MessageResponse)
   async sendMessage(
-    @Arg("chatId", () => Int) chatId: number,
+    @Arg("chatId", () => String) chatId: string,
     @Arg("options", () => MessageInput) options: MessageInput,
     @Ctx() { req }: MyContext
   ): Promise<MessageResponse> {

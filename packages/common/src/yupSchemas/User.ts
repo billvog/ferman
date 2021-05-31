@@ -78,12 +78,17 @@ export const RegisterFourValidationSchema = yup.object().shape({
   password: PASSWORD_SHAPE,
 });
 
+// New Chat
+export const NewChatValidationSchema = yup.object().shape({
+  reciever_uid: UID_SHAPE,
+});
+
 // Account Delete
-export const AccountDeletionOne = yup.object().shape({
+export const AccountDeletionOneValidationSchema = yup.object().shape({
   code: AUTH_CODE_SHAPE,
 });
 
-export const AccountDeletionTwo = yup.object().shape({
+export const AccountDeletionTwoValidationSchema = yup.object().shape({
   password: PASSWORD_SHAPE,
 });
 

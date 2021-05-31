@@ -1,2 +1,2 @@
-import { ChatPage } from "../../modules/chat/ChatPage";
-export default ChatPage;
+import { ChatsPage } from "../../modules/chat/ChatsPage";
+export default ChatsPage;

@@ -18,7 +18,7 @@ export type Scalars = {
 
 export type Chat = {
   __typename?: 'Chat';
-  id: Scalars['Float'];
+  id: Scalars['String'];
   senderId: Scalars['Int'];
   sender: User;
   recieverId: Scalars['Int'];
@@ -72,7 +72,7 @@ export type LoginInput = {
 export type Message = {
   __typename?: 'Message';
   id: Scalars['Float'];
-  chatId: Scalars['Float'];
+  chatId: Scalars['String'];
   userId: Scalars['Float'];
   text: Scalars['String'];
   createdAt: Scalars['DateTime'];
@@ -147,13 +147,13 @@ export type Mutation = {
 
 
 export type MutationCreateChatArgs = {
-  recieverUID: Scalars['String'];
+  reciever_uid: Scalars['String'];
 };
 
 
 export type MutationSendMessageArgs = {
   options: MessageInput;
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
 };
 
 
@@ -351,14 +351,14 @@ export type Query = {
 
 
 export type QueryChatArgs = {
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
 };
 
 
 export type QueryMessagesArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
 };
 
 
@@ -419,7 +419,6 @@ export type QueryUserArgs = {
 
 
 export type QueryUsersArgs = {
-  iFollow?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
@@ -440,7 +439,7 @@ export type Subscription = {
 
 
 export type SubscriptionNewMessageArgs = {
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
 };
 
 export type User = {
@@ -643,7 +642,7 @@ export type PaginatedUsersFragment = (
 );
 
 export type CreateChatMutationVariables = Exact<{
-  recieverUID: Scalars['String'];
+  reciever_uid: Scalars['String'];
 }>;
 
 
@@ -656,7 +655,7 @@ export type CreateChatMutation = (
 );
 
 export type SendMessageMutationVariables = Exact<{
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
   options: MessageInput;
 }>;
 
@@ -930,7 +929,7 @@ export type LogoutMutation = (
 );
 
 export type ChatQueryVariables = Exact<{
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
 }>;
 
 
@@ -957,7 +956,7 @@ export type ChatsQuery = (
 );
 
 export type MessagesQueryVariables = Exact<{
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
   limit: Scalars['Int'];
   skip?: Maybe<Scalars['Int']>;
 }>;
@@ -1105,7 +1104,7 @@ export type UsersQuery = (
 );
 
 export type NewMessageSubscriptionVariables = Exact<{
-  chatId: Scalars['Int'];
+  chatId: Scalars['String'];
 }>;
 
 
@@ -1336,8 +1335,8 @@ export const PaginatedUsersFragmentDoc = gql`
 }
     ${FullUserFragmentDoc}`;
 export const CreateChatDocument = gql`
-    mutation CreateChat($recieverUID: String!) {
-  createChat(recieverUID: $recieverUID) {
+    mutation CreateChat($reciever_uid: String!) {
+  createChat(reciever_uid: $reciever_uid) {
     ...ChatResponse
   }
 }
@@ -1357,7 +1356,7 @@ export type CreateChatMutationFn = Apollo.MutationFunction<CreateChatMutation, C
  * @example
  * const [createChatMutation, { data, loading, error }] = useCreateChatMutation({
  *   variables: {
- *      recieverUID: // value for 'recieverUID'
+ *      reciever_uid: // value for 'reciever_uid'
  *   },
  * });
  */
@@ -1369,7 +1368,7 @@ export type CreateChatMutationHookResult = ReturnType<typeof useCreateChatMutati
 export type CreateChatMutationResult = Apollo.MutationResult<CreateChatMutation>;
 export type CreateChatMutationOptions = Apollo.BaseMutationOptions<CreateChatMutation, CreateChatMutationVariables>;
 export const SendMessageDocument = gql`
-    mutation SendMessage($chatId: Int!, $options: MessageInput!) {
+    mutation SendMessage($chatId: String!, $options: MessageInput!) {
   sendMessage(chatId: $chatId, options: $options) {
     ...MessageResponse
   }
@@ -2028,7 +2027,7 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const ChatDocument = gql`
-    query Chat($chatId: Int!) {
+    query Chat($chatId: String!) {
   chat(chatId: $chatId) {
     ...MinimalChatResponse
   }
@@ -2099,7 +2098,7 @@ export type ChatsQueryHookResult = ReturnType<typeof useChatsQuery>;
 export type ChatsLazyQueryHookResult = ReturnType<typeof useChatsLazyQuery>;
 export type ChatsQueryResult = Apollo.QueryResult<ChatsQuery, ChatsQueryVariables>;
 export const MessagesDocument = gql`
-    query Messages($chatId: Int!, $limit: Int!, $skip: Int) {
+    query Messages($chatId: String!, $limit: Int!, $skip: Int) {
   messages(chatId: $chatId, limit: $limit, skip: $skip) {
     ...PaginatedMessages
   }
@@ -2475,7 +2474,7 @@ export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
 export const NewMessageDocument = gql`
-    subscription NewMessage($chatId: Int!) {
+    subscription NewMessage($chatId: String!) {
   newMessage(chatId: $chatId) {
     ...FullMessage
   }

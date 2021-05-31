@@ -217,8 +217,7 @@
     "create_chat": {
       "title": "Create Chat",
       "errors": {
-        "reciever_404": "Reciever not found",
-        "reciever_not_followed": "Reciever not followed"
+        "reciever_404": "Reciever not found"
       },
       "label": {
         "reciever": "Reciever"

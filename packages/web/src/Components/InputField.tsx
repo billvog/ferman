@@ -97,15 +97,19 @@ export const InputField: React.FC<InputFieldProps> = ({
       {helperText && (
         <div className="text-primary-400 mt-1 text-xs">{helperText}</div>
       )}
-      {error && touched && i18n.exists(`form.error.${error}`) && (
-        <div
-          className={`text-red-500 font-semibold mt-${
-            textarea ? "0.5" : "1"
-          } text-sm`}
-        >
-          {t(`form.error.${error}` as any)}
-        </div>
-      )}
+      {error &&
+        touched &&
+        (i18n.exists(`form.error.${error}`) || i18n.exists(error)) && (
+          <div
+            className={`text-red-500 font-semibold mt-${
+              textarea ? "0.5" : "1"
+            } text-sm`}
+          >
+            {i18n.exists(`form.error.${error}`)
+              ? t(`form.error.${error}` as any)
+              : t(error as any)}
+          </div>
+        )}
     </div>
   );
 };

@@ -1,12 +1,13 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { Message } from "./Message";
 import { User } from "./User";
@@ -15,8 +16,8 @@ import { User } from "./User";
 @Entity("chats")
 export class Chat extends BaseEntity {
   @Field()
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Field(() => Int)
   @Column()
@@ -45,4 +46,9 @@ export class Chat extends BaseEntity {
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
+
+  @BeforeInsert()
+  private generateId() {
+    this.id = Math.random().toString().slice(6);
+  }
 }

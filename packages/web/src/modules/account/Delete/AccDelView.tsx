@@ -10,8 +10,8 @@ import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import {
-  AccountDeletionOne,
-  AccountDeletionTwo,
+  AccountDeletionOneValidationSchema,
+  AccountDeletionTwoValidationSchema,
   EmptySchema,
 } from "@ferman-pkgs/common";
 import { MyDialog } from "../../../components/MyDialog";
@@ -48,9 +48,9 @@ export const AccDelView: React.FC<AccDelViewProps> = ({
           validateOnChange={false}
           validationSchema={() =>
             phase === 1
-              ? AccountDeletionOne
+              ? AccountDeletionOneValidationSchema
               : phase === 2
-              ? AccountDeletionTwo
+              ? AccountDeletionTwoValidationSchema
               : EmptySchema
           }
           initialValues={{ code: "", password: "" }}

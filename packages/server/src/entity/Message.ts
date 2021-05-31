@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Chat } from "./Chat";
@@ -20,7 +19,7 @@ export class Message extends BaseEntity {
 
   @Field()
   @Column()
-  chatId: number;
+  chatId: string;
 
   @ManyToOne(() => Chat, (chat) => chat.messages)
   chat: Chat;

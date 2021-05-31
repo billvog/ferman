@@ -1,4 +1,4 @@
-query Chat($chatId: Int!) {
+query Chat($chatId: String!) {
   chat(chatId: $chatId) {
     ...MinimalChatResponse
   }
