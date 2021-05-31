@@ -28,6 +28,22 @@ const SidebarItem: React.FC<SidebarItemProps> = (props) => {
   );
 };
 
+interface UserActionProps {
+  onClick: () => any;
+  icon: JSX.Element;
+}
+
+const UserAction: React.FC<UserActionProps> = (props) => {
+  return (
+    <div
+      className="hover:bg-accent-transparent cursor-pointer transition-colors text-accent p-2 rounded-full"
+      onClick={props.onClick}
+    >
+      {props.icon}
+    </div>
+  );
+};
+
 interface CommonSidebarProps {
   loggedUser: FullUserFragment | null | undefined;
 }
@@ -58,11 +74,13 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
             onClick={() => router.push("/")}
             icon={<NavIcons.HomeIcon size="24px" />}
             text={t("common_sidebar.home")}
+            key="home-item"
           />
           <SidebarItem
             onClick={() => router.push("/search")}
             icon={<NavIcons.SearchIcon size="24px" />}
             text={t("common_sidebar.search")}
+            key="search-item"
           />
           {loggedUser && (
             <>
@@ -78,70 +96,87 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                 }}
                 icon={<NavIcons.PostIcon size="24px" />}
                 text={t("common_sidebar.post")}
+                key="post-item"
               />
               <SidebarItem
                 onClick={() => router.push("/explore/posts")}
                 icon={<NavIcons.ExploreIcon size="24px" />}
                 text={t("common_sidebar.explore")}
+                key="explore-item"
               />
             </>
           )}
         </div>
-        <div
-          className="flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150 cursor-pointer"
-          onClick={() =>
-            loggedUser ? router.push("/account") : router.push("/account/login")
-          }
-        >
-          {typeof loggedUser === "undefined" ? (
-            <div>
-              <MySpinner />
+        <div className="w-full divide-y">
+          {typeof loggedUser !== "undefined" && loggedUser && (
+            <div className="flex divide-x-4 justify-center p-2">
+              <UserAction
+                icon={<NavIcons.ChatIcon size="20px" />}
+                onClick={() => router.push("/chat")}
+                key="chat-action"
+              />
             </div>
-          ) : loggedUser ? (
-            <div className="flex flex-row justify-center 2cols:justify-between items-center w-full">
-              {screenType === "2-cols" ? (
-                <>
-                  <div className="flex flex-row items-center">
-                    <div className="mr-2.5">
+          )}
+          <div
+            className="flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150 cursor-pointer"
+            onClick={() =>
+              loggedUser
+                ? router.push("/account")
+                : router.push("/account/login")
+            }
+          >
+            {typeof loggedUser === "undefined" ? (
+              <div>
+                <MySpinner />
+              </div>
+            ) : loggedUser ? (
+              <>
+                <div className="flex flex-row justify-center 2cols:justify-between items-center w-full">
+                  {screenType === "2-cols" ? (
+                    <>
+                      <div className="flex flex-row items-center">
+                        <div className="mr-2.5">
+                          <img
+                            src={loggedUser.profile?.avatarUrl}
+                            className="w-10 h-10 rounded-35"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-bold text-base leading-none text-primary-600 group-hover:underline">
+                            {loggedUser.username}
+                          </span>
+                          <span className="text-sm font-semibold text-primary-450">
+                            @{loggedUser.uid}
+                          </span>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-accent-hover p-2 rounded-full group-hover:bg-accent-transparent group-hover:text-accent-washed-out">
+                          <BiUserCircle />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div>
                       <img
                         src={loggedUser.profile?.avatarUrl}
                         className="w-10 h-10 rounded-35"
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="font-bold text-base leading-none text-primary-600 group-hover:underline">
-                        {loggedUser.username}
-                      </span>
-                      <span className="text-sm font-semibold text-primary-450">
-                        @{loggedUser.uid}
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-accent-hover p-2 rounded-full group-hover:bg-accent-transparent group-hover:text-accent-washed-out">
-                      <BiUserCircle />
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div>
-                  <img
-                    src={loggedUser.profile?.avatarUrl}
-                    className="w-10 h-10 rounded-35"
-                  />
+                  )}
                 </div>
-              )}
-            </div>
-          ) : (
-            <div className="font-semibold text-primary-600 group-hover:underline">
-              <div className="flex items-center">
-                <NavIcons.LoginIcon size="24px" />
-                {screenType === "2-cols" && (
-                  <span className="ml-2">{t("common_sidebar.login")}</span>
-                )}
+              </>
+            ) : (
+              <div className="font-semibold text-primary-600 group-hover:underline">
+                <div className="flex items-center">
+                  <NavIcons.LoginIcon size="24px" />
+                  {screenType === "2-cols" && (
+                    <span className="ml-2">{t("common_sidebar.login")}</span>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </>

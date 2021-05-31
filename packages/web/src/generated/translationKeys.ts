@@ -27,6 +27,7 @@ export type TranslationKeys =
 	| "common_sidebar.search"
 	| "common_sidebar.post"
 	| "common_sidebar.explore"
+	| "common_sidebar.chat"
 	| "common_sidebar.login"
 	| "common_sidebar.register"
 	| "form.label.uid"

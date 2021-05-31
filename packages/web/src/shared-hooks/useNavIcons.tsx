@@ -12,6 +12,8 @@ import {
   IoLogInOutline,
   IoSearchOutline,
   IoSearchSharp,
+  IoChatboxOutline,
+  IoChatbox,
 } from "react-icons/io5";
 import { RiUser3Fill, RiUser3Line } from "react-icons/ri";
 
@@ -25,6 +27,7 @@ export const useNavIcons = () => {
   const ExploreIcon =
     route === "/explore/posts" ? AiFillCompass : AiOutlineCompass;
   const MyAccountIcon = route === "/account" ? RiUser3Fill : RiUser3Line;
+  const ChatIcon = route.startsWith("/chat") ? IoChatbox : IoChatboxOutline;
   const LoginIcon = route === "/account/login" ? IoLogIn : IoLogInOutline;
 
   return {
@@ -34,6 +37,7 @@ export const useNavIcons = () => {
     SearchIcon,
     ExploreIcon,
     MyAccountIcon,
+    ChatIcon,
     LoginIcon,
   };
 };

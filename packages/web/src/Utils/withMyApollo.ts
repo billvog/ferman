@@ -1,6 +1,6 @@
 import { MyApolloClient } from "@ferman-pkgs/controller";
 import { withApollo } from "next-apollo";
-import { apiBaseUrl } from "../lib/constants";
+import { ApiUrl, WebSocketUrl } from "../lib/constants";
 import { isServer } from "./isServer";
 
 const createApolloClient = (ctx: any) => {
@@ -9,7 +9,7 @@ const createApolloClient = (ctx: any) => {
     cookie = ctx.req.headers.cookie;
   }
 
-  return MyApolloClient(apiBaseUrl, cookie);
+  return MyApolloClient(ApiUrl, WebSocketUrl, cookie);
 };
 
 export const withMyApollo = withApollo(createApolloClient);
