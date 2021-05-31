@@ -13,18 +13,12 @@ const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   return (
     <WaitI18>
-      <HeaderController title={t("index.title")} />
-      <WaitAuth>
+      <HeaderController title={t("chat.title")} />
+      <WaitAuth RequireLoggedIn>
         {(user) => (
           <>
             <MainGrid
-              title={
-                typeof user === "undefined"
-                  ? ""
-                  : user
-                  ? t("index.feed")
-                  : t("index.recent_posts")
-              }
+              title={t("chat.title")}
               loggedUser={user}
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
