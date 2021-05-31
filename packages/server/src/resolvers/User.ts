@@ -41,6 +41,7 @@ import {
 } from "@ferman-pkgs/common";
 import { Like } from "../entity/Like";
 import { Comment } from "../entity/Comment";
+import { Chat } from "../entity/Chat";
 
 @ObjectType()
 class UserErrorResponse {
@@ -82,6 +83,18 @@ class LoginInput {
 class PaginatedUsers {
   @Field(() => [User])
   users: User[];
+  @Field()
+  hasMore: boolean;
+  @Field(() => Int)
+  count: number;
+  @Field()
+  executionTime: number;
+}
+
+@ObjectType()
+class PaginatedChats {
+  @Field(() => [Chat])
+  chats: Chat[];
   @Field()
   hasMore: boolean;
   @Field(() => Int)
@@ -180,6 +193,43 @@ export class UserResolver {
     });
 
     return count;
+  }
+
+  @UseMiddleware(isAuth)
+  @Query(() => PaginatedChats)
+  async chats(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("skip", () => Int, { nullable: true }) skip: number,
+    @Ctx() { req }: MyContext
+  ): Promise<PaginatedChats> {
+    const start = Date.now();
+
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    const qb = getConnection()
+      .getRepository(Chat)
+      .createQueryBuilder("c")
+      .where('c."senderId" = :userId or c."recieverId" = :userId', {
+        userId: req.session.userId,
+      })
+      .limit(limit);
+
+    if (skip && skip > 0) {
+      qb.offset(skip);
+    }
+
+    const [chats, count] = await qb.getManyAndCount();
+
+    const end = Date.now();
+    const executionTime = end - start;
+
+    return {
+      chats: chats.slice(0, realLimit),
+      hasMore: chats.length === realLimitPlusOne,
+      count,
+      executionTime,
+    };
   }
 
   // FOLLOWERS

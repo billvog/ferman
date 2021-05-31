@@ -1,0 +1,8 @@
+fragment PaginatedChats on PaginatedChats {
+  hasMore
+  executionTime
+  count
+  chats {
+    ...FullChat
+  }
+}

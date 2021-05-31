@@ -236,6 +236,14 @@ export type MutationFinishAccountDeletionArgs = {
   token: Scalars['String'];
 };
 
+export type PaginatedChats = {
+  __typename?: 'PaginatedChats';
+  chats: Array<Chat>;
+  hasMore: Scalars['Boolean'];
+  count: Scalars['Int'];
+  executionTime: Scalars['Float'];
+};
+
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
   parent?: Maybe<Comment>;
@@ -326,6 +334,7 @@ export type Query = {
   post?: Maybe<Post>;
   comments: PaginatedComments;
   comment: PaginatedComments;
+  chats: PaginatedChats;
   followers?: Maybe<PaginatedUsers>;
   followings?: Maybe<PaginatedUsers>;
   user?: Maybe<User>;
@@ -371,6 +380,12 @@ export type QueryCommentsArgs = {
 
 export type QueryCommentArgs = {
   id: Scalars['String'];
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryChatsArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
 };
@@ -555,6 +570,15 @@ export type MinimalCommentIdResponseFragment = (
 export type MinimalPostIdResponseFragment = (
   { __typename?: 'MinimalPostIdResponse' }
   & Pick<MinimalPostIdResponse, 'error' | 'postId'>
+);
+
+export type PaginatedChatsFragment = (
+  { __typename?: 'PaginatedChats' }
+  & Pick<PaginatedChats, 'hasMore' | 'executionTime' | 'count'>
+  & { chats: Array<(
+    { __typename?: 'Chat' }
+    & FullChatFragment
+  )> }
 );
 
 export type PaginatedCommentsFragment = (
@@ -896,6 +920,20 @@ export type ChatQuery = (
   ) }
 );
 
+export type ChatsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  skip?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ChatsQuery = (
+  { __typename?: 'Query' }
+  & { chats: (
+    { __typename?: 'PaginatedChats' }
+    & PaginatedChatsFragment
+  ) }
+);
+
 export type MessagesQueryVariables = Exact<{
   chatId: Scalars['Int'];
   limit: Scalars['Int'];
@@ -1136,6 +1174,16 @@ export const MinimalPostIdResponseFragmentDoc = gql`
   postId
 }
     `;
+export const PaginatedChatsFragmentDoc = gql`
+    fragment PaginatedChats on PaginatedChats {
+  hasMore
+  executionTime
+  count
+  chats {
+    ...FullChat
+  }
+}
+    ${FullChatFragmentDoc}`;
 export const FullCommentFragmentDoc = gql`
     fragment FullComment on Comment {
   id
@@ -1977,6 +2025,42 @@ export function useChatLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChatQ
 export type ChatQueryHookResult = ReturnType<typeof useChatQuery>;
 export type ChatLazyQueryHookResult = ReturnType<typeof useChatLazyQuery>;
 export type ChatQueryResult = Apollo.QueryResult<ChatQuery, ChatQueryVariables>;
+export const ChatsDocument = gql`
+    query Chats($limit: Int!, $skip: Int) {
+  chats(limit: $limit, skip: $skip) {
+    ...PaginatedChats
+  }
+}
+    ${PaginatedChatsFragmentDoc}`;
+
+/**
+ * __useChatsQuery__
+ *
+ * To run a query within a React component, call `useChatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChatsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
+ *   },
+ * });
+ */
+export function useChatsQuery(baseOptions: Apollo.QueryHookOptions<ChatsQuery, ChatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ChatsQuery, ChatsQueryVariables>(ChatsDocument, options);
+      }
+export function useChatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChatsQuery, ChatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ChatsQuery, ChatsQueryVariables>(ChatsDocument, options);
+        }
+export type ChatsQueryHookResult = ReturnType<typeof useChatsQuery>;
+export type ChatsLazyQueryHookResult = ReturnType<typeof useChatsLazyQuery>;
+export type ChatsQueryResult = Apollo.QueryResult<ChatsQuery, ChatsQueryVariables>;
 export const MessagesDocument = gql`
     query Messages($chatId: Int!, $limit: Int!, $skip: Int) {
   messages(chatId: $chatId, limit: $limit, skip: $skip) {

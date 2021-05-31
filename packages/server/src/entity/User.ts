@@ -67,7 +67,9 @@ export class User extends BaseEntity {
   @OneToMany(() => Follow, (follow) => follow.followingUser)
   followers: Follow[];
 
-  @OneToMany(() => Chat, (chat) => chat.sender || chat.reciever)
+  @OneToMany(() => Chat, (chat) => chat.sender || chat.reciever, {
+    onDelete: "CASCADE",
+  })
   chats: Chat[];
 
   @OneToMany(() => Message, (message) => message.userId)
