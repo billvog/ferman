@@ -1,5 +1,17 @@
-query Users($limit: Int!, $skip: Int, $query: String, $location: String) {
-  users(limit: $limit, skip: $skip, query: $query, location: $location) {
+query Users(
+  $limit: Int!
+  $skip: Int
+  $query: String
+  $location: String
+  $notMe: Boolean
+) {
+  users(
+    limit: $limit
+    skip: $skip
+    query: $query
+    location: $location
+    notMe: $notMe
+  ) {
     ...PaginatedUsers
   }
 }

@@ -24,7 +24,7 @@ const Page: React.FC = () => {
               <HeaderController
                 title={
                   user && chatData?.chat.chat
-                    ? t("chat.chat_between").replace(
+                    ? t("chat.chat_with").replace(
                         "%user1%",
                         chatData.chat.chat.senderId !== user.id
                           ? chatData.chat.chat.sender.username

@@ -5,6 +5,7 @@ import {
   PaginatedUsers,
   PaginatedPosts,
   PaginatedComments,
+  PaginatedMessages,
 } from "./generated/graphql";
 import { isServer } from "./utils/isServer";
 
@@ -24,6 +25,8 @@ export const MyApolloClient = (
         uri: WebSocketUrl,
         options: {
           reconnect: true,
+          timeout: 20000,
+          lazy: true,
         },
       });
 
@@ -51,7 +54,7 @@ export const MyApolloClient = (
         Query: {
           fields: {
             users: {
-              keyArgs: ["id", "query", "location"],
+              keyArgs: ["id", "query", "location", "notMe"],
               merge(
                 existing: PaginatedUsers | undefined,
                 incoming: PaginatedUsers
@@ -124,6 +127,21 @@ export const MyApolloClient = (
                   comments: [
                     ...(existing?.comments || []),
                     ...incoming.comments,
+                  ],
+                };
+              },
+            },
+            messages: {
+              keyArgs: ["chatId"],
+              merge(
+                existing: PaginatedMessages | undefined,
+                incoming: PaginatedMessages
+              ): PaginatedMessages {
+                return {
+                  ...incoming,
+                  messages: [
+                    ...(existing?.messages || []),
+                    ...incoming.messages,
                   ],
                 };
               },

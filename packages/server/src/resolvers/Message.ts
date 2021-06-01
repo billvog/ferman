@@ -55,14 +55,14 @@ export class MessageResolver {
     const qb = getConnection()
       .getRepository(Message)
       .createQueryBuilder("m")
-      .orderBy('m."createdAt"', "ASC")
       .where("m.chatId = :chatId", {
         chatId,
       })
-      .limit(realLimitPlusOne);
+      .orderBy('m."createdAt"', "DESC")
+      .take(realLimitPlusOne);
 
     if (skip && skip > 0) {
-      qb.offset(skip);
+      qb.skip(skip);
     }
 
     const [messages, count] = await qb.getManyAndCount();

@@ -213,11 +213,12 @@
     "chats": "Your chats",
     "new_chat": "New Chat",
     "you_have_no_chats": "You have no chats yet",
-    "chat_between": "Chat between %user1% and you",
+    "chat_with": "Chat with %user1%",
     "create_chat": {
       "title": "Create Chat",
       "errors": {
-        "reciever_404": "Reciever not found"
+        "reciever_404": "Reciever not found",
+        "chat_already_exists": "A chat between you and this user already exists"
       },
       "label": {
         "reciever": "Reciever"

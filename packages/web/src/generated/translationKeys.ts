@@ -160,6 +160,7 @@ export type TranslationKeys =
 	| "chat.chat_between"
 	| "chat.create_chat.title"
 	| "chat.create_chat.errors.reciever_404"
+	| "chat.create_chat.errors.chat_already_exists"
 	| "chat.create_chat.label.reciever"
 	| "chat.create_chat.placeholder.reciever"
 	| "login.title"

@@ -427,6 +427,7 @@ export type QueryUserArgs = {
 
 
 export type QueryUsersArgs = {
+  notMe?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
@@ -1114,6 +1115,7 @@ export type UsersQueryVariables = Exact<{
   skip?: Maybe<Scalars['Int']>;
   query?: Maybe<Scalars['String']>;
   location?: Maybe<Scalars['String']>;
+  notMe?: Maybe<Scalars['Boolean']>;
 }>;
 
 
@@ -2493,8 +2495,14 @@ export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UsersDocument = gql`
-    query Users($limit: Int!, $skip: Int, $query: String, $location: String) {
-  users(limit: $limit, skip: $skip, query: $query, location: $location) {
+    query Users($limit: Int!, $skip: Int, $query: String, $location: String, $notMe: Boolean) {
+  users(
+    limit: $limit
+    skip: $skip
+    query: $query
+    location: $location
+    notMe: $notMe
+  ) {
     ...PaginatedUsers
   }
 }
@@ -2516,6 +2524,7 @@ export const UsersDocument = gql`
  *      skip: // value for 'skip'
  *      query: // value for 'query'
  *      location: // value for 'location'
+ *      notMe: // value for 'notMe'
  *   },
  * });
  */

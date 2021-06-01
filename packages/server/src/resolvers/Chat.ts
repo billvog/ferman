@@ -5,7 +5,6 @@ import {
   ObjectType,
   Resolver,
   UseMiddleware,
-  Int,
   Ctx,
   Field,
   FieldResolver,
@@ -57,7 +56,7 @@ export class MessageInput {
 }
 
 type NewMessagePayload = {
-  chatId: number;
+  chatId: string;
   newMessage: Message;
 };
 
@@ -123,10 +122,10 @@ export class ChatResolver {
       (payload, args) => payload.chatId === args.chatId
     ),
   })
-  async newMessage(
+  newMessage(
     @Root() payload: NewMessagePayload,
     @Arg("chatId", () => String) chatId: string
-  ): Promise<Message | null> {
+  ): Message | null {
     return payload.newMessage;
   }
 
@@ -157,6 +156,28 @@ export class ChatResolver {
         error: {
           field: "reciever_uid",
           message: "chat.create_chat.errors.reciever_404",
+        },
+      };
+    }
+
+    if (
+      await Chat.findOne({
+        where: [
+          {
+            senderId: sender.id,
+            recieverId: reciever.id,
+          },
+          {
+            recieverId: sender.id,
+            senderId: reciever.id,
+          },
+        ],
+      })
+    ) {
+      return {
+        error: {
+          field: "reciever_uid",
+          message: "chat.create_chat.errors.chat_already_exists",
         },
       };
     }

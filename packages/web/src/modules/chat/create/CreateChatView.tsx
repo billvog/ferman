@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreateChatViewProps {
@@ -47,13 +48,14 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
       limit: 4,
       skip: null,
       query: null,
+      notMe: true,
     },
   });
 
   useEffect(() => {
     const handle = setTimeout(() => {
       setDebouncedQuery(values.reciever_uid);
-    }, 500);
+    }, 250);
 
     return () => {
       clearTimeout(handle);
@@ -75,26 +77,29 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
   return (
     <Form className="px-4 py-2">
       {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
-      <InputField
-        label={t("chat.create_chat.label.reciever")}
-        name="reciever_uid"
-        placeholder={t("chat.create_chat.placeholder.reciever")}
-        type="text"
-        maxLength={UidMax}
-      />
+      <div className="mb-3">
+        <InputField
+          label={t("chat.create_chat.label.reciever")}
+          name="reciever_uid"
+          placeholder={t("chat.create_chat.placeholder.reciever")}
+          type="text"
+          maxLength={UidMax}
+          autoComplete="off"
+        />
+      </div>
       {debouncedQuery.length > 0 &&
-        usersData?.users &&
+        !!usersData?.users?.users?.length &&
         usersData?.users.users[0].uid !== values.reciever_uid && (
           <Popover className="relative mb-4">
             <Popover.Panel
               static
-              className="block z-10 rounded-2xl bg-accent-transparent backdrop-filter backdrop-blur-lg w-full max-h-32 overflow-y-auto overflow-x-hidden"
+              className="block z-10 border-2 border-primary-200 rounded-2xl bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden"
             >
-              <div className="divide-y divide-accent-washed-out">
+              <div className="divide-y-2 divide-primary-200">
                 {usersData?.users.users.map((user) => (
                   <div
                     key={user.id}
-                    className="p-3 flex items-center group cursor-pointer hover:bg-accent-transparent"
+                    className="p-3 flex items-center group cursor-pointer hover:bg-primary-100"
                     onClick={() => setFieldValue("reciever_uid", user.uid)}
                   >
                     <img
@@ -102,10 +107,10 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
                       className="w-7 h-7 rounded-35"
                     />
                     <div className="ml-2 flex flex-col leading-tight">
-                      <div className="text-accent text-md font-bold group-hover:underline">
+                      <div className="text-primary-600 text-md font-bold group-hover:underline">
                         {user.username}
                       </div>
-                      <div className="text-accent-washed-out text-vs">
+                      <div className="text-primary-450 text-vs">
                         @{user.uid}
                       </div>
                     </div>
@@ -142,7 +147,6 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
 
 export const CreateChatView = withRouter(
   withFormik<CreateChatViewProps, CreateChatFormValues>({
-    validateOnBlur: true,
     validationSchema: NewChatValidationSchema,
     mapPropsToValues: () => ({
       reciever_uid: "",
