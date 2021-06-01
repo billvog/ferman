@@ -1,0 +1,5 @@
+mutation MarkMessageRead($chatId: String!, $messageId: Int!) {
+  markMessageRead(chatId: $chatId, messageId: $messageId) {
+    ...MessageResponse
+  }
+}

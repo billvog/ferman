@@ -36,7 +36,8 @@
     "react-icons": "^4.2.0",
     "react-process-string": "^1.2.0",
     "react-responsive": "^8.2.0",
-    "react-toastify": "^7.0.3"
+    "react-toastify": "^7.0.3",
+    "react-waypoint": "^10.1.0"
   },
   "license": "MIT",
   "devDependencies": {

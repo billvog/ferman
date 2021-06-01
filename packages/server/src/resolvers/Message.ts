@@ -17,7 +17,7 @@ import { MyContext } from "../types/MyContext";
 import { chatAuth } from "../middleware/chatAuth";
 import { getConnection } from "typeorm";
 import { MessageResponse } from "./Chat";
-import { pubsub } from "src/MyPubsub";
+import { pubsub } from "../MyPubsub";
 import { UPDATE_CHAT_MESSAGE_KEY } from "../constants";
 
 @ObjectType()
@@ -81,17 +81,18 @@ export class MessageResolver {
   @UseMiddleware(chatAuth)
   @Mutation(() => MessageResponse)
   async markMessageRead(
+    @Arg("chatId", () => String) chatId: string,
     @Arg("messageId", () => Int) messageId: number,
     @Ctx() { req }: MyContext
   ): Promise<MessageResponse> {
     const message = await Message.findOne({
       where: {
         id: messageId,
-        userId: req.session.userId,
+        chatId: chatId,
       },
     });
 
-    if (!message) {
+    if (!message || message.userId === req.session.userId) {
       return {
         error: true,
       };

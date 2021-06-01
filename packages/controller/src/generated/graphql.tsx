@@ -75,6 +75,7 @@ export type Message = {
   chatId: Scalars['String'];
   userId: Scalars['Float'];
   text: Scalars['String'];
+  read: Scalars['Boolean'];
   createdAt: Scalars['DateTime'];
   user: User;
 };
@@ -125,6 +126,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createChat: ChatResponse;
   sendMessage: MessageResponse;
+  markMessageRead: MessageResponse;
   likePost: MinimalPostResponse;
   createPost: PostResponse;
   deletePost: MinimalPostIdResponse;
@@ -153,6 +155,12 @@ export type MutationCreateChatArgs = {
 
 export type MutationSendMessageArgs = {
   options: MessageInput;
+  chatId: Scalars['String'];
+};
+
+
+export type MutationMarkMessageReadArgs = {
+  messageId: Scalars['Int'];
   chatId: Scalars['String'];
 };
 
@@ -535,7 +543,7 @@ export type FullCommentFragment = (
 
 export type FullMessageFragment = (
   { __typename?: 'Message' }
-  & Pick<Message, 'id' | 'userId' | 'text' | 'createdAt'>
+  & Pick<Message, 'id' | 'userId' | 'text' | 'read' | 'createdAt'>
   & { user: (
     { __typename?: 'User' }
     & BasicUserFragment
@@ -651,6 +659,20 @@ export type CreateChatMutation = (
   & { createChat: (
     { __typename?: 'ChatResponse' }
     & ChatResponseFragment
+  ) }
+);
+
+export type MarkMessageReadMutationVariables = Exact<{
+  chatId: Scalars['String'];
+  messageId: Scalars['Int'];
+}>;
+
+
+export type MarkMessageReadMutation = (
+  { __typename?: 'Mutation' }
+  & { markMessageRead: (
+    { __typename?: 'MessageResponse' }
+    & MessageResponseFragment
   ) }
 );
 
@@ -1142,6 +1164,7 @@ export const FullMessageFragmentDoc = gql`
     ...BasicUser
   }
   text
+  read
   createdAt
 }
     ${BasicUserFragmentDoc}`;
@@ -1367,6 +1390,40 @@ export function useCreateChatMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateChatMutationHookResult = ReturnType<typeof useCreateChatMutation>;
 export type CreateChatMutationResult = Apollo.MutationResult<CreateChatMutation>;
 export type CreateChatMutationOptions = Apollo.BaseMutationOptions<CreateChatMutation, CreateChatMutationVariables>;
+export const MarkMessageReadDocument = gql`
+    mutation MarkMessageRead($chatId: String!, $messageId: Int!) {
+  markMessageRead(chatId: $chatId, messageId: $messageId) {
+    ...MessageResponse
+  }
+}
+    ${MessageResponseFragmentDoc}`;
+export type MarkMessageReadMutationFn = Apollo.MutationFunction<MarkMessageReadMutation, MarkMessageReadMutationVariables>;
+
+/**
+ * __useMarkMessageReadMutation__
+ *
+ * To run a mutation, you first call `useMarkMessageReadMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkMessageReadMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markMessageReadMutation, { data, loading, error }] = useMarkMessageReadMutation({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *      messageId: // value for 'messageId'
+ *   },
+ * });
+ */
+export function useMarkMessageReadMutation(baseOptions?: Apollo.MutationHookOptions<MarkMessageReadMutation, MarkMessageReadMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MarkMessageReadMutation, MarkMessageReadMutationVariables>(MarkMessageReadDocument, options);
+      }
+export type MarkMessageReadMutationHookResult = ReturnType<typeof useMarkMessageReadMutation>;
+export type MarkMessageReadMutationResult = Apollo.MutationResult<MarkMessageReadMutation>;
+export type MarkMessageReadMutationOptions = Apollo.BaseMutationOptions<MarkMessageReadMutation, MarkMessageReadMutationVariables>;
 export const SendMessageDocument = gql`
     mutation SendMessage($chatId: String!, $options: MessageInput!) {
   sendMessage(chatId: $chatId, options: $options) {
