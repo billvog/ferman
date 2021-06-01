@@ -133,8 +133,8 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               <Waypoint
                 key={`${chat.id}:${message.id}`}
                 onEnter={async () => {
-                  if (message.userId === loggedUser.id) return;
-                  const { errors } = await markRead({
+                  if (message.userId === loggedUser.id || message.read) return;
+                  markRead({
                     variables: {
                       chatId: chat.id,
                       messageId: message.id,

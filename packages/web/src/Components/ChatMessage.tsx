@@ -49,7 +49,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
               {message.text}
             </div>
             <div className="mt-1">
-              <div className="text-2xs text-primary-400 font-semibold">
+              <div className="text-xs text-primary-400 font-semibold">
                 {dayjs(message.createdAt).fromNow()}
                 {message.userId === me.id && (
                   <span>, {message.read ? "read" : "unread"}</span>
