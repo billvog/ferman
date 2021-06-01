@@ -18,13 +18,11 @@ import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "src/types/MyContext";
 import { User } from "../entity/User";
 import { Message } from "../entity/Message";
-import { NEW_CHAT_MESSAGE_KEY } from "../constants";
-import { PubSub, withFilter } from "graphql-subscriptions";
+import { NEW_CHAT_MESSAGE_KEY, UPDATE_CHAT_MESSAGE_KEY } from "../constants";
+import { withFilter } from "graphql-subscriptions";
 import { chatAuth } from "../middleware/chatAuth";
 import { FieldError } from "./FieldError";
-import { Follow } from "../entity/Follow";
-
-const pubsub = new PubSub();
+import { pubsub } from "../MyPubsub";
 
 @ObjectType()
 export class ChatResponse {
@@ -120,7 +118,8 @@ export class ChatResolver {
   @Subscription(() => Message, {
     nullable: true,
     subscribe: withFilter(
-      () => pubsub.asyncIterator(NEW_CHAT_MESSAGE_KEY),
+      () =>
+        pubsub.asyncIterator([NEW_CHAT_MESSAGE_KEY, UPDATE_CHAT_MESSAGE_KEY]),
       (payload, args) => payload.chatId === args.chatId
     ),
   })

@@ -6,6 +6,7 @@ import {
   Field,
   FieldResolver,
   Int,
+  Mutation,
   ObjectType,
   Query,
   Resolver,
@@ -15,6 +16,9 @@ import {
 import { MyContext } from "../types/MyContext";
 import { chatAuth } from "../middleware/chatAuth";
 import { getConnection } from "typeorm";
+import { MessageResponse } from "./Chat";
+import { pubsub } from "src/MyPubsub";
+import { UPDATE_CHAT_MESSAGE_KEY } from "../constants";
 
 @ObjectType()
 class PaginatedMessages {
@@ -71,6 +75,39 @@ export class MessageResolver {
       hasMore: messages.length === realLimitPlusOne,
       count,
       executionTime,
+    };
+  }
+
+  @UseMiddleware(chatAuth)
+  @Mutation(() => MessageResponse)
+  async markMessageRead(
+    @Arg("messageId", () => Int) messageId: number,
+    @Ctx() { req }: MyContext
+  ): Promise<MessageResponse> {
+    const message = await Message.findOne({
+      where: {
+        id: messageId,
+        userId: req.session.userId,
+      },
+    });
+
+    if (!message) {
+      return {
+        error: true,
+      };
+    }
+
+    message.read = true;
+    await message.save();
+
+    pubsub.publish(UPDATE_CHAT_MESSAGE_KEY, {
+      chatId: message.chatId,
+      newMessage: message,
+    });
+
+    return {
+      message,
+      error: false,
     };
   }
 }

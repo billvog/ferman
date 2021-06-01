@@ -36,6 +36,10 @@ export class Message extends BaseEntity {
   text: string;
 
   @Field()
+  @Column({ default: false })
+  read: boolean;
+
+  @Field()
   @CreateDateColumn()
   createdAt: Date;
 }
