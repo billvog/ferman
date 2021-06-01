@@ -13,7 +13,7 @@ import { ChatController } from "./ChatController";
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
 
-  const { data: chatData, loading: chatLoading } = useGetChatFromUrl();
+  const { data: chatData } = useGetChatFromUrl();
 
   return (
     <WaitI18>

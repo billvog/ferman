@@ -21,6 +21,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
     fetchMore: fetchMoreChats,
     variables: chatsVariables,
   } = useChatsQuery({
+    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
@@ -64,6 +65,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
                       ? chat.reciever.username
                       : ""
                   )}
+                  onClick={() => router.push(`/chat/${chat.id}`)}
                 >
                   <div className="mr-3">
                     <img

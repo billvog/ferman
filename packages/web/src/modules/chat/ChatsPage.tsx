@@ -7,7 +7,7 @@ import { WaitI18 } from "../../components/WaitI18";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { withMyApollo } from "../../utils/withMyApollo";
 import { HeaderController } from "../display/HeaderController";
-import { ChatController } from "./ChatsController";
+import { ChatsController } from "./ChatsController";
 
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
@@ -23,7 +23,7 @@ const Page: React.FC = () => {
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >
-              <ChatController loggedUser={user} />
+              <ChatsController loggedUser={user} />
             </MainGrid>
           </>
         )}

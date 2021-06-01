@@ -60,6 +60,7 @@ export class MessageResolver {
     if (skip && skip > 0) {
       qb.offset(skip);
     }
+
     const [messages, count] = await qb.getManyAndCount();
 
     const end = Date.now();

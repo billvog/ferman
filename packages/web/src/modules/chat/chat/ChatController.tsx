@@ -1,19 +1,15 @@
 import {
   FullChatFragment,
-  MessagesDocument,
-  MessagesQuery,
-  MessagesQueryResult,
-  MessagesQueryVariables,
   NewMessageDocument,
-  NewMessageSubscriptionResult,
+  NewMessageSubscription,
   NewMessageSubscriptionVariables,
   useMessagesQuery,
-  useNewMessageSubscription,
   useSendMessageMutation,
 } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { Form, Formik } from "formik";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { createRef, useEffect } from "react";
 import { ErrorText } from "../../../components/ErrorText";
 import { InputField } from "../../../components/InputField";
 import { MyButton } from "../../../components/MyButton";
@@ -30,52 +26,66 @@ export const ChatController: React.FC<ChatControllerProps> = ({
   chat,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const router = useRouter();
 
   const {
     data: messagesData,
     loading: messagesLoading,
     fetchMore: fetchMoreMessages,
     variables: messagesVariables,
+    subscribeToMore: subscribeToMoreMessages,
   } = useMessagesQuery({
     fetchPolicy: "network-only",
     skip: typeof chat === "undefined" || !chat,
     variables: {
       chatId: chat?.id || "",
       limit: 15,
+      skip: 0,
     },
   });
 
-  const {} = useNewMessageSubscription({
-    onSubscriptionData: (options) => {
-      const data = options.client.readQuery<
-        MessagesQuery,
-        MessagesQueryVariables
-      >({
-        query: MessagesDocument,
-        variables: messagesVariables,
-      });
-
-      options.client.writeQuery<MessagesQuery, MessagesQueryVariables>({
-        query: MessagesDocument,
-        data: {
-          __typename: "Query",
-          ...data,
+  useEffect(() => {
+    const unsubscribe = subscribeToMoreMessages<
+      NewMessageSubscription,
+      NewMessageSubscriptionVariables
+    >({
+      document: NewMessageDocument,
+      variables: {
+        chatId: chat?.id || "",
+      },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        return {
           messages: {
-            ...data!.messages,
-            messages: [options.subscriptionData.data?.newMessage as any],
+            ...prev.messages,
+            messages: [
+              ...prev.messages.messages,
+              subscriptionData.data.newMessage,
+            ],
           },
-        },
-        variables: messagesVariables,
-      });
-    },
-    fetchPolicy: "network-only",
-    skip: typeof chat === "undefined" || !chat,
-    variables: {
-      chatId: chat?.id || "",
-    },
-  });
+        } as any;
+      },
+    });
 
-  const [sendMessage, { loading: sendLoading }] = useSendMessageMutation();
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    scrollChatToBottom();
+  }, [messagesData?.messages.messages.length]);
+
+  const [sendMessage] = useSendMessageMutation();
+
+  const chatContainer = createRef<HTMLDivElement>();
+  const scrollChatToBottom = () => {
+    if (!chatContainer.current) return;
+    chatContainer.current.scrollTo(
+      0,
+      chatContainer.current.scrollHeight - chatContainer.current.clientHeight
+    );
+  };
 
   return (
     <>
@@ -88,8 +98,31 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       ) : !chat ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
-        <div className="w-full h-full flex flex-col justify-between">
-          <div>
+        <div className="flex-1 h-full flex flex-col">
+          <div
+            ref={chatContainer}
+            className="flex flex-1 flex-col overflow-y-auto"
+            style={{
+              maxHeight: "calc(100vh - 48px - 65px)",
+            }}
+          >
+            {messagesData?.messages.hasMore && (
+              <div className="mx-auto p-4">
+                <MyButton
+                  isLoading={messagesLoading}
+                  onClick={() => {
+                    fetchMoreMessages({
+                      variables: {
+                        ...messagesVariables,
+                        skip: messagesData.messages.messages.length,
+                      },
+                    });
+                  }}
+                >
+                  {t("common.load_more")}
+                </MyButton>
+              </div>
+            )}
             {messagesData?.messages.messages.map((message) => (
               <div
                 key={`${chat?.id}:${message.id}`}
@@ -100,31 +133,42 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                 } justify-between w-full`}
               >
                 <div
-                  className={`p-3 flex items-center ${
+                  className={`p-3 flex flex-col ${
                     message.userId === loggedUser.id
-                      ? "flex-row-reverse"
-                      : "flex-row"
+                      ? "items-end"
+                      : "items-start"
                   }`}
                 >
                   <div
-                    className={`${
-                      message.userId === loggedUser.id ? "ml-3" : "mr-3"
+                    className={`flex items-center ${
+                      message.userId === loggedUser.id
+                        ? "flex-row-reverse"
+                        : "flex-row"
                     }`}
                   >
-                    <img
-                      src={message.user.profile?.avatarUrl}
-                      className="w-6 h-6 rounded-35"
-                    />
-                  </div>
-                  <div className="relative">
-                    <div className="text-md text-primary-500 bg-primary-100 px-3.5 py-2 rounded-2xl">
-                      {message.text}
+                    <div
+                      className={`${
+                        message.userId === loggedUser.id ? "ml-3" : "mr-3"
+                      }`}
+                    >
+                      <img
+                        src={message.user.profile?.avatarUrl}
+                        className="w-7 h-7 rounded-35 cursor-pointer"
+                        onClick={() => router.push(`/user/${message.user.uid}`)}
+                      />
                     </div>
                     <div
-                      className={`absolute mt-1 ${
-                        message.userId === loggedUser.id ? "right-1" : "left-1"
-                      } text-xs text-primary-400`}
+                      className={`text-md text-primary-500 bg-primary-100 ${
+                        message.userId === loggedUser.id
+                          ? "bg-primary-100"
+                          : "bg-primary-50"
+                      } px-3 py-2 rounded-2xl`}
                     >
+                      {message.text}
+                    </div>
+                  </div>
+                  <div className="mt-1">
+                    <div className="text-xs text-primary-400 font-semibold">
                       {dayjs(message.createdAt).fromNow()}
                     </div>
                   </div>
@@ -132,7 +176,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               </div>
             ))}
           </div>
-          <div className="border-t w-full p-3">
+          <div className="border-t p-3 bg-white">
             <Formik
               initialValues={{
                 text: "",
@@ -142,15 +186,6 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                   variables: {
                     chatId: chat.id,
                     options: values,
-                  },
-                  update(cache, result) {
-                    cache.modify({
-                      fields: {
-                        messages(existing = []) {
-                          return [...existing, result];
-                        },
-                      },
-                    });
                   },
                 });
 

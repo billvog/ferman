@@ -28,7 +28,7 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
 
     if (RequireLoggedIn) {
       if (!loading && !data?.me) {
-        router.replace("/account/login?next=" + router.pathname);
+        router.replace("/account/login?next=" + router.asPath);
       } else if (!loading && data?.me) {
         setOk(true);
       }

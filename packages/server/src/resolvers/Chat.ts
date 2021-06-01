@@ -18,7 +18,7 @@ import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "src/types/MyContext";
 import { User } from "../entity/User";
 import { Message } from "../entity/Message";
-import { NEW_MESSAGE_KEY } from "../constants";
+import { NEW_CHAT_MESSAGE_KEY } from "../constants";
 import { PubSub, withFilter } from "graphql-subscriptions";
 import { chatAuth } from "../middleware/chatAuth";
 import { FieldError } from "./FieldError";
@@ -88,7 +88,7 @@ export class ChatResolver {
         chatId: chat.id,
       },
       order: {
-        createdAt: "ASC",
+        createdAt: "DESC",
       },
     });
   }
@@ -102,11 +102,14 @@ export class ChatResolver {
     const chat = await Chat.findOne({
       where: {
         id: chatId,
-        senderId: req.session.userId,
       },
     });
 
-    if (!chat) {
+    if (
+      !chat ||
+      (chat.senderId !== req.session.userId &&
+        chat.recieverId !== req.session.userId)
+    ) {
       return { error: true };
     }
 
@@ -117,7 +120,7 @@ export class ChatResolver {
   @Subscription(() => Message, {
     nullable: true,
     subscribe: withFilter(
-      () => pubsub.asyncIterator(NEW_MESSAGE_KEY),
+      () => pubsub.asyncIterator(NEW_CHAT_MESSAGE_KEY),
       (payload, args) => payload.chatId === args.chatId
     ),
   })
@@ -199,7 +202,7 @@ export class ChatResolver {
 
       await Message.insert(message);
 
-      pubsub.publish(NEW_MESSAGE_KEY, {
+      pubsub.publish(NEW_CHAT_MESSAGE_KEY, {
         chatId,
         newMessage: message,
       });
