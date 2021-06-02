@@ -75,6 +75,9 @@ export class User extends BaseEntity {
   @OneToMany(() => Message, (message) => message.userId)
   messages: Message[];
 
+  @Field(() => Boolean)
+  hasUnreadMessage: boolean;
+
   @Field(() => Boolean, { nullable: true }) followsYouStatus: boolean;
   @Field(() => Boolean, { nullable: true }) followingStatus: boolean;
   @Field() followersCount: number;

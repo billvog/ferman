@@ -42,6 +42,7 @@ import {
 import { Like } from "../entity/Like";
 import { Comment } from "../entity/Comment";
 import { Chat } from "../entity/Chat";
+import { Message } from "../entity/Message";
 
 @ObjectType()
 class UserErrorResponse {
@@ -121,6 +122,19 @@ export class UserResolver {
     return Profile.findOne({
       where: { userId: user.id },
     });
+  }
+
+  // HAS UNREAD MESSAGE
+  @Field(() => Boolean)
+  async hasUnreadMessage(@Root() user: User) {
+    const m = await Message.find({
+      where: {
+        userId: user.id,
+        read: false,
+      },
+    });
+
+    return !!m;
   }
 
   // FOLLOWS YOU STATUS

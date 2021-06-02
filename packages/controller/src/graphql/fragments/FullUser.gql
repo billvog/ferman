@@ -4,6 +4,7 @@ fragment FullUser on User {
   username
   email
   createdAt
+  hasUnreadMessage
   followsYouStatus
   followingStatus
   followersCount
