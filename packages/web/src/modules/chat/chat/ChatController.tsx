@@ -9,7 +9,6 @@ import {
 } from "@ferman-pkgs/controller";
 import { Waypoint } from "react-waypoint";
 import { Form, Formik } from "formik";
-import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { ChatMessage } from "../../../components/ChatMessage";
 import { ErrorText } from "../../../components/ErrorText";
@@ -18,7 +17,6 @@ import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
-import { isServer } from "../../../utils/isServer";
 
 interface ChatControllerProps extends WithAuthProps {
   chat: FullChatFragment | null | undefined;
@@ -29,7 +27,6 @@ export const ChatController: React.FC<ChatControllerProps> = ({
   chat,
 }) => {
   const { t } = useTypeSafeTranslation();
-  const router = useRouter();
 
   const {
     data: messagesData,
@@ -58,7 +55,9 @@ export const ChatController: React.FC<ChatControllerProps> = ({
         chatId: chat.id,
       },
       updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData) return prev;
+        if (!subscriptionData) {
+          return prev;
+        }
 
         const index = prev.messages.messages.findIndex(
           (x) => x.id === subscriptionData.data.newMessage?.id
@@ -77,11 +76,12 @@ export const ChatController: React.FC<ChatControllerProps> = ({
         }
 
         return {
+          ...prev,
           messages: {
             ...prev.messages,
             messages: [
-              ...prev.messages.messages,
               subscriptionData.data.newMessage!,
+              ...prev.messages.messages,
             ],
           },
         };
@@ -109,7 +109,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       ) : (
         <div className="flex-1 h-full flex flex-col">
           <div
-            className="flex flex-1 flex-col overflow-y-auto"
+            className="flex flex-1 flex-col-reverse overflow-y-auto"
             style={{
               maxHeight: "calc(100vh - 48px - 65px)",
             }}
@@ -141,6 +141,18 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                       variables: {
                         ...messagesVariables,
                         skip: messagesData.messages.messages.length,
+                      },
+                      updateQuery: (prev: any, { fetchMoreResult }: any) => {
+                        return {
+                          ...fetchMoreResult,
+                          messages: {
+                            ...fetchMoreResult.messages,
+                            messages: [
+                              ...prev.messages.messages,
+                              ...fetchMoreResult.messages.messages,
+                            ],
+                          },
+                        };
                       },
                     });
                   }}
