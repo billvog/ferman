@@ -24,6 +24,7 @@ export type Chat = {
   recieverId: Scalars['Int'];
   reciever: User;
   latestMessage?: Maybe<Message>;
+  hasUnreadMessage: Scalars['Boolean'];
   createdAt: Scalars['String'];
 };
 
@@ -505,7 +506,7 @@ export type FieldErrorFragment = (
 
 export type FullChatFragment = (
   { __typename?: 'Chat' }
-  & Pick<Chat, 'id' | 'senderId' | 'recieverId' | 'createdAt'>
+  & Pick<Chat, 'id' | 'senderId' | 'recieverId' | 'hasUnreadMessage' | 'createdAt'>
   & { sender: (
     { __typename?: 'User' }
     & BasicUserFragment
@@ -1182,6 +1183,7 @@ export const FullChatFragmentDoc = gql`
   reciever {
     ...BasicUser
   }
+  hasUnreadMessage
   latestMessage {
     ...FullMessage
   }

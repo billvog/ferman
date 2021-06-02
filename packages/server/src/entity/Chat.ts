@@ -43,6 +43,9 @@ export class Chat extends BaseEntity {
   @Field(() => Message, { nullable: true })
   latestMessage: Message | null;
 
+  @Field(() => Boolean)
+  hasUnreadMessage: boolean;
+
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;

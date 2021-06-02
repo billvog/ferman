@@ -22,6 +22,7 @@ import { withFilter } from "graphql-subscriptions";
 import { chatAuth } from "../middleware/chatAuth";
 import { FieldError } from "./FieldError";
 import { pubsub } from "../MyPubsub";
+import { Not } from "typeorm";
 
 @ObjectType()
 export class ChatResponse {
@@ -88,6 +89,20 @@ export class ChatResolver {
         createdAt: "DESC",
       },
     });
+  }
+
+  @UseMiddleware(chatAuth)
+  @FieldResolver(() => Boolean)
+  async hasUnreadMessage(@Root() chat: Chat, @Ctx() { req }: MyContext) {
+    const m = await Message.find({
+      where: {
+        chatId: chat.id,
+        userId: Not(req.session.userId),
+        read: false,
+      },
+    });
+
+    return m.length > 0;
   }
 
   @UseMiddleware(chatAuth)

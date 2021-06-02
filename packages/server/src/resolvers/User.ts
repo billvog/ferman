@@ -1,3 +1,11 @@
+import {
+  ForgotPasswordValidationSchema,
+  LoginValidationSchema,
+  PASSWORD_SHAPE,
+  RegisterFourValidationSchema,
+  RegisterOneValidationSchema,
+  ResetPasswordValidationSchema,
+} from "@ferman-pkgs/common";
 import { hash, verify } from "argon2";
 import {
   Arg,
@@ -13,17 +21,21 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { getConnection } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
+import { getConnection, Not } from "typeorm";
 import uniqid from "uniqid";
+import { v4 as uuidv4 } from "uuid";
 import {
-  PROCEED_REGISTER_TOKEN_PREFIX,
   FORGOT_PWD_TOKEN_PREFIX,
   FRONTEND_URL,
-  SESSION_COOKIE_NAME,
   PROCEED_ACC_DEL_TOKEN_PREFIX,
+  PROCEED_REGISTER_TOKEN_PREFIX,
+  SESSION_COOKIE_NAME,
 } from "../constants";
+import { Chat } from "../entity/Chat";
+import { Comment } from "../entity/Comment";
 import { Follow } from "../entity/Follow";
+import { Like } from "../entity/Like";
+import { Message } from "../entity/Message";
 import { Post } from "../entity/Post";
 import { Profile } from "../entity/Profile";
 import { User } from "../entity/User";
@@ -31,18 +43,6 @@ import { isAuth, isNotAuth } from "../middleware/isAuth";
 import { MyContext } from "../types/MyContext";
 import { sendEmail } from "../utils/sendEmail";
 import { FieldError } from "./FieldError";
-import {
-  ForgotPasswordValidationSchema,
-  LoginValidationSchema,
-  RegisterOneValidationSchema,
-  RegisterFourValidationSchema,
-  ResetPasswordValidationSchema,
-  PASSWORD_SHAPE,
-} from "@ferman-pkgs/common";
-import { Like } from "../entity/Like";
-import { Comment } from "../entity/Comment";
-import { Chat } from "../entity/Chat";
-import { Message } from "../entity/Message";
 
 @ObjectType()
 class UserErrorResponse {
@@ -125,16 +125,16 @@ export class UserResolver {
   }
 
   // HAS UNREAD MESSAGE
-  @Field(() => Boolean)
+  @FieldResolver(() => Boolean)
   async hasUnreadMessage(@Root() user: User) {
     const m = await Message.find({
       where: {
-        userId: user.id,
+        userId: Not(user.id),
         read: false,
       },
     });
 
-    return !!m;
+    return m.length > 0;
   }
 
   // FOLLOWS YOU STATUS

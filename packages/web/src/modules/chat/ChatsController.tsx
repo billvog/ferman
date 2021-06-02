@@ -73,7 +73,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
                         className="w-8 h-8 rounded-35"
                         src={chat.reciever.profile?.avatarUrl}
                       />
-                      {!chat.latestMessage?.read && (
+                      {chat.hasUnreadMessage && (
                         <div className="absolute bottom-0 right-0">
                           <div className="w-2 h-2 rounded-full bg-secondary-500 ring-2 ring-primary-50" />
                         </div>

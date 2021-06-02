@@ -8,6 +8,7 @@ fragment FullChat on Chat {
   reciever {
     ...BasicUser
   }
+  hasUnreadMessage
   latestMessage {
     ...FullMessage
   }

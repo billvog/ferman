@@ -113,7 +113,18 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
           {typeof loggedUser !== "undefined" && loggedUser && (
             <div className="flex 2cols:flex-row flex-col divide-y 2cols:divide-y-0 2cols:space-x-2 justify-center">
               <UserAction
-                icon={<NavIcons.ChatIcon size="20px" />}
+                icon={
+                  <div className="relative">
+                    <div className="relative p-0.5">
+                      <NavIcons.ChatIcon size="20px" />
+                      {loggedUser.hasUnreadMessage && (
+                        <div className="absolute bottom-0 right-0">
+                          <div className="w-2 h-2 rounded-full bg-primary-600 ring-2 ring-primary-50" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                }
                 onClick={() => router.push("/chat")}
                 key="chat-action"
               />
