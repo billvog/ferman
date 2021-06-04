@@ -18,6 +18,7 @@ import { ErrorText } from "../../../components/ErrorText";
 import { InputField } from "../../../components/InputField";
 import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
+import { useScreenType } from "../../../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
 
@@ -30,6 +31,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
   chat,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const screenType = useScreenType();
 
   const {
     data: messagesData,
@@ -115,7 +117,9 @@ export const ChatController: React.FC<ChatControllerProps> = ({
           <div
             className="flex flex-1 flex-col-reverse overflow-y-auto"
             style={{
-              maxHeight: "calc(100vh - 57px - 65px)",
+              maxHeight: `calc(100vh - 57px - 65px ${
+                screenType === "fullscreen" ? "- 56px" : ""
+              })`,
             }}
           >
             {messagesData?.messages.count === 0 ? (
