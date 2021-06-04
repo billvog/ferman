@@ -12,7 +12,7 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
-import { UPDATE_CHAT_MESSAGE_KEY, UPDATE_USER_KEY } from "../constants";
+import { UPDATE_CHAT_MESSAGE_KEY, UPDATE_MY_USER_KEY } from "../constants";
 import { Message } from "../entity/Message";
 import { User } from "../entity/User";
 import { chatAuth } from "../middleware/chatAuth";
@@ -108,7 +108,7 @@ export class MessageResolver {
 
     (async () => {
       const user = await User.findOne(req.session.userId);
-      pubsub.publish(UPDATE_USER_KEY, {
+      pubsub.publish(UPDATE_MY_USER_KEY, {
         updatedUser: user,
       });
     })();

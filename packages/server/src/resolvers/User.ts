@@ -31,7 +31,7 @@ import {
   PROCEED_ACC_DEL_TOKEN_PREFIX,
   PROCEED_REGISTER_TOKEN_PREFIX,
   SESSION_COOKIE_NAME,
-  UPDATE_USER_KEY,
+  UPDATE_MY_USER_KEY,
 } from "../constants";
 import { Chat } from "../entity/Chat";
 import { Comment } from "../entity/Comment";
@@ -140,12 +140,17 @@ export class UserResolver {
   @Subscription(() => User, {
     nullable: true,
     subscribe: withFilter(
-      () => pubsub.asyncIterator(UPDATE_USER_KEY),
-      (payload, _, context) =>
-        payload.updatedUser.id === context.connection.context.req.session.userId
+      () => pubsub.asyncIterator(UPDATE_MY_USER_KEY),
+      (payload, args, context) =>
+        payload.updatedUser.id ===
+          context.connection.context.req.session.userId ||
+        payload.updatedUser.id === args.id
     ),
   })
-  updatedUser(@Root() payload: UpdatedUserPayload): User | null {
+  updatedUser(
+    @Root() payload: UpdatedUserPayload,
+    @Arg("id", () => Int) id: number
+  ): User | null {
     return payload.updatedUser;
   }
 

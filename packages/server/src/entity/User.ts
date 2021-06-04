@@ -44,9 +44,13 @@ export class User extends BaseEntity {
   @JoinColumn()
   profile: Profile;
 
+  @Field()
+  @Column({ default: false })
+  isOnline: boolean;
+
   @Field(() => String)
   @Column({ default: new Date() })
-  lastSeenAt: Date;
+  lastSeen: Date;
 
   @Field(() => String)
   @CreateDateColumn()

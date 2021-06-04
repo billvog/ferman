@@ -21,7 +21,7 @@ import { Message } from "../entity/Message";
 import {
   NEW_CHAT_MESSAGE_KEY,
   UPDATE_CHAT_MESSAGE_KEY,
-  UPDATE_USER_KEY,
+  UPDATE_MY_USER_KEY,
 } from "../constants";
 import { withFilter } from "graphql-subscriptions";
 import { chatAuth } from "../middleware/chatAuth";
@@ -324,7 +324,7 @@ export class ChatResolver {
         const user = await User.findOne(
           chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
         );
-        pubsub.publish(UPDATE_USER_KEY, {
+        pubsub.publish(UPDATE_MY_USER_KEY, {
           updatedUser: user,
         });
       })();

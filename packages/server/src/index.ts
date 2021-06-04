@@ -8,7 +8,11 @@ import Redis from "ioredis";
 import path from "path";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import { SESSION_COOKIE_NAME, __prod__ } from "./constants";
+import {
+  SESSION_COOKIE_NAME,
+  UPDATE_USER_STATUS_KEY,
+  __prod__,
+} from "./constants";
 import { createCommentLoader } from "./dataloaders/createCommentLoader";
 import { createLikeLoader } from "./dataloaders/createLikeLoader";
 import { createPostLoader } from "./dataloaders/createPostLoader";
@@ -21,8 +25,10 @@ import { Message } from "./entity/Message";
 import { Post } from "./entity/Post";
 import { Profile } from "./entity/Profile";
 import { User } from "./entity/User";
+import { pubsub } from "./MyPubsub";
 import { MySchema } from "./MySchema";
 import { MyContext } from "./types/MyContext";
+import { UpdateUserStatus } from "./utils/updateUserStatus";
 require("dotenv-safe").config();
 
 (async () => {
@@ -90,18 +96,13 @@ require("dotenv-safe").config();
         return new Promise((res) =>
           sessionMiddleware(ws.upgradeReq, {} as any, async () => {
             res({ req: ws.upgradeReq });
-
-            const user = await User.findOne(ws.upgradeReq.userId);
-            if (!user) return;
-            user.lastSeenAt = new Date();
+            UpdateUserStatus(ws.upgradeReq.userId, true);
           })
         );
       },
       onDisconnect: (ws: any) => {
         sessionMiddleware(ws.upgradeReq, {} as any, async () => {
-          const user = await User.findOne(ws.upgradeReq.userId);
-          if (!user) return;
-          user.lastSeenAt = new Date();
+          UpdateUserStatus(ws.upgradeReq.userId, false);
         });
       },
     },
