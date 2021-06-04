@@ -215,6 +215,7 @@
     "new_chat": "New Chat",
     "you_have_no_chats": "You have no chats yet",
     "chat_with": "Chat with %user1%",
+    "no_messages": "There are no messages here yet...",
     "create_chat": {
       "title": "Create Chat",
       "errors": {

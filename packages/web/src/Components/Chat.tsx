@@ -2,6 +2,7 @@ import { FullChatFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
+import { useTrancatedText } from "../shared-hooks/useTruncatedText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 interface ChatProps {
@@ -41,10 +42,12 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
         <div className="text-sm text-primary-600 font-bold group-hover:underline">
           {otherUser.username}
         </div>
-        <div className="text-xs flex justify-between">
-          <span>{chat.latestMessage?.text}</span>
-          <span>{dayjs(chat.latestMessage?.createdAt).fromNow()}</span>
-        </div>
+        {chat.latestMessage && (
+          <div className="text-xs flex flex-col 1cols:flex-row justify-between">
+            <span>{useTrancatedText(chat.latestMessage?.text, 50)}</span>
+            <span>{dayjs(chat.latestMessage?.createdAt).fromNow()}</span>
+          </div>
+        )}
       </div>
     </div>
   );

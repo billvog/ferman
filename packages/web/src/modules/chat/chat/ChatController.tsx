@@ -7,9 +7,12 @@ import {
   useMessagesQuery,
   useSendMessageMutation,
 } from "@ferman-pkgs/controller";
-import { Waypoint } from "react-waypoint";
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
+import { HiChatAlt2 } from "react-icons/hi";
+import { RiWechatFill } from "react-icons/ri";
+import { toast } from "react-toastify";
+import { Waypoint } from "react-waypoint";
 import { ChatMessage } from "../../../components/ChatMessage";
 import { ErrorText } from "../../../components/ErrorText";
 import { InputField } from "../../../components/InputField";
@@ -17,7 +20,6 @@ import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
-import { toast } from "react-toastify";
 
 interface ChatControllerProps extends WithAuthProps {
   chat: FullChatFragment | null | undefined;
@@ -116,52 +118,67 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               maxHeight: "calc(100vh - 48px - 65px)",
             }}
           >
-            {messagesData?.messages.messages.map((message) => (
-              <Waypoint
-                key={`${chat.id}:${message.id}`}
-                onEnter={async () => {
-                  if (message.userId === loggedUser.id || message.read) return;
-                  markRead({
-                    variables: {
-                      chatId: chat.id,
-                      messageId: message.id,
-                    },
-                  });
-                }}
-              >
-                <div>
-                  <ChatMessage me={loggedUser} message={message} />
+            {messagesData?.messages.count === 0 ? (
+              <div className="flex-1 flex flex-col justify-center items-center">
+                <div className="mb-2 text-accent">
+                  <RiWechatFill size="96px" />
                 </div>
-              </Waypoint>
-            ))}
-            {messagesData?.messages.hasMore && (
-              <div className="mx-auto p-4">
-                <MyButton
-                  isLoading={messagesLoading}
-                  onClick={() => {
-                    fetchMoreMessages({
-                      variables: {
-                        ...messagesVariables,
-                        skip: messagesData.messages.messages.length,
-                      },
-                      updateQuery: (prev: any, { fetchMoreResult }: any) => {
-                        return {
-                          ...fetchMoreResult,
-                          messages: {
-                            ...fetchMoreResult.messages,
-                            messages: [
-                              ...prev.messages.messages,
-                              ...fetchMoreResult.messages.messages,
-                            ],
-                          },
-                        };
-                      },
-                    });
-                  }}
-                >
-                  {t("common.load_more")}
-                </MyButton>
+                <div className="text-primary-400">{t("chat.no_messages")}</div>
               </div>
+            ) : (
+              <>
+                {messagesData?.messages.messages.map((message) => (
+                  <Waypoint
+                    key={`${chat.id}:${message.id}`}
+                    onEnter={async () => {
+                      if (message.userId === loggedUser.id || message.read)
+                        return;
+                      markRead({
+                        variables: {
+                          chatId: chat.id,
+                          messageId: message.id,
+                        },
+                      });
+                    }}
+                  >
+                    <div>
+                      <ChatMessage me={loggedUser} message={message} />
+                    </div>
+                  </Waypoint>
+                ))}
+                {messagesData?.messages.hasMore && (
+                  <div className="mx-auto p-4">
+                    <MyButton
+                      isLoading={messagesLoading}
+                      onClick={() => {
+                        fetchMoreMessages({
+                          variables: {
+                            ...messagesVariables,
+                            skip: messagesData.messages.messages.length,
+                          },
+                          updateQuery: (
+                            prev: any,
+                            { fetchMoreResult }: any
+                          ) => {
+                            return {
+                              ...fetchMoreResult,
+                              messages: {
+                                ...fetchMoreResult.messages,
+                                messages: [
+                                  ...prev.messages.messages,
+                                  ...fetchMoreResult.messages.messages,
+                                ],
+                              },
+                            };
+                          },
+                        });
+                      }}
+                    >
+                      {t("common.load_more")}
+                    </MyButton>
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className="border-t p-3 bg-white">

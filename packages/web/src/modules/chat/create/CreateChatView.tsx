@@ -100,7 +100,7 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
               static
               className="block z-10 border border-r-0 border-l-0 bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden"
             >
-              <div className="text-sm p-2 text-primary-450 border-b">
+              <div className="text-vs p-2 text-primary-450 border-b">
                 {usersData.users.count !== 1
                   ? t("common.found_x_results")
                       .replace("%count%", usersData.users.count.toString())

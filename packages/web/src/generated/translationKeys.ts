@@ -159,6 +159,7 @@ export type TranslationKeys =
 	| "chat.new_chat"
 	| "chat.you_have_no_chats"
 	| "chat.chat_with"
+	| "chat.no_messages"
 	| "chat.create_chat.title"
 	| "chat.create_chat.errors.reciever_404"
 	| "chat.create_chat.errors.chat_already_exists"
