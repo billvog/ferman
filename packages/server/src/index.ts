@@ -88,12 +88,23 @@ require("dotenv-safe").config();
     subscriptions: {
       onConnect: (_, ws: any) => {
         return new Promise((res) =>
-          sessionMiddleware(ws.upgradeReq, {} as any, () => {
+          sessionMiddleware(ws.upgradeReq, {} as any, async () => {
+            const user = await User.findOne(ws.upgradeReq.userId);
+            if (!user) return;
+            user.lastSeenAt = new Date();
+
             res({
               req: ws.upgradeReq,
             });
           })
         );
+      },
+      onDisconnect: (ws: any) => {
+        sessionMiddleware(ws.upgradeReq, {} as any, async () => {
+          const user = await User.findOne(ws.upgradeReq.userId);
+          if (!user) return;
+          user.lastSeenAt = new Date();
+        });
       },
     },
     context: ({ req, res, connection }: MyContext) =>

@@ -45,6 +45,10 @@ export class User extends BaseEntity {
   profile: Profile;
 
   @Field(() => String)
+  @Column({ default: new Date().toString() })
+  lastSeenAt: Date;
+
+  @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
 
