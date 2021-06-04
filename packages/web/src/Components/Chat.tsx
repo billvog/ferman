@@ -44,7 +44,12 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
         </div>
         {chat.latestMessage && (
           <div className="text-xs flex flex-col 1cols:flex-row justify-between">
-            <span>{useTrancatedText(chat.latestMessage?.text, 50)}</span>
+            <span>
+              {chat.latestMessage.userId === me.id && (
+                <b>{t("common.you")}: </b>
+              )}
+              {useTrancatedText(chat.latestMessage?.text, 50)}
+            </span>
             <span>{dayjs(chat.latestMessage?.createdAt).fromNow()}</span>
           </div>
         )}
