@@ -1,5 +1,11 @@
+import {
+  UpdatedUserDocument,
+  useMeQuery,
+  useUserQuery,
+} from "@ferman-pkgs/controller";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CommonBottomNav } from "../../../components/CommonBottomNav";
 import { CommonSidebar } from "../../../components/CommonSidebar";
 import { MainGrid } from "../../../components/MainGrid";
@@ -16,18 +22,50 @@ const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
 
+  const [otherUserId, setOtherUserId] = useState(-1);
+
   const { data: chatData } = useGetChatFromUrl();
+  const { data: meData } = useMeQuery();
+  const { data: userData, subscribeToMore } = useUserQuery({
+    skip: otherUserId === -1,
+    variables: {
+      id: otherUserId,
+    },
+  });
+
+  useEffect(() => {
+    if (meData?.me?.id && chatData?.chat.chat) {
+      setOtherUserId(
+        meData.me.id === chatData.chat.chat.senderId
+          ? chatData.chat.chat.recieverId
+          : chatData.chat.chat.senderId
+      );
+    }
+  }, [chatData, meData]);
+
+  useEffect(() => {
+    if (otherUserId === -1) return;
+
+    const unsubscribe = subscribeToMore({
+      document: UpdatedUserDocument,
+      variables: {
+        id: otherUserId,
+      },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        else return subscriptionData.data;
+      },
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [otherUserId]);
 
   return (
     <WaitI18>
       <WaitAuth RequireLoggedIn>
         {(user) => {
-          const otherUser =
-            chatData?.chat.chat && user
-              ? chatData?.chat.chat?.senderId === user?.id
-                ? chatData?.chat.chat?.reciever
-                : chatData?.chat.chat?.sender
-              : null;
           return (
             <>
               <HeaderController
@@ -35,7 +73,7 @@ const Page: React.FC = () => {
                   user && chatData?.chat.chat
                     ? t("chat.chat_with").replace(
                         "%user1%",
-                        otherUser?.username || ""
+                        userData?.user?.username || ""
                       )
                     : undefined
                 }
@@ -43,27 +81,41 @@ const Page: React.FC = () => {
               <MainGrid
                 title={
                   <div>
-                    {otherUser ? (
-                      <div className="ml-2 flex flex-row items-center cursor-pointer group">
-                        <div
-                          className="mr-2.5"
-                          onClick={() => router.push(`/user/${otherUser.uid}`)}
-                        >
+                    {userData?.user ? (
+                      <div
+                        className="ml-2 flex flex-row items-center cursor-pointer group"
+                        onClick={() =>
+                          router.push(`/user/${userData.user?.uid}`)
+                        }
+                      >
+                        <div className="mr-2.5">
                           <div className="relative">
                             <img
-                              src={otherUser.profile?.avatarUrl}
+                              src={userData.user.profile?.avatarUrl}
                               className="w-7 h-7 rounded-35"
                             />
                             <div className="absolute -bottom-0.5 -right-0.5">
-                              <div className="w-2 h-2 rounded-full bg-green-500 ring-2 ring-primary-100" />
+                              <div
+                                className={`w-2 h-2 rounded-full ring-2 ring-primary-100 ${
+                                  userData.user.isOnline
+                                    ? "bg-green-500"
+                                    : "bg-yellow-400"
+                                }`}
+                              />
                             </div>
                           </div>
                         </div>
                         <div className="flex flex-col items-start">
                           <div className="text-md text-primary-500 font-semibold group-hover:underline">
-                            {otherUser.uid}
+                            {userData.user.uid}
                           </div>
-                          <div className="text-xs leading-none">Active now</div>
+                          <div className="text-xs leading-none">
+                            {userData.user.isOnline
+                              ? "Active now"
+                              : `Last seen: ${dayjs(
+                                  parseFloat(userData.user.lastSeen)
+                                ).fromNow()}`}
+                          </div>
                         </div>
                       </div>
                     ) : (

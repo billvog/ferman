@@ -8,7 +8,8 @@ export const UpdateUserStatus = async (id: number, isOnline: boolean) => {
   user.isOnline = isOnline;
   user.lastSeen = new Date();
   await user.save();
-  pubsub.publish(UPDATE_USER_STATUS_KEY, {
+
+  await pubsub.publish(UPDATE_USER_STATUS_KEY, {
     updatedUser: user,
   });
 };

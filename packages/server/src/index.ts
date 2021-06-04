@@ -69,7 +69,6 @@ require("dotenv-safe").config();
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
-    logger: "simple-console",
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migration/*")],
     entities: [User, Profile, Follow, Post, Like, Comment, Message, Chat],
@@ -96,13 +95,13 @@ require("dotenv-safe").config();
         return new Promise((res) =>
           sessionMiddleware(ws.upgradeReq, {} as any, async () => {
             res({ req: ws.upgradeReq });
-            UpdateUserStatus(ws.upgradeReq.userId, true);
+            UpdateUserStatus(ws.upgradeReq.session.userId, true);
           })
         );
       },
       onDisconnect: (ws: any) => {
         sessionMiddleware(ws.upgradeReq, {} as any, async () => {
-          UpdateUserStatus(ws.upgradeReq.userId, false);
+          UpdateUserStatus(ws.upgradeReq.session.userId, false);
         });
       },
     },

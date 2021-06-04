@@ -10,7 +10,7 @@ interface ChatMessageProps {
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
   const router = useRouter();
-  const isMe = me.id !== message.userId;
+  const isMe = me.id === message.userId;
 
   return (
     <div

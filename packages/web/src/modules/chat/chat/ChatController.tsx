@@ -115,7 +115,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
           <div
             className="flex flex-1 flex-col-reverse overflow-y-auto"
             style={{
-              maxHeight: "calc(100vh - 48px - 65px)",
+              maxHeight: "calc(100vh - 57px - 65px)",
             }}
           >
             {messagesData?.messages.count === 0 ? (

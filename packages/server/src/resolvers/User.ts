@@ -32,8 +32,8 @@ import {
   PROCEED_REGISTER_TOKEN_PREFIX,
   SESSION_COOKIE_NAME,
   UPDATE_MY_USER_KEY,
+  UPDATE_USER_STATUS_KEY,
 } from "../constants";
-import { Chat } from "../entity/Chat";
 import { Comment } from "../entity/Comment";
 import { Follow } from "../entity/Follow";
 import { Like } from "../entity/Like";
@@ -47,6 +47,7 @@ import { sendEmail } from "../utils/sendEmail";
 import { FieldError } from "./FieldError";
 import { pubsub } from "../MyPubsub";
 import { withFilter } from "graphql-subscriptions";
+import { UpdateUserStatus } from "../utils/updateUserStatus";
 
 @ObjectType()
 class UserErrorResponse {
@@ -140,7 +141,7 @@ export class UserResolver {
   @Subscription(() => User, {
     nullable: true,
     subscribe: withFilter(
-      () => pubsub.asyncIterator(UPDATE_MY_USER_KEY),
+      () => pubsub.asyncIterator([UPDATE_MY_USER_KEY, UPDATE_USER_STATUS_KEY]),
       (payload, args, context) =>
         payload.updatedUser.id ===
           context.connection.context.req.session.userId ||
@@ -149,7 +150,7 @@ export class UserResolver {
   })
   updatedUser(
     @Root() payload: UpdatedUserPayload,
-    @Arg("id", () => Int) id: number
+    @Arg("id", () => Int, { nullable: true }) id: number
   ): User | null {
     return payload.updatedUser;
   }
@@ -463,6 +464,7 @@ export class UserResolver {
           return resolver(false);
         }
 
+        UpdateUserStatus(req.session.userId, false);
         res.clearCookie(SESSION_COOKIE_NAME);
         resolver(true);
       });
@@ -512,6 +514,7 @@ export class UserResolver {
 
     // login user
     req.session.userId = user.id;
+    UpdateUserStatus(user.id, true);
 
     return {
       user,
@@ -718,6 +721,7 @@ export class UserResolver {
 
     // login user
     req.session.userId = user.id;
+    UpdateUserStatus(user.id, true);
 
     return {
       user,

@@ -8,7 +8,7 @@ export const LoginConnector: React.FC<LoginConnectorProps> = ({}) => {
   const router = useRouter();
 
   const finished = () => {
-    router.push("/");
+    router.push((router.query.next as string) || "/");
   };
 
   return (
