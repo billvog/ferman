@@ -3,11 +3,9 @@ import { MyContext } from "../types/MyContext";
 import { MiddlewareFn } from "type-graphql";
 
 export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
-  if (!context.req.session.userId) {
-    throw new Error("Not authenticated");
-  }
+  const userId = context.req.session.userId;
 
-  if (!(await User.findOne(context.req.session.userId))) {
+  if (!userId || !(await User.findOne(userId))) {
     throw new Error("Not authenticated");
   }
 
@@ -15,10 +13,9 @@ export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
 };
 
 export const isNotAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
-  if (
-    context.req.session.userId &&
-    (await User.findOne(context.req.session.userId))
-  ) {
+  const userId = context.req.session.userId;
+
+  if (userId && (await User.findOne(userId))) {
     throw new Error("You're authenticated");
   }
 

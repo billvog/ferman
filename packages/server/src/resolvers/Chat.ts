@@ -12,12 +12,17 @@ import {
   Query,
   InputType,
   Subscription,
+  Int,
 } from "type-graphql";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "src/types/MyContext";
 import { User } from "../entity/User";
 import { Message } from "../entity/Message";
-import { NEW_CHAT_MESSAGE_KEY, UPDATE_CHAT_MESSAGE_KEY } from "../constants";
+import {
+  NEW_CHAT_MESSAGE_KEY,
+  UPDATE_CHAT_MESSAGE_KEY,
+  UPDATE_USER_KEY,
+} from "../constants";
 import { withFilter } from "graphql-subscriptions";
 import { chatAuth } from "../middleware/chatAuth";
 import { FieldError } from "./FieldError";
@@ -54,6 +59,18 @@ export class MessageResponse {
 export class MessageInput {
   @Field()
   text: string;
+}
+
+@ObjectType()
+export class PaginatedChats {
+  @Field(() => [Chat])
+  chats: Chat[];
+  @Field()
+  hasMore: boolean;
+  @Field(() => Int)
+  count: number;
+  @Field()
+  executionTime: number;
 }
 
 type NewMessagePayload = {
@@ -241,6 +258,17 @@ export class ChatResolver {
         chatId,
         newMessage: message,
       });
+
+      (async () => {
+        const chat = await Chat.findOne(chatId);
+        if (!chat) return;
+        const user = await User.findOne(
+          chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
+        );
+        pubsub.publish(UPDATE_USER_KEY, {
+          updatedUser: user,
+        });
+      })();
     } catch (error) {
       console.log(error);
       return {

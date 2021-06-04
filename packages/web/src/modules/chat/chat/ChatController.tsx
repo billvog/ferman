@@ -17,6 +17,7 @@ import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
+import { gql } from "@apollo/client";
 
 interface ChatControllerProps extends WithAuthProps {
   chat: FullChatFragment | null | undefined;

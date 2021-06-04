@@ -96,16 +96,17 @@ require("dotenv-safe").config();
         );
       },
     },
-    context: ({ req, res, connection }: MyContext) => ({
-      req,
-      res,
-      redis,
-      connection,
-      userLoader: createUserLoader(),
-      postLoader: createPostLoader(),
-      commentLoader: createCommentLoader(),
-      likeLoader: createLikeLoader(),
-    }),
+    context: ({ req, res, connection }: MyContext) =>
+      ({
+        req: req || connection?.context.req,
+        res,
+        redis,
+        connection,
+        userLoader: createUserLoader(),
+        postLoader: createPostLoader(),
+        commentLoader: createCommentLoader(),
+        likeLoader: createLikeLoader(),
+      } as MyContext),
   });
 
   apolloServer.applyMiddleware({ app, cors: false });

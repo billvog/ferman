@@ -18,7 +18,7 @@ import { chatAuth } from "../middleware/chatAuth";
 import { getConnection } from "typeorm";
 import { MessageResponse } from "./Chat";
 import { pubsub } from "../MyPubsub";
-import { UPDATE_CHAT_MESSAGE_KEY } from "../constants";
+import { UPDATE_CHAT_MESSAGE_KEY, UPDATE_USER_KEY } from "../constants";
 
 @ObjectType()
 class PaginatedMessages {
@@ -105,6 +105,13 @@ export class MessageResolver {
       chatId: message.chatId,
       newMessage: message,
     });
+
+    (async () => {
+      const user = await User.findOne(req.session.userId);
+      pubsub.publish(UPDATE_USER_KEY, {
+        updatedUser: user,
+      });
+    })();
 
     return {
       message,

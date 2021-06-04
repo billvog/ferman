@@ -19,6 +19,7 @@ import {
   Query,
   Resolver,
   Root,
+  Subscription,
   UseMiddleware,
 } from "type-graphql";
 import { getConnection, Not } from "typeorm";
@@ -30,6 +31,7 @@ import {
   PROCEED_ACC_DEL_TOKEN_PREFIX,
   PROCEED_REGISTER_TOKEN_PREFIX,
   SESSION_COOKIE_NAME,
+  UPDATE_USER_KEY,
 } from "../constants";
 import { Chat } from "../entity/Chat";
 import { Comment } from "../entity/Comment";
@@ -43,6 +45,9 @@ import { isAuth, isNotAuth } from "../middleware/isAuth";
 import { MyContext } from "../types/MyContext";
 import { sendEmail } from "../utils/sendEmail";
 import { FieldError } from "./FieldError";
+import { pubsub } from "../MyPubsub";
+import { PaginatedChats } from "./Chat";
+import { withFilter } from "graphql-subscriptions";
 
 @ObjectType()
 class UserErrorResponse {
@@ -92,17 +97,9 @@ class PaginatedUsers {
   executionTime: number;
 }
 
-@ObjectType()
-class PaginatedChats {
-  @Field(() => [Chat])
-  chats: Chat[];
-  @Field()
-  hasMore: boolean;
-  @Field(() => Int)
-  count: number;
-  @Field()
-  executionTime: number;
-}
+type UpdatedUserPayload = {
+  updatedUser: User;
+};
 
 @Resolver(User)
 export class UserResolver {
@@ -126,7 +123,10 @@ export class UserResolver {
 
   // HAS UNREAD MESSAGE
   @FieldResolver(() => Boolean)
-  async hasUnreadMessage(@Root() user: User) {
+  async hasUnreadMessage(@Root() user: User, @Ctx() { req }: MyContext) {
+    const { userId } = req.session;
+    if (user.id !== userId) return false;
+
     const m = await Message.find({
       where: {
         userId: Not(user.id),
@@ -135,6 +135,20 @@ export class UserResolver {
     });
 
     return m.length > 0;
+  }
+
+  // @UseMiddleware(isAuth)
+  @Subscription(() => User, {
+    nullable: true,
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(UPDATE_USER_KEY),
+      (payload, _, context) =>
+        payload.updatedUser.id === context.connection.context.req.session.userId
+    ),
+  })
+  updatedUser(@Root() payload: UpdatedUserPayload): User | null {
+    console.log("PAYLOAD:", payload);
+    return payload.updatedUser;
   }
 
   // FOLLOWS YOU STATUS
