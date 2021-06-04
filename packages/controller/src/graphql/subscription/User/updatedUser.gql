@@ -1,0 +1,5 @@
+subscription UpdatedUser {
+  updatedUser {
+    ...FullUser
+  }
+}

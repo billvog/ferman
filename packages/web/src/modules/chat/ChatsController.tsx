@@ -21,7 +21,6 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
     fetchMore: fetchMoreChats,
     variables: chatsVariables,
   } = useChatsQuery({
-    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,

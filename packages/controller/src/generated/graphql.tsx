@@ -445,6 +445,7 @@ export type RegisterInput = {
 export type Subscription = {
   __typename?: 'Subscription';
   newMessage?: Maybe<Message>;
+  updatedUser?: Maybe<User>;
 };
 
 
@@ -1139,6 +1140,17 @@ export type NewMessageSubscription = (
   & { newMessage?: Maybe<(
     { __typename?: 'Message' }
     & FullMessageFragment
+  )> }
+);
+
+export type UpdatedUserSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpdatedUserSubscription = (
+  { __typename?: 'Subscription' }
+  & { updatedUser?: Maybe<(
+    { __typename?: 'User' }
+    & FullUserFragment
   )> }
 );
 
@@ -2573,3 +2585,32 @@ export function useNewMessageSubscription(baseOptions: Apollo.SubscriptionHookOp
       }
 export type NewMessageSubscriptionHookResult = ReturnType<typeof useNewMessageSubscription>;
 export type NewMessageSubscriptionResult = Apollo.SubscriptionResult<NewMessageSubscription>;
+export const UpdatedUserDocument = gql`
+    subscription UpdatedUser {
+  updatedUser {
+    ...FullUser
+  }
+}
+    ${FullUserFragmentDoc}`;
+
+/**
+ * __useUpdatedUserSubscription__
+ *
+ * To run a query within a React component, call `useUpdatedUserSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUpdatedUserSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpdatedUserSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpdatedUserSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UpdatedUserSubscription, UpdatedUserSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<UpdatedUserSubscription, UpdatedUserSubscriptionVariables>(UpdatedUserDocument, options);
+      }
+export type UpdatedUserSubscriptionHookResult = ReturnType<typeof useUpdatedUserSubscription>;
+export type UpdatedUserSubscriptionResult = Apollo.SubscriptionResult<UpdatedUserSubscription>;

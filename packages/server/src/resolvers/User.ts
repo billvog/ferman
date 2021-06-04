@@ -147,7 +147,6 @@ export class UserResolver {
     ),
   })
   updatedUser(@Root() payload: UpdatedUserPayload): User | null {
-    console.log("PAYLOAD:", payload);
     return payload.updatedUser;
   }
 

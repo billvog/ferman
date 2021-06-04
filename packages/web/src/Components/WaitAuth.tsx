@@ -1,4 +1,8 @@
-import { FullUserFragment, useMeQuery } from "@ferman-pkgs/controller";
+import {
+  FullUserFragment,
+  UpdatedUserDocument,
+  useMeQuery,
+} from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MyCenterSpinner } from "./MyCenterSpinner";
@@ -18,8 +22,26 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
     RequireLoggedIn || RequireNotLoggedIn ? false : true
   );
 
-  const { data, loading } = useMeQuery({ ssr: false });
+  const {
+    data: userData,
+    loading,
+    subscribeToMore,
+  } = useMeQuery({ ssr: false });
   const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = subscribeToMore({
+      document: UpdatedUserDocument,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        else return subscriptionData.data;
+      },
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (ok) {
@@ -27,25 +49,25 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
     }
 
     if (RequireLoggedIn) {
-      if (!loading && !data?.me) {
+      if (!loading && !userData?.me) {
         router.replace("/account/login?next=" + router.asPath);
-      } else if (!loading && data?.me) {
+      } else if (!loading && userData?.me) {
         setOk(true);
       }
     }
 
     if (RequireNotLoggedIn) {
-      if (!loading && data?.me) {
+      if (!loading && userData?.me) {
         router.replace("/");
-      } else if (!loading && !data?.me) {
+      } else if (!loading && !userData?.me) {
         setOk(true);
       }
     }
-  }, [data, loading, router]);
+  }, [userData, loading, router]);
 
   return (
     <div className="w-screen h-screen">
-      {ok ? children(data?.me) : <MyCenterSpinner />}
+      {ok ? children(userData?.me) : <MyCenterSpinner />}
     </div>
   );
 };
