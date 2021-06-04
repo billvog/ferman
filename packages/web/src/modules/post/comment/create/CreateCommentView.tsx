@@ -8,9 +8,7 @@ import { MyButton } from "../../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreateCommentViewProps {
-  submit: (
-    values: CommentFormValues
-  ) => Promise<{
+  submit: (values: CommentFormValues) => Promise<{
     commentId?: string;
     errors: ErrorMap | null;
   }>;
@@ -24,14 +22,16 @@ export const C: React.FC<
   const { t } = useTypeSafeTranslation();
   return (
     <Form>
-      <InputField
-        label={t("common.body")}
-        name="text"
-        placeholder={`${t("common.body")}...`}
-        type="text"
-        textarea
-        maxLength={CommentMax}
-      />
+      <div className="mb-3">
+        <InputField
+          label={t("common.body")}
+          name="text"
+          placeholder={`${t("common.body")}...`}
+          type="text"
+          textarea
+          maxLength={CommentMax}
+        />
+      </div>
       <MyButton type="submit" isLoading={isSubmitting}>
         {reply ? t("comment.reply") : t("comment.comment")}
       </MyButton>

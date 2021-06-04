@@ -26,14 +26,16 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
   return (
     <Form>
       {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
-      <InputField
-        textarea
-        label={t("common.body")}
-        name="body"
-        placeholder={`${t("common.body")}...`}
-        type="text"
-        maxLength={BodyMax}
-      />
+      <div className="mb-3">
+        <InputField
+          textarea
+          label={t("common.body")}
+          name="body"
+          placeholder={`${t("common.body")}...`}
+          type="text"
+          maxLength={BodyMax}
+        />
+      </div>
       <MyButton type="submit" isLoading={isSubmitting}>
         {t("post.post")}
       </MyButton>

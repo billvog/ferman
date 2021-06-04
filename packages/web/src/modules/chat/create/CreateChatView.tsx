@@ -75,26 +75,44 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
   }, [debouncedQuery]);
 
   return (
-    <Form className="px-4 py-2">
-      {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
-      <div className="mb-3">
-        <InputField
-          label={t("chat.create_chat.label.reciever")}
-          name="reciever_uid"
-          placeholder={t("chat.create_chat.placeholder.reciever")}
-          type="text"
-          maxLength={UidMax}
-          autoComplete="off"
-        />
-      </div>
+    <div>
+      <Form className="px-4 py-2">
+        {message && <MyAlert color={message.type}>{message.text}</MyAlert>}
+        <div className="mb-3">
+          <InputField
+            label={t("chat.create_chat.label.reciever")}
+            name="reciever_uid"
+            placeholder={t("chat.create_chat.placeholder.reciever")}
+            type="text"
+            maxLength={UidMax}
+            autoComplete="off"
+          />
+        </div>
+        <MyButton type="submit" isLoading={isSubmitting}>
+          {t("chat.new_chat")}
+        </MyButton>
+      </Form>
       {debouncedQuery.length > 0 &&
         !!usersData?.users?.users?.length &&
         usersData?.users.users[0].uid !== values.reciever_uid && (
-          <Popover className="relative mb-4">
+          <Popover className="relative mt-3">
             <Popover.Panel
               static
-              className="block z-10 border-2 border-primary-100 rounded-2xl bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden"
+              className="block z-10 border border-r-0 border-l-0 bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden"
             >
+              <div className="text-sm p-2 text-primary-450 border-b">
+                {usersData.users.count !== 1
+                  ? t("common.found_x_results")
+                      .replace("%count%", usersData.users.count.toString())
+                      .replace(
+                        "%seconds%",
+                        Number(usersData.users.executionTime / 1000).toString()
+                      )
+                  : t("common.found_one_result").replace(
+                      "%seconds%",
+                      Number(usersData.users.executionTime / 1000).toString()
+                    )}
+              </div>
               <div className="divide-y-2 divide-primary-200">
                 {usersData?.users.users.map((user) => (
                   <div
@@ -138,10 +156,7 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
             </Popover.Panel>
           </Popover>
         )}
-      <MyButton type="submit" isLoading={isSubmitting}>
-        {t("chat.new_chat")}
-      </MyButton>
-    </Form>
+    </div>
   );
 };
 
