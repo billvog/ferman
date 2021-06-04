@@ -459,12 +459,19 @@ export type SubscriptionNewMessageArgs = {
   chatId: Scalars['String'];
 };
 
+
+export type SubscriptionUpdatedUserArgs = {
+  id?: Maybe<Scalars['Int']>;
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
   uid: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
+  isOnline: Scalars['Boolean'];
+  lastSeen: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   hasUnreadMessage: Scalars['Boolean'];
@@ -488,7 +495,7 @@ export type BasicProfileFragment = (
 
 export type BasicUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'uid' | 'username'>
+  & Pick<User, 'id' | 'uid' | 'username' | 'isOnline' | 'lastSeen'>
   & { profile?: Maybe<(
     { __typename?: 'Profile' }
     & BasicProfileFragment
@@ -576,7 +583,7 @@ export type FullProfileFragment = (
 
 export type FullUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'hasUnreadMessage' | 'followsYouStatus' | 'followingStatus' | 'followersCount' | 'followingsCount'>
+  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'isOnline' | 'lastSeen' | 'hasUnreadMessage' | 'followsYouStatus' | 'followingStatus' | 'followersCount' | 'followingsCount'>
   & { profile?: Maybe<(
     { __typename?: 'Profile' }
     & FullProfileFragment
@@ -1160,7 +1167,9 @@ export type NewMessageSubscription = (
   )> }
 );
 
-export type UpdatedUserSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type UpdatedUserSubscriptionVariables = Exact<{
+  id?: Maybe<Scalars['Int']>;
+}>;
 
 
 export type UpdatedUserSubscription = (
@@ -1184,6 +1193,8 @@ export const BasicUserFragmentDoc = gql`
   id
   uid
   username
+  isOnline
+  lastSeen
   profile {
     ...BasicProfile
   }
@@ -1383,6 +1394,8 @@ export const FullUserFragmentDoc = gql`
   username
   email
   createdAt
+  isOnline
+  lastSeen
   hasUnreadMessage
   followsYouStatus
   followingStatus
@@ -2614,8 +2627,8 @@ export function useNewMessageSubscription(baseOptions: Apollo.SubscriptionHookOp
 export type NewMessageSubscriptionHookResult = ReturnType<typeof useNewMessageSubscription>;
 export type NewMessageSubscriptionResult = Apollo.SubscriptionResult<NewMessageSubscription>;
 export const UpdatedUserDocument = gql`
-    subscription UpdatedUser {
-  updatedUser {
+    subscription UpdatedUser($id: Int) {
+  updatedUser(id: $id) {
     ...FullUser
   }
 }
@@ -2633,6 +2646,7 @@ export const UpdatedUserDocument = gql`
  * @example
  * const { data, loading, error } = useUpdatedUserSubscription({
  *   variables: {
+ *      id: // value for 'id'
  *   },
  * });
  */

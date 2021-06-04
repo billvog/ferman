@@ -2,6 +2,8 @@ fragment BasicUser on User {
   id
   uid
   username
+  isOnline
+  lastSeen
   profile {
     ...BasicProfile
   }

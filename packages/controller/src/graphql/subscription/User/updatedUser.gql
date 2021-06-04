@@ -1,5 +1,5 @@
-subscription UpdatedUser {
-  updatedUser {
+subscription UpdatedUser($id: Int) {
+  updatedUser(id: $id) {
     ...FullUser
   }
 }

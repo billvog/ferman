@@ -4,6 +4,8 @@ fragment FullUser on User {
   username
   email
   createdAt
+  isOnline
+  lastSeen
   hasUnreadMessage
   followsYouStatus
   followingStatus
