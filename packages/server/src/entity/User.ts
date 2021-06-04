@@ -45,7 +45,7 @@ export class User extends BaseEntity {
   profile: Profile;
 
   @Field(() => String)
-  @Column({ default: new Date().toString() })
+  @Column({ default: new Date() })
   lastSeenAt: Date;
 
   @Field(() => String)
@@ -71,10 +71,15 @@ export class User extends BaseEntity {
   @OneToMany(() => Follow, (follow) => follow.followingUser)
   followers: Follow[];
 
-  @OneToMany(() => Chat, (chat) => chat.sender || chat.reciever, {
+  @OneToMany(() => Chat, (chat) => chat.sender, {
     onDelete: "CASCADE",
   })
-  chats: Chat[];
+  chatAsSender: Chat[];
+
+  @OneToMany(() => Chat, (chat) => chat.reciever, {
+    onDelete: "CASCADE",
+  })
+  chatAsReciever: Chat[];
 
   @OneToMany(() => Message, (message) => message.userId)
   messages: Message[];

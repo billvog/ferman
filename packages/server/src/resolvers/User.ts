@@ -136,7 +136,7 @@ export class UserResolver {
     return m.length > 0;
   }
 
-  // @UseMiddleware(isAuth)
+  @UseMiddleware(isAuth)
   @Subscription(() => User, {
     nullable: true,
     subscribe: withFilter(

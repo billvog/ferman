@@ -49,22 +49,30 @@ const Page: React.FC = () => {
                           className="mr-2.5"
                           onClick={() => router.push(`/user/${otherUser.uid}`)}
                         >
-                          <img
-                            src={otherUser.profile?.avatarUrl}
-                            className="w-6 h-6 rounded-35"
-                          />
+                          <div className="relative">
+                            <img
+                              src={otherUser.profile?.avatarUrl}
+                              className="w-7 h-7 rounded-35"
+                            />
+                            <div className="absolute -bottom-0.5 -right-0.5">
+                              <div className="w-2 h-2 rounded-full bg-green-500 ring-2 ring-primary-100" />
+                            </div>
+                          </div>
                         </div>
                         <div className="flex flex-col items-start">
-                          <div className="text-sm text-primary-500 font-semibold group-hover:underline">
+                          <div className="text-md text-primary-500 font-semibold group-hover:underline">
                             {otherUser.uid}
                           </div>
-                          <div className="text-xs leading-none">
-                            Last seen 5 minutes ago
-                          </div>
+                          <div className="text-xs leading-none">Active now</div>
                         </div>
                       </div>
                     ) : (
-                      <div className="p-1 pl-2">
+                      <div
+                        className="pl-4 flex items-center"
+                        style={{
+                          height: "33px",
+                        }}
+                      >
                         <MySpinner size="tiny" />
                       </div>
                     )}

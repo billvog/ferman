@@ -89,13 +89,11 @@ require("dotenv-safe").config();
       onConnect: (_, ws: any) => {
         return new Promise((res) =>
           sessionMiddleware(ws.upgradeReq, {} as any, async () => {
+            res({ req: ws.upgradeReq });
+
             const user = await User.findOne(ws.upgradeReq.userId);
             if (!user) return;
             user.lastSeenAt = new Date();
-
-            res({
-              req: ws.upgradeReq,
-            });
           })
         );
       },
