@@ -19,7 +19,7 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
 
   return (
     <div
-      className={`flex items-center text-primary-500 p-3 group cursor-pointer ${
+      className={`flex items-start text-primary-500 p-3 group cursor-pointer ${
         isOdd ? "bg-white" : "bg-primary-50"
       }`}
       title={t("chat.chat_with").replace("%user1%", otherUser.username)}
@@ -43,14 +43,16 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
           {otherUser.username}
         </div>
         {chat.latestMessage && (
-          <div className="text-xs flex flex-col 1cols:flex-row justify-between">
-            <span>
+          <div className="text-xs flex justify-between">
+            <span className="table table-fixed whitespace-pre-wrap break-word">
               {chat.latestMessage.userId === me.id && (
                 <b>{t("common.you")}: </b>
               )}
-              {useTrancatedText(chat.latestMessage?.text, 50)}
+              <span>{useTrancatedText(chat.latestMessage?.text, 50)}</span>
             </span>
-            <span>{dayjs(chat.latestMessage?.createdAt).fromNow()}</span>
+            <span className="min-w-max pl-3">
+              {dayjs(chat.latestMessage?.createdAt).fromNow()}
+            </span>
           </div>
         )}
       </div>

@@ -7,7 +7,7 @@ import { useScreenType } from "../shared-hooks/useScreenType";
 import { MySpinner } from "./MySpinner";
 
 interface PageHeaderProps {
-  title: string;
+  title: string | JSX.Element;
   showBackButton?: boolean;
   loggedUser: FullUserFragment | null | undefined;
 }
@@ -45,7 +45,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
               <NavIcons.ChatIcon
                 size="20px"
                 className="text-primary-600"
-                onClick={() => router.push("/chat")}
+                onClick={() => router.push("/chat/my")}
               />
               <img
                 src={loggedUser.profile?.avatarUrl}

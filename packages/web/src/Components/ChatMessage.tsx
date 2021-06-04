@@ -10,7 +10,7 @@ interface ChatMessageProps {
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
   const router = useRouter();
-  const isMe = me.id === message.userId;
+  const isMe = me.id !== message.userId;
 
   return (
     <div
@@ -22,12 +22,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
         className={`p-3 flex flex-col ${isMe ? "items-end" : "items-start"}`}
       >
         <div
-          className={`flex items-center ${
+          className={`flex items-start ${
             isMe ? "flex-row-reverse" : "flex-row"
           }`}
         >
           {!isMe && (
-            <div className="mr-3">
+            <div className="mr-3 min-w-max">
               <img
                 src={message.user.profile?.avatarUrl}
                 className="w-7 h-7 rounded-35 cursor-pointer"
@@ -43,7 +43,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
             <div
               className={`text-md text-primary-500 bg-primary-100 ${
                 isMe ? "bg-primary-100" : "bg-primary-50"
-              } px-3 py-2 rounded-2xl`}
+              } px-3 py-2 rounded-2xl table table-fixed whitespace-pre-wrap break-word`}
             >
               {message.text}
             </div>

@@ -125,7 +125,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                     </div>
                   </div>
                 }
-                onClick={() => router.push("/chat")}
+                onClick={() => router.push("/chat/my")}
                 key="chat-action"
               />
             </div>

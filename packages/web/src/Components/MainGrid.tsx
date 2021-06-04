@@ -5,7 +5,7 @@ import { useScreenType } from "../shared-hooks/useScreenType";
 import { PageHeader } from "./PageHeader";
 
 interface MainGridProps {
-  title?: string;
+  title?: string | JSX.Element;
   loggedUser?: FullUserFragment | null | undefined;
   leftSidebar?: JSX.Element;
   bottomNav?: JSX.Element;
@@ -42,7 +42,7 @@ export const MainGrid: React.FC<MainGridProps> = ({
       >
         {screenType !== "fullscreen" && leftSidebar}
         <div className="flex-1 flex flex-col">
-          {title.length > 0 && (
+          {!!title && (
             <PageHeader
               title={title}
               showBackButton={route !== "/"}

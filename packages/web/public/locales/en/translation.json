@@ -211,7 +211,7 @@
     }
   },
   "chat": {
-    "title": "Chat",
+    "title": "My Chats",
     "chats": "Your chats",
     "new_chat": "New Chat",
     "you_have_no_chats": "You have no chats yet",
