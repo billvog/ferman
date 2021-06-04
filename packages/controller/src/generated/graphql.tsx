@@ -88,7 +88,7 @@ export type MessageInput = {
 export type MessageResponse = {
   __typename?: 'MessageResponse';
   message?: Maybe<Message>;
-  error: Scalars['Boolean'];
+  error?: Maybe<FieldError>;
 };
 
 export type MinimalChatResponse = {
@@ -102,6 +102,12 @@ export type MinimalCommentIdResponse = {
   commentId: Scalars['String'];
   parentCommentId?: Maybe<Scalars['String']>;
   postId: Scalars['String'];
+  error: Scalars['Boolean'];
+};
+
+export type MinimalMessageResponse = {
+  __typename?: 'MinimalMessageResponse';
+  message?: Maybe<Message>;
   error: Scalars['Boolean'];
 };
 
@@ -127,7 +133,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createChat: ChatResponse;
   sendMessage: MessageResponse;
-  markMessageRead: MessageResponse;
+  markMessageRead: MinimalMessageResponse;
   likePost: MinimalPostResponse;
   createPost: PostResponse;
   deletePost: MinimalPostIdResponse;
@@ -345,12 +351,12 @@ export type ProfileResponse = {
 export type Query = {
   __typename?: 'Query';
   chat: MinimalChatResponse;
+  chats: PaginatedChats;
   messages: PaginatedMessages;
   posts: PaginatedPosts;
   post?: Maybe<Post>;
   comments: PaginatedComments;
   comment: PaginatedComments;
-  chats: PaginatedChats;
   followers?: Maybe<PaginatedUsers>;
   followings?: Maybe<PaginatedUsers>;
   user?: Maybe<User>;
@@ -361,6 +367,12 @@ export type Query = {
 
 export type QueryChatArgs = {
   chatId: Scalars['String'];
+};
+
+
+export type QueryChatsArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit: Scalars['Int'];
 };
 
 
@@ -396,12 +408,6 @@ export type QueryCommentsArgs = {
 
 export type QueryCommentArgs = {
   id: Scalars['String'];
-  skip?: Maybe<Scalars['Int']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QueryChatsArgs = {
   skip?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
 };
@@ -579,10 +585,12 @@ export type FullUserFragment = (
 
 export type MessageResponseFragment = (
   { __typename?: 'MessageResponse' }
-  & Pick<MessageResponse, 'error'>
   & { message?: Maybe<(
     { __typename?: 'Message' }
     & FullMessageFragment
+  )>, error?: Maybe<(
+    { __typename?: 'FieldError' }
+    & FieldErrorFragment
   )> }
 );
 
@@ -598,6 +606,15 @@ export type MinimalChatResponseFragment = (
 export type MinimalCommentIdResponseFragment = (
   { __typename?: 'MinimalCommentIdResponse' }
   & Pick<MinimalCommentIdResponse, 'error' | 'postId' | 'parentCommentId' | 'commentId'>
+);
+
+export type MinimalMessageResponseFragment = (
+  { __typename?: 'MinimalMessageResponse' }
+  & Pick<MinimalMessageResponse, 'error'>
+  & { message?: Maybe<(
+    { __typename?: 'Message' }
+    & FullMessageFragment
+  )> }
 );
 
 export type MinimalPostIdResponseFragment = (
@@ -675,8 +692,8 @@ export type MarkMessageReadMutationVariables = Exact<{
 export type MarkMessageReadMutation = (
   { __typename?: 'Mutation' }
   & { markMessageRead: (
-    { __typename?: 'MessageResponse' }
-    & MessageResponseFragment
+    { __typename?: 'MinimalMessageResponse' }
+    & MinimalMessageResponseFragment
   ) }
 );
 
@@ -1225,9 +1242,12 @@ export const MessageResponseFragmentDoc = gql`
   message {
     ...FullMessage
   }
-  error
+  error {
+    ...FieldError
+  }
 }
-    ${FullMessageFragmentDoc}`;
+    ${FullMessageFragmentDoc}
+${FieldErrorFragmentDoc}`;
 export const MinimalChatResponseFragmentDoc = gql`
     fragment MinimalChatResponse on MinimalChatResponse {
   chat {
@@ -1244,6 +1264,14 @@ export const MinimalCommentIdResponseFragmentDoc = gql`
   commentId
 }
     `;
+export const MinimalMessageResponseFragmentDoc = gql`
+    fragment MinimalMessageResponse on MinimalMessageResponse {
+  message {
+    ...FullMessage
+  }
+  error
+}
+    ${FullMessageFragmentDoc}`;
 export const MinimalPostIdResponseFragmentDoc = gql`
     fragment MinimalPostIdResponse on MinimalPostIdResponse {
   error
@@ -1411,10 +1439,10 @@ export type CreateChatMutationOptions = Apollo.BaseMutationOptions<CreateChatMut
 export const MarkMessageReadDocument = gql`
     mutation MarkMessageRead($chatId: String!, $messageId: Int!) {
   markMessageRead(chatId: $chatId, messageId: $messageId) {
-    ...MessageResponse
+    ...MinimalMessageResponse
   }
 }
-    ${MessageResponseFragmentDoc}`;
+    ${MinimalMessageResponseFragmentDoc}`;
 export type MarkMessageReadMutationFn = Apollo.MutationFunction<MarkMessageReadMutation, MarkMessageReadMutationVariables>;
 
 /**

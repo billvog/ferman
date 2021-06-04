@@ -27,7 +27,9 @@ import { withFilter } from "graphql-subscriptions";
 import { chatAuth } from "../middleware/chatAuth";
 import { FieldError } from "./FieldError";
 import { pubsub } from "../MyPubsub";
-import { Not } from "typeorm";
+import { getConnection, Not } from "typeorm";
+import { ChatMessageValidationSchema } from "@ferman-pkgs/common";
+import e from "express";
 
 @ObjectType()
 export class ChatResponse {
@@ -48,11 +50,19 @@ export class MinimalChatResponse {
 }
 
 @ObjectType()
-export class MessageResponse {
+export class MinimalMessageResponse {
   @Field(() => Message, { nullable: true })
   message?: Message;
   @Field(() => Boolean)
   error: boolean;
+}
+
+@ObjectType()
+export class MessageResponse {
+  @Field(() => Message, { nullable: true })
+  message?: Message;
+  @Field(() => FieldError, { nullable: true })
+  error?: FieldError;
 }
 
 @InputType()
@@ -123,6 +133,22 @@ export class ChatResolver {
   }
 
   @UseMiddleware(chatAuth)
+  @Subscription(() => Message, {
+    nullable: true,
+    subscribe: withFilter(
+      () =>
+        pubsub.asyncIterator([NEW_CHAT_MESSAGE_KEY, UPDATE_CHAT_MESSAGE_KEY]),
+      (payload, args) => payload.chatId === args.chatId
+    ),
+  })
+  newMessage(
+    @Root() payload: NewMessagePayload,
+    @Arg("chatId", () => String) chatId: string
+  ): Message | null {
+    return payload.newMessage;
+  }
+
+  @UseMiddleware(chatAuth)
   @Query(() => MinimalChatResponse)
   async chat(
     @Arg("chatId", () => String) chatId: string,
@@ -145,20 +171,41 @@ export class ChatResolver {
     return { chat, error: false };
   }
 
-  @UseMiddleware(chatAuth)
-  @Subscription(() => Message, {
-    nullable: true,
-    subscribe: withFilter(
-      () =>
-        pubsub.asyncIterator([NEW_CHAT_MESSAGE_KEY, UPDATE_CHAT_MESSAGE_KEY]),
-      (payload, args) => payload.chatId === args.chatId
-    ),
-  })
-  newMessage(
-    @Root() payload: NewMessagePayload,
-    @Arg("chatId", () => String) chatId: string
-  ): Message | null {
-    return payload.newMessage;
+  @UseMiddleware(isAuth)
+  @Query(() => PaginatedChats)
+  async chats(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("skip", () => Int, { nullable: true }) skip: number,
+    @Ctx() { req }: MyContext
+  ): Promise<PaginatedChats> {
+    const start = Date.now();
+
+    const realLimit = Math.min(50, limit);
+    const realLimitPlusOne = realLimit + 1;
+
+    const qb = getConnection()
+      .getRepository(Chat)
+      .createQueryBuilder("c")
+      .where('c."senderId" = :userId or c."recieverId" = :userId', {
+        userId: req.session.userId,
+      })
+      .limit(limit);
+
+    if (skip && skip > 0) {
+      qb.offset(skip);
+    }
+
+    const [chats, count] = await qb.getManyAndCount();
+
+    const end = Date.now();
+    const executionTime = end - start;
+
+    return {
+      chats: chats.slice(0, realLimit),
+      hasMore: chats.length === realLimitPlusOne,
+      count,
+      executionTime,
+    };
   }
 
   @UseMiddleware(isAuth)
@@ -244,6 +291,18 @@ export class ChatResolver {
     @Arg("options", () => MessageInput) options: MessageInput,
     @Ctx() { req }: MyContext
   ): Promise<MessageResponse> {
+    try {
+      const validation = await ChatMessageValidationSchema.validate(options);
+      options = validation;
+    } catch (error) {
+      return {
+        error: {
+          field: error.path,
+          message: error.errors[0],
+        },
+      };
+    }
+
     let message: Message;
     try {
       message = Message.create({
@@ -270,15 +329,16 @@ export class ChatResolver {
         });
       })();
     } catch (error) {
-      console.log(error);
       return {
-        error: true,
+        error: {
+          field: "_",
+          message: "errors.500",
+        },
       };
     }
 
     return {
       message,
-      error: false,
     };
   }
 }

@@ -17,7 +17,7 @@ import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
-import { gql } from "@apollo/client";
+import { toast } from "react-toastify";
 
 interface ChatControllerProps extends WithAuthProps {
   chat: FullChatFragment | null | undefined;
@@ -36,6 +36,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
     variables: messagesVariables,
     subscribeToMore: subscribeToMoreMessages,
   } = useMessagesQuery({
+    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     skip: typeof chat === "undefined" || !chat?.id,
     variables: {
@@ -168,13 +169,19 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               initialValues={{
                 text: "",
               }}
-              onSubmit={async (values, { setFieldValue }) => {
-                await sendMessage({
+              onSubmit={async (values, { setErrors, setFieldValue }) => {
+                const { data } = await sendMessage({
                   variables: {
                     chatId: chat.id,
                     options: values,
                   },
                 });
+
+                if (data?.sendMessage.error) {
+                  return toast.error(
+                    t(`form.error.${data.sendMessage.error.message}` as any)
+                  );
+                }
 
                 setFieldValue("text", "");
               }}

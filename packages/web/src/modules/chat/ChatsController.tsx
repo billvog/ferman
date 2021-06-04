@@ -21,6 +21,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
     fetchMore: fetchMoreChats,
     variables: chatsVariables,
   } = useChatsQuery({
+    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
@@ -52,46 +53,46 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
             {chatsData?.chats.count === 0 ? (
               <div>{t("chat.you_have_no_chats")}</div>
             ) : (
-              chatsData?.chats.chats.map((chat) => (
-                <div
-                  key={chat.id}
-                  className="flex items-center text-primary-500 p-4 bg-primary-50 group cursor-pointer"
-                  title={t("chat.chat_with").replace(
-                    "%user1%",
-                    chat.senderId !== loggedUser.id
-                      ? chat.sender.username
-                      : chat.recieverId !== loggedUser.id
-                      ? chat.reciever.username
-                      : ""
-                  )}
-                  onClick={() => router.push(`/chat/${chat.id}`)}
-                >
-                  <div className="mr-3">
-                    <div className="relative p-0.5">
-                      <img
-                        className="w-8 h-8 rounded-35"
-                        src={chat.reciever.profile?.avatarUrl}
-                      />
-                      {chat.hasUnreadMessage && (
-                        <div className="absolute bottom-0 right-0">
-                          <div className="w-2 h-2 rounded-full bg-secondary-500 ring-2 ring-primary-50" />
-                        </div>
-                      )}
+              chatsData?.chats.chats.map((chat) => {
+                const otherUser =
+                  loggedUser.id === chat.senderId ? chat.reciever : chat.sender;
+                return (
+                  <div
+                    key={chat.id}
+                    className="flex items-center text-primary-500 p-4 bg-primary-50 group cursor-pointer"
+                    title={t("chat.chat_with").replace(
+                      "%user1%",
+                      otherUser.username
+                    )}
+                    onClick={() => router.push(`/chat/${chat.id}`)}
+                  >
+                    <div className="mr-3">
+                      <div className="relative p-0.5">
+                        <img
+                          className="w-8 h-8 rounded-35"
+                          src={otherUser.profile?.avatarUrl}
+                        />
+                        {chat.hasUnreadMessage && (
+                          <div className="absolute bottom-0 right-0">
+                            <div className="w-2 h-2 rounded-full bg-secondary-500 ring-2 ring-primary-50" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col leading-none flex-1">
+                      <div className="text-sm font-bold group-hover:underline">
+                        {otherUser.username}
+                      </div>
+                      <div className="text-vs flex justify-between">
+                        <span>{chat.latestMessage?.text}</span>
+                        <span>
+                          {dayjs(chat.latestMessage?.createdAt).fromNow()}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col leading-none flex-1">
-                    <div className="text-sm font-bold group-hover:underline">
-                      {chat.reciever.username}
-                    </div>
-                    <div className="text-vs flex justify-between">
-                      <span>{chat.latestMessage?.text}</span>
-                      <span>
-                        {dayjs(chat.latestMessage?.createdAt).fromNow()}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
           {chatsData?.chats.chats && chatsData?.chats.hasMore && (

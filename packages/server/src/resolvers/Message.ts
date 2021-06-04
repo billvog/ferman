@@ -1,5 +1,3 @@
-import { Message } from "../entity/Message";
-import { User } from "../entity/User";
 import {
   Arg,
   Ctx,
@@ -13,12 +11,14 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { MyContext } from "../types/MyContext";
-import { chatAuth } from "../middleware/chatAuth";
 import { getConnection } from "typeorm";
-import { MessageResponse } from "./Chat";
-import { pubsub } from "../MyPubsub";
 import { UPDATE_CHAT_MESSAGE_KEY, UPDATE_USER_KEY } from "../constants";
+import { Message } from "../entity/Message";
+import { User } from "../entity/User";
+import { chatAuth } from "../middleware/chatAuth";
+import { pubsub } from "../MyPubsub";
+import { MyContext } from "../types/MyContext";
+import { MinimalMessageResponse } from "./Chat";
 
 @ObjectType()
 class PaginatedMessages {
@@ -79,12 +79,12 @@ export class MessageResolver {
   }
 
   @UseMiddleware(chatAuth)
-  @Mutation(() => MessageResponse)
+  @Mutation(() => MinimalMessageResponse)
   async markMessageRead(
     @Arg("chatId", () => String) chatId: string,
     @Arg("messageId", () => Int) messageId: number,
     @Ctx() { req }: MyContext
-  ): Promise<MessageResponse> {
+  ): Promise<MinimalMessageResponse> {
     const message = await Message.findOne({
       where: {
         id: messageId,

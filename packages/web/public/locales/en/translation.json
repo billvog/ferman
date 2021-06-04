@@ -81,7 +81,8 @@
       "post_body_length": "Length must be between 3 and 500",
       "comment_text_length": "Length must be between 3 and 200",
       "wrong_credentials": "Wrong email or password",
-      "invalid_token": "Invalid token, please make a new request"
+      "invalid_token": "Invalid token, please make a new request",
+      "message_text_length": "Message length must be up to 500"
     },
     "toggle_pwd_visibility": {
       "show": "Show",

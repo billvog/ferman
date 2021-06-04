@@ -93,7 +93,7 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
           <Popover className="relative mb-4">
             <Popover.Panel
               static
-              className="block z-10 border-2 border-primary-200 rounded-2xl bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden"
+              className="block z-10 border-2 border-primary-100 rounded-2xl bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden"
             >
               <div className="divide-y-2 divide-primary-200">
                 {usersData?.users.users.map((user) => (

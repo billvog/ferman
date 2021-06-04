@@ -1,0 +1,6 @@
+fragment MinimalMessageResponse on MinimalMessageResponse {
+  message {
+    ...FullMessage
+  }
+  error
+}
