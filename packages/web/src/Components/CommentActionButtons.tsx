@@ -49,15 +49,13 @@ export const CommentActionButtons: React.FC<CommentActionButtonsProps> = ({
     );
 
     if (response.errors || !response.data?.deleteComment) {
-      return toast.error("Could not delete comment");
+      return toast.error(t("comment.alert.cannot_delete"));
     }
 
     setDelModalOpen(false);
-    toast.success("Comment deleted");
+    toast.success(t("comment.alert.deleted"));
 
-    if (typeof onDelete === "function") {
-      return onDelete();
-    }
+    if (typeof onDelete === "function") return onDelete();
   };
 
   return (
