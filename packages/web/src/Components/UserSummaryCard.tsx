@@ -30,7 +30,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
     );
 
     if (!data || data.follow.error || !data.follow.users) {
-      return toast.error("Internal server error");
+      return toast.error(t("errors.500"));
     }
   };
 

@@ -177,6 +177,14 @@
     "delete_dialog": {
       "title": "Are you sure?",
       "text": "Clicking \"Delete\" button, all replies of this comment will be deleted. Any further action, will not be able to be undone."
+    },
+    "alert": {
+      "created": {
+        "text": "Your comment has been sent",
+        "view": "View"
+      },
+      "deleted": "Comment deleted",
+      "cannot_delete": "Comment couln't get deleted"
     }
   },
   "explore": {

@@ -38,7 +38,7 @@ export const CreateChatController: React.FC<CreateChatControllerProps> = ({
     if (!data || errors) {
       setMessage({
         type: "error",
-        text: "Internal server error",
+        text: "errors.500",
       });
       return {
         errors: null,

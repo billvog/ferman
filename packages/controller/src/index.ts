@@ -13,7 +13,7 @@ export * from "./options/post/LikePostOptions";
 export * from "./options/post/DeletePostOptions";
 
 // Comment Controller
-export * from "./controllers/comment/CommentController";
+export * from "./controllers/comment/CreateCommentController";
 export * from "./options/comment/DeleteCommentOptions";
 
 // Chat Controller

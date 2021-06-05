@@ -38,7 +38,7 @@ export const CreatePostController: React.FC<CreatePostControllerProps> = ({
     if (response.errors) {
       setMessage({
         type: "error",
-        text: "Internal server error",
+        text: "errors.500",
       });
       return {
         errors: null,

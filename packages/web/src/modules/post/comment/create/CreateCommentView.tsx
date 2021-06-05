@@ -1,5 +1,5 @@
 import { CommentMax, CommentValidationSchema } from "@ferman-pkgs/common";
-import { CommentFormValues, ErrorMap } from "@ferman-pkgs/controller";
+import { CreateCommentFormValues, ErrorMap } from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
@@ -8,8 +8,7 @@ import { MyButton } from "../../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreateCommentViewProps {
-  submit: (values: CommentFormValues) => Promise<{
-    commentId?: string;
+  submit: (values: CreateCommentFormValues) => Promise<{
     errors: ErrorMap | null;
   }>;
   reply: boolean;
@@ -17,7 +16,7 @@ interface CreateCommentViewProps {
 }
 
 export const C: React.FC<
-  CreateCommentViewProps & FormikProps<CommentFormValues>
+  CreateCommentViewProps & FormikProps<CreateCommentFormValues>
 > = ({ isSubmitting, reply }) => {
   const { t } = useTypeSafeTranslation();
   return (
@@ -40,19 +39,15 @@ export const C: React.FC<
 };
 
 export const CreateCommentView = withRouter(
-  withFormik<CreateCommentViewProps, CommentFormValues>({
+  withFormik<CreateCommentViewProps, CreateCommentFormValues>({
     validateOnBlur: true,
     validationSchema: CommentValidationSchema,
     mapPropsToValues: () => ({
       text: "",
     }),
     handleSubmit: async (values, { setErrors, props }) => {
-      const { errors, commentId } = await props.submit(values);
+      const { errors } = await props.submit(values);
       if (errors) setErrors(errors);
-      else
-        props.router.replace(
-          `/post/${props.router.query.postId}/comment/${commentId}`
-        );
     },
   })(C)
 );
