@@ -7,6 +7,7 @@ import {
   useMessagesQuery,
   useSendMessageMutation,
 } from "@ferman-pkgs/controller";
+import { ChatMessageMax } from "@ferman-pkgs/common";
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { HiChatAlt2 } from "react-icons/hi";
@@ -21,6 +22,8 @@ import { MySpinner } from "../../../components/MySpinner";
 import { useScreenType } from "../../../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
+import useWindowFocus from "use-window-focus";
+import { gql, useApolloClient } from "@apollo/client";
 
 interface ChatControllerProps extends WithAuthProps {
   chat: FullChatFragment | null | undefined;
@@ -32,6 +35,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
 }) => {
   const { t } = useTypeSafeTranslation();
   const screenType = useScreenType();
+  // const windowFocused = useWindowFocus();
 
   const {
     data: messagesData,
@@ -41,11 +45,13 @@ export const ChatController: React.FC<ChatControllerProps> = ({
     subscribeToMore: subscribeToMoreMessages,
   } = useMessagesQuery({
     fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,
     skip: typeof chat === "undefined" || !chat?.id,
     variables: {
       chatId: chat?.id || "",
       limit: 30,
+      skip: 0,
     },
   });
 
@@ -82,7 +88,6 @@ export const ChatController: React.FC<ChatControllerProps> = ({
         }
 
         return {
-          ...prev,
           messages: {
             ...prev.messages,
             messages: [
@@ -160,21 +165,6 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                             ...messagesVariables,
                             skip: messagesData.messages.messages.length,
                           },
-                          updateQuery: (
-                            prev: any,
-                            { fetchMoreResult }: any
-                          ) => {
-                            return {
-                              ...fetchMoreResult,
-                              messages: {
-                                ...fetchMoreResult.messages,
-                                messages: [
-                                  ...prev.messages.messages,
-                                  ...fetchMoreResult.messages.messages,
-                                ],
-                              },
-                            };
-                          },
                         });
                       }}
                     >
@@ -190,7 +180,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               initialValues={{
                 text: "",
               }}
-              onSubmit={async (values, { setErrors, setFieldValue }) => {
+              onSubmit={async (values, { setFieldValue }) => {
                 const { data } = await sendMessage({
                   variables: {
                     chatId: chat.id,
@@ -213,6 +203,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                     name="text"
                     type="text"
                     placeholder="Message..."
+                    maxLength={ChatMessageMax}
                   />
                   <MyButton isLoading={isSubmitting} type="submit">
                     Send

@@ -131,21 +131,26 @@ export const MyApolloClient = (
                 };
               },
             },
-            // messages: {
-            //   keyArgs: ["chatId"],
-            //   merge(
-            //     existing: PaginatedMessages | undefined,
-            //     incoming: PaginatedMessages
-            //   ): PaginatedMessages {
-            //     return {
-            //       ...incoming,
-            //       messages: [
-            //         ...(existing?.messages || []),
-            //         ...incoming.messages,
-            //       ],
-            //     };
-            //   },
-            // },
+            messages: {
+              keyArgs: ["chatId"],
+              merge(
+                existing: PaginatedMessages,
+                incoming: PaginatedMessages,
+                { args }
+              ): PaginatedMessages {
+                if (args && !args.after) {
+                  return incoming;
+                }
+
+                return {
+                  ...incoming,
+                  messages: [
+                    ...(existing?.messages || []),
+                    ...incoming.messages,
+                  ],
+                };
+              },
+            },
           },
         },
         User: {

@@ -48,6 +48,7 @@ import { FieldError } from "./FieldError";
 import { pubsub } from "../MyPubsub";
 import { withFilter } from "graphql-subscriptions";
 import { UpdateUserStatus } from "../utils/updateUserStatus";
+import { Chat } from "../entity/Chat";
 
 @ObjectType()
 class UserErrorResponse {
@@ -127,8 +128,15 @@ export class UserResolver {
     const { userId } = req.session;
     if (user.id !== userId) return false;
 
+    const c = await Chat.findOne({
+      where: [{ senderId: user.id }, { recieverId: user.id }],
+    });
+
+    if (!c) return false;
+
     const m = await Message.find({
       where: {
+        chatId: c.id,
         userId: Not(user.id),
         read: false,
       },

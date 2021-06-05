@@ -26,23 +26,27 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
             isMe ? "flex-row-reverse" : "flex-row"
           }`}
         >
-          {!isMe && (
-            <div className="mr-3 min-w-max">
-              <img
-                src={message.user.profile?.avatarUrl}
-                className="w-7 h-7 rounded-35 cursor-pointer"
-                onClick={() => router.push(`/user/${message.user.uid}`)}
-              />
-            </div>
-          )}
+          <div>
+            {!isMe && (
+              <div className="mr-3 min-w-max">
+                <img
+                  src={message.user.profile?.avatarUrl}
+                  className="w-7 h-7 rounded-35 cursor-pointer"
+                  onClick={() => router.push(`/user/${message.user.uid}`)}
+                />
+              </div>
+            )}
+          </div>
           <div
             className={`flex flex-col ${
               isMe ? "items-end" : "items-start"
             } justify-center`}
           >
             <div
-              className={`text-md text-primary-500 bg-primary-100 ${
-                isMe ? "bg-primary-100" : "bg-primary-50"
+              className={`text-md ${
+                isMe
+                  ? "bg-primary-500 text-primary-50"
+                  : "bg-primary-100 text-primary-500"
               } px-3 py-2 rounded-2xl table table-fixed whitespace-pre-wrap break-word`}
             >
               {message.text}
