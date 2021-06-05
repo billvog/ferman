@@ -103,20 +103,36 @@ export const MyApolloClient = (
             messages: {
               keyArgs: ["chatId"],
               merge(
-                existing: PaginatedMessages,
-                incoming: PaginatedMessages,
-                { args }
+                existing: PaginatedMessages | undefined,
+                incoming: PaginatedMessages
               ): PaginatedMessages {
-                if (args && !args.after) {
+                if (existing === undefined) {
+                  return incoming;
+                }
+
+                let hasDuplicates = false;
+
+                incoming.messages.map((x) => {
+                  let inRef = (x as any).__ref as string;
+                  inRef = inRef.slice(8, inRef.length);
+
+                  existing.messages.map((y) => {
+                    let exRef = (y as any).__ref as string;
+                    exRef = exRef.slice(8, exRef.length);
+
+                    if (inRef === exRef) {
+                      hasDuplicates = true;
+                    }
+                  });
+                });
+
+                if (hasDuplicates) {
                   return incoming;
                 }
 
                 return {
                   ...incoming,
-                  messages: [
-                    ...(existing?.messages || []),
-                    ...incoming.messages,
-                  ],
+                  messages: [...existing.messages, ...incoming.messages],
                 };
               },
             },
