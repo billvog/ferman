@@ -6,6 +6,6 @@ fragment FullProfile on Profile {
   birthdate
   showBirthdate
   postsCount
-  commentsCount
+  repliesCount
   likesCount
 }

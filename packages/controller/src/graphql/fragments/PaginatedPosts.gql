@@ -2,7 +2,10 @@ fragment PaginatedPosts on PaginatedPosts {
   hasMore
   executionTime
   count
-  posts {
+  parent {
     ...FullPost
+  }
+  posts {
+    ...FullPostWithoutParent
   }
 }

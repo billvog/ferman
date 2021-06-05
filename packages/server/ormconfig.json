@@ -6,5 +6,9 @@
    "password": "postgres",
    "database": "ferman_prod",
    "entities": ["dist/entity/*.js"],
-   "migrations": ["dist/migration/*.js"]
+   "migrations": ["dist/migration/*.js"],
+   "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration"
+   }
 }

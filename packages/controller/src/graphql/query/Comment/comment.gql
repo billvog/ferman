@@ -1,5 +1,0 @@
-query Comment($limit: Int!, $skip: Int, $id: String!) {
-  comment(limit: $limit, skip: $skip, id: $id) {
-    ...PaginatedComments
-  }
-}

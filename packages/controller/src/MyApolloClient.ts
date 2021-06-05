@@ -4,7 +4,6 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import {
   PaginatedUsers,
   PaginatedPosts,
-  PaginatedComments,
   PaginatedMessages,
 } from "./generated/graphql";
 import { isServer } from "./utils/isServer";
@@ -98,36 +97,6 @@ export const MyApolloClient = (
                 return {
                   ...incoming,
                   posts: [...(existing?.posts || []), ...incoming.posts],
-                };
-              },
-            },
-            comments: {
-              keyArgs: ["postId"],
-              merge(
-                existing: PaginatedComments | undefined,
-                incoming: PaginatedComments
-              ): PaginatedComments {
-                return {
-                  ...incoming,
-                  comments: [
-                    ...(existing?.comments || []),
-                    ...incoming.comments,
-                  ],
-                };
-              },
-            },
-            comment: {
-              keyArgs: ["id"],
-              merge(
-                existing: PaginatedComments | undefined,
-                incoming: PaginatedComments
-              ): PaginatedComments {
-                return {
-                  ...incoming,
-                  comments: [
-                    ...(existing?.comments || []),
-                    ...incoming.comments,
-                  ],
                 };
               },
             },

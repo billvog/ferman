@@ -1,14 +1,10 @@
-fragment FullPost on Post {
+fragment FullPostWithoutParent on Post {
   id
   body
   points
   repliesCount
   likeStatus
   createdAt
-  parentPostId
-  parentPost {
-    ...FullPostWithoutParent
-  }
   creator {
     ...BasicUser
   }

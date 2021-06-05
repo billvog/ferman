@@ -1,5 +1,5 @@
-mutation CreatePost($options: PostInput!) {
-  createPost(options: $options) {
+mutation CreatePost($parentPostId: String, $options: PostInput!) {
+  createPost(parentPostId: $parentPostId, options: $options) {
     error {
       ...FieldError
     }

@@ -20,8 +20,8 @@ import { FieldError } from "./FieldError";
 import fetch from "node-fetch";
 import { createHash } from "crypto";
 import { Post } from "../entity/Post";
-import { Comment } from "../entity/Comment";
 import { Like } from "../entity/Like";
+import { getConnection } from "typeorm";
 
 @ObjectType()
 class ProfileResponse {
@@ -66,11 +66,13 @@ export class ProfileResolver {
 
   // COMMENTS COUNT
   @FieldResolver(() => Int)
-  async commentsCount(@Root() profile: Profile) {
-    const [, count] = await Comment.findAndCount({
-      where: { userId: profile.userId },
-    });
-    return count;
+  async repliesCount(@Root() profile: Profile) {
+    return getConnection()
+      .getRepository(Post)
+      .createQueryBuilder("p")
+      .where('p."parentPostId" != NULL')
+      .andWhere('p."creatorId" = :userId', { userId: profile.userId })
+      .getCount();
   }
 
   // LIKES COUNT

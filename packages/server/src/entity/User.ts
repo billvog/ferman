@@ -11,7 +11,6 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Chat } from "./Chat";
-import { Comment } from "./Comment";
 import { Follow } from "./Follow";
 import { Like } from "./Like";
 import { Message } from "./Message";
@@ -65,9 +64,6 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Like, (like) => like.user)
   likes: Like[];
-
-  @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
 
   @OneToMany(() => Follow, (follow) => follow.user)
   following: Follow[];

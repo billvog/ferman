@@ -8,24 +8,17 @@ import Redis from "ioredis";
 import path from "path";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import {
-  SESSION_COOKIE_NAME,
-  UPDATE_USER_STATUS_KEY,
-  __prod__,
-} from "./constants";
-import { createCommentLoader } from "./dataloaders/createCommentLoader";
+import { SESSION_COOKIE_NAME, __prod__ } from "./constants";
 import { createLikeLoader } from "./dataloaders/createLikeLoader";
 import { createPostLoader } from "./dataloaders/createPostLoader";
 import { createUserLoader } from "./dataloaders/createUserLoader";
 import { Chat } from "./entity/Chat";
-import { Comment } from "./entity/Comment";
 import { Follow } from "./entity/Follow";
 import { Like } from "./entity/Like";
 import { Message } from "./entity/Message";
 import { Post } from "./entity/Post";
 import { Profile } from "./entity/Profile";
 import { User } from "./entity/User";
-import { pubsub } from "./MyPubsub";
 import { MySchema } from "./MySchema";
 import { MyContext } from "./types/MyContext";
 import { UpdateUserStatus } from "./utils/updateUserStatus";
@@ -71,7 +64,7 @@ require("dotenv-safe").config();
     logging: true,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migration/*")],
-    entities: [User, Profile, Follow, Post, Like, Comment, Message, Chat],
+    entities: [User, Profile, Follow, Post, Like, Message, Chat],
     ssl: __prod__,
     extra: __prod__
       ? {
@@ -113,7 +106,6 @@ require("dotenv-safe").config();
         connection,
         userLoader: createUserLoader(),
         postLoader: createPostLoader(),
-        commentLoader: createCommentLoader(),
         likeLoader: createLikeLoader(),
       } as MyContext),
   });

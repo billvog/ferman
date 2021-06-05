@@ -34,7 +34,6 @@ import {
   UPDATE_MY_USER_KEY,
   UPDATE_USER_STATUS_KEY,
 } from "../constants";
-import { Comment } from "../entity/Comment";
 import { Follow } from "../entity/Follow";
 import { Like } from "../entity/Like";
 import { Message } from "../entity/Message";

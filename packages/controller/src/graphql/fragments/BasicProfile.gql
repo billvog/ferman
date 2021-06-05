@@ -1,6 +1,6 @@
 fragment BasicProfile on Profile {
   avatarUrl
   postsCount
-  commentsCount
+  repliesCount
   likesCount
 }

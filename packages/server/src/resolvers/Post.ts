@@ -20,7 +20,6 @@ import { FieldError } from "./FieldError";
 import { User } from "../entity/User";
 import { getConnection } from "typeorm";
 import { Like } from "../entity/Like";
-import { Comment } from "../entity/Comment";
 
 @InputType()
 class PostInput {
@@ -30,8 +29,10 @@ class PostInput {
 
 @ObjectType()
 export class MinimalPostIdResponse {
-  @Field(() => String)
-  postId: string;
+  @Field(() => String, { nullable: true })
+  postId?: string;
+  @Field(() => String, { nullable: true })
+  parentPostId?: string;
   @Field(() => Boolean)
   error: boolean;
 }
@@ -40,13 +41,14 @@ export class MinimalPostIdResponse {
 export class PostResponse {
   @Field(() => FieldError, { nullable: true })
   error?: FieldError;
-
   @Field(() => Post, { nullable: true })
   post?: Post;
 }
 
 @ObjectType()
 class PaginatedPosts {
+  @Field(() => Post, { nullable: true })
+  parent: Post | null;
   @Field(() => [Post])
   posts: Post[];
   @Field()
@@ -61,7 +63,6 @@ class PaginatedPosts {
 export class MinimalPostResponse {
   @Field(() => Boolean, { nullable: true })
   error?: Boolean;
-
   @Field(() => Post, { nullable: true })
   post?: Post;
 }
@@ -86,17 +87,24 @@ export class PostResolver {
     return count;
   }
 
-  // COMMENTS COUNT
+  // REPLIES COUNT
   @FieldResolver(() => Int)
-  async commentsCount(@Root() post: Post) {
-    const [, count] = await Comment.findAndCount({
-      where: {
-        postId: post.id,
-        parentId: null,
-      },
-    });
+  async repliesCount(@Root() post: Post) {
+    return getConnection()
+      .getRepository(Post)
+      .createQueryBuilder("p")
+      .where('p."parentPostId" = :id', { id: post.id })
+      .getCount();
+  }
 
-    return count;
+  // PARENT POST
+  @FieldResolver(() => Post)
+  parentPost(@Root() post: Post, @Ctx() { postLoader }: MyContext) {
+    if (post.parentPostId) {
+      return postLoader.load(post.parentPostId);
+    }
+
+    return null;
   }
 
   // LIKE STATUS
@@ -122,6 +130,7 @@ export class PostResolver {
   async posts(
     @Arg("limit", () => Int) limit: number,
     @Arg("skip", () => Int, { nullable: true }) skip: number,
+    @Arg("parentPostId", () => String, { nullable: true }) parentPostId: string,
     @Arg("userId", () => Int, { nullable: true }) userId: number,
     @Arg("query", () => String, { nullable: true }) query: string,
     @Arg("feedMode", () => Boolean, { nullable: true }) feedMode: boolean,
@@ -139,6 +148,22 @@ export class PostResolver {
       .innerJoinAndSelect("p.creator", "c")
       .orderBy('p."createdAt"', "DESC")
       .limit(realLimitPlusOne);
+
+    let parentPost: Post | undefined;
+
+    if (parentPostId) {
+      parentPost = await Post.findOne(parentPostId);
+      if (!parentPost) {
+        throw new Error("Parent post not found");
+      }
+
+      qb.where(
+        `
+          p."parentPostId" = :parentPostId
+        `,
+        { parentPostId }
+      );
+    }
 
     if (userId) {
       qb.where(
@@ -200,6 +225,7 @@ export class PostResolver {
     const executionTime = end - start;
 
     return {
+      parent: parentPost || null,
       posts: posts.slice(0, realLimit),
       hasMore: posts.length === realLimitPlusOne,
       count,
@@ -217,7 +243,7 @@ export class PostResolver {
   @Mutation(() => MinimalPostResponse)
   @UseMiddleware(isAuth)
   async likePost(
-    @Arg("postId", () => String) postId: string,
+    @Arg("id", () => String) id: string,
     @Ctx() { req }: MyContext
   ): Promise<MinimalPostResponse> {
     const { userId } = req.session;
@@ -227,7 +253,7 @@ export class PostResolver {
       throw new Error("User not found");
     }
 
-    const post = await Post.findOne(postId);
+    const post = await Post.findOne(id);
     if (!post || post.creatorId === req.session.userId) {
       return {
         error: true,
@@ -237,7 +263,7 @@ export class PostResolver {
     const like = await Like.findOne({
       where: {
         userId,
-        postId,
+        id,
       },
     });
 
@@ -245,19 +271,15 @@ export class PostResolver {
     if (like) {
       await Like.delete({
         userId,
-        postId,
+        postId: id,
       });
-
-      post.points -= 1;
     }
     // user wants to like
     else {
       await Like.insert({
         userId,
-        postId,
+        postId: id,
       });
-
-      post.points += 1;
     }
 
     return {
@@ -269,6 +291,7 @@ export class PostResolver {
   @Mutation(() => PostResponse)
   @UseMiddleware(isAuth)
   async createPost(
+    @Arg("parentPostId", () => String, { nullable: true }) parentPostId: string,
     @Arg("options", () => PostInput) options: PostInput,
     @Ctx() { req }: MyContext
   ): Promise<PostResponse> {
@@ -297,6 +320,20 @@ export class PostResolver {
       creatorId: req.session.userId,
     });
 
+    if (parentPostId) {
+      const parentPost = await Post.findOne(parentPostId);
+      if (!parentPost)
+        return {
+          error: {
+            field: "_",
+            message: "post.alert.parent_doesnt_exists",
+          },
+        };
+      else {
+        post.parentPostId = parentPost.id;
+      }
+    }
+
     // insert post into db
     await post.save();
 
@@ -312,17 +349,16 @@ export class PostResolver {
     @Arg("id", () => String) id: string,
     @Ctx() { req }: MyContext
   ): Promise<MinimalPostIdResponse> {
-    if (
-      !(await Post.findOne({
-        where: {
-          id,
-          creatorId: req.session.userId,
-        },
-      }))
-    ) {
-      // the post isn't owned by you
+    const post = await Post.findOne({
+      where: {
+        id,
+        creatorId: req.session.userId,
+      },
+    });
+
+    if (!post) {
+      // the post isn't owned by you or doesn't exists
       return {
-        postId: id,
         error: true,
       };
     }
@@ -343,7 +379,8 @@ export class PostResolver {
     });
 
     return {
-      postId: id,
+      postId: post.id,
+      parentPostId: post.parentPostId || undefined,
       error: false,
     };
   }

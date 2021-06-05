@@ -33,7 +33,7 @@ export class Profile extends BaseEntity {
   @Field(() => Int)
   postsCount: number;
   @Field(() => Int)
-  commentsCount: number;
+  repliesCount: number;
   @Field(() => Int)
   likesCount: number;
 }

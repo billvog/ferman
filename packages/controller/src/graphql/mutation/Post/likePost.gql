@@ -1,5 +1,5 @@
-mutation LikePost($postId: String!) {
-  likePost(postId: $postId) {
+mutation LikePost($id: String!) {
+  likePost(id: $id) {
     error
     post {
       ...FullPost

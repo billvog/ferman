@@ -34,30 +34,6 @@ export type ChatResponse = {
   error?: Maybe<FieldError>;
 };
 
-export type Comment = {
-  __typename?: 'Comment';
-  id: Scalars['String'];
-  userId: Scalars['Float'];
-  user: User;
-  postId: Scalars['String'];
-  text: Scalars['String'];
-  createdAt: Scalars['String'];
-  parentId?: Maybe<Scalars['String']>;
-  repliesCount: Scalars['Float'];
-  parent?: Maybe<Comment>;
-  post: Post;
-};
-
-export type CommentInput = {
-  text: Scalars['String'];
-};
-
-export type CommentResponse = {
-  __typename?: 'CommentResponse';
-  error?: Maybe<FieldError>;
-  comment?: Maybe<Comment>;
-};
-
 
 export type FieldError = {
   __typename?: 'FieldError';
@@ -97,14 +73,6 @@ export type MinimalChatResponse = {
   error: Scalars['Boolean'];
 };
 
-export type MinimalCommentIdResponse = {
-  __typename?: 'MinimalCommentIdResponse';
-  commentId: Scalars['String'];
-  parentCommentId?: Maybe<Scalars['String']>;
-  postId: Scalars['String'];
-  error: Scalars['Boolean'];
-};
-
 export type MinimalMessageResponse = {
   __typename?: 'MinimalMessageResponse';
   message?: Maybe<Message>;
@@ -113,7 +81,8 @@ export type MinimalMessageResponse = {
 
 export type MinimalPostIdResponse = {
   __typename?: 'MinimalPostIdResponse';
-  postId: Scalars['String'];
+  postId?: Maybe<Scalars['String']>;
+  parentPostId?: Maybe<Scalars['String']>;
   error: Scalars['Boolean'];
 };
 
@@ -137,8 +106,6 @@ export type Mutation = {
   likePost: MinimalPostResponse;
   createPost: PostResponse;
   deletePost: MinimalPostIdResponse;
-  createComment: CommentResponse;
-  deleteComment: MinimalCommentIdResponse;
   updateProfile: ProfileResponse;
   follow: MinimalUsersResponse;
   logout: Scalars['Boolean'];
@@ -173,28 +140,17 @@ export type MutationMarkMessageReadArgs = {
 
 
 export type MutationLikePostArgs = {
-  postId: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
 export type MutationCreatePostArgs = {
   options: PostInput;
+  parentPostId?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationDeletePostArgs = {
-  id: Scalars['String'];
-};
-
-
-export type MutationCreateCommentArgs = {
-  options: CommentInput;
-  parentId?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-};
-
-
-export type MutationDeleteCommentArgs = {
   id: Scalars['String'];
 };
 
@@ -266,15 +222,6 @@ export type PaginatedChats = {
   executionTime: Scalars['Float'];
 };
 
-export type PaginatedComments = {
-  __typename?: 'PaginatedComments';
-  parent?: Maybe<Comment>;
-  comments: Array<Comment>;
-  hasMore: Scalars['Boolean'];
-  count: Scalars['Int'];
-  executionTime: Scalars['Float'];
-};
-
 export type PaginatedMessages = {
   __typename?: 'PaginatedMessages';
   messages: Array<Message>;
@@ -285,6 +232,7 @@ export type PaginatedMessages = {
 
 export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
+  parent?: Maybe<Post>;
   posts: Array<Post>;
   hasMore: Scalars['Boolean'];
   count: Scalars['Int'];
@@ -306,8 +254,10 @@ export type Post = {
   creatorId: Scalars['Float'];
   creator: User;
   createdAt: Scalars['String'];
+  parentPostId?: Maybe<Scalars['String']>;
+  parentPost?: Maybe<Post>;
   points: Scalars['Float'];
-  commentsCount: Scalars['Float'];
+  repliesCount: Scalars['Float'];
   likeStatus?: Maybe<Scalars['Boolean']>;
 };
 
@@ -331,7 +281,7 @@ export type Profile = {
   birthdate: Scalars['String'];
   showBirthdate: Scalars['Boolean'];
   postsCount: Scalars['Int'];
-  commentsCount: Scalars['Int'];
+  repliesCount: Scalars['Int'];
   likesCount: Scalars['Int'];
 };
 
@@ -355,8 +305,6 @@ export type Query = {
   messages: PaginatedMessages;
   posts: PaginatedPosts;
   post?: Maybe<Post>;
-  comments: PaginatedComments;
-  comment: PaginatedComments;
   followers?: Maybe<PaginatedUsers>;
   followings?: Maybe<PaginatedUsers>;
   user?: Maybe<User>;
@@ -388,6 +336,7 @@ export type QueryPostsArgs = {
   feedMode?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
+  parentPostId?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
 };
@@ -395,21 +344,6 @@ export type QueryPostsArgs = {
 
 export type QueryPostArgs = {
   id: Scalars['String'];
-};
-
-
-export type QueryCommentsArgs = {
-  userId?: Maybe<Scalars['Int']>;
-  postId?: Maybe<Scalars['String']>;
-  skip?: Maybe<Scalars['Int']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QueryCommentArgs = {
-  id: Scalars['String'];
-  skip?: Maybe<Scalars['Int']>;
-  limit: Scalars['Int'];
 };
 
 
@@ -490,7 +424,7 @@ export type UserErrorResponse = {
 
 export type BasicProfileFragment = (
   { __typename?: 'Profile' }
-  & Pick<Profile, 'avatarUrl' | 'postsCount' | 'commentsCount' | 'likesCount'>
+  & Pick<Profile, 'avatarUrl' | 'postsCount' | 'repliesCount' | 'likesCount'>
 );
 
 export type BasicUserFragment = (
@@ -533,31 +467,6 @@ export type FullChatFragment = (
   )> }
 );
 
-export type FullCommentFragment = (
-  { __typename?: 'Comment' }
-  & Pick<Comment, 'id' | 'postId' | 'parentId' | 'repliesCount' | 'text' | 'createdAt'>
-  & { parent?: Maybe<(
-    { __typename?: 'Comment' }
-    & { user: (
-      { __typename?: 'User' }
-      & BasicUserFragment
-    ) }
-  )>, post: (
-    { __typename?: 'Post' }
-    & { creator: (
-      { __typename?: 'User' }
-      & Pick<User, 'uid' | 'username'>
-    ) }
-  ), user: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'uid' | 'username'>
-    & { profile?: Maybe<(
-      { __typename?: 'Profile' }
-      & Pick<Profile, 'avatarUrl'>
-    )> }
-  ) }
-);
-
 export type FullMessageFragment = (
   { __typename?: 'Message' }
   & Pick<Message, 'id' | 'userId' | 'text' | 'read' | 'createdAt'>
@@ -569,7 +478,19 @@ export type FullMessageFragment = (
 
 export type FullPostFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'body' | 'points' | 'commentsCount' | 'likeStatus' | 'createdAt'>
+  & Pick<Post, 'id' | 'body' | 'points' | 'repliesCount' | 'likeStatus' | 'createdAt' | 'parentPostId'>
+  & { parentPost?: Maybe<(
+    { __typename?: 'Post' }
+    & FullPostWithoutParentFragment
+  )>, creator: (
+    { __typename?: 'User' }
+    & BasicUserFragment
+  ) }
+);
+
+export type FullPostWithoutParentFragment = (
+  { __typename?: 'Post' }
+  & Pick<Post, 'id' | 'body' | 'points' | 'repliesCount' | 'likeStatus' | 'createdAt'>
   & { creator: (
     { __typename?: 'User' }
     & BasicUserFragment
@@ -578,7 +499,7 @@ export type FullPostFragment = (
 
 export type FullProfileFragment = (
   { __typename?: 'Profile' }
-  & Pick<Profile, 'avatarUrl' | 'bannerUrl' | 'bio' | 'location' | 'birthdate' | 'showBirthdate' | 'postsCount' | 'commentsCount' | 'likesCount'>
+  & Pick<Profile, 'avatarUrl' | 'bannerUrl' | 'bio' | 'location' | 'birthdate' | 'showBirthdate' | 'postsCount' | 'repliesCount' | 'likesCount'>
 );
 
 export type FullUserFragment = (
@@ -610,11 +531,6 @@ export type MinimalChatResponseFragment = (
   )> }
 );
 
-export type MinimalCommentIdResponseFragment = (
-  { __typename?: 'MinimalCommentIdResponse' }
-  & Pick<MinimalCommentIdResponse, 'error' | 'postId' | 'parentCommentId' | 'commentId'>
-);
-
 export type MinimalMessageResponseFragment = (
   { __typename?: 'MinimalMessageResponse' }
   & Pick<MinimalMessageResponse, 'error'>
@@ -626,7 +542,7 @@ export type MinimalMessageResponseFragment = (
 
 export type MinimalPostIdResponseFragment = (
   { __typename?: 'MinimalPostIdResponse' }
-  & Pick<MinimalPostIdResponse, 'error' | 'postId'>
+  & Pick<MinimalPostIdResponse, 'postId' | 'parentPostId' | 'error'>
 );
 
 export type PaginatedChatsFragment = (
@@ -635,18 +551,6 @@ export type PaginatedChatsFragment = (
   & { chats: Array<(
     { __typename?: 'Chat' }
     & FullChatFragment
-  )> }
-);
-
-export type PaginatedCommentsFragment = (
-  { __typename?: 'PaginatedComments' }
-  & Pick<PaginatedComments, 'hasMore' | 'executionTime' | 'count'>
-  & { parent?: Maybe<(
-    { __typename?: 'Comment' }
-    & FullCommentFragment
-  )>, comments: Array<(
-    { __typename?: 'Comment' }
-    & FullCommentFragment
   )> }
 );
 
@@ -662,9 +566,12 @@ export type PaginatedMessagesFragment = (
 export type PaginatedPostsFragment = (
   { __typename?: 'PaginatedPosts' }
   & Pick<PaginatedPosts, 'hasMore' | 'executionTime' | 'count'>
-  & { posts: Array<(
+  & { parent?: Maybe<(
     { __typename?: 'Post' }
     & FullPostFragment
+  )>, posts: Array<(
+    { __typename?: 'Post' }
+    & FullPostWithoutParentFragment
   )> }
 );
 
@@ -718,41 +625,8 @@ export type SendMessageMutation = (
   ) }
 );
 
-export type CreateCommentMutationVariables = Exact<{
-  options: CommentInput;
-  id: Scalars['String'];
-  parentId?: Maybe<Scalars['String']>;
-}>;
-
-
-export type CreateCommentMutation = (
-  { __typename?: 'Mutation' }
-  & { createComment: (
-    { __typename?: 'CommentResponse' }
-    & { error?: Maybe<(
-      { __typename?: 'FieldError' }
-      & FieldErrorFragment
-    )>, comment?: Maybe<(
-      { __typename?: 'Comment' }
-      & FullCommentFragment
-    )> }
-  ) }
-);
-
-export type DeleteCommentMutationVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-
-export type DeleteCommentMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteComment: (
-    { __typename?: 'MinimalCommentIdResponse' }
-    & MinimalCommentIdResponseFragment
-  ) }
-);
-
 export type CreatePostMutationVariables = Exact<{
+  parentPostId?: Maybe<Scalars['String']>;
   options: PostInput;
 }>;
 
@@ -785,7 +659,7 @@ export type DeletePostMutation = (
 );
 
 export type LikePostMutationVariables = Exact<{
-  postId: Scalars['String'];
+  id: Scalars['String'];
 }>;
 
 
@@ -1020,37 +894,6 @@ export type MessagesQuery = (
   ) }
 );
 
-export type CommentQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  skip?: Maybe<Scalars['Int']>;
-  id: Scalars['String'];
-}>;
-
-
-export type CommentQuery = (
-  { __typename?: 'Query' }
-  & { comment: (
-    { __typename?: 'PaginatedComments' }
-    & PaginatedCommentsFragment
-  ) }
-);
-
-export type CommentsQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  skip?: Maybe<Scalars['Int']>;
-  postId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['Int']>;
-}>;
-
-
-export type CommentsQuery = (
-  { __typename?: 'Query' }
-  & { comments: (
-    { __typename?: 'PaginatedComments' }
-    & PaginatedCommentsFragment
-  ) }
-);
-
 export type PostQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -1067,6 +910,7 @@ export type PostQuery = (
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip?: Maybe<Scalars['Int']>;
+  parentPostId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
   query?: Maybe<Scalars['String']>;
   feedMode?: Maybe<Scalars['Boolean']>;
@@ -1184,7 +1028,7 @@ export const BasicProfileFragmentDoc = gql`
     fragment BasicProfile on Profile {
   avatarUrl
   postsCount
-  commentsCount
+  repliesCount
   likesCount
 }
     `;
@@ -1267,14 +1111,6 @@ export const MinimalChatResponseFragmentDoc = gql`
   error
 }
     ${FullChatFragmentDoc}`;
-export const MinimalCommentIdResponseFragmentDoc = gql`
-    fragment MinimalCommentIdResponse on MinimalCommentIdResponse {
-  error
-  postId
-  parentCommentId
-  commentId
-}
-    `;
 export const MinimalMessageResponseFragmentDoc = gql`
     fragment MinimalMessageResponse on MinimalMessageResponse {
   message {
@@ -1285,8 +1121,9 @@ export const MinimalMessageResponseFragmentDoc = gql`
     ${FullMessageFragmentDoc}`;
 export const MinimalPostIdResponseFragmentDoc = gql`
     fragment MinimalPostIdResponse on MinimalPostIdResponse {
-  error
   postId
+  parentPostId
+  error
 }
     `;
 export const PaginatedChatsFragmentDoc = gql`
@@ -1299,48 +1136,6 @@ export const PaginatedChatsFragmentDoc = gql`
   }
 }
     ${FullChatFragmentDoc}`;
-export const FullCommentFragmentDoc = gql`
-    fragment FullComment on Comment {
-  id
-  postId
-  parentId
-  repliesCount
-  text
-  createdAt
-  parent {
-    user {
-      ...BasicUser
-    }
-  }
-  post {
-    creator {
-      uid
-      username
-    }
-  }
-  user {
-    id
-    uid
-    username
-    profile {
-      avatarUrl
-    }
-  }
-}
-    ${BasicUserFragmentDoc}`;
-export const PaginatedCommentsFragmentDoc = gql`
-    fragment PaginatedComments on PaginatedComments {
-  hasMore
-  executionTime
-  count
-  parent {
-    ...FullComment
-  }
-  comments {
-    ...FullComment
-  }
-}
-    ${FullCommentFragmentDoc}`;
 export const PaginatedMessagesFragmentDoc = gql`
     fragment PaginatedMessages on PaginatedMessages {
   hasMore
@@ -1351,12 +1146,12 @@ export const PaginatedMessagesFragmentDoc = gql`
   }
 }
     ${FullMessageFragmentDoc}`;
-export const FullPostFragmentDoc = gql`
-    fragment FullPost on Post {
+export const FullPostWithoutParentFragmentDoc = gql`
+    fragment FullPostWithoutParent on Post {
   id
   body
   points
-  commentsCount
+  repliesCount
   likeStatus
   createdAt
   creator {
@@ -1364,16 +1159,38 @@ export const FullPostFragmentDoc = gql`
   }
 }
     ${BasicUserFragmentDoc}`;
+export const FullPostFragmentDoc = gql`
+    fragment FullPost on Post {
+  id
+  body
+  points
+  repliesCount
+  likeStatus
+  createdAt
+  parentPostId
+  parentPost {
+    ...FullPostWithoutParent
+  }
+  creator {
+    ...BasicUser
+  }
+}
+    ${FullPostWithoutParentFragmentDoc}
+${BasicUserFragmentDoc}`;
 export const PaginatedPostsFragmentDoc = gql`
     fragment PaginatedPosts on PaginatedPosts {
   hasMore
   executionTime
   count
-  posts {
+  parent {
     ...FullPost
   }
+  posts {
+    ...FullPostWithoutParent
+  }
 }
-    ${FullPostFragmentDoc}`;
+    ${FullPostFragmentDoc}
+${FullPostWithoutParentFragmentDoc}`;
 export const FullProfileFragmentDoc = gql`
     fragment FullProfile on Profile {
   avatarUrl
@@ -1383,7 +1200,7 @@ export const FullProfileFragmentDoc = gql`
   birthdate
   showBirthdate
   postsCount
-  commentsCount
+  repliesCount
   likesCount
 }
     `;
@@ -1517,83 +1334,9 @@ export function useSendMessageMutation(baseOptions?: Apollo.MutationHookOptions<
 export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMutation>;
 export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
 export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
-export const CreateCommentDocument = gql`
-    mutation CreateComment($options: CommentInput!, $id: String!, $parentId: String) {
-  createComment(options: $options, id: $id, parentId: $parentId) {
-    error {
-      ...FieldError
-    }
-    comment {
-      ...FullComment
-    }
-  }
-}
-    ${FieldErrorFragmentDoc}
-${FullCommentFragmentDoc}`;
-export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
-
-/**
- * __useCreateCommentMutation__
- *
- * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
- *   variables: {
- *      options: // value for 'options'
- *      id: // value for 'id'
- *      parentId: // value for 'parentId'
- *   },
- * });
- */
-export function useCreateCommentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommentMutation, CreateCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument, options);
-      }
-export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
-export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
-export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
-export const DeleteCommentDocument = gql`
-    mutation DeleteComment($id: String!) {
-  deleteComment(id: $id) {
-    ...MinimalCommentIdResponse
-  }
-}
-    ${MinimalCommentIdResponseFragmentDoc}`;
-export type DeleteCommentMutationFn = Apollo.MutationFunction<DeleteCommentMutation, DeleteCommentMutationVariables>;
-
-/**
- * __useDeleteCommentMutation__
- *
- * To run a mutation, you first call `useDeleteCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteCommentMutation, { data, loading, error }] = useDeleteCommentMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentMutation, DeleteCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument, options);
-      }
-export type DeleteCommentMutationHookResult = ReturnType<typeof useDeleteCommentMutation>;
-export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMutation>;
-export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
 export const CreatePostDocument = gql`
-    mutation CreatePost($options: PostInput!) {
-  createPost(options: $options) {
+    mutation CreatePost($parentPostId: String, $options: PostInput!) {
+  createPost(parentPostId: $parentPostId, options: $options) {
     error {
       ...FieldError
     }
@@ -1619,6 +1362,7 @@ export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, C
  * @example
  * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
  *   variables: {
+ *      parentPostId: // value for 'parentPostId'
  *      options: // value for 'options'
  *   },
  * });
@@ -1664,8 +1408,8 @@ export type DeletePostMutationHookResult = ReturnType<typeof useDeletePostMutati
 export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>;
 export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
 export const LikePostDocument = gql`
-    mutation LikePost($postId: String!) {
-  likePost(postId: $postId) {
+    mutation LikePost($id: String!) {
+  likePost(id: $id) {
     error
     post {
       ...FullPost
@@ -1688,7 +1432,7 @@ export type LikePostMutationFn = Apollo.MutationFunction<LikePostMutation, LikeP
  * @example
  * const [likePostMutation, { data, loading, error }] = useLikePostMutation({
  *   variables: {
- *      postId: // value for 'postId'
+ *      id: // value for 'id'
  *   },
  * });
  */
@@ -2250,81 +1994,6 @@ export function useMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
 export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
 export type MessagesLazyQueryHookResult = ReturnType<typeof useMessagesLazyQuery>;
 export type MessagesQueryResult = Apollo.QueryResult<MessagesQuery, MessagesQueryVariables>;
-export const CommentDocument = gql`
-    query Comment($limit: Int!, $skip: Int, $id: String!) {
-  comment(limit: $limit, skip: $skip, id: $id) {
-    ...PaginatedComments
-  }
-}
-    ${PaginatedCommentsFragmentDoc}`;
-
-/**
- * __useCommentQuery__
- *
- * To run a query within a React component, call `useCommentQuery` and pass it any options that fit your needs.
- * When your component renders, `useCommentQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCommentQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      skip: // value for 'skip'
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useCommentQuery(baseOptions: Apollo.QueryHookOptions<CommentQuery, CommentQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CommentQuery, CommentQueryVariables>(CommentDocument, options);
-      }
-export function useCommentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentQuery, CommentQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CommentQuery, CommentQueryVariables>(CommentDocument, options);
-        }
-export type CommentQueryHookResult = ReturnType<typeof useCommentQuery>;
-export type CommentLazyQueryHookResult = ReturnType<typeof useCommentLazyQuery>;
-export type CommentQueryResult = Apollo.QueryResult<CommentQuery, CommentQueryVariables>;
-export const CommentsDocument = gql`
-    query Comments($limit: Int!, $skip: Int, $postId: String, $userId: Int) {
-  comments(limit: $limit, skip: $skip, postId: $postId, userId: $userId) {
-    ...PaginatedComments
-  }
-}
-    ${PaginatedCommentsFragmentDoc}`;
-
-/**
- * __useCommentsQuery__
- *
- * To run a query within a React component, call `useCommentsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCommentsQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      skip: // value for 'skip'
- *      postId: // value for 'postId'
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useCommentsQuery(baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
-      }
-export function useCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
-        }
-export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
-export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
-export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
 export const PostDocument = gql`
     query Post($id: String!) {
   post(id: $id) {
@@ -2361,10 +2030,11 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($limit: Int!, $skip: Int, $userId: Int, $query: String, $feedMode: Boolean, $likedBy: Int) {
+    query Posts($limit: Int!, $skip: Int, $parentPostId: String, $userId: Int, $query: String, $feedMode: Boolean, $likedBy: Int) {
   posts(
     limit: $limit
     skip: $skip
+    parentPostId: $parentPostId
     userId: $userId
     query: $query
     feedMode: $feedMode
@@ -2389,6 +2059,7 @@ export const PostsDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      skip: // value for 'skip'
+ *      parentPostId: // value for 'parentPostId'
  *      userId: // value for 'userId'
  *      query: // value for 'query'
  *      feedMode: // value for 'feedMode'

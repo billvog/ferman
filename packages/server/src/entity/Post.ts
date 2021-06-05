@@ -11,7 +11,6 @@ import {
 } from "typeorm";
 import { Like } from "./Like";
 import { User } from "./User";
-import { Comment } from "./Comment";
 
 @ObjectType()
 @Entity("posts")
@@ -36,14 +35,24 @@ export class Post extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
+  @Field(() => String, { nullable: true })
+  @Column({ type: "text", default: null })
+  parentPostId: string | null;
+
+  @Field(() => Post, { nullable: true })
+  @ManyToOne(() => Post, (post) => post.replies, {
+    onDelete: "CASCADE",
+  })
+  parentPost: Post | null;
+
+  @OneToMany(() => Post, (post) => post.parentPost)
+  replies: Post[];
+
   @OneToMany(() => Like, (like) => like.post)
   likes: Like[];
 
-  @OneToMany(() => Comment, (comment) => comment.post)
-  comments: Comment[];
-
   @Field() points: number;
-  @Field() commentsCount: number;
+  @Field() repliesCount: number;
   @Field(() => Boolean, { nullable: true }) likeStatus: boolean | null;
 
   @BeforeInsert()

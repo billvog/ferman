@@ -1,6 +1,7 @@
 query Posts(
   $limit: Int!
   $skip: Int
+  $parentPostId: String
   $userId: Int
   $query: String
   $feedMode: Boolean
@@ -9,6 +10,7 @@ query Posts(
   posts(
     limit: $limit
     skip: $skip
+    parentPostId: $parentPostId
     userId: $userId
     query: $query
     feedMode: $feedMode
