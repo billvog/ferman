@@ -22,21 +22,22 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
           />
         </div>
         <div className="flex flex-col">
-          <div className="flex items-start justify-between fullscreen:justify-start fullscreen:items-center fullscreen:mb-0 mb-1.5 leading-none text-primary-450 space-x-1.5">
+          <div className="flex items-start justify-between mb-1.5 text-primary-450 space-x-1.5">
             <Link href={`/user/${post.creator.uid}`}>
-              <div className="group flex flex-col fullscreen:flex-row fullscreen:items-center fullscreen:space-x-1.5 cursor-pointer">
-                <div className="group-hover:underline text-sm text-primary-700 font-bold">
+              <div className="group flex flex-col cursor-pointer">
+                <div className="group-hover:underline text-md fullscreen:text-base text-primary-700 font-bold fullscreen:leading-tight">
                   {post.creator.username}
                 </div>
-                <div className="text-xs">@{post.creator.uid}</div>
+                <div className="text-vs fullscreen:text-sm fullscreen:leading-tight">
+                  @{post.creator.uid}
+                </div>
               </div>
             </Link>
-            <div className="hidden fullscreen:block">·</div>
-            <div className="text-xs leading-normal">
+            <div className="text-sm leading-normal">
               {dayjs(parseFloat(post.createdAt)).fromNow()}
             </div>
           </div>
-          <div className="table table-fixed w-full whitespace-pre-wrap break-word text-vs">
+          <div className="table table-fixed w-full whitespace-pre-wrap break-word text-primary-600 text-vs fullscreen:text-sm">
             {useRichBodyText(post.body)}
           </div>
         </div>
