@@ -10,7 +10,6 @@ import {
 import { ChatMessageMax } from "@ferman-pkgs/common";
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { HiChatAlt2 } from "react-icons/hi";
 import { RiWechatFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { Waypoint } from "react-waypoint";
@@ -22,8 +21,6 @@ import { MySpinner } from "../../../components/MySpinner";
 import { useScreenType } from "../../../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../../types/WithAuthProps";
-import useWindowFocus from "use-window-focus";
-import { gql, useApolloClient } from "@apollo/client";
 
 interface ChatControllerProps extends WithAuthProps {
   chat: FullChatFragment | null | undefined;
@@ -35,7 +32,6 @@ export const ChatController: React.FC<ChatControllerProps> = ({
 }) => {
   const { t } = useTypeSafeTranslation();
   const screenType = useScreenType();
-  // const windowFocused = useWindowFocus();
 
   const {
     data: messagesData,
@@ -142,6 +138,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                     onEnter={async () => {
                       if (message.userId === loggedUser.id || message.read)
                         return;
+
                       markRead({
                         variables: {
                           chatId: chat.id,

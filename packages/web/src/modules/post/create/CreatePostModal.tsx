@@ -18,7 +18,7 @@ export const CreatePostModal: React.FC<CreatePostModalProps> = ({
     <>
       <HeaderController title={t("post.post")} />
       <MyDialog title={t("post.post")} isOpen={isOpen} onClose={onClose}>
-        <CreatePostConnector />
+        <CreatePostConnector onFinish={onClose} />
       </MyDialog>
     </>
   );

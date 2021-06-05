@@ -8,7 +8,7 @@ export * from "./controllers/user/DeleteUserController";
 export * from "./options/user/FollowUserOptions";
 
 // Post Controller
-export * from "./controllers/post/PostController";
+export * from "./controllers/post/CreatePostController";
 export * from "./options/post/LikePostOptions";
 export * from "./options/post/DeletePostOptions";
 

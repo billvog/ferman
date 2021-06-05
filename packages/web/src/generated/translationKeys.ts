@@ -118,6 +118,8 @@ export type TranslationKeys =
 	| "post.comments"
 	| "post.delete_dialog.title"
 	| "post.delete_dialog.text"
+	| "post.alert.created.text"
+	| "post.alert.created.view"
 	| "post.alert.deleted"
 	| "post.alert.cannot_delete"
 	| "comment.title"

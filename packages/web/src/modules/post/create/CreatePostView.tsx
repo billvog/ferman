@@ -1,5 +1,9 @@
 import { BodyMax, PostValidationSchema } from "@ferman-pkgs/common";
-import { ErrorMap, MyMessage, PostFormValues } from "@ferman-pkgs/controller";
+import {
+  ErrorMap,
+  MyMessage,
+  CreatePostFormValues,
+} from "@ferman-pkgs/controller";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
@@ -9,15 +13,14 @@ import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreatePostViewProps {
-  submit: (values: PostFormValues) => Promise<{
-    postId?: string;
+  submit: (values: CreatePostFormValues) => Promise<{
     errors: ErrorMap | null;
   }>;
   message: MyMessage | null;
   router: NextRouter;
 }
 
-const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
+const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
   message,
   isSubmitting,
 }) => {
@@ -44,16 +47,15 @@ const C: React.FC<CreatePostViewProps & FormikProps<PostFormValues>> = ({
 };
 
 export const CreatePostView = withRouter(
-  withFormik<CreatePostViewProps, PostFormValues>({
+  withFormik<CreatePostViewProps, CreatePostFormValues>({
     validateOnBlur: true,
     validationSchema: PostValidationSchema,
     mapPropsToValues: () => ({
       body: "",
     }),
     handleSubmit: async (values, { setErrors, props }) => {
-      const { errors, postId } = await props.submit(values);
+      const { errors } = await props.submit(values);
       if (errors) setErrors(errors);
-      else props.router.replace(`/post/${postId}`);
     },
   })(C)
 );

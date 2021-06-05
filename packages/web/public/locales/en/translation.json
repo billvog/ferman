@@ -155,6 +155,10 @@
       "text": "Clicking \"Delete\" button, all likes and comments of this post will be deleted. Any further action will not be able to be undone."
     },
     "alert": {
+      "created": {
+        "text": "Your post has been sent",
+        "view": "View"
+      },
       "deleted": "Post deleted",
       "cannot_delete": "Post couln't get deleted"
     }

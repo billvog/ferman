@@ -3,23 +3,24 @@ import { ErrorMap } from "../../types/ErrorMap";
 import { useCreatePostMutation } from "../../generated/graphql";
 import { MyMessage } from "../../types/MyMessage";
 
-export interface PostFormValues {
+export interface CreatePostFormValues {
   body: string;
 }
 
-interface PostControllerProps {
+interface CreatePostControllerProps {
+  onFinish: (postId: string) => void;
   children: (data: {
-    submit: (
-      values: PostFormValues
-    ) => Promise<{
-      postId?: string;
+    submit: (values: CreatePostFormValues) => Promise<{
       errors: ErrorMap | null;
     }>;
     message: MyMessage | null;
   }) => JSX.Element;
 }
 
-export const PostController: React.FC<PostControllerProps> = ({ children }) => {
+export const CreatePostController: React.FC<CreatePostControllerProps> = ({
+  onFinish,
+  children,
+}) => {
   const [message, setMessage] = useState<MyMessage | null>(null);
   const [createPost] = useCreatePostMutation({
     update: (cache) => {
@@ -27,7 +28,7 @@ export const PostController: React.FC<PostControllerProps> = ({ children }) => {
     },
   });
 
-  const submit = async (values: PostFormValues) => {
+  const submit = async (values: CreatePostFormValues) => {
     const response = await createPost({
       variables: {
         options: values,
@@ -53,8 +54,10 @@ export const PostController: React.FC<PostControllerProps> = ({ children }) => {
       };
     }
 
+    if (response.data?.createPost.post?.id)
+      onFinish(response.data.createPost.post.id);
+
     return {
-      postId: response.data?.createPost.post?.id,
       errors: null,
     };
   };
