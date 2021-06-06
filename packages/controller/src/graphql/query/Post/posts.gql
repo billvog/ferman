@@ -2,18 +2,20 @@ query Posts(
   $limit: Int!
   $skip: Int
   $parentPostId: String
+  $isReply: Boolean
   $userId: Int
   $query: String
-  $feedMode: Boolean
+  $fromFollowed: Boolean
   $likedBy: Int
 ) {
   posts(
     limit: $limit
     skip: $skip
     parentPostId: $parentPostId
+    isReply: $isReply
     userId: $userId
     query: $query
-    feedMode: $feedMode
+    fromFollowed: $fromFollowed
     likedBy: $likedBy
   ) {
     ...PaginatedPosts

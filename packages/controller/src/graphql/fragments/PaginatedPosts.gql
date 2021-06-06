@@ -6,6 +6,6 @@ fragment PaginatedPosts on PaginatedPosts {
     ...FullPost
   }
   posts {
-    ...FullPostWithoutParent
+    ...FullPost
   }
 }

@@ -3,7 +3,6 @@ import React from "react";
 import { MyCenterSpinner } from "../../components/MyCenterSpinner";
 import { WaitI18 } from "../../components/WaitI18";
 import { withMyApollo } from "../../utils/withMyApollo";
-import { CreateCommentGlobalModal } from "../post/comment/create/CreateCommentGlobalModal";
 import { CreatePostGlobalModal } from "../post/create/CreatePostGlobalModal";
 
 interface GlobalModalsProps {}
@@ -16,7 +15,6 @@ const C: React.FC<GlobalModalsProps> = ({}) => {
       ) : (
         <>
           <CreatePostGlobalModal loggedUser={data.me} />
-          <CreateCommentGlobalModal loggedUser={data.me} />
         </>
       )}
     </WaitI18>

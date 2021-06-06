@@ -89,7 +89,13 @@ export const MyApolloClient = (
               },
             },
             posts: {
-              keyArgs: ["parentPostId", "userId", "query", "feedMode"],
+              keyArgs: [
+                "userId",
+                "parentPostId",
+                "isReply",
+                "query",
+                "fromFollowed",
+              ],
               merge(
                 existing: PaginatedPosts | undefined,
                 incoming: PaginatedPosts

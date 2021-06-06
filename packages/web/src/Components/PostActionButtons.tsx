@@ -111,7 +111,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
         </button>
         <Link href={`/post/${post.id}`}>
           <div
-            title={t("post.comments")}
+            title={t("post.replies")}
             className={`text-secondary-50 ${actionClassname}`}
           >
             <div

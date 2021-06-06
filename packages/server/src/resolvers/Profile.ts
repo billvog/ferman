@@ -70,7 +70,7 @@ export class ProfileResolver {
     return getConnection()
       .getRepository(Post)
       .createQueryBuilder("p")
-      .where('p."parentPostId" != NULL')
+      .where('p."parentPostId" is not null')
       .andWhere('p."creatorId" = :userId', { userId: profile.userId })
       .getCount();
   }

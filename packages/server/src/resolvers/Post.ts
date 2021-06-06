@@ -130,10 +130,12 @@ export class PostResolver {
   async posts(
     @Arg("limit", () => Int) limit: number,
     @Arg("skip", () => Int, { nullable: true }) skip: number,
-    @Arg("parentPostId", () => String, { nullable: true }) parentPostId: string,
     @Arg("userId", () => Int, { nullable: true }) userId: number,
+    @Arg("parentPostId", () => String, { nullable: true }) parentPostId: string,
+    @Arg("isReply", () => Boolean, { nullable: true }) isReply: boolean,
     @Arg("query", () => String, { nullable: true }) query: string,
-    @Arg("feedMode", () => Boolean, { nullable: true }) feedMode: boolean,
+    @Arg("fromFollowed", () => Boolean, { nullable: true })
+    fromFollowed: boolean,
     @Arg("likedBy", () => Int, { nullable: true }) likedBy: number,
     @Ctx() { req }: MyContext
   ): Promise<PaginatedPosts> {
@@ -151,6 +153,15 @@ export class PostResolver {
 
     let parentPost: Post | undefined;
 
+    if (userId) {
+      qb.where(
+        `
+        p."creatorId" = :userId
+        `,
+        { userId }
+      );
+    }
+
     if (parentPostId) {
       parentPost = await Post.findOne(parentPostId);
       if (!parentPost) {
@@ -159,19 +170,16 @@ export class PostResolver {
 
       qb.where(
         `
-          p."parentPostId" = :parentPostId
-        `,
+            p."parentPostId" = :parentPostId
+          `,
         { parentPostId }
       );
     }
 
-    if (userId) {
-      qb.where(
-        `
-          p."creatorId" = :userId
-        `,
-        { userId }
-      );
+    if (isReply === true) {
+      qb.andWhere('p."parentPostId" is not null');
+    } else if (isReply === false) {
+      qb.andWhere('p."parentPostId" is null');
     }
 
     if (query) {
@@ -198,7 +206,7 @@ export class PostResolver {
       );
     }
 
-    if (feedMode && req.session.userId) {
+    if (fromFollowed && req.session.userId) {
       // from your followers
       qb.where(
         `p."creatorId" in (select "followingUserId" from follows where "userId" = :userId)`,

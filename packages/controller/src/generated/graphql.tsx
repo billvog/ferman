@@ -333,10 +333,11 @@ export type QueryMessagesArgs = {
 
 export type QueryPostsArgs = {
   likedBy?: Maybe<Scalars['Int']>;
-  feedMode?: Maybe<Scalars['Boolean']>;
+  fromFollowed?: Maybe<Scalars['Boolean']>;
   query?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['Int']>;
+  isReply?: Maybe<Scalars['Boolean']>;
   parentPostId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   limit: Scalars['Int'];
 };
@@ -571,7 +572,7 @@ export type PaginatedPostsFragment = (
     & FullPostFragment
   )>, posts: Array<(
     { __typename?: 'Post' }
-    & FullPostWithoutParentFragment
+    & FullPostFragment
   )> }
 );
 
@@ -911,9 +912,10 @@ export type PostsQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip?: Maybe<Scalars['Int']>;
   parentPostId?: Maybe<Scalars['String']>;
+  isReply?: Maybe<Scalars['Boolean']>;
   userId?: Maybe<Scalars['Int']>;
   query?: Maybe<Scalars['String']>;
-  feedMode?: Maybe<Scalars['Boolean']>;
+  fromFollowed?: Maybe<Scalars['Boolean']>;
   likedBy?: Maybe<Scalars['Int']>;
 }>;
 
@@ -1186,11 +1188,10 @@ export const PaginatedPostsFragmentDoc = gql`
     ...FullPost
   }
   posts {
-    ...FullPostWithoutParent
+    ...FullPost
   }
 }
-    ${FullPostFragmentDoc}
-${FullPostWithoutParentFragmentDoc}`;
+    ${FullPostFragmentDoc}`;
 export const FullProfileFragmentDoc = gql`
     fragment FullProfile on Profile {
   avatarUrl
@@ -2030,14 +2031,15 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($limit: Int!, $skip: Int, $parentPostId: String, $userId: Int, $query: String, $feedMode: Boolean, $likedBy: Int) {
+    query Posts($limit: Int!, $skip: Int, $parentPostId: String, $isReply: Boolean, $userId: Int, $query: String, $fromFollowed: Boolean, $likedBy: Int) {
   posts(
     limit: $limit
     skip: $skip
     parentPostId: $parentPostId
+    isReply: $isReply
     userId: $userId
     query: $query
-    feedMode: $feedMode
+    fromFollowed: $fromFollowed
     likedBy: $likedBy
   ) {
     ...PaginatedPosts
@@ -2060,9 +2062,10 @@ export const PostsDocument = gql`
  *      limit: // value for 'limit'
  *      skip: // value for 'skip'
  *      parentPostId: // value for 'parentPostId'
+ *      isReply: // value for 'isReply'
  *      userId: // value for 'userId'
  *      query: // value for 'query'
- *      feedMode: // value for 'feedMode'
+ *      fromFollowed: // value for 'fromFollowed'
  *      likedBy: // value for 'likedBy'
  *   },
  * });
