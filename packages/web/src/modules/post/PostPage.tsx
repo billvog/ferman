@@ -11,25 +11,19 @@ import { PostController } from "./PostController";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { CommonBottomNav } from "../../components/CommonBottomNav";
 import { withMyApollo } from "../../utils/withMyApollo";
+import { useGetSinglePostFromUrl } from "../../shared-hooks/useGetSinglePostFromUrl";
 
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
-
-  const { data: postData } = useGetPostFromUrl();
-  const { data: userData } = useUserQuery({
-    skip: !postData?.post?.creator.id,
-    variables: {
-      id: postData?.post?.creator.id || -1,
-    },
-  });
+  const { data: postData } = useGetSinglePostFromUrl();
 
   return (
     <PostOpenGraphPreview post={postData?.post}>
       <WaitI18>
         <HeaderController
           title={
-            userData?.user && postData?.post
-              ? `${userData.user.username}: “${postData.post.body}” – Ferman`
+            postData?.post
+              ? `${postData.post.creator.username}: “${postData.post.body}” – Ferman`
               : "Ferman"
           }
         />

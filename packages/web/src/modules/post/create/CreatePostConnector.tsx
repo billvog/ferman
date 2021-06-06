@@ -1,6 +1,6 @@
 import { CreatePostController } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { CreatePostView } from "./CreatePostView";
@@ -14,6 +14,9 @@ export const CreatePostConnector: React.FC<CreatePostConnectorProps> = ({
 }) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
+
+  const [parentPostId, setParentPostId] =
+    useState<string | undefined>(undefined);
 
   const onControllerFinish = (postId: string) => {
     onFinish();
@@ -33,8 +36,17 @@ export const CreatePostConnector: React.FC<CreatePostConnectorProps> = ({
     );
   };
 
+  useEffect(() => {
+    if (!!router.query.postId) {
+      setParentPostId(router.query.postId as string);
+    }
+  }, [router.query.postId]);
+
   return (
-    <CreatePostController onFinish={onControllerFinish}>
+    <CreatePostController
+      parentPostId={parentPostId}
+      onFinish={onControllerFinish}
+    >
       {(props) => <CreatePostView {...props} />}
     </CreatePostController>
   );

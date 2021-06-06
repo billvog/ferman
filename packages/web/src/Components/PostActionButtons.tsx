@@ -47,7 +47,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
   const LikePostHandler = async () => {
     const { data } = await likePost(
       likePostMutationOptions({
-        postId: post.id,
+        id: post.id,
       }) as any
     );
 
@@ -119,7 +119,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
             >
               <BsFillChatSquareFill />
             </div>
-            <span className="ml-1 font-semibold">{post.commentsCount}</span>
+            <span className="ml-1 font-semibold">{post.repliesCount}</span>
           </div>
         </Link>
         {me && me.id === post.creator.id && (

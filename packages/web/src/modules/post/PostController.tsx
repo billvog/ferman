@@ -1,129 +1,102 @@
-import { useCommentsQuery, useUserQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
-import { PostComment } from "../../components/PostComment";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../types/WithAuthProps";
-import { CreateCommentModal } from "./comment/create/CreateCommentModal";
 
 interface PostControllerProps extends WithAuthProps {}
-
 export const PostController: React.FC<PostControllerProps> = ({
   loggedUser,
 }) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
 
-  const { data: postData, loading: postLoading } = useGetPostFromUrl();
-  const { data: userData, loading: userLoading } = useUserQuery({
-    skip: !postData?.post?.creator.id,
-    variables: {
-      id: postData?.post?.creator.id || -1,
-    },
-  });
   const {
-    data: commentsData,
-    loading: commentsLoading,
-    fetchMore: fetchMoreComments,
-    variables: commentsVariables,
-  } = useCommentsQuery({
-    notifyOnNetworkStatusChange: true,
-    skip: !postData?.post?.id,
-    variables: {
-      postId: postData?.post?.id || "",
-      limit: 15,
-      skip: 0,
-    },
+    data: postsData,
+    loading: postsLoading,
+    variables: postsVariables,
+    fetchMore: fetchMorePosts,
+  } = useGetPostFromUrl({
+    limit: 15,
+    skip: 0,
   });
 
   return (
     <div>
-      {(postLoading && !postData) ||
-      userLoading ||
-      typeof loggedUser === "undefined" ? (
+      {(postsLoading && !postsData) || typeof loggedUser === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
-      ) : !postData?.post ? (
+      ) : !postsData?.posts.parent ? (
         <ErrorText>{t("post.not_found")}</ErrorText>
-      ) : !postData || !userData ? (
+      ) : !postsData ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="relative flex flex-col">
           <div className="w-full border-b">
             <div>
               <Post
-                key={postData.post.id}
-                post={postData.post}
+                key={postsData.posts.parent.id}
+                post={postsData.posts.parent}
                 me={loggedUser}
                 onDelete={() => router.back()}
               />
             </div>
           </div>
           <div className="w-full">
-            {commentsLoading && !commentsData ? (
-              <div className="p-6">
-                <MySpinner />
+            <div className="flex p-3 pb-0 justify-between items-center">
+              <div className="text-lg text-primary-600">
+                <b>{t("comment.comments")}</b>{" "}
+                {!!postsData.posts.parent.repliesCount &&
+                  `(${postsData.posts.parent.repliesCount})`}
               </div>
-            ) : !commentsData ? (
-              <ErrorText>{t("errors.500")}</ErrorText>
-            ) : (
-              <div>
-                <div className="flex p-3 pb-0 justify-between items-center">
-                  <div className="text-lg text-primary-600">
-                    <b>{t("comment.comments")}</b>{" "}
-                    {!!postData.post.commentsCount &&
-                      `(${postData.post.commentsCount})`}
-                  </div>
-                  {loggedUser && (
-                    <MyButton
-                      onClick={() =>
-                        router.push(
-                          {
-                            pathname: router.pathname,
-                            query: router.query,
-                          },
-                          `/post/${router.query.postId}/comment`
-                        )
-                      }
-                    >
-                      {t("post.comment")}
-                    </MyButton>
-                  )}
+              {loggedUser && (
+                <MyButton
+                  onClick={() =>
+                    router.push(
+                      {
+                        pathname: router.pathname,
+                        query: router.query,
+                      },
+                      `/post`
+                    )
+                  }
+                >
+                  {t("post.comment")}
+                </MyButton>
+              )}
+            </div>
+            <div>
+              {postsData.posts.parent.repliesCount === 0 ? (
+                <div className="text-sm text-primary-450 px-3">
+                  {t("comment.there_are_no_comments")}
                 </div>
-                <div>
-                  {postData.post.commentsCount === 0 ? (
-                    <div className="text-sm text-primary-450 px-3">
-                      {t("comment.there_are_no_comments")}
-                    </div>
-                  ) : (
-                    <div className="divide-y border-t border-b mt-3">
-                      {commentsData.comments.comments.map((comment) => (
-                        <PostComment
-                          key={comment.id}
-                          comment={comment}
-                          me={loggedUser}
-                        />
-                      ))}
-                    </div>
-                  )}
+              ) : (
+                <div className="divide-y border-t border-b mt-3">
+                  {postsData.posts.posts.map((post) => (
+                    <Post
+                      key={post.id}
+                      post={post}
+                      me={loggedUser}
+                      parentPost={postsData.posts.parent}
+                    />
+                  ))}
                 </div>
-              </div>
-            )}
-            {commentsData?.comments.comments && commentsData?.comments.hasMore && (
+              )}
+            </div>
+            {postsData?.posts.hasMore && (
               <div className="flex justify-center mt-5">
                 <MyButton
-                  isLoading={commentsLoading}
+                  isLoading={postsLoading}
                   onClick={() => {
-                    fetchMoreComments!({
+                    fetchMorePosts({
                       variables: {
-                        ...commentsVariables,
-                        skip: commentsData.comments.comments.length,
+                        ...postsVariables,
+                        skip: postsData.posts.posts.length,
                       },
                     });
                   }}

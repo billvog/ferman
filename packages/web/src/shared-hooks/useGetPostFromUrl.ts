@@ -1,12 +1,14 @@
-import { usePostQuery } from "@ferman-pkgs/controller";
+import { PostsQueryVariables, usePostsQuery } from "@ferman-pkgs/controller";
 import { useGetStringId } from "./useGetStringId";
 
-export const useGetPostFromUrl = () => {
+export const useGetPostFromUrl = (variables: PostsQueryVariables) => {
   const id = useGetStringId("postId");
-  return usePostQuery({
+  return usePostsQuery({
+    notifyOnNetworkStatusChange: true,
     skip: id === "",
     variables: {
-      id,
+      parentPostId: id,
+      ...variables,
     },
   });
 };

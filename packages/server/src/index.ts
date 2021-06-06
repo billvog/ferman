@@ -61,7 +61,7 @@ require("dotenv-safe").config();
   const conn = await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
-    logging: true,
+    logging: false,
     synchronize: !__prod__,
     migrations: [path.join(__dirname, "./migration/*")],
     entities: [User, Profile, Follow, Post, Like, Message, Chat],

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { ErrorMap } from "../../types/ErrorMap";
-import { useCreatePostMutation } from "../../generated/graphql";
+import {
+  FullPostFragment,
+  useCreatePostMutation,
+  usePostQuery,
+} from "../../generated/graphql";
 import { MyMessage } from "../../types/MyMessage";
 
 export interface CreatePostFormValues {
@@ -8,8 +12,10 @@ export interface CreatePostFormValues {
 }
 
 interface CreatePostControllerProps {
+  parentPostId?: string;
   onFinish: (postId: string) => void;
   children: (data: {
+    parentPost?: FullPostFragment;
     submit: (values: CreatePostFormValues) => Promise<{
       errors: ErrorMap | null;
     }>;
@@ -18,6 +24,7 @@ interface CreatePostControllerProps {
 }
 
 export const CreatePostController: React.FC<CreatePostControllerProps> = ({
+  parentPostId = undefined,
   onFinish,
   children,
 }) => {
@@ -25,12 +32,24 @@ export const CreatePostController: React.FC<CreatePostControllerProps> = ({
   const [createPost] = useCreatePostMutation({
     update: (cache) => {
       cache.evict({ fieldName: "posts" });
+
+      if (!!parentPostId) {
+        cache.evict({ id: "Post:" + parentPostId });
+      }
+    },
+  });
+
+  const { data: parentData, loading: parentLoading } = usePostQuery({
+    skip: parentPostId === undefined,
+    variables: {
+      id: parentPostId || "",
     },
   });
 
   const submit = async (values: CreatePostFormValues) => {
     const response = await createPost({
       variables: {
+        parentPostId,
         options: values,
       },
     });
@@ -40,6 +59,7 @@ export const CreatePostController: React.FC<CreatePostControllerProps> = ({
         type: "error",
         text: "errors.500",
       });
+
       return {
         errors: null,
       };
@@ -63,6 +83,7 @@ export const CreatePostController: React.FC<CreatePostControllerProps> = ({
   };
 
   return children({
+    parentPost: parentData?.post || undefined,
     submit,
     message,
   });
