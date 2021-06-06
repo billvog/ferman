@@ -50,7 +50,7 @@ export const PostController: React.FC<PostControllerProps> = ({
           <div className="w-full">
             <div className="flex p-3 pb-0 justify-between items-center">
               <div className="text-lg text-primary-600">
-                <b>{t("comment.comments")}</b>{" "}
+                <b>{t("post.replies")}</b>{" "}
                 {!!postsData.posts.parent.repliesCount &&
                   `(${postsData.posts.parent.repliesCount})`}
               </div>
@@ -66,14 +66,14 @@ export const PostController: React.FC<PostControllerProps> = ({
                     )
                   }
                 >
-                  {t("post.comment")}
+                  {t("post.reply")}
                 </MyButton>
               )}
             </div>
             <div>
               {postsData.posts.parent.repliesCount === 0 ? (
                 <div className="text-sm text-primary-450 px-3">
-                  {t("comment.there_are_no_comments")}
+                  {t("post.no_replies")}
                 </div>
               ) : (
                 <div className="divide-y border-t border-b mt-3">

@@ -146,13 +146,16 @@
     "title": "Post",
     "post": "Post",
     "not_found": "Post could not be found",
-    "comment": "comment",
+    "replies": "Replies",
+    "reply": "Reply",
+    "no_replies": "There are no replies",
+    "reply_to": "reply to @post@ by %user%",
     "like": "Like",
     "unlike": "Unlike",
     "comments": "View comments",
     "delete_dialog": {
       "title": "Are you sure?",
-      "text": "Clicking \"Delete\" button, all likes and comments of this post will be deleted. Any further action will not be able to be undone."
+      "text": "Clicking \"Delete\" button, all likes and replies of this post will be deleted. Any further action will not be able to be undone."
     },
     "alert": {
       "created": {
@@ -161,30 +164,6 @@
       },
       "deleted": "Post deleted",
       "cannot_delete": "Post couln't get deleted"
-    }
-  },
-  "comment": {
-    "title": "Comment",
-    "not_found": "Comment could not be found",
-    "comment": "Comment",
-    "reply": "Comment",
-    "comments": "Comments",
-    "replies": "Replies",
-    "there_are_no_comments": "There are no comments",
-    "there_are_no_replies": "There are no replies",
-    "reply_to_post": "reply to @post@ by %user%",
-    "reply_to_comment": "reply to @comment@ by %user%",
-    "delete_dialog": {
-      "title": "Are you sure?",
-      "text": "Clicking \"Delete\" button, all replies of this comment will be deleted. Any further action, will not be able to be undone."
-    },
-    "alert": {
-      "created": {
-        "text": "Your comment has been sent",
-        "view": "View"
-      },
-      "deleted": "Comment deleted",
-      "cannot_delete": "Comment couln't get deleted"
     }
   },
   "explore": {
