@@ -28,8 +28,8 @@ export const ExplorePostsController: React.FC<ExplorePostsControllerProps> = ({
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
-      skip: null,
-      feedMode: false,
+      skip: 0,
+      fromFollowed: false,
     },
   });
 

@@ -31,16 +31,32 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
             className="w-8 h-8 rounded-35"
             src={otherUser.profile?.avatarUrl}
           />
-          {chat.hasUnreadMessage && (
+          {/* {chat.hasUnreadMessage && (
             <div className="absolute bottom-0 right-0">
               <div className="w-2 h-2 rounded-full bg-secondary-500 ring-2 ring-primary-50" />
+            </div>
+          )} */}
+          {otherUser.isOnline && (
+            <div className="absolute bottom-0 right-0">
+              <div className="w-2 h-2 rounded-full bg-green-500 ring-2 ring-primary-50" />
             </div>
           )}
         </div>
       </div>
       <div className="flex flex-col leading-none flex-1">
-        <div className="text-sm text-primary-600 font-bold group-hover:underline">
-          {otherUser.username}
+        <div className="flex items-center">
+          <div className="text-sm text-primary-600 font-bold group-hover:underline">
+            {otherUser.username}
+          </div>
+          {chat.hasUnreadMessage && (
+            <div
+              title="You have an unread message"
+              className="ml-2 w-1.5 h-1.5 rounded-full bg-blue-500"
+              style={{
+                transform: "translateY(0.7px)",
+              }}
+            />
+          )}
         </div>
         {chat.latestMessage && (
           <div className="text-xs flex justify-between">
@@ -48,7 +64,16 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
               {chat.latestMessage.userId === me.id && (
                 <b>{t("common.you")}: </b>
               )}
-              <span>{useTrancatedText(chat.latestMessage?.text, 50)}</span>
+              <span
+                className={
+                  chat.latestMessage.userId !== me.id &&
+                  !chat.latestMessage.read
+                    ? "font-semibold"
+                    : ""
+                }
+              >
+                {useTrancatedText(chat.latestMessage?.text, 50)}
+              </span>
             </span>
             <span className="min-w-max pl-3">
               {dayjs(chat.latestMessage?.createdAt).fromNow()}

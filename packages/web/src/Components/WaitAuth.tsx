@@ -18,6 +18,8 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
   RequireNotLoggedIn = false,
   children,
 }) => {
+  const router = useRouter();
+
   const [ok, setOk] = useState(
     RequireLoggedIn || RequireNotLoggedIn ? false : true
   );
@@ -27,7 +29,6 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
     loading,
     subscribeToMore,
   } = useMeQuery({ ssr: false });
-  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = subscribeToMore({

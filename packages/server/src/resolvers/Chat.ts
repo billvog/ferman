@@ -189,7 +189,7 @@ export class ChatResolver {
       .where('c."senderId" = :userId or c."recieverId" = :userId', {
         userId: req.session.userId,
       })
-      .limit(limit);
+      .limit(realLimitPlusOne);
 
     if (skip && skip > 0) {
       qb.offset(skip);

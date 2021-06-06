@@ -1,13 +1,14 @@
+import { ChatMessageMax } from "@ferman-pkgs/common";
 import {
   FullChatFragment,
   NewMessageDocument,
   NewMessageSubscription,
   NewMessageSubscriptionVariables,
+  onMessageUpdateCache,
   useMarkMessageReadMutation,
   useMessagesQuery,
   useSendMessageMutation,
 } from "@ferman-pkgs/controller";
-import { ChatMessageMax } from "@ferman-pkgs/common";
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { RiWechatFill } from "react-icons/ri";
@@ -62,37 +63,8 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       variables: {
         chatId: chat.id,
       },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData) {
-          return prev;
-        }
-
-        const index = prev.messages.messages.findIndex(
-          (x) => x.id === subscriptionData.data.newMessage?.id
-        );
-
-        if (index !== -1) {
-          const prevMessages = [...prev.messages.messages];
-          prevMessages[index] = subscriptionData.data.newMessage!;
-          return {
-            ...prev,
-            messages: {
-              ...prev.messages,
-              messages: prevMessages,
-            },
-          };
-        }
-
-        return {
-          messages: {
-            ...prev.messages,
-            messages: [
-              subscriptionData.data.newMessage!,
-              ...prev.messages.messages,
-            ],
-          },
-        };
-      },
+      updateQuery: (prev, { subscriptionData }) =>
+        onMessageUpdateCache(prev, subscriptionData),
     });
 
     return () => {

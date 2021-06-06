@@ -111,10 +111,13 @@ const Page: React.FC = () => {
                           </div>
                           <div className="text-xs leading-none">
                             {userData.user.isOnline
-                              ? "Active now"
-                              : `Last seen: ${dayjs(
-                                  parseFloat(userData.user.lastSeen)
-                                ).fromNow()}`}
+                              ? t("user.active_now")
+                              : t("user.last_seen").replace(
+                                  "%time%",
+                                  dayjs(
+                                    parseFloat(userData.user.lastSeen)
+                                  ).fromNow(true)
+                                )}
                           </div>
                         </div>
                       </div>

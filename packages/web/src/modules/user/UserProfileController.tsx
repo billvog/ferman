@@ -147,14 +147,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                       ) : (
                         <div className="divide-y border-b">
                           {postsData.posts.posts.map((post) => (
-                            <Post
-                              key={post.id}
-                              post={post}
-                              me={loggedUser}
-                              parentPost={
-                                tabState === 1 ? post.parentPost : undefined
-                              }
-                            />
+                            <Post key={post.id} post={post} me={loggedUser} />
                           ))}
                         </div>
                       )}

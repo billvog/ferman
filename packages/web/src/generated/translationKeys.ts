@@ -87,6 +87,8 @@ export type TranslationKeys =
 	| "search.search_tips.tip_3"
 	| "user.not_found"
 	| "user.title"
+	| "user.last_seen"
+	| "user.active_now"
 	| "user.follows_you"
 	| "user.one_follower"
 	| "user.x_followers"

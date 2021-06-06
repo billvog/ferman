@@ -23,6 +23,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
     variables: chatsVariables,
   } = useChatsQuery({
     fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
@@ -64,7 +65,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
               ))
             )}
           </div>
-          {chatsData?.chats.chats && chatsData?.chats.hasMore && (
+          {chatsData?.chats.hasMore && (
             <div className="flex justify-center mt-5">
               <MyButton
                 isLoading={chatsLoading}

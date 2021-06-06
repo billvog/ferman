@@ -5,6 +5,7 @@ import {
   PaginatedUsers,
   PaginatedPosts,
   PaginatedMessages,
+  PaginatedChats,
 } from "./generated/graphql";
 import { isServer } from "./utils/isServer";
 
@@ -106,6 +107,18 @@ export const MyApolloClient = (
                 };
               },
             },
+            chats: {
+              keyArgs: false,
+              merge(
+                existing: PaginatedChats | undefined,
+                incoming: PaginatedChats
+              ): PaginatedChats {
+                return {
+                  ...incoming,
+                  chats: [...(existing?.chats || []), ...incoming.chats],
+                };
+              },
+            },
             messages: {
               keyArgs: ["chatId"],
               merge(
@@ -121,11 +134,9 @@ export const MyApolloClient = (
                 incoming.messages.map((x) => {
                   let inRef = (x as any).__ref as string;
                   inRef = inRef.slice(8, inRef.length);
-
                   existing.messages.map((y) => {
                     let exRef = (y as any).__ref as string;
                     exRef = exRef.slice(8, exRef.length);
-
                     if (inRef === exRef) {
                       hasDuplicates = true;
                     }

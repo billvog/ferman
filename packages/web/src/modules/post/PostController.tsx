@@ -78,12 +78,7 @@ export const PostController: React.FC<PostControllerProps> = ({
               ) : (
                 <div className="divide-y border-t border-b mt-3">
                   {postsData.posts.posts.map((post) => (
-                    <Post
-                      key={post.id}
-                      post={post}
-                      me={loggedUser}
-                      parentPost={postsData.posts.parent}
-                    />
+                    <Post key={post.id} post={post} me={loggedUser} />
                   ))}
                 </div>
               )}

@@ -117,12 +117,12 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
                 {usersData?.users.users.map((user) => (
                   <div
                     key={user.id}
-                    className="p-3 flex items-center group cursor-pointer hover:bg-primary-100"
+                    className="p-3 flex items-center group cursor-pointer bg-white hover:bg-primary-50"
                     onClick={() => setFieldValue("reciever_uid", user.uid)}
                   >
                     <img
                       src={user.profile?.avatarUrl}
-                      className="w-7 h-7 rounded-35"
+                      className="w-8 h-8 rounded-35"
                     />
                     <div className="ml-2 flex flex-col leading-tight">
                       <div className="text-primary-600 text-md font-bold group-hover:underline">

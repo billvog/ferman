@@ -24,9 +24,8 @@ export const FeedController: React.FC<FeedContollerProps> = ({
     skip: typeof loggedUser === "undefined",
     variables: {
       limit: 15,
-      feedMode: !!loggedUser,
-      skip: null,
-      query: null,
+      fromFollowed: !!loggedUser,
+      skip: 0,
     },
   });
 

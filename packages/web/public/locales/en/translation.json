@@ -115,6 +115,8 @@
   "user": {
     "not_found": "User could not be found",
     "title": "%user% on Ferman",
+    "last_seen": "Active %time% ago",
+    "active_now": "Active now",
     "follows_you": "Follows you",
     "one_follower": "follower",
     "x_followers": "followers",

@@ -14,6 +14,7 @@ export * from "./options/post/DeletePostOptions";
 
 // Chat Controller
 export * from "./controllers/chat/CreateChatController";
+export * from "./options/chat/onMessageUpdateCache";
 
 // Custom Types
 export * from "./types/MyMessage";

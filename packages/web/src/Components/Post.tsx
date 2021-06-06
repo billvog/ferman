@@ -8,32 +8,24 @@ import dayjs from "dayjs";
 interface PostProps {
   me: FullUserFragment | null;
   post: FullPostFragment;
-  parentPost?: FullPostFragment | null;
   onDelete?: () => void;
 }
 
-export const Post: React.FC<PostProps> = ({
-  post,
-  me,
-  onDelete,
-  parentPost = null,
-}) => {
+export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
   return (
     <div>
       <div className="flex flex-col p-4 pb-0">
-        {!!parentPost && (
-          <div className="mb-3.5 text-sm text-primary-600">
-            <Link href={`/post/${parentPost.id}`}>
-              <span className="group cursor-pointer">
-                <span className="group-hover:underline">Reply</span>
-              </span>
+        {!!post.parentPost && (
+          <div className="mb-3 text-sm text-primary-500">
+            <Link href={`/post/${post.parentPost.id}`}>
+              <span className="hover:underline cursor-pointer">Reply</span>
             </Link>
             <span className="mx-1 select-none">to</span>
-            <Link href={`/user/${parentPost.creator.uid}`}>
+            <Link href={`/user/${post.parentPost.creator.uid}`}>
               <span className="font-semibold cursor-pointer group">
                 @
                 <span className="group-hover:underline">
-                  {parentPost.creator.uid}
+                  {post.parentPost.creator.uid}
                 </span>
               </span>
             </Link>
