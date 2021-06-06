@@ -1,7 +1,7 @@
-import { useChatsQuery } from "@ferman-pkgs/controller";
+import { OnChatUpdateDocument, useChatsQuery } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Chat } from "../../components/Chat";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";

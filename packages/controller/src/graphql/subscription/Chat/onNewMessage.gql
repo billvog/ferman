@@ -1,0 +1,5 @@
+subscription onNewMessage($chatId: String!) {
+  onNewMessage(chatId: $chatId) {
+    ...FullMessage
+  }
+}

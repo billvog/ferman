@@ -20,6 +20,7 @@ import { User } from "../entity/User";
 import { Message } from "../entity/Message";
 import {
   NEW_CHAT_MESSAGE_KEY,
+  UPDATE_CHAT_KEY,
   UPDATE_CHAT_MESSAGE_KEY,
   UPDATE_MY_USER_KEY,
 } from "../constants";
@@ -85,7 +86,7 @@ export class PaginatedChats {
 
 type NewMessagePayload = {
   chatId: string;
-  newMessage: Message;
+  onNewMessage: Message;
 };
 
 @Resolver(() => Chat)
@@ -141,11 +142,11 @@ export class ChatResolver {
       (payload, args) => payload.chatId === args.chatId
     ),
   })
-  newMessage(
+  onNewMessage(
     @Root() payload: NewMessagePayload,
-    @Arg("chatId", () => String) chatId: string
+    @Arg("chatId", () => String) _: string
   ): Message | null {
-    return payload.newMessage;
+    return payload.onNewMessage;
   }
 
   @UseMiddleware(chatAuth)

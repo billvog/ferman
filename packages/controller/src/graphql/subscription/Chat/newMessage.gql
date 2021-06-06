@@ -1,5 +1,0 @@
-subscription NewMessage($chatId: String!) {
-  newMessage(chatId: $chatId) {
-    ...FullMessage
-  }
-}

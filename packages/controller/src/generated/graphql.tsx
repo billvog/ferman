@@ -385,12 +385,12 @@ export type RegisterInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  newMessage?: Maybe<Message>;
+  onNewMessage?: Maybe<Message>;
   updatedUser?: Maybe<User>;
 };
 
 
-export type SubscriptionNewMessageArgs = {
+export type SubscriptionOnNewMessageArgs = {
   chatId: Scalars['String'];
 };
 
@@ -1000,14 +1000,14 @@ export type UsersQuery = (
   ) }
 );
 
-export type NewMessageSubscriptionVariables = Exact<{
+export type OnNewMessageSubscriptionVariables = Exact<{
   chatId: Scalars['String'];
 }>;
 
 
-export type NewMessageSubscription = (
+export type OnNewMessageSubscription = (
   { __typename?: 'Subscription' }
-  & { newMessage?: Maybe<(
+  & { onNewMessage?: Maybe<(
     { __typename?: 'Message' }
     & FullMessageFragment
   )> }
@@ -2270,36 +2270,36 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
-export const NewMessageDocument = gql`
-    subscription NewMessage($chatId: String!) {
-  newMessage(chatId: $chatId) {
+export const OnNewMessageDocument = gql`
+    subscription onNewMessage($chatId: String!) {
+  onNewMessage(chatId: $chatId) {
     ...FullMessage
   }
 }
     ${FullMessageFragmentDoc}`;
 
 /**
- * __useNewMessageSubscription__
+ * __useOnNewMessageSubscription__
  *
- * To run a query within a React component, call `useNewMessageSubscription` and pass it any options that fit your needs.
- * When your component renders, `useNewMessageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOnNewMessageSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnNewMessageSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useNewMessageSubscription({
+ * const { data, loading, error } = useOnNewMessageSubscription({
  *   variables: {
  *      chatId: // value for 'chatId'
  *   },
  * });
  */
-export function useNewMessageSubscription(baseOptions: Apollo.SubscriptionHookOptions<NewMessageSubscription, NewMessageSubscriptionVariables>) {
+export function useOnNewMessageSubscription(baseOptions: Apollo.SubscriptionHookOptions<OnNewMessageSubscription, OnNewMessageSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<NewMessageSubscription, NewMessageSubscriptionVariables>(NewMessageDocument, options);
+        return Apollo.useSubscription<OnNewMessageSubscription, OnNewMessageSubscriptionVariables>(OnNewMessageDocument, options);
       }
-export type NewMessageSubscriptionHookResult = ReturnType<typeof useNewMessageSubscription>;
-export type NewMessageSubscriptionResult = Apollo.SubscriptionResult<NewMessageSubscription>;
+export type OnNewMessageSubscriptionHookResult = ReturnType<typeof useOnNewMessageSubscription>;
+export type OnNewMessageSubscriptionResult = Apollo.SubscriptionResult<OnNewMessageSubscription>;
 export const UpdatedUserDocument = gql`
     subscription UpdatedUser($id: Int) {
   updatedUser(id: $id) {

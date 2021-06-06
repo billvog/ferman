@@ -1,9 +1,12 @@
-import { MessagesQuery, NewMessageSubscription } from "../../generated/graphql";
+import {
+  MessagesQuery,
+  OnNewMessageSubscription,
+} from "../../generated/graphql";
 
 export const onMessageUpdateCache = (
   prev: MessagesQuery,
   result: {
-    data: NewMessageSubscription;
+    data: OnNewMessageSubscription;
   }
 ): MessagesQuery => {
   if (!result) {
@@ -11,12 +14,12 @@ export const onMessageUpdateCache = (
   }
 
   const index = prev.messages.messages.findIndex(
-    (x) => x.id === result.data.newMessage?.id
+    (x) => x.id === result.data.onNewMessage?.id
   );
 
   if (index !== -1) {
     const prevMessages = [...prev.messages.messages];
-    prevMessages[index] = result.data.newMessage!;
+    prevMessages[index] = result.data.onNewMessage!;
     return {
       ...prev,
       messages: {
@@ -29,7 +32,7 @@ export const onMessageUpdateCache = (
   return {
     messages: {
       ...prev.messages,
-      messages: [result.data.newMessage!, ...prev.messages.messages],
+      messages: [result.data.onNewMessage!, ...prev.messages.messages],
     },
   };
 };
