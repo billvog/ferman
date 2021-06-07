@@ -271,7 +271,7 @@ export class PostResolver {
     const like = await Like.findOne({
       where: {
         userId,
-        id,
+        postId: id,
       },
     });
 
