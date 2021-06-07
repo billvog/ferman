@@ -24,7 +24,10 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
           </div>
           <div className="flex flex-col">
             <div className="flex items-start justify-between mb-1.5 text-primary-450 space-x-1.5">
-              <Link href={`/user/${post.creator.uid}`}>
+              <Link
+                href={`/user/${encodeURIComponent(post.creator.uid)}`}
+                shallow
+              >
                 <div className="group flex flex-col cursor-pointer">
                   <div className="group-hover:underline text-md fullscreen:text-base text-primary-700 font-bold fullscreen:leading-tight">
                     {post.creator.username}
@@ -41,13 +44,18 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
             <div>
               {!!post.parentPost && (
                 <div className="text-sm text-primary-500 font-medium">
-                  <Link href={`/post/${post.parentPost.id}`}>
+                  <Link href={`/post/${post.parentPost.id}`} shallow>
                     <span className="hover:underline cursor-pointer">
                       Reply
                     </span>
                   </Link>
                   <span className="mx-1 select-none">to</span>
-                  <Link href={`/user/${post.parentPost.creator.uid}`}>
+                  <Link
+                    href={`/user/${encodeURIComponent(
+                      post.parentPost.creator.uid
+                    )}`}
+                    shallow
+                  >
                     <span className="font-semibold cursor-pointer group text-accent-washed-out">
                       @
                       <span className="group-hover:underline">

@@ -8,10 +8,9 @@ export interface CreateChatFormValues {
 }
 
 interface CreateChatControllerProps {
-  onFinish: () => any;
+  onFinish: (chatId?: string) => any;
   children: (data: {
     submit: (values: CreateChatFormValues) => Promise<{
-      chatId?: string;
       errors: ErrorMap | null;
     }>;
     message: MyMessage | null;
@@ -53,9 +52,9 @@ export const CreateChatController: React.FC<CreateChatControllerProps> = ({
       };
     }
 
-    onFinish();
+    onFinish(data?.createChat.chat?.id);
+
     return {
-      chatId: data.createChat.chat?.id,
       errors: null,
     };
   };

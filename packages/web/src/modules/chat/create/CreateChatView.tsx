@@ -12,12 +12,11 @@ import React, { useEffect, useState } from "react";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
-import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreateChatViewProps {
   submit: (values: CreateChatFormValues) => Promise<{
-    chatId?: number;
+    chatId?: string;
     errors: ErrorMap | null;
   }>;
   message: MyMessage | null;
@@ -169,7 +168,6 @@ export const CreateChatView = withRouter(
     handleSubmit: async (values, { setErrors, props }) => {
       const { errors, chatId } = await props.submit(values);
       if (errors) setErrors(errors);
-      else props.router.replace(`/chat/${chatId}`);
     },
   })(C)
 );

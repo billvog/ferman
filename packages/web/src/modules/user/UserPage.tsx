@@ -39,7 +39,7 @@ const Page: React.FC = () => {
                     : undefined
                 }
                 loggedUser={user}
-                bottomNav={<CommonBottomNav loggedUser={user} />}
+                // bottomNav={<CommonBottomNav loggedUser={user} />}
                 leftSidebar={<CommonSidebar loggedUser={user} />}
               >
                 <UserProfileController

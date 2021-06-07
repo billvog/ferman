@@ -95,6 +95,7 @@ export const MyApolloClient = (
                 "parentPostId",
                 "isReply",
                 "query",
+                "likedBy",
                 "fromFollowed",
               ],
               merge(

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { CommonBottomNav } from "../../../components/CommonBottomNav";
 import { CommonSidebar } from "../../../components/CommonSidebar";
 import { MainGrid } from "../../../components/MainGrid";
@@ -18,8 +18,20 @@ const Page: React.FC = () => {
   const screenType = useScreenType();
 
   if (screenType !== "fullscreen") {
-    router.replace("/", "/post", { shallow: true });
+    router.replace(
+      {
+        pathname: "/",
+        query: router.query,
+      },
+      "/post",
+      { shallow: true }
+    );
   }
+
+  const [title, setTitle] = useState(<div>{t("post.post")}</div>);
+  const setModalTitle = (t: JSX.Element) => {
+    setTitle(t);
+  };
 
   return (
     <WaitI18>
@@ -28,13 +40,13 @@ const Page: React.FC = () => {
         {(user) =>
           screenType === "fullscreen" ? (
             <MainGrid
-              title={t("post.title")}
+              title={<div className="text-sm">{title}</div>}
               loggedUser={user}
               bottomNav={<CommonBottomNav loggedUser={user} />}
               leftSidebar={<CommonSidebar loggedUser={user} />}
             >
               <div className="px-3">
-                <CreatePostConnector />
+                <CreatePostConnector setModalTitle={setModalTitle} />
               </div>
             </MainGrid>
           ) : (

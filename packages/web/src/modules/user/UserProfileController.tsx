@@ -1,10 +1,10 @@
 import { FullUserFragment, usePostsLazyQuery } from "@ferman-pkgs/controller";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
-import { PostComment } from "../../components/PostComment";
 import { UserCard } from "../../components/UserCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { WithAuthProps } from "../../types/WithAuthProps";
@@ -59,6 +59,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
       runPostsQuery({
         variables: {
           limit: ItemsPerTabLimit,
+          skip: 0,
           likedBy: user?.id,
           userId: null,
         },
@@ -101,7 +102,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                   <TabItem
                     text={
                       <span>
-                        <b>{t("user.comments")}</b>{" "}
+                        <b>{t("user.replies")}</b>{" "}
                         {user.profile.repliesCount > 0 &&
                           `(${user.profile.repliesCount})`}
                       </span>
@@ -140,7 +141,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                             tabState === 0
                               ? "user.no_posts"
                               : tabState === 1
-                              ? "user.no_comments"
+                              ? "user.no_replies"
                               : "user.no_liked_posts"
                           ).replace("%user%", user.username)}
                         </div>

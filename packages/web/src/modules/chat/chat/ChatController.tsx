@@ -1,10 +1,10 @@
 import { ChatMessageMax } from "@ferman-pkgs/common";
 import {
   FullChatFragment,
-  NewMessageDocument,
-  NewMessageSubscription,
-  NewMessageSubscriptionVariables,
   onMessageUpdateCache,
+  OnNewMessageDocument,
+  OnNewMessageSubscription,
+  OnNewMessageSubscriptionVariables,
   useMarkMessageReadMutation,
   useMessagesQuery,
   useSendMessageMutation,
@@ -56,10 +56,10 @@ export const ChatController: React.FC<ChatControllerProps> = ({
     if (!chat) return;
 
     const unsubscribe = subscribeToMoreMessages<
-      NewMessageSubscription,
-      NewMessageSubscriptionVariables
+      OnNewMessageSubscription,
+      OnNewMessageSubscriptionVariables
     >({
-      document: NewMessageDocument,
+      document: OnNewMessageDocument,
       variables: {
         chatId: chat.id,
       },

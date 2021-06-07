@@ -4,7 +4,7 @@ import {
   useFollowMutation,
 } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
-import NextLink from "next/link";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { AiFillCalendar } from "react-icons/ai";
@@ -62,7 +62,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
         </div>
         <div className="flex flex-row justify-between mb-2">
           <div className="ml-2 mt-8">
-            <NextLink href={`/user/${user.uid}`}>
+            <Link href={`/user/${encodeURIComponent(user.uid)}`} shallow>
               <div className="flex flex-col group cursor-pointer">
                 <div className="font-bold text-primary-600 text-base leading-tight group-hover:underline">
                   {user.username}
@@ -82,7 +82,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   )}
                 </div>
               </div>
-            </NextLink>
+            </Link>
           </div>
           <div className="m-2">
             {me &&
@@ -111,7 +111,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
           </div>
         </div>
         <div className="text-vs ml-2 my-2 space-x-3.5">
-          <NextLink href={`/user/${user.uid}/followers`}>
+          <Link href={`/user/${user.uid}/followers`}>
             <span className="cursor-pointer group">
               <span className="text-primary-500 font-bold">
                 {user.followersCount}
@@ -122,8 +122,8 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                   : t("user.x_followers")}
               </span>
             </span>
-          </NextLink>
-          <NextLink href={`/user/${user.uid}/following`}>
+          </Link>
+          <Link href={`/user/${user.uid}/following`}>
             <span className="group cursor-pointer">
               <span className="font-bold text-primary-500">
                 {user.followingsCount}
@@ -137,7 +137,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user, me }) => {
                     )}
               </span>
             </span>
-          </NextLink>
+          </Link>
         </div>
       </div>
       <div className="divide-y-2">

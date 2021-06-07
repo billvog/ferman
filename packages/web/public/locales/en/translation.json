@@ -138,10 +138,10 @@
     "birthday": "Birthday",
     "location": "Location",
     "posts": "Posts",
-    "comments": "Comments",
+    "replies": "Replies",
     "liked_posts": "Likes",
     "no_posts": "%user% hasn't posted anything",
-    "no_comments": "%user% hasn't commented or replied anything",
+    "no_replies": "%user% hasn't replied to any post",
     "no_liked_posts": "%user% hasn't liked any post"
   },
   "post": {

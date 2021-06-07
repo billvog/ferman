@@ -15,7 +15,14 @@ export const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({
     if (router.asPath === "/post" && !loggedUser) {
       router.replace("/", undefined, { shallow: true });
     } else if (router.asPath === "/post" && screenType === "fullscreen") {
-      router.replace("/post", "/post", { shallow: true });
+      router.replace(
+        {
+          pathname: "/post",
+          query: router.query,
+        },
+        "/post",
+        { shallow: true }
+      );
     }
   }, [router.asPath, screenType, loggedUser]);
 
@@ -24,19 +31,7 @@ export const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({
       {loggedUser &&
       router.asPath === "/post" &&
       router.pathname !== "/post" ? (
-        <CreatePostModal
-          isOpen={true}
-          onClose={() =>
-            router.replace(
-              {
-                pathname: router.pathname,
-                query: router.query,
-              },
-              undefined,
-              { shallow: true }
-            )
-          }
-        />
+        <CreatePostModal isOpen={true} onClose={router.back} />
       ) : null}
     </>
   );

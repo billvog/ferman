@@ -7,7 +7,7 @@ import { CreatePostView } from "./CreatePostView";
 
 interface CreatePostConnectorProps {
   setModalTitle: (t: JSX.Element) => void;
-  onFinish: () => any;
+  onFinish?: () => any;
 }
 
 export const CreatePostConnector: React.FC<CreatePostConnectorProps> = ({
@@ -21,7 +21,8 @@ export const CreatePostConnector: React.FC<CreatePostConnectorProps> = ({
     useState<string | undefined>(undefined);
 
   const onControllerFinish = (postId: string) => {
-    onFinish();
+    if (typeof onFinish === "function") onFinish();
+
     toast.info(
       <div>
         {t("post.alert.created.text")}.

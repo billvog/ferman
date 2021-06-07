@@ -57,7 +57,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({
         <div className="flex flex-1 flex-col ml-3">
           <div className="flex justify-between flex-1">
             <div>
-              <Link href={`/user/${encodeURIComponent(user.uid)}`}>
+              <Link href={`/user/${encodeURIComponent(user.uid)}`} shallow>
                 <div
                   className={`flex flex-col group cursor-pointer leading-${
                     user.followsYouStatus ? "normal" : "tight"

@@ -58,10 +58,12 @@ export class ProfileResolver {
   // POSTS COUNT
   @FieldResolver(() => Int)
   async postsCount(@Root() profile: Profile) {
-    const [, count] = await Post.findAndCount({
-      where: { creatorId: profile.userId },
-    });
-    return count;
+    return getConnection()
+      .getRepository(Post)
+      .createQueryBuilder("p")
+      .where('p."creatorId" = :userId', { userId: profile.userId })
+      .andWhere('p."parentPostId" is null')
+      .getCount();
   }
 
   // COMMENTS COUNT
