@@ -15,22 +15,6 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
   return (
     <div>
       <div className="flex flex-col p-4 pb-0">
-        {!!post.parentPost && (
-          <div className="mb-3 text-sm text-primary-500">
-            <Link href={`/post/${post.parentPost.id}`}>
-              <span className="hover:underline cursor-pointer">Reply</span>
-            </Link>
-            <span className="mx-1 select-none">to</span>
-            <Link href={`/user/${post.parentPost.creator.uid}`}>
-              <span className="font-semibold cursor-pointer group">
-                @
-                <span className="group-hover:underline">
-                  {post.parentPost.creator.uid}
-                </span>
-              </span>
-            </Link>
-          </div>
-        )}
         <div className="flex">
           <div className="min-w-max">
             <img
@@ -54,8 +38,28 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
                 {dayjs(parseFloat(post.createdAt)).fromNow()}
               </div>
             </div>
-            <div className="table table-fixed w-full whitespace-pre-wrap break-word text-primary-600 text-vs fullscreen:text-sm">
-              {useRichBodyText(post.body)}
+            <div>
+              {!!post.parentPost && (
+                <div className="text-sm text-primary-500">
+                  <Link href={`/post/${post.parentPost.id}`}>
+                    <span className="hover:underline cursor-pointer">
+                      Reply
+                    </span>
+                  </Link>
+                  <span className="mx-1 select-none">to</span>
+                  <Link href={`/user/${post.parentPost.creator.uid}`}>
+                    <span className="font-semibold cursor-pointer group text-accent-washed-out">
+                      @
+                      <span className="group-hover:underline">
+                        {post.parentPost.creator.uid}
+                      </span>
+                    </span>
+                  </Link>
+                </div>
+              )}
+              <div className="table table-fixed w-full whitespace-pre-wrap break-word text-primary-800 text-vs fullscreen:text-sm">
+                {useRichBodyText(post.body)}
+              </div>
             </div>
           </div>
         </div>

@@ -6,10 +6,12 @@ import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTransla
 import { CreatePostView } from "./CreatePostView";
 
 interface CreatePostConnectorProps {
+  setModalTitle: (t: JSX.Element) => void;
   onFinish: () => any;
 }
 
 export const CreatePostConnector: React.FC<CreatePostConnectorProps> = ({
+  setModalTitle,
   onFinish,
 }) => {
   const router = useRouter();
@@ -47,7 +49,7 @@ export const CreatePostConnector: React.FC<CreatePostConnectorProps> = ({
       parentPostId={parentPostId}
       onFinish={onControllerFinish}
     >
-      {(props) => <CreatePostView {...props} />}
+      {(props) => <CreatePostView setModalTitle={setModalTitle} {...props} />}
     </CreatePostController>
   );
 };
