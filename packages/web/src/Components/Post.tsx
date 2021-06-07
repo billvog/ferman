@@ -40,7 +40,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
             </div>
             <div>
               {!!post.parentPost && (
-                <div className="text-sm text-primary-500">
+                <div className="text-sm text-primary-500 font-medium">
                   <Link href={`/post/${post.parentPost.id}`}>
                     <span className="hover:underline cursor-pointer">
                       Reply

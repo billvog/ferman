@@ -376,8 +376,8 @@ export class PostResolver {
         postId: id,
       });
 
-      await tm.delete(Comment, {
-        postId: id,
+      await tm.delete(Post, {
+        parentPostId: id,
       });
 
       await tm.delete(Post, {

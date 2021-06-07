@@ -16,6 +16,9 @@ export const deletePostMutationOptions = (
     ) => {
       if (result.data.deletePost.error) return;
       cache.evict({ id: "Post:" + result.data.deletePost.postId });
+
+      if (result.data.deletePost.parentPostId)
+        cache.evict({ id: "Post:" + result.data.deletePost.parentPostId });
     },
   };
 };
