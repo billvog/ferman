@@ -97,8 +97,8 @@ class PaginatedUsers {
   executionTime: number;
 }
 
-type UpdatedUserPayload = {
-  updatedUser: User;
+export type onUserUpdatePayload = {
+  onUserUpdate: User;
 };
 
 @Resolver(User)
@@ -149,17 +149,17 @@ export class UserResolver {
     nullable: true,
     subscribe: withFilter(
       () => pubsub.asyncIterator([UPDATE_MY_USER_KEY, UPDATE_USER_STATUS_KEY]),
-      (payload, args, context) =>
-        payload.updatedUser.id ===
+      (payload: onUserUpdatePayload, args, context) =>
+        payload.onUserUpdate.id ===
           context.connection.context.req.session.userId ||
-        payload.updatedUser.id === args.id
+        payload.onUserUpdate.id === args.id
     ),
   })
-  updatedUser(
-    @Root() payload: UpdatedUserPayload,
+  onUserUpdate(
+    @Root() payload: onUserUpdatePayload,
     @Arg("id", () => Int, { nullable: true }) id: number
   ): User | null {
-    return payload.updatedUser;
+    return payload.onUserUpdate;
   }
 
   // FOLLOWS YOU STATUS

@@ -43,16 +43,16 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
             } justify-center`}
           >
             <div
-              className={`text-md ${
+              className={`text-md text-primary-500 ${
                 isMe
-                  ? "bg-primary-500 text-primary-50"
-                  : "bg-primary-100 text-primary-500"
-              } px-3 py-2 rounded-2xl table table-fixed whitespace-pre-wrap break-word`}
+                  ? "border border-primary-100 bg-primary-50"
+                  : "bg-primary-100"
+              } px-3.5 py-2 rounded-2xl table table-fixed whitespace-pre-wrap break-word`}
             >
               {message.text}
             </div>
             <div className="mt-1">
-              <div className="text-xs text-primary-400 font-semibold">
+              <div className="text-xs text-primary-400 font-medium">
                 {dayjs(message.createdAt).fromNow()}
                 {isMe && <span>, {message.read ? "read" : "unread"}</span>}
               </div>

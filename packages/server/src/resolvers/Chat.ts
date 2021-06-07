@@ -31,6 +31,7 @@ import { pubsub } from "../MyPubsub";
 import { getConnection, Not } from "typeorm";
 import { ChatMessageValidationSchema } from "@ferman-pkgs/common";
 import e from "express";
+import { onUserUpdatePayload } from "./User";
 
 @ObjectType()
 export class ChatResponse {
@@ -84,7 +85,7 @@ export class PaginatedChats {
   executionTime: number;
 }
 
-type NewMessagePayload = {
+export type NewMessagePayload = {
   chatId: string;
   onNewMessage: Message;
 };
@@ -316,8 +317,8 @@ export class ChatResolver {
 
       pubsub.publish(NEW_CHAT_MESSAGE_KEY, {
         chatId,
-        newMessage: message,
-      });
+        onNewMessage: message,
+      } as NewMessagePayload);
 
       (async () => {
         const chat = await Chat.findOne(chatId);
@@ -326,8 +327,8 @@ export class ChatResolver {
           chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
         );
         pubsub.publish(UPDATE_MY_USER_KEY, {
-          updatedUser: user,
-        });
+          onUserUpdate: user,
+        } as onUserUpdatePayload);
       })();
     } catch (error) {
       return {

@@ -1,6 +1,8 @@
 import { ChatMessageMax } from "@ferman-pkgs/common";
 import {
   FullChatFragment,
+  MessagesQuery,
+  MessagesQueryVariables,
   onMessageUpdateCache,
   OnNewMessageDocument,
   OnNewMessageSubscription,
@@ -63,8 +65,12 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       variables: {
         chatId: chat.id,
       },
-      updateQuery: (prev, { subscriptionData }) =>
-        onMessageUpdateCache(prev, subscriptionData),
+      updateQuery: (prev, { subscriptionData }) => {
+        console.log(prev);
+        console.log(subscriptionData);
+
+        return onMessageUpdateCache(prev, subscriptionData);
+      },
     });
 
     return () => {
@@ -133,6 +139,17 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                           variables: {
                             ...messagesVariables,
                             skip: messagesData.messages.messages.length,
+                          },
+                          updateQuery: (prev: any, { fetchMoreResult }) => {
+                            return {
+                              messages: {
+                                ...fetchMoreResult.messages,
+                                messages: [
+                                  ...prev.messages.messages,
+                                  ...fetchMoreResult.messages.messages,
+                                ],
+                              },
+                            };
                           },
                         });
                       }}

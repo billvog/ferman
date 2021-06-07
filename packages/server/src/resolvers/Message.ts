@@ -18,7 +18,8 @@ import { User } from "../entity/User";
 import { chatAuth } from "../middleware/chatAuth";
 import { pubsub } from "../MyPubsub";
 import { MyContext } from "../types/MyContext";
-import { MinimalMessageResponse } from "./Chat";
+import { MinimalMessageResponse, NewMessagePayload } from "./Chat";
+import { onUserUpdatePayload } from "./User";
 
 @ObjectType()
 class PaginatedMessages {
@@ -103,14 +104,14 @@ export class MessageResolver {
 
     pubsub.publish(UPDATE_CHAT_MESSAGE_KEY, {
       chatId: message.chatId,
-      newMessage: message,
-    });
+      onNewMessage: message,
+    } as NewMessagePayload);
 
     (async () => {
       const user = await User.findOne(req.session.userId);
       pubsub.publish(UPDATE_MY_USER_KEY, {
-        updatedUser: user,
-      });
+        onUserUpdate: user,
+      } as onUserUpdatePayload);
     })();
 
     return {

@@ -386,7 +386,7 @@ export type RegisterInput = {
 export type Subscription = {
   __typename?: 'Subscription';
   onNewMessage?: Maybe<Message>;
-  updatedUser?: Maybe<User>;
+  onUserUpdate?: Maybe<User>;
 };
 
 
@@ -395,7 +395,7 @@ export type SubscriptionOnNewMessageArgs = {
 };
 
 
-export type SubscriptionUpdatedUserArgs = {
+export type SubscriptionOnUserUpdateArgs = {
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -1013,14 +1013,14 @@ export type OnNewMessageSubscription = (
   )> }
 );
 
-export type UpdatedUserSubscriptionVariables = Exact<{
+export type OnUserUpdateSubscriptionVariables = Exact<{
   id?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type UpdatedUserSubscription = (
+export type OnUserUpdateSubscription = (
   { __typename?: 'Subscription' }
-  & { updatedUser?: Maybe<(
+  & { onUserUpdate?: Maybe<(
     { __typename?: 'User' }
     & FullUserFragment
   )> }
@@ -2300,33 +2300,33 @@ export function useOnNewMessageSubscription(baseOptions: Apollo.SubscriptionHook
       }
 export type OnNewMessageSubscriptionHookResult = ReturnType<typeof useOnNewMessageSubscription>;
 export type OnNewMessageSubscriptionResult = Apollo.SubscriptionResult<OnNewMessageSubscription>;
-export const UpdatedUserDocument = gql`
-    subscription UpdatedUser($id: Int) {
-  updatedUser(id: $id) {
+export const OnUserUpdateDocument = gql`
+    subscription onUserUpdate($id: Int) {
+  onUserUpdate(id: $id) {
     ...FullUser
   }
 }
     ${FullUserFragmentDoc}`;
 
 /**
- * __useUpdatedUserSubscription__
+ * __useOnUserUpdateSubscription__
  *
- * To run a query within a React component, call `useUpdatedUserSubscription` and pass it any options that fit your needs.
- * When your component renders, `useUpdatedUserSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOnUserUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnUserUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUpdatedUserSubscription({
+ * const { data, loading, error } = useOnUserUpdateSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useUpdatedUserSubscription(baseOptions?: Apollo.SubscriptionHookOptions<UpdatedUserSubscription, UpdatedUserSubscriptionVariables>) {
+export function useOnUserUpdateSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnUserUpdateSubscription, OnUserUpdateSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<UpdatedUserSubscription, UpdatedUserSubscriptionVariables>(UpdatedUserDocument, options);
+        return Apollo.useSubscription<OnUserUpdateSubscription, OnUserUpdateSubscriptionVariables>(OnUserUpdateDocument, options);
       }
-export type UpdatedUserSubscriptionHookResult = ReturnType<typeof useUpdatedUserSubscription>;
-export type UpdatedUserSubscriptionResult = Apollo.SubscriptionResult<UpdatedUserSubscription>;
+export type OnUserUpdateSubscriptionHookResult = ReturnType<typeof useOnUserUpdateSubscription>;
+export type OnUserUpdateSubscriptionResult = Apollo.SubscriptionResult<OnUserUpdateSubscription>;

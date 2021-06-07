@@ -1,5 +1,7 @@
 import {
-  UpdatedUserDocument,
+  OnUserUpdateDocument,
+  OnUserUpdateSubscription,
+  OnUserUpdateSubscriptionVariables,
   useMeQuery,
   useUserQuery,
 } from "@ferman-pkgs/controller";
@@ -46,14 +48,14 @@ const Page: React.FC = () => {
   useEffect(() => {
     if (otherUserId === -1) return;
 
-    const unsubscribe = subscribeToMore({
-      document: UpdatedUserDocument,
+    const unsubscribe = subscribeToMore<OnUserUpdateSubscription>({
+      document: OnUserUpdateDocument,
       variables: {
         id: otherUserId,
       },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData) return prev;
-        else return subscriptionData.data;
+        else return { user: subscriptionData.data.onUserUpdate };
       },
     });
 
