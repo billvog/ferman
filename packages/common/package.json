@@ -1,7 +1,7 @@
 {
   "name": "@ferman-pkgs/common",
   "author": "billvog <billvog04@gmail.com>",
-  "version": "0.0.3",
+  "version": "0.0.35",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "license": "MIT",
