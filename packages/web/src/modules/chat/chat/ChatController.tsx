@@ -11,8 +11,9 @@ import {
   useMessagesQuery,
   useSendMessageMutation,
 } from "@ferman-pkgs/controller";
+import dayjs from "dayjs";
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RiWechatFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { Waypoint } from "react-waypoint";
@@ -65,12 +66,8 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       variables: {
         chatId: chat.id,
       },
-      updateQuery: (prev, { subscriptionData }) => {
-        console.log(prev);
-        console.log(subscriptionData);
-
-        return onMessageUpdateCache(prev, subscriptionData);
-      },
+      updateQuery: (prev, { subscriptionData }) =>
+        onMessageUpdateCache(prev, subscriptionData),
     });
 
     return () => {
@@ -94,7 +91,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       ) : (
         <div className="flex-1 h-full flex flex-col">
           <div
-            className="flex flex-1 flex-col-reverse overflow-y-auto"
+            className="flex flex-1 flex-col-reverse overflow-y-auto p-1"
             style={{
               maxHeight: `calc(100vh - 57px - 65px ${
                 screenType === "fullscreen" ? "- 56px" : ""
@@ -110,26 +107,71 @@ export const ChatController: React.FC<ChatControllerProps> = ({
               </div>
             ) : (
               <>
-                {messagesData?.messages.messages.map((message) => (
-                  <Waypoint
-                    key={`${chat.id}:${message.id}`}
-                    onEnter={async () => {
-                      if (message.userId === loggedUser.id || message.read)
-                        return;
+                {messagesData?.messages.messages.map((message, index) => {
+                  const prevMessage =
+                    messagesData.messages.messages[
+                      index > 0 ? index - 1 : index
+                    ];
 
-                      markRead({
-                        variables: {
-                          chatId: chat.id,
-                          messageId: message.id,
-                        },
-                      });
-                    }}
-                  >
-                    <div>
-                      <ChatMessage me={loggedUser} message={message} />
+                  const nextMessage =
+                    messagesData.messages.messages[
+                      index > 0 ? index + 1 : index
+                    ];
+
+                  const isFirst =
+                    index === messagesData.messages.messages.length - 1;
+
+                  let label = "";
+                  if (
+                    new Date(prevMessage?.createdAt).valueOf() -
+                      new Date(message.createdAt).valueOf() >
+                      1800000 ||
+                    isFirst
+                  ) {
+                    label = dayjs(prevMessage?.createdAt).calendar();
+                  }
+
+                  // implement logic for showRead
+
+                  return (
+                    <div
+                      className={`flex flex-1 ${
+                        isFirst ? "flex-col-reverse" : "flex-col"
+                      }`}
+                    >
+                      <Waypoint
+                        key={`${chat.id}:${message.id}`}
+                        onEnter={async () => {
+                          if (message.userId === loggedUser.id || message.read)
+                            return;
+
+                          markRead({
+                            variables: {
+                              chatId: chat.id,
+                              messageId: message.id,
+                            },
+                          });
+                        }}
+                      >
+                        <div>
+                          <ChatMessage
+                            me={loggedUser}
+                            message={message}
+                            showRead={true}
+                          />
+                        </div>
+                      </Waypoint>
+                      {!!label && (
+                        <div
+                          key={`group-message:${message.id}`}
+                          className="w-full text-center text-primary-450 py-4"
+                        >
+                          {label}
+                        </div>
+                      )}
                     </div>
-                  </Waypoint>
-                ))}
+                  );
+                })}
                 {messagesData?.messages.hasMore && (
                   <div className="mx-auto p-4">
                     <MyButton

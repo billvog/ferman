@@ -2,13 +2,19 @@ import { FullMessageFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
+import { BsEyeFill } from "react-icons/bs";
 
 interface ChatMessageProps {
   me: FullUserFragment;
   message: FullMessageFragment;
+  showRead: boolean;
 }
 
-export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
+export const ChatMessage: React.FC<ChatMessageProps> = ({
+  me,
+  message,
+  showRead = false,
+}) => {
   const router = useRouter();
   const isMe = me.id === message.userId;
 
@@ -47,16 +53,15 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ me, message }) => {
                 isMe
                   ? "border border-primary-100 bg-primary-50"
                   : "bg-primary-100"
-              } px-3.5 py-2 rounded-2xl table table-fixed whitespace-pre-wrap break-word`}
+              } px-3.5 py-2 rounded-3xl table table-fixed whitespace-pre-wrap break-word`}
             >
               {message.text}
             </div>
-            <div className="mt-1">
-              <div className="text-xs text-primary-400 font-medium">
-                {dayjs(message.createdAt).fromNow()}
-                {isMe && <span>, {message.read ? "read" : "unread"}</span>}
+            {showRead && isMe && message.read && (
+              <div className="mt-2 mx-2">
+                <div className="text-xs text-primary-400">Read</div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

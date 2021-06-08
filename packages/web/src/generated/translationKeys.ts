@@ -116,7 +116,7 @@ export type TranslationKeys =
 	| "post.not_found"
 	| "post.replies"
 	| "post.reply"
-	| "post.reply_to"
+	| "post.replying_to"
 	| "post.no_replies"
 	| "post.like"
 	| "post.unlike"

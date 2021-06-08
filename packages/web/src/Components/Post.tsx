@@ -4,6 +4,7 @@ import { PostActionButtons } from "./PostActionButtons";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 interface PostProps {
   me: FullUserFragment | null;
@@ -12,6 +13,8 @@ interface PostProps {
 }
 
 export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
+  const { t } = useTypeSafeTranslation();
+
   return (
     <div>
       <div className="flex flex-col p-4 pb-0">
@@ -44,12 +47,7 @@ export const Post: React.FC<PostProps> = ({ post, me, onDelete }) => {
             <div>
               {!!post.parentPost && (
                 <div className="text-sm text-primary-500 font-medium">
-                  <Link href={`/post/${post.parentPost.id}`} shallow>
-                    <span className="hover:underline cursor-pointer">
-                      Reply
-                    </span>
-                  </Link>
-                  <span className="mx-1 select-none">to</span>
+                  <span className="mr-1">{t("post.replying_to")}</span>
                   <Link
                     href={`/user/${encodeURIComponent(
                       post.parentPost.creator.uid
