@@ -36,7 +36,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
     if (parentPost) {
       setModalTitle(
         <div className="select-none">
-          <span className="text-primary-600 mr-1">{t("post.reply_to")}</span>
+          <span className="text-primary-600 mr-1">{t("post.replying_to")}</span>
           <Link href={`/user/${parentPost.creator.uid}`}>
             <span className="group text-accent-washed-out cursor-pointer">
               @
