@@ -80,11 +80,11 @@ export class ProfileResolver {
   // LIKES COUNT
   @FieldResolver(() => Int)
   async likesCount(@Root() profile: Profile) {
-    const [, count] = await Like.findAndCount({
-      where: { userId: profile.userId },
-    });
-
-    return count;
+    return getConnection()
+      .getRepository(Like)
+      .createQueryBuilder("l")
+      .where('l."userId" = :userId', { userId: profile.userId })
+      .getCount();
   }
 
   // AVATAR URL

@@ -62,6 +62,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
           skip: 0,
           likedBy: user?.id,
           userId: null,
+          isReply: null,
         },
       });
     }
