@@ -1,0 +1,7 @@
+subscription onUserStatusUpdate($id: Int) {
+  onUserStatusUpdate(id: $id) {
+    id
+    isOnline
+    lastSeen
+  }
+}

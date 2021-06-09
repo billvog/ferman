@@ -1,7 +1,7 @@
 import {
   FullUserFragment,
-  OnUserUpdateDocument,
-  OnUserUpdateSubscription,
+  OnMyUserUpdateDocument,
+  OnMyUserUpdateSubscription,
   useMeQuery,
 } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
@@ -34,13 +34,13 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
   useEffect(() => {
     if (!userData?.me) return;
 
-    const unsubscribe = subscribeToMore<OnUserUpdateSubscription>({
-      document: OnUserUpdateDocument,
+    const unsubscribe = subscribeToMore<OnMyUserUpdateSubscription>({
+      document: OnMyUserUpdateDocument,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData) return prev;
         else
           return {
-            me: subscriptionData.data.onUserUpdate,
+            me: subscriptionData.data.onMyUserUpdate,
           };
       },
     });

@@ -28,7 +28,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   const isMe = me.id === message.userId;
 
   const [markRead] = useMarkMessageReadMutation();
-  const [deleteMessage, { client }] = useDeleteMessageMutation();
+  const [deleteMessage] = useDeleteMessageMutation();
 
   return (
     <Waypoint

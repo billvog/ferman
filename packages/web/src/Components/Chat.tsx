@@ -19,7 +19,7 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
 
   return (
     <div
-      className={`flex items-start text-primary-500 p-3 group cursor-pointer ${
+      className={`flex items-center text-primary-500 p-3 group cursor-pointer ${
         isOdd ? "bg-white" : "bg-primary-50"
       }`}
       title={t("chat.chat_with").replace("%user1%", otherUser.username)}
@@ -28,14 +28,9 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
       <div className="mr-3">
         <div className="relative p-0.5">
           <img
-            className="w-8 h-8 rounded-35"
+            className="w-9 h-9 rounded-35"
             src={otherUser.profile?.avatarUrl}
           />
-          {/* {chat.hasUnreadMessage && (
-            <div className="absolute bottom-0 right-0">
-              <div className="w-2 h-2 rounded-full bg-secondary-500 ring-2 ring-primary-50" />
-            </div>
-          )} */}
           {otherUser.isOnline && (
             <div className="absolute bottom-0 right-0">
               <div className="w-2 h-2 rounded-full bg-green-500 ring-2 ring-primary-50" />
@@ -43,9 +38,9 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
           )}
         </div>
       </div>
-      <div className="flex flex-col leading-none flex-1">
+      <div className="flex flex-col flex-1">
         <div className="flex items-center">
-          <div className="text-sm text-primary-600 font-bold group-hover:underline">
+          <div className="text-md text-primary-600 font-bold group-hover:underline">
             {otherUser.username}
           </div>
           {chat.hasUnreadMessage && (
@@ -58,7 +53,7 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
             />
           )}
         </div>
-        {chat.latestMessage && (
+        {chat.latestMessage && chat.latestMessage.text.length < 50 ? (
           <div className="text-xs flex justify-between">
             <span className="table table-fixed whitespace-pre-wrap break-word">
               {chat.latestMessage.userId === me.id && (
@@ -72,12 +67,21 @@ export const Chat: React.FC<ChatProps> = ({ chat, me, isOdd }) => {
                     : ""
                 }
               >
-                {useTrancatedText(chat.latestMessage?.text, 50)}
+                {chat.latestMessage?.text}
               </span>
             </span>
             <span className="min-w-max pl-3">
               {dayjs(chat.latestMessage?.createdAt).fromNow()}
             </span>
+          </div>
+        ) : (
+          <div className="text-xs">
+            {otherUser.isOnline
+              ? t("user.active_now")
+              : t("user.last_seen").replace(
+                  "%time%",
+                  dayjs(parseFloat(otherUser.lastSeen)).fromNow(true)
+                )}
           </div>
         )}
       </div>

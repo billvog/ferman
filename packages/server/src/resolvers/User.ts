@@ -97,8 +97,22 @@ class PaginatedUsers {
   executionTime: number;
 }
 
-export type onUserUpdatePayload = {
-  onUserUpdate: User;
+export type onMyUserUpdatePayload = {
+  onMyUserUpdate: User;
+};
+
+@ObjectType()
+export class userStatus {
+  @Field()
+  id: number;
+  @Field()
+  isOnline: boolean;
+  @Field(() => String)
+  lastSeen: Date;
+}
+
+export type onUserStatusUpdatePayload = {
+  onUserStatusUpdate: userStatus;
 };
 
 @Resolver(User)
@@ -148,18 +162,30 @@ export class UserResolver {
   @Subscription(() => User, {
     nullable: true,
     subscribe: withFilter(
-      () => pubsub.asyncIterator([UPDATE_MY_USER_KEY, UPDATE_USER_STATUS_KEY]),
-      (payload: onUserUpdatePayload, args, context) =>
-        payload.onUserUpdate.id ===
-          context.connection.context.req.session.userId ||
-        payload.onUserUpdate.id === args.id
+      () => pubsub.asyncIterator(UPDATE_MY_USER_KEY),
+      (payload: onMyUserUpdatePayload, _, context) =>
+        payload.onMyUserUpdate.id ===
+        context.connection.context.req.session.userId
     ),
   })
-  onUserUpdate(
-    @Root() payload: onUserUpdatePayload,
+  onMyUserUpdate(@Root() payload: onMyUserUpdatePayload): User | null {
+    return payload.onMyUserUpdate;
+  }
+
+  @UseMiddleware(isAuth)
+  @Subscription(() => userStatus, {
+    nullable: true,
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(UPDATE_USER_STATUS_KEY),
+      (payload: onUserStatusUpdatePayload, args) =>
+        payload.onUserStatusUpdate.id === args.id
+    ),
+  })
+  onUserStatusUpdate(
+    @Root() payload: onUserStatusUpdatePayload,
     @Arg("id", () => Int, { nullable: true }) id: number
-  ): User | null {
-    return payload.onUserUpdate;
+  ): userStatus | null {
+    return payload.onUserStatusUpdate;
   }
 
   // FOLLOWS YOU STATUS

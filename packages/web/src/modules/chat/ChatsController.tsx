@@ -50,7 +50,9 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
           </div>
           <div className="divide-y border-t border-b">
             {chatsData?.chats.count === 0 ? (
-              <div>{t("chat.you_have_no_chats")}</div>
+              <div className="text-red-400 font-medium text-center p-4">
+                {t("chat.you_have_no_chats")}
+              </div>
             ) : (
               chatsData?.chats.chats.map((chat, i) => (
                 <Chat

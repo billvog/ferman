@@ -401,7 +401,8 @@ export type Subscription = {
   onNewMessage?: Maybe<Message>;
   onMessageUpdated?: Maybe<Message>;
   onMessageDeleted?: Maybe<Scalars['Int']>;
-  onUserUpdate?: Maybe<User>;
+  onMyUserUpdate?: Maybe<User>;
+  onUserStatusUpdate?: Maybe<UserStatus>;
 };
 
 
@@ -420,7 +421,7 @@ export type SubscriptionOnMessageDeletedArgs = {
 };
 
 
-export type SubscriptionOnUserUpdateArgs = {
+export type SubscriptionOnUserStatusUpdateArgs = {
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -446,6 +447,13 @@ export type UserErrorResponse = {
   __typename?: 'UserErrorResponse';
   error?: Maybe<FieldError>;
   user?: Maybe<User>;
+};
+
+export type UserStatus = {
+  __typename?: 'userStatus';
+  id: Scalars['Float'];
+  isOnline: Scalars['Boolean'];
+  lastSeen: Scalars['DateTime'];
 };
 
 export type BasicProfileFragment = (
@@ -1080,16 +1088,27 @@ export type OnNewMessageSubscription = (
   )> }
 );
 
-export type OnUserUpdateSubscriptionVariables = Exact<{
+export type OnMyUserUpdateSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnMyUserUpdateSubscription = (
+  { __typename?: 'Subscription' }
+  & { onMyUserUpdate?: Maybe<(
+    { __typename?: 'User' }
+    & FullUserFragment
+  )> }
+);
+
+export type OnUserStatusUpdateSubscriptionVariables = Exact<{
   id?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type OnUserUpdateSubscription = (
+export type OnUserStatusUpdateSubscription = (
   { __typename?: 'Subscription' }
-  & { onUserUpdate?: Maybe<(
-    { __typename?: 'User' }
-    & FullUserFragment
+  & { onUserStatusUpdate?: Maybe<(
+    { __typename?: 'userStatus' }
+    & Pick<UserStatus, 'id' | 'isOnline' | 'lastSeen'>
   )> }
 );
 
@@ -2466,33 +2485,64 @@ export function useOnNewMessageSubscription(baseOptions: Apollo.SubscriptionHook
       }
 export type OnNewMessageSubscriptionHookResult = ReturnType<typeof useOnNewMessageSubscription>;
 export type OnNewMessageSubscriptionResult = Apollo.SubscriptionResult<OnNewMessageSubscription>;
-export const OnUserUpdateDocument = gql`
-    subscription onUserUpdate($id: Int) {
-  onUserUpdate(id: $id) {
+export const OnMyUserUpdateDocument = gql`
+    subscription onMyUserUpdate {
+  onMyUserUpdate {
     ...FullUser
   }
 }
     ${FullUserFragmentDoc}`;
 
 /**
- * __useOnUserUpdateSubscription__
+ * __useOnMyUserUpdateSubscription__
  *
- * To run a query within a React component, call `useOnUserUpdateSubscription` and pass it any options that fit your needs.
- * When your component renders, `useOnUserUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOnMyUserUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnMyUserUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useOnUserUpdateSubscription({
+ * const { data, loading, error } = useOnMyUserUpdateSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnMyUserUpdateSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnMyUserUpdateSubscription, OnMyUserUpdateSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OnMyUserUpdateSubscription, OnMyUserUpdateSubscriptionVariables>(OnMyUserUpdateDocument, options);
+      }
+export type OnMyUserUpdateSubscriptionHookResult = ReturnType<typeof useOnMyUserUpdateSubscription>;
+export type OnMyUserUpdateSubscriptionResult = Apollo.SubscriptionResult<OnMyUserUpdateSubscription>;
+export const OnUserStatusUpdateDocument = gql`
+    subscription onUserStatusUpdate($id: Int) {
+  onUserStatusUpdate(id: $id) {
+    id
+    isOnline
+    lastSeen
+  }
+}
+    `;
+
+/**
+ * __useOnUserStatusUpdateSubscription__
+ *
+ * To run a query within a React component, call `useOnUserStatusUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnUserStatusUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnUserStatusUpdateSubscription({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useOnUserUpdateSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnUserUpdateSubscription, OnUserUpdateSubscriptionVariables>) {
+export function useOnUserStatusUpdateSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnUserStatusUpdateSubscription, OnUserStatusUpdateSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useSubscription<OnUserUpdateSubscription, OnUserUpdateSubscriptionVariables>(OnUserUpdateDocument, options);
+        return Apollo.useSubscription<OnUserStatusUpdateSubscription, OnUserStatusUpdateSubscriptionVariables>(OnUserStatusUpdateDocument, options);
       }
-export type OnUserUpdateSubscriptionHookResult = ReturnType<typeof useOnUserUpdateSubscription>;
-export type OnUserUpdateSubscriptionResult = Apollo.SubscriptionResult<OnUserUpdateSubscription>;
+export type OnUserStatusUpdateSubscriptionHookResult = ReturnType<typeof useOnUserStatusUpdateSubscription>;
+export type OnUserStatusUpdateSubscriptionResult = Apollo.SubscriptionResult<OnUserStatusUpdateSubscription>;

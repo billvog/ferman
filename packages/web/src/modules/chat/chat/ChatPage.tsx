@@ -1,8 +1,13 @@
+import { gql } from "@apollo/client";
 import {
-  OnUserUpdateDocument,
-  OnUserUpdateSubscription,
-  OnUserUpdateSubscriptionVariables,
+  OnUserStatusUpdateDocument,
+  OnUserStatusUpdateSubscription,
+  OnUserStatusUpdateSubscriptionVariables,
   useMeQuery,
+  UserDocument,
+  UserQuery,
+  UsersDocument,
+  UserStatus,
   useUserQuery,
 } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
@@ -28,7 +33,12 @@ const Page: React.FC = () => {
 
   const { data: chatData } = useGetChatFromUrl();
   const { data: meData } = useMeQuery();
-  const { data: userData, subscribeToMore } = useUserQuery({
+  const {
+    data: userData,
+    variables: userVariables,
+    subscribeToMore,
+    client,
+  } = useUserQuery({
     skip: otherUserId === -1,
     variables: {
       id: otherUserId,
@@ -48,14 +58,37 @@ const Page: React.FC = () => {
   useEffect(() => {
     if (otherUserId === -1) return;
 
-    const unsubscribe = subscribeToMore<OnUserUpdateSubscription>({
-      document: OnUserUpdateDocument,
+    const unsubscribe = subscribeToMore<OnUserStatusUpdateSubscription>({
+      document: OnUserStatusUpdateDocument,
       variables: {
         id: otherUserId,
       },
       updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData) return prev;
-        else return { user: subscriptionData.data.onUserUpdate };
+        if (subscriptionData.data.onUserStatusUpdate) {
+          const userStatus = subscriptionData.data.onUserStatusUpdate;
+          client.cache.writeFragment({
+            id: "User:" + userStatus.id,
+            fragment: gql`
+              fragment _ on User {
+                isOnline
+                lastSeen
+              }
+            `,
+            data: {
+              isOnline: userStatus.isOnline,
+              lastSeen: userStatus.lastSeen,
+            },
+          });
+
+          return (
+            client.cache.readQuery({
+              query: UserDocument,
+              variables: userVariables,
+            }) || prev
+          );
+        }
+
+        return prev;
       },
     });
 

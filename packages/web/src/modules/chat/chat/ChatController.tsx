@@ -1,6 +1,8 @@
 import { gql } from "@apollo/client";
 import { ChatMessageMax } from "@ferman-pkgs/common";
 import {
+  Chat,
+  ChatsQuery,
   FullChatFragment,
   MessagesDocument,
   MessagesQuery,
@@ -75,6 +77,22 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data.onNewMessage) return prev;
+
+        if (subscriptionData.data.onNewMessage) {
+          const m = subscriptionData.data.onNewMessage;
+          client.cache.writeFragment({
+            id: "Chat:" + m.chatId,
+            fragment: gql`
+              fragment _ on Chat {
+                latestMessage
+              }
+            `,
+            data: {
+              latestMessage: m,
+            },
+          });
+        }
+
         return {
           messages: {
             ...prev.messages,
@@ -94,6 +112,24 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       document: OnMessageUpdatedDocument,
       variables: {
         chatId: chat.id,
+      },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (subscriptionData.data.onMessageUpdated) {
+          const m = subscriptionData.data.onMessageUpdated;
+          client.cache.writeFragment({
+            id: "Chat:" + m.chatId,
+            fragment: gql`
+              fragment _ on Chat {
+                latestMessage
+              }
+            `,
+            data: {
+              latestMessage: m,
+            },
+          });
+        }
+
+        return prev;
       },
     });
 

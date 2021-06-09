@@ -1,5 +1,0 @@
-subscription onUserUpdate($id: Int) {
-  onUserUpdate(id: $id) {
-    ...FullUser
-  }
-}

@@ -32,7 +32,7 @@ import {
   OnMessageUpdatedPayload,
 } from "./Chat";
 import { FieldError } from "./FieldError";
-import { onUserUpdatePayload } from "./User";
+import { onMyUserUpdatePayload } from "./User";
 
 @ObjectType()
 class PaginatedMessages {
@@ -165,8 +165,8 @@ export class MessageResolver {
           chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
         );
         pubsub.publish(UPDATE_MY_USER_KEY, {
-          onUserUpdate: user,
-        } as onUserUpdatePayload);
+          onMyUserUpdate: user,
+        } as onMyUserUpdatePayload);
       })();
     } catch (error) {
       return {
@@ -218,8 +218,8 @@ export class MessageResolver {
           chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
         );
         pubsub.publish(UPDATE_MY_USER_KEY, {
-          onUserUpdate: user,
-        } as onUserUpdatePayload);
+          onMyUserUpdate: user,
+        } as onMyUserUpdatePayload);
       })();
     } catch (e) {
       console.log(e);
@@ -262,14 +262,10 @@ export class MessageResolver {
     } as OnMessageUpdatedPayload);
 
     (async () => {
-      const chat = await Chat.findOne(chatId);
-      if (!chat) return;
-      const user = await User.findOne(
-        chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
-      );
+      const user = await User.findOne(req.session.userId);
       pubsub.publish(UPDATE_MY_USER_KEY, {
-        onUserUpdate: user,
-      } as onUserUpdatePayload);
+        onMyUserUpdate: user,
+      } as onMyUserUpdatePayload);
     })();
 
     return {
