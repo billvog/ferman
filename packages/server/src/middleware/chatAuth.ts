@@ -7,13 +7,11 @@ export const chatAuth: MiddlewareFn<MyContext> = async (
   next
 ) => {
   const chat = await Chat.findOne(args.chatId || root.id);
-
   if (!chat) {
     throw new Error("Chat not found");
   }
 
   const userId = context.req.session.userId;
-
   if (userId && (chat.senderId === userId || chat.recieverId === userId)) {
     return next();
   }

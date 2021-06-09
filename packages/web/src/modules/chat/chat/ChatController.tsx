@@ -303,6 +303,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                     type="text"
                     placeholder="Message..."
                     maxLength={ChatMessageMax}
+                    disabled={isSubmitting}
                   />
                   <MyButton isLoading={isSubmitting} type="submit">
                     Send

@@ -1,4 +1,4 @@
-subscription onNewMessage($chatId: String!) {
+subscription onNewMessage($chatId: String) {
   onNewMessage(chatId: $chatId) {
     ...FullMessage
   }

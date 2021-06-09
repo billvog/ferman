@@ -497,7 +497,7 @@ export class UserResolver {
           return resolver(false);
         }
 
-        UpdateUserStatus(req.session.userId, false);
+        UpdateUserStatus(req.session?.userId, false);
         res.clearCookie(SESSION_COOKIE_NAME);
         resolver(true);
       });

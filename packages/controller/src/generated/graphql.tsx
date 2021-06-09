@@ -407,7 +407,7 @@ export type Subscription = {
 
 
 export type SubscriptionOnNewMessageArgs = {
-  chatId: Scalars['String'];
+  chatId?: Maybe<Scalars['String']>;
 };
 
 
@@ -453,7 +453,7 @@ export type UserStatus = {
   __typename?: 'userStatus';
   id: Scalars['Float'];
   isOnline: Scalars['Boolean'];
-  lastSeen: Scalars['DateTime'];
+  lastSeen: Scalars['String'];
 };
 
 export type BasicProfileFragment = (
@@ -1076,7 +1076,7 @@ export type OnMessageUpdatedSubscription = (
 );
 
 export type OnNewMessageSubscriptionVariables = Exact<{
-  chatId: Scalars['String'];
+  chatId?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -2456,7 +2456,7 @@ export function useOnMessageUpdatedSubscription(baseOptions: Apollo.Subscription
 export type OnMessageUpdatedSubscriptionHookResult = ReturnType<typeof useOnMessageUpdatedSubscription>;
 export type OnMessageUpdatedSubscriptionResult = Apollo.SubscriptionResult<OnMessageUpdatedSubscription>;
 export const OnNewMessageDocument = gql`
-    subscription onNewMessage($chatId: String!) {
+    subscription onNewMessage($chatId: String) {
   onNewMessage(chatId: $chatId) {
     ...FullMessage
   }
@@ -2479,7 +2479,7 @@ export const OnNewMessageDocument = gql`
  *   },
  * });
  */
-export function useOnNewMessageSubscription(baseOptions: Apollo.SubscriptionHookOptions<OnNewMessageSubscription, OnNewMessageSubscriptionVariables>) {
+export function useOnNewMessageSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnNewMessageSubscription, OnNewMessageSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<OnNewMessageSubscription, OnNewMessageSubscriptionVariables>(OnNewMessageDocument, options);
       }

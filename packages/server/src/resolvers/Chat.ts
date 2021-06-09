@@ -5,7 +5,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  InputType,
   Int,
   Mutation,
   ObjectType,
@@ -72,6 +71,32 @@ export type OnMessageDeletedPayload = {
   onMessageDeleted: number;
 };
 
+const ChatFilterFn = async (payload: any, args: any, context: MyContext) => {
+  if (payload?.chatId === args?.chatId) {
+    const chatFromArgs = await Chat.findOne(args.chatId);
+    if (
+      chatFromArgs &&
+      (chatFromArgs.senderId ===
+        context.connection?.context.req.session.userId ||
+        chatFromArgs.recieverId ===
+          context.connection?.context.req.session.userId)
+    )
+      return true;
+  } else {
+    const chatFromPayload = await Chat.findOne(payload.chatId);
+    if (
+      chatFromPayload &&
+      (chatFromPayload.senderId ===
+        context.connection?.context.req.session.userId ||
+        chatFromPayload.recieverId ===
+          context.connection?.context.req.session.userId)
+    )
+      return true;
+  }
+
+  return false;
+};
+
 @Resolver(() => Chat)
 export class ChatResolver {
   // SENDER
@@ -118,17 +143,16 @@ export class ChatResolver {
   }
 
   // ON NEW MESSAGE
-  @UseMiddleware(chatAuth)
   @Subscription(() => Message, {
     nullable: true,
     subscribe: withFilter(
       () => pubsub.asyncIterator(NEW_CHAT_MESSAGE_KEY),
-      (payload, args) => payload.chatId === args.chatId
+      ChatFilterFn
     ),
   })
   onNewMessage(
     @Root() payload: NewMessagePayload,
-    @Arg("chatId", () => String) _: string
+    @Arg("chatId", () => String, { nullable: true }) _: string
   ): Message | null {
     return payload.onNewMessage;
   }
@@ -139,7 +163,7 @@ export class ChatResolver {
     nullable: true,
     subscribe: withFilter(
       () => pubsub.asyncIterator(UPDATE_CHAT_MESSAGE_KEY),
-      (payload, args) => payload.chatId === args.chatId
+      ChatFilterFn
     ),
   })
   onMessageUpdated(
@@ -155,7 +179,7 @@ export class ChatResolver {
     nullable: true,
     subscribe: withFilter(
       () => pubsub.asyncIterator(DELETE_CHAT_MESSAGE_KEY),
-      (payload, args) => payload.chatId === args.chatId
+      ChatFilterFn
     ),
   })
   onMessageDeleted(
