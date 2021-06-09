@@ -73,6 +73,12 @@ export type MinimalChatResponse = {
   error: Scalars['Boolean'];
 };
 
+export type MinimalMessageIdResponse = {
+  __typename?: 'MinimalMessageIdResponse';
+  messageId?: Maybe<Scalars['Int']>;
+  error: Scalars['Boolean'];
+};
+
 export type MinimalMessageResponse = {
   __typename?: 'MinimalMessageResponse';
   message?: Maybe<Message>;
@@ -102,6 +108,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createChat: ChatResponse;
   sendMessage: MessageResponse;
+  deleteMessage: MinimalMessageIdResponse;
   markMessageRead: MinimalMessageResponse;
   likePost: MinimalPostResponse;
   createPost: PostResponse;
@@ -129,6 +136,12 @@ export type MutationCreateChatArgs = {
 
 export type MutationSendMessageArgs = {
   options: MessageInput;
+  chatId: Scalars['String'];
+};
+
+
+export type MutationDeleteMessageArgs = {
+  messageId: Scalars['Int'];
   chatId: Scalars['String'];
 };
 
@@ -387,6 +400,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   onNewMessage?: Maybe<Message>;
   onMessageUpdated?: Maybe<Message>;
+  onMessageDeleted?: Maybe<Scalars['Int']>;
   onUserUpdate?: Maybe<User>;
 };
 
@@ -397,6 +411,11 @@ export type SubscriptionOnNewMessageArgs = {
 
 
 export type SubscriptionOnMessageUpdatedArgs = {
+  chatId: Scalars['String'];
+};
+
+
+export type SubscriptionOnMessageDeletedArgs = {
   chatId: Scalars['String'];
 };
 
@@ -476,7 +495,7 @@ export type FullChatFragment = (
 
 export type FullMessageFragment = (
   { __typename?: 'Message' }
-  & Pick<Message, 'id' | 'userId' | 'text' | 'read' | 'createdAt'>
+  & Pick<Message, 'id' | 'chatId' | 'userId' | 'text' | 'read' | 'createdAt'>
   & { user: (
     { __typename?: 'User' }
     & BasicUserFragment
@@ -536,6 +555,11 @@ export type MinimalChatResponseFragment = (
     { __typename?: 'Chat' }
     & FullChatFragment
   )> }
+);
+
+export type MinimalMessageIdResponseFragment = (
+  { __typename?: 'MinimalMessageIdResponse' }
+  & Pick<MinimalMessageIdResponse, 'messageId' | 'error'>
 );
 
 export type MinimalMessageResponseFragment = (
@@ -601,6 +625,20 @@ export type CreateChatMutation = (
   & { createChat: (
     { __typename?: 'ChatResponse' }
     & ChatResponseFragment
+  ) }
+);
+
+export type DeleteMessageMutationVariables = Exact<{
+  chatId: Scalars['String'];
+  messageId: Scalars['Int'];
+}>;
+
+
+export type DeleteMessageMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteMessage: (
+    { __typename?: 'MinimalMessageIdResponse' }
+    & MinimalMessageIdResponseFragment
   ) }
 );
 
@@ -1006,6 +1044,16 @@ export type UsersQuery = (
   ) }
 );
 
+export type OnMessageDeletedSubscriptionVariables = Exact<{
+  chatId: Scalars['String'];
+}>;
+
+
+export type OnMessageDeletedSubscription = (
+  { __typename?: 'Subscription' }
+  & Pick<Subscription, 'onMessageDeleted'>
+);
+
 export type OnMessageUpdatedSubscriptionVariables = Exact<{
   chatId: Scalars['String'];
 }>;
@@ -1068,6 +1116,7 @@ export const BasicUserFragmentDoc = gql`
 export const FullMessageFragmentDoc = gql`
     fragment FullMessage on Message {
   id
+  chatId
   userId
   user {
     ...BasicUser
@@ -1132,6 +1181,12 @@ export const MinimalChatResponseFragmentDoc = gql`
   error
 }
     ${FullChatFragmentDoc}`;
+export const MinimalMessageIdResponseFragmentDoc = gql`
+    fragment MinimalMessageIdResponse on MinimalMessageIdResponse {
+  messageId
+  error
+}
+    `;
 export const MinimalMessageResponseFragmentDoc = gql`
     fragment MinimalMessageResponse on MinimalMessageResponse {
   message {
@@ -1286,6 +1341,40 @@ export function useCreateChatMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateChatMutationHookResult = ReturnType<typeof useCreateChatMutation>;
 export type CreateChatMutationResult = Apollo.MutationResult<CreateChatMutation>;
 export type CreateChatMutationOptions = Apollo.BaseMutationOptions<CreateChatMutation, CreateChatMutationVariables>;
+export const DeleteMessageDocument = gql`
+    mutation DeleteMessage($chatId: String!, $messageId: Int!) {
+  deleteMessage(chatId: $chatId, messageId: $messageId) {
+    ...MinimalMessageIdResponse
+  }
+}
+    ${MinimalMessageIdResponseFragmentDoc}`;
+export type DeleteMessageMutationFn = Apollo.MutationFunction<DeleteMessageMutation, DeleteMessageMutationVariables>;
+
+/**
+ * __useDeleteMessageMutation__
+ *
+ * To run a mutation, you first call `useDeleteMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMessageMutation, { data, loading, error }] = useDeleteMessageMutation({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *      messageId: // value for 'messageId'
+ *   },
+ * });
+ */
+export function useDeleteMessageMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMessageMutation, DeleteMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMessageMutation, DeleteMessageMutationVariables>(DeleteMessageDocument, options);
+      }
+export type DeleteMessageMutationHookResult = ReturnType<typeof useDeleteMessageMutation>;
+export type DeleteMessageMutationResult = Apollo.MutationResult<DeleteMessageMutation>;
+export type DeleteMessageMutationOptions = Apollo.BaseMutationOptions<DeleteMessageMutation, DeleteMessageMutationVariables>;
 export const MarkMessageReadDocument = gql`
     mutation MarkMessageRead($chatId: String!, $messageId: Int!) {
   markMessageRead(chatId: $chatId, messageId: $messageId) {
@@ -2289,6 +2378,34 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export const OnMessageDeletedDocument = gql`
+    subscription onMessageDeleted($chatId: String!) {
+  onMessageDeleted(chatId: $chatId)
+}
+    `;
+
+/**
+ * __useOnMessageDeletedSubscription__
+ *
+ * To run a query within a React component, call `useOnMessageDeletedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnMessageDeletedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnMessageDeletedSubscription({
+ *   variables: {
+ *      chatId: // value for 'chatId'
+ *   },
+ * });
+ */
+export function useOnMessageDeletedSubscription(baseOptions: Apollo.SubscriptionHookOptions<OnMessageDeletedSubscription, OnMessageDeletedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OnMessageDeletedSubscription, OnMessageDeletedSubscriptionVariables>(OnMessageDeletedDocument, options);
+      }
+export type OnMessageDeletedSubscriptionHookResult = ReturnType<typeof useOnMessageDeletedSubscription>;
+export type OnMessageDeletedSubscriptionResult = Apollo.SubscriptionResult<OnMessageDeletedSubscription>;
 export const OnMessageUpdatedDocument = gql`
     subscription onMessageUpdated($chatId: String!) {
   onMessageUpdated(chatId: $chatId) {

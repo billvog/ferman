@@ -1,0 +1,5 @@
+mutation DeleteMessage($chatId: String!, $messageId: Int!) {
+  deleteMessage(chatId: $chatId, messageId: $messageId) {
+    ...MinimalMessageIdResponse
+  }
+}

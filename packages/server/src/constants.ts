@@ -10,8 +10,10 @@ export const PROCEED_ACC_DEL_TOKEN_PREFIX = "proceed-account-deletion:";
 export const FORGOT_PWD_TOKEN_PREFIX = "forgot-password:";
 
 // SUBSCRIPTION KEYS
+// :user
 export const UPDATE_USER_STATUS_KEY = "UPDATE_USER_STATUS";
 export const UPDATE_MY_USER_KEY = "UPDATE_MY_USER";
-export const UPDATE_CHAT_KEY = "UPDATE_CHAT";
+// :chat
 export const NEW_CHAT_MESSAGE_KEY = "NEW_CHAT_MESSAGE";
 export const UPDATE_CHAT_MESSAGE_KEY = "UPDATE_CHAT_MESSAGE";
+export const DELETE_CHAT_MESSAGE_KEY = "DELETE_CHAT_MESSAGE";

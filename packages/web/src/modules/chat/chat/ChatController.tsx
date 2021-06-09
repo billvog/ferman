@@ -2,13 +2,18 @@ import { gql } from "@apollo/client";
 import { ChatMessageMax } from "@ferman-pkgs/common";
 import {
   FullChatFragment,
+  MessagesDocument,
+  MessagesQuery,
+  MessagesQueryVariables,
+  OnMessageDeletedDocument,
+  OnMessageDeletedSubscription,
+  OnMessageDeletedSubscriptionVariables,
   OnMessageUpdatedDocument,
   OnMessageUpdatedSubscription,
   OnMessageUpdatedSubscriptionVariables,
   OnNewMessageDocument,
   OnNewMessageSubscription,
   OnNewMessageSubscriptionVariables,
-  useMarkMessageReadMutation,
   useMessagesQuery,
   useSendMessageMutation,
 } from "@ferman-pkgs/controller";
@@ -90,20 +95,28 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       variables: {
         chatId: chat.id,
       },
+    });
+
+    const unsubFromMessageDeleted = subscribeToMoreMessages<
+      OnMessageDeletedSubscription,
+      OnMessageDeletedSubscriptionVariables
+    >({
+      document: OnMessageDeletedDocument,
+      variables: {
+        chatId: chat.id,
+      },
       updateQuery: (prev, { subscriptionData }) => {
-        if (subscriptionData.data.onMessageUpdated) {
-          client.writeFragment({
-            id: "Message:" + subscriptionData.data.onMessageUpdated.id,
-            fragment: gql`
-              fragment _ on Message {
-                text
-                read
-              }
-            `,
-            data: {
-              read: subscriptionData.data.onMessageUpdated.read,
-            },
+        if (subscriptionData.data.onMessageDeleted) {
+          client.cache.evict({
+            id: "Message:" + subscriptionData.data.onMessageDeleted,
           });
+
+          return (
+            client.cache.readQuery({
+              query: MessagesDocument,
+              variables: messagesVariables,
+            }) || prev
+          );
         }
 
         return prev;
@@ -113,11 +126,11 @@ export const ChatController: React.FC<ChatControllerProps> = ({
     return () => {
       unsubFromNewMessage();
       unsubFromMessageUpdated();
+      unsubFromMessageDeleted();
     };
   }, [chat?.id]);
 
   const [sendMessage] = useSendMessageMutation();
-  const [markRead] = useMarkMessageReadMutation();
 
   const [latestRead, setLatestRead] = useState(-1);
   useEffect(() => {
@@ -181,27 +194,11 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                         isFirst ? "flex-col-reverse" : "flex-col"
                       }`}
                     >
-                      <Waypoint
-                        onEnter={async () => {
-                          if (message.userId === loggedUser.id || message.read)
-                            return;
-
-                          markRead({
-                            variables: {
-                              chatId: chat.id,
-                              messageId: message.id,
-                            },
-                          });
-                        }}
-                      >
-                        <div>
-                          <ChatMessage
-                            me={loggedUser}
-                            message={message}
-                            showRead={latestRead === message.id}
-                          />
-                        </div>
-                      </Waypoint>
+                      <ChatMessage
+                        me={loggedUser}
+                        message={message}
+                        showRead={latestRead === message.id}
+                      />
                       {!!label && (
                         <div className="w-full text-center text-primary-450 py-4">
                           {label}

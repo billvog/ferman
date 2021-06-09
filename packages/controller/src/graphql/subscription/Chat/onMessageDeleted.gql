@@ -1,0 +1,3 @@
+subscription onMessageDeleted($chatId: String!) {
+  onMessageDeleted(chatId: $chatId)
+}

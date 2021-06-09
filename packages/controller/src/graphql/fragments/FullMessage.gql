@@ -1,5 +1,6 @@
 fragment FullMessage on Message {
   id
+  chatId
   userId
   user {
     ...BasicUser
