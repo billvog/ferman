@@ -18,7 +18,7 @@ import { User } from "../entity/User";
 import { chatAuth } from "../middleware/chatAuth";
 import { pubsub } from "../MyPubsub";
 import { MyContext } from "../types/MyContext";
-import { MinimalMessageResponse, NewMessagePayload } from "./Chat";
+import { MinimalMessageResponse, OnMessageUpdatedPayload } from "./Chat";
 import { onUserUpdatePayload } from "./User";
 
 @ObjectType()
@@ -104,8 +104,8 @@ export class MessageResolver {
 
     pubsub.publish(UPDATE_CHAT_MESSAGE_KEY, {
       chatId: message.chatId,
-      onNewMessage: message,
-    } as NewMessagePayload);
+      onMessageUpdated: message,
+    } as OnMessageUpdatedPayload);
 
     (async () => {
       const user = await User.findOne(req.session.userId);

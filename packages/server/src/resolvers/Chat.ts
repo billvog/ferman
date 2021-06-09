@@ -90,6 +90,11 @@ export type NewMessagePayload = {
   onNewMessage: Message;
 };
 
+export type OnMessageUpdatedPayload = {
+  chatId: string;
+  onMessageUpdated: Message;
+};
+
 @Resolver(() => Chat)
 export class ChatResolver {
   // SENDER
@@ -120,6 +125,7 @@ export class ChatResolver {
     });
   }
 
+  // HAS UNREAD MESSAGE
   @UseMiddleware(chatAuth)
   @FieldResolver(() => Boolean)
   async hasUnreadMessage(@Root() chat: Chat, @Ctx() { req }: MyContext) {
@@ -134,12 +140,12 @@ export class ChatResolver {
     return m.length > 0;
   }
 
+  // ON NEW MESSAGE
   @UseMiddleware(chatAuth)
   @Subscription(() => Message, {
     nullable: true,
     subscribe: withFilter(
-      () =>
-        pubsub.asyncIterator([NEW_CHAT_MESSAGE_KEY, UPDATE_CHAT_MESSAGE_KEY]),
+      () => pubsub.asyncIterator(NEW_CHAT_MESSAGE_KEY),
       (payload, args) => payload.chatId === args.chatId
     ),
   })
@@ -150,6 +156,23 @@ export class ChatResolver {
     return payload.onNewMessage;
   }
 
+  // MESSAGES UPDATED
+  @UseMiddleware(chatAuth)
+  @Subscription(() => Message, {
+    nullable: true,
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(UPDATE_CHAT_MESSAGE_KEY),
+      (payload, args) => payload.chatId === args.chatId
+    ),
+  })
+  onMessageUpdated(
+    @Root() payload: OnMessageUpdatedPayload,
+    @Arg("chatId", () => String) _: string
+  ): Message | null {
+    return payload.onMessageUpdated;
+  }
+
+  // GET CHAT BY ID
   @UseMiddleware(chatAuth)
   @Query(() => MinimalChatResponse)
   async chat(
@@ -173,6 +196,7 @@ export class ChatResolver {
     return { chat, error: false };
   }
 
+  // GET ALL CHATS
   @UseMiddleware(isAuth)
   @Query(() => PaginatedChats)
   async chats(
@@ -210,6 +234,7 @@ export class ChatResolver {
     };
   }
 
+  // CREATE CHAT
   @UseMiddleware(isAuth)
   @Mutation(() => ChatResponse)
   async createChat(
@@ -286,6 +311,7 @@ export class ChatResolver {
     };
   }
 
+  // SEND MESSAGE
   @UseMiddleware(chatAuth)
   @Mutation(() => MessageResponse)
   async sendMessage(

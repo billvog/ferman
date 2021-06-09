@@ -32,6 +32,8 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
   } = useMeQuery({ ssr: false });
 
   useEffect(() => {
+    if (!userData?.me) return;
+
     const unsubscribe = subscribeToMore<OnUserUpdateSubscription>({
       document: OnUserUpdateDocument,
       updateQuery: (prev, { subscriptionData }) => {
@@ -46,7 +48,7 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [userData?.me]);
 
   useEffect(() => {
     if (ok) {

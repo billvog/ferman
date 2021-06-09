@@ -1,9 +1,10 @@
+import { gql } from "@apollo/client";
 import { ChatMessageMax } from "@ferman-pkgs/common";
 import {
   FullChatFragment,
-  MessagesQuery,
-  MessagesQueryVariables,
-  onMessageUpdateCache,
+  OnMessageUpdatedDocument,
+  OnMessageUpdatedSubscription,
+  OnMessageUpdatedSubscriptionVariables,
   OnNewMessageDocument,
   OnNewMessageSubscription,
   OnNewMessageSubscriptionVariables,
@@ -43,6 +44,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
     fetchMore: fetchMoreMessages,
     variables: messagesVariables,
     subscribeToMore: subscribeToMoreMessages,
+    client,
   } = useMessagesQuery({
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
@@ -58,7 +60,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
   useEffect(() => {
     if (!chat) return;
 
-    const unsubscribe = subscribeToMoreMessages<
+    const unsubFromNewMessage = subscribeToMoreMessages<
       OnNewMessageSubscription,
       OnNewMessageSubscriptionVariables
     >({
@@ -66,17 +68,63 @@ export const ChatController: React.FC<ChatControllerProps> = ({
       variables: {
         chatId: chat.id,
       },
-      updateQuery: (prev, { subscriptionData }) =>
-        onMessageUpdateCache(prev, subscriptionData),
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data.onNewMessage) return prev;
+        return {
+          messages: {
+            ...prev.messages,
+            messages: [
+              subscriptionData.data.onNewMessage,
+              ...prev.messages.messages,
+            ],
+          },
+        };
+      },
+    });
+
+    const unsubFromMessageUpdated = subscribeToMoreMessages<
+      OnMessageUpdatedSubscription,
+      OnMessageUpdatedSubscriptionVariables
+    >({
+      document: OnMessageUpdatedDocument,
+      variables: {
+        chatId: chat.id,
+      },
+      updateQuery: (prev, { subscriptionData }) => {
+        if (subscriptionData.data.onMessageUpdated) {
+          client.writeFragment({
+            id: "Message:" + subscriptionData.data.onMessageUpdated.id,
+            fragment: gql`
+              fragment _ on Message {
+                text
+                read
+              }
+            `,
+            data: {
+              read: subscriptionData.data.onMessageUpdated.read,
+            },
+          });
+        }
+
+        return prev;
+      },
     });
 
     return () => {
-      unsubscribe();
+      unsubFromNewMessage();
+      unsubFromMessageUpdated();
     };
   }, [chat?.id]);
 
   const [sendMessage] = useSendMessageMutation();
   const [markRead] = useMarkMessageReadMutation();
+
+  const [latestRead, setLatestRead] = useState(-1);
+  useEffect(() => {
+    if (!messagesData?.messages.messages) return;
+    const lm = messagesData?.messages.messages[0];
+    if (lm.userId === loggedUser?.id && lm.read) setLatestRead(lm.id);
+  }, [messagesData?.messages.messages]);
 
   return (
     <>
@@ -108,14 +156,9 @@ export const ChatController: React.FC<ChatControllerProps> = ({
             ) : (
               <>
                 {messagesData?.messages.messages.map((message, index) => {
-                  const prevMessage =
-                    messagesData.messages.messages[
-                      index > 0 ? index - 1 : index
-                    ];
-
                   const nextMessage =
                     messagesData.messages.messages[
-                      index > 0 ? index + 1 : index
+                      index > 0 ? index - 1 : index
                     ];
 
                   const isFirst =
@@ -123,24 +166,22 @@ export const ChatController: React.FC<ChatControllerProps> = ({
 
                   let label = "";
                   if (
-                    new Date(prevMessage?.createdAt).valueOf() -
+                    new Date(nextMessage?.createdAt).valueOf() -
                       new Date(message.createdAt).valueOf() >
                       1800000 ||
                     isFirst
                   ) {
-                    label = dayjs(prevMessage?.createdAt).calendar();
+                    label = dayjs(nextMessage?.createdAt).calendar();
                   }
-
-                  // implement logic for showRead
 
                   return (
                     <div
+                      key={`${chat.id}:group-message:${message.id}`}
                       className={`flex flex-1 ${
                         isFirst ? "flex-col-reverse" : "flex-col"
                       }`}
                     >
                       <Waypoint
-                        key={`${chat.id}:${message.id}`}
                         onEnter={async () => {
                           if (message.userId === loggedUser.id || message.read)
                             return;
@@ -157,15 +198,12 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                           <ChatMessage
                             me={loggedUser}
                             message={message}
-                            showRead={true}
+                            showRead={latestRead === message.id}
                           />
                         </div>
                       </Waypoint>
                       {!!label && (
-                        <div
-                          key={`group-message:${message.id}`}
-                          className="w-full text-center text-primary-450 py-4"
-                        >
+                        <div className="w-full text-center text-primary-450 py-4">
                           {label}
                         </div>
                       )}

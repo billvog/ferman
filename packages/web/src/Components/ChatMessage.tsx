@@ -1,8 +1,6 @@
 import { FullMessageFragment, FullUserFragment } from "@ferman-pkgs/controller";
-import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
-import { BsEyeFill } from "react-icons/bs";
 
 interface ChatMessageProps {
   me: FullUserFragment;
@@ -25,7 +23,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
       } justify-between w-full`}
     >
       <div
-        className={`p-3 flex flex-col ${isMe ? "items-end" : "items-start"}`}
+        className={`p-1.5 flex flex-col ${isMe ? "items-end" : "items-start"}`}
       >
         <div
           className={`flex items-start ${
