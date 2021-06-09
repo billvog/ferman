@@ -991,7 +991,8 @@ export class UserResolver {
       await getConnection().transaction(async (tm) => {
         await tm.delete(Post, { creatorId: user.id });
         await tm.delete(Like, { userId: user.id });
-        await tm.delete(Comment, { userId: user.id });
+        await tm.delete(Chat, { senderId: user.id });
+        await tm.delete(Chat, { recieverId: user.id });
         await tm.delete(Follow, { userId: user.id });
         await tm.delete(Follow, { followingUserId: user.id });
         await tm.delete(Profile, { userId: user.id });

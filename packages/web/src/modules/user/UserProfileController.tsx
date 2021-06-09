@@ -1,5 +1,5 @@
 import { FullUserFragment, usePostsLazyQuery } from "@ferman-pkgs/controller";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
@@ -43,6 +43,11 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
 
   const [tabState, setTabState] = useState<TabState>(0);
 
+  // reset tab when changing route
+  Router.events.on("routeChangeComplete", (url) => {
+    setTabState(0);
+  });
+
   useEffect(() => {
     if (tabState === 0) {
       runPostsQuery();
@@ -82,7 +87,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
             <UserCard user={user} me={loggedUser} />
           </div>
           <div className="w-full">
-            <div className="flex justify-center items-center">
+            <div className="flex w-screen fullscreen:w-auto overflow-x-auto overflow-y-hidden">
               {!user.profile ? (
                 <div className="p-2">
                   <MySpinner />
@@ -91,33 +96,36 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                 <>
                   <TabItem
                     text={
-                      <span>
+                      <>
                         <b>{t("user.posts")}</b>{" "}
-                        {user.profile.postsCount > 0 &&
-                          `(${user.profile.postsCount})`}
-                      </span>
+                        {user.profile.postsCount > 0 && (
+                          <span>{`(${user.profile.postsCount})`}</span>
+                        )}
+                      </>
                     }
                     isCurrent={tabState === 0}
                     onClick={() => setTabState(0)}
                   />
                   <TabItem
                     text={
-                      <span>
-                        <b>{t("user.replies")}</b>{" "}
-                        {user.profile.repliesCount > 0 &&
-                          `(${user.profile.repliesCount})`}
-                      </span>
+                      <>
+                        <b>{t("user.replies")}</b>
+                        {user.profile.repliesCount > 0 && (
+                          <span>{`(${user.profile.repliesCount})`}</span>
+                        )}
+                      </>
                     }
                     isCurrent={tabState === 1}
                     onClick={() => setTabState(1)}
                   />
                   <TabItem
                     text={
-                      <span>
-                        <b>{t("user.liked_posts")}</b>{" "}
-                        {user.profile.likesCount > 0 &&
-                          `(${user.profile.likesCount})`}
-                      </span>
+                      <>
+                        <b>{t("user.liked_posts")}</b>
+                        {user.profile.likesCount > 0 && (
+                          <span>{`(${user.profile.likesCount})`}</span>
+                        )}
+                      </>
                     }
                     isCurrent={tabState === 2}
                     onClick={() => setTabState(2)}

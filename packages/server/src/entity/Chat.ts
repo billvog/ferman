@@ -35,9 +35,7 @@ export class Chat extends BaseEntity {
   @ManyToOne(() => User, (user) => user.messages)
   reciever: User;
 
-  @OneToMany(() => Message, (message) => message.chat, {
-    onDelete: "CASCADE",
-  })
+  @OneToMany(() => Message, (message) => message.chat)
   messages: Message[];
 
   @Field(() => Message, { nullable: true })
