@@ -1,14 +1,11 @@
 #!/bin/bash
-
 echo Compiling packages...
 yarn build:server
 
 VERSION=latest
 
 echo Building image...
-# I have an Macbook with M1, so, I use
-# docker's buildx to build and convert my image from arm to amd64
-# which is supported by Heroku
+# docker's buildx builds and converts my image from arm to amd64
 docker buildx use default
 docker buildx build --platform linux/amd64 -t billvog/ferman:$VERSION packages/server --push
 
