@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "ferman",
+    "description": "The modern saloon.",
+    "slug": "ferman",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +28,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "packagerOpts": {
+      "config": "metro.config.js"
     }
   }
 }
