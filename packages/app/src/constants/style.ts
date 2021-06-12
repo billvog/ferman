@@ -58,6 +58,9 @@ export const colors = {
   accentWashedOut: "#ae3f3f",
   accentHover: "#a52a2a",
   black: "#000",
+  // status
+  success: "#5cb85c",
+  error: "#f84241",
 };
 
 const textBase: TextStyle = {
