@@ -1,6 +1,8 @@
 import { FieldProps } from "formik";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleProp, Text, TextInput, TextStyle, View } from "react-native";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { colors, fontSize, radius } from "../constants/style";
 
 type InputFieldProps = FieldProps<any> & {
@@ -11,7 +13,7 @@ const errorStyle: StyleProp<TextStyle> = {
   color: colors.error,
   fontSize: fontSize.paragraph,
   fontWeight: "600",
-  marginTop: 3,
+  marginTop: 4,
 };
 
 const fieldStyle: StyleProp<TextStyle> = {
@@ -28,10 +30,11 @@ const fieldStyle: StyleProp<TextStyle> = {
 };
 
 export const InputField: React.FC<InputFieldProps> = (props) => {
+  const { i18n } = useTranslation();
+  const { t } = useTypeSafeTranslation();
+
   const { field, form, placeholder } = props;
-
-  const errorMsg = form.touched[field.name] && form.errors[field.name];
-
+  const error = form.touched[field.name] && form.errors[field.name];
   const onChangeText = (text: string) => {
     form.setFieldValue(field.name, text);
   };
@@ -45,7 +48,14 @@ export const InputField: React.FC<InputFieldProps> = (props) => {
         placeholder={placeholder}
         value={field.value}
       />
-      {!!errorMsg && <Text style={errorStyle}>{errorMsg}</Text>}
+      {!!error &&
+        (i18n.exists(`form.error.${error}`) || i18n.exists(error as any)) && (
+          <Text style={errorStyle}>
+            {i18n.exists(`form.error.${error}`)
+              ? t(`form.error.${error}` as any)
+              : t(error as any)}
+          </Text>
+        )}
     </View>
   );
 };

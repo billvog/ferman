@@ -6,6 +6,8 @@ import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { useTranslation } from "react-i18next";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
@@ -17,6 +19,9 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   isSubmitting,
   submitForm,
 }) => {
+  const { i18n } = useTranslation();
+  const { t } = useTypeSafeTranslation();
+
   return (
     <SafeAreaView
       style={{
@@ -24,18 +29,18 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
         marginVertical: 12,
       }}
     >
-      {!!message && (
+      {!!message && i18n.exists(message.text) && (
         <View
           style={{
             marginBottom: 12,
           }}
         >
-          <MyAlert color={message.type}>{message.text}</MyAlert>
+          <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
         </View>
       )}
       <View
         style={{
-          marginBottom: 10,
+          marginBottom: 12,
         }}
       >
         <Field
@@ -43,12 +48,13 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
           placeholder="Email"
           autoCapitalize="none"
           autoCompleteType="email"
+          keyboardType="email-address"
           component={InputField}
         />
       </View>
       <View
         style={{
-          marginBottom: 10,
+          marginBottom: 12,
         }}
       >
         <Field
@@ -60,7 +66,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
       </View>
       <View>
         <MyButton
-          title="Login"
+          title={t("login.sign_in")}
           style="secondary"
           isLoading={isSubmitting}
           onPress={submitForm}
