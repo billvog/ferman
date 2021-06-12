@@ -5,19 +5,15 @@
   "author": "billvog <billvog04@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
+  "workspaces": ["packages/*"],
   "scripts": {
     "build:server": "lerna run build --scope={@ferman-pkgs/common,@ferman/server}",
     "build:web": "lerna run build --scope={@ferman-pkgs/common,@ferman-pkgs/controller,@ferman/web}",
-    "build:app": "lerna run build --scope={@ferman-pkgs/common,@ferman-pkgs/controller,@ferman/app}",
     "reinstall": "rm -rf yarn.lock **/node_modules && yarn"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "expo-yarn-workspaces": "^1.5.1"
   },
   "dependencies": {}
 }

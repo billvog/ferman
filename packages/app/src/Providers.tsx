@@ -3,8 +3,8 @@ import { MyApolloClient } from "@ferman-pkgs/controller";
 import React from "react";
 
 const apolloClient = MyApolloClient(
-  "http://localhost:4000",
-  "ws://localhost:4000",
+  "http://localhost:4000/graphql",
+  "ws://localhost:4000/graphql",
   ""
 );
 

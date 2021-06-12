@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { AuthSwitch } from "./navigation/AuthSwitch";
 import { Providers } from "./Providers";
 

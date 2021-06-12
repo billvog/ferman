@@ -1,15 +1,30 @@
-import { useMeQuery } from "@ferman-pkgs/controller";
 import React from "react";
+import { AuthStack } from "./AuthStack";
 import { Text } from "react-native";
+import { useMeQuery } from "../../../controller/dist";
 
 interface AuthSwitchProps {}
 
 export const AuthSwitch: React.FC<AuthSwitchProps> = ({}) => {
-  const { data } = useMeQuery();
+  const { data, error } = useMeQuery();
 
-  if (data?.me) {
-    <Text>auth</Text>;
+  if (error) {
+    return (
+      <Text
+        style={{
+          color: "red",
+          fontWeight: "500",
+          fontSize: 16,
+        }}
+      >
+        Internal server error occured.
+      </Text>
+    );
   }
 
-  return <Text>not auth</Text>;
+  if (data && data.me) {
+    return <Text>You are logged in as {data.me.uid}</Text>;
+  }
+
+  return <AuthStack />;
 };
