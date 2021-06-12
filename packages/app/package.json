@@ -1,0 +1,41 @@
+{
+  "name": "@ferman/app",
+  "version": "0.0.1",
+  "main": "__generated__/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "postinstall": "expo-yarn-workspaces postinstall"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.3.11",
+    "@ferman-pkgs/controller": "^0.0.48",
+    "expo": "^41.0.0",
+    "expo-status-bar": "~1.0.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "react-native-web": "~0.13.12"
+  },
+  "devDependencies": {
+    "@babel/core": "~7.9.0",
+    "@types/react": "~16.9.35",
+    "@types/react-native": "~0.63.2",
+    "typescript": "~4.0.0"
+  },
+  "private": true,
+  "expo-yarn-workspaces": {
+    "symlinks": [
+      "react-native-unimodules",
+      "expo-constants",
+      "expo-updates",
+      "@unimodules/core",
+      "@unimodules/react-native-adapter",
+      "unimodules-constants-interface",
+      "unimodules-font-interface"
+    ]
+  }
+}
