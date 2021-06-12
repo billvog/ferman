@@ -1,13 +1,10 @@
 import {
-  OnMessageUpdatedDocument,
-  OnMessageUpdatedSubscription,
-  OnMessageUpdatedSubscriptionVariables,
   OnNewMessageDocument,
   OnNewMessageSubscription,
   OnNewMessageSubscriptionVariables,
   useChatsQuery,
 } from "@ferman-pkgs/controller";
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { Chat } from "../../components/Chat";
