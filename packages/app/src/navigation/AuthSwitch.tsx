@@ -1,29 +1,16 @@
 import React from "react";
 import { AuthStack } from "./AuthStack";
-import { Text } from "react-native";
-import { useMeQuery } from "../../../controller/dist";
+import { MainStack } from "./MainStack";
+import { useContext } from "react";
+import { AuthContext } from "../modules/auth/AuthProvider";
 
 interface AuthSwitchProps {}
 
 export const AuthSwitch: React.FC<AuthSwitchProps> = ({}) => {
-  const { data, error } = useMeQuery();
+  const { me } = useContext(AuthContext);
 
-  if (error) {
-    return (
-      <Text
-        style={{
-          color: "red",
-          fontWeight: "500",
-          fontSize: 16,
-        }}
-      >
-        Internal server error occured.
-      </Text>
-    );
-  }
-
-  if (data && data.me) {
-    return <Text>You are logged in as {data.me.uid}</Text>;
+  if (me) {
+    return <MainStack />;
   }
 
   return <AuthStack />;

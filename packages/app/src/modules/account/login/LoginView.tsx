@@ -5,6 +5,7 @@ import { FormikProps, withFormik, Field } from "formik";
 import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
+import { MyButton } from "../../../components/MyButton";
 
 interface LoginViewProps {
   submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
@@ -58,7 +59,12 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
         />
       </View>
       <View>
-        <Button title="Login" onPress={submitForm} />
+        <MyButton
+          title="Login"
+          style="secondary"
+          isLoading={isSubmitting}
+          onPress={submitForm}
+        />
       </View>
     </SafeAreaView>
   );
