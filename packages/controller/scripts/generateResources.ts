@@ -5,16 +5,12 @@ import prettier from "prettier";
 
 let locales: string[] = [];
 
-fs.readdirSync(join(__dirname, "../src/localization/locales")).forEach(
-  (locale) => {
-    locales.push(locale);
-  }
-);
+fs.readdirSync(join(__dirname, "../src/locales")).forEach((locale) => {
+  locales.push(locale);
+});
 
 const imports = locales
-  .map(
-    (l) => `import ${l} from '../localization/locales/${l}/translation.json'`
-  )
+  .map((l) => `import ${l} from '../locales/${l}/translation.json'`)
   .join("\n");
 
 const object = `export const i18nLocaleResources = {${locales

@@ -1,4 +1,4 @@
-import translations from "../src/localization/locales/en/translation.json";
+import translations from "../src/locales/en/translation.json";
 
 const keys: string[] = [];
 

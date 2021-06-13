@@ -1,6 +1,6 @@
 // @ts-ignore
 import config from "../.prettierrc.js";
-import english from "../src/localization/locales/en/translation.json";
+import english from "../src/locales/en/translation.json";
 import * as fs from "fs";
 import { join } from "path";
 import prettier from "prettier";
@@ -9,35 +9,33 @@ import { get, set } from "lodash";
 
 const paths = traverseTranslations();
 
-fs.readdirSync(join(__dirname, "../src/localization/locales")).forEach(
-  (locale) => {
-    if (locale === "en") {
-      return;
-    }
-    const filename = join(
-      __dirname,
-      "../src/localization/locales",
-      locale,
-      "translation.json"
-    );
-    let data: any;
-    try {
-      data = JSON.parse(fs.readFileSync(filename, { encoding: "utf-8" }));
-    } catch (err) {
-      throw new Error(`${locale}: ${err.message}`);
-    }
-    paths.forEach((p) => {
-      if (get(data, p, null) === null) {
-        set(data, p, get(english, p));
-      }
-    });
-
-    fs.writeFileSync(
-      filename,
-      prettier.format(JSON.stringify(data), {
-        parser: "json",
-        ...config,
-      })
-    );
+fs.readdirSync(join(__dirname, "../src/locales")).forEach((locale) => {
+  if (locale === "en") {
+    return;
   }
-);
+  const filename = join(
+    __dirname,
+    "../src/locales",
+    locale,
+    "translation.json"
+  );
+  let data: any;
+  try {
+    data = JSON.parse(fs.readFileSync(filename, { encoding: "utf-8" }));
+  } catch (err) {
+    throw new Error(`${locale}: ${err.message}`);
+  }
+  paths.forEach((p) => {
+    if (get(data, p, null) === null) {
+      set(data, p, get(english, p));
+    }
+  });
+
+  fs.writeFileSync(
+    filename,
+    prettier.format(JSON.stringify(data), {
+      parser: "json",
+      ...config,
+    })
+  );
+});
