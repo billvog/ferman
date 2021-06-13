@@ -1,16 +1,20 @@
-import React from "react";
-import { SafeAreaView, View } from "react-native";
 import { usePostsQuery } from "@ferman-pkgs/controller";
-import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
-import { Post } from "../../components/Post";
+import React, { useState } from "react";
+import { SafeAreaView, Text, View } from "react-native";
 import { CenterSpinner } from "../../components/CenterSpinner";
-import { useState } from "react";
+import { MyButton } from "../../components/MyButton";
+import { Post } from "../../components/Post";
+import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
+import { colors, fontFamily, fontSize } from "../../constants/style";
+import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 
 export const FeedController: React.FC = ({}) => {
+  const { t } = useTypeSafeTranslation();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const {
     data: postsData,
+    error: postsError,
     loading: postsLoading,
     fetchMore: loadMorePosts,
     refetch: refreshPosts,
@@ -25,6 +29,22 @@ export const FeedController: React.FC = ({}) => {
     },
   });
 
+  const refreshPostsHandler = async () => {
+    // update state
+    setIsRefreshing(true);
+    // clear cache from query
+    client.cache.evict({
+      fieldName: "posts",
+    });
+    // refetch
+    await refreshPosts({
+      ...postsVariables,
+      skip: 0,
+    });
+    // update state
+    setIsRefreshing(false);
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -33,6 +53,31 @@ export const FeedController: React.FC = ({}) => {
     >
       {!postsData && postsLoading && !isRefreshing ? (
         <CenterSpinner />
+      ) : !postsError ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: colors.error,
+              fontSize: fontSize.h5,
+              fontFamily: fontFamily.roboto.medium,
+              marginBottom: 16,
+            }}
+          >
+            {t("errors.500")}
+          </Text>
+          <MyButton
+            style="danger"
+            onPress={refreshPostsHandler}
+            title="Retry"
+            isLoading={postsLoading}
+          />
+        </View>
       ) : (
         <View
           style={{
@@ -42,21 +87,7 @@ export const FeedController: React.FC = ({}) => {
           <ScrollViewLoadMore
             isLoading={postsLoading && !isRefreshing}
             isRefreshing={isRefreshing}
-            onRefresh={async () => {
-              // update state
-              setIsRefreshing(true);
-              // clear cache from query
-              client.cache.evict({
-                fieldName: "posts",
-              });
-              // refetch
-              await refreshPosts({
-                ...postsVariables,
-                skip: 0,
-              });
-              // update state
-              setIsRefreshing(false);
-            }}
+            onRefresh={refreshPostsHandler}
             onLoadMore={() => {
               loadMorePosts({
                 variables: {
@@ -72,15 +103,35 @@ export const FeedController: React.FC = ({}) => {
               },
             }}
           >
-            <View
-              style={{
-                flexDirection: "column",
-              }}
-            >
-              {postsData?.posts.posts.map((p) => (
-                <Post key={`feed:${p.id}`} post={p} />
-              ))}
-            </View>
+            {postsData.posts.count === 0 ? (
+              <View
+                style={{
+                  marginTop: 18,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: colors.primary500,
+                    fontSize: fontSize.h5,
+                    fontFamily: fontFamily.roboto.medium,
+                  }}
+                >
+                  {t("common.no_posts")}
+                </Text>
+              </View>
+            ) : (
+              <View
+                style={{
+                  flexDirection: "column",
+                }}
+              >
+                {postsData?.posts.posts.map((p) => (
+                  <Post key={`feed:${p.id}`} post={p} />
+                ))}
+              </View>
+            )}
           </ScrollViewLoadMore>
         </View>
       )}

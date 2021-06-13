@@ -29,17 +29,21 @@ const colorStyles: {
   },
 };
 
-type sizeKeys = "big" | "small";
+type sizeKeys = "big" | "small" | "tiny";
 const sizeStyles: {
   [key in sizeKeys]: StyleProp<ViewStyle>;
 } = {
   big: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingHorizontal: 19,
+    paddingVertical: 12,
   },
   small: {
+    paddingHorizontal: 16,
+    paddingVertical: 9,
+  },
+  tiny: {
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 4,
   },
 };
 

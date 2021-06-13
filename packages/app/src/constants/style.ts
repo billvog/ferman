@@ -23,6 +23,7 @@ export const fontSize = {
   h2: 40,
   h3: 28,
   h4: 20,
+  h5: 16,
   paragraph: 14,
   md: 13,
   small: 12,
@@ -60,8 +61,8 @@ export const colors = {
   accentHover: "#a52a2a",
   black: "#000",
   // status
-  success: "#34d399",
-  error: "#f87171",
+  success: "#10B981",
+  error: "#EF4444",
   info: "#3b82f6",
 };
 
