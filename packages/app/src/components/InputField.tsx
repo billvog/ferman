@@ -16,7 +16,7 @@ const errorStyle: StyleProp<TextStyle> = {
   marginTop: 4,
 };
 
-const fieldStyle: StyleProp<TextStyle> = {
+export const fieldStyle: StyleProp<TextStyle> = {
   position: "relative",
   width: "100%",
   borderWidth: 0,

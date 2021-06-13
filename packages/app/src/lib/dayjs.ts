@@ -3,16 +3,15 @@ import calendar from "dayjs/plugin/calendar";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 import i18n from "i18next";
-import "../generated/localeImports";
-import { allLocales } from "../generated/localeImports";
+import "@ferman-pkgs/controller/dist/generated/localeImports";
+import { AllLocales } from "@ferman-pkgs/controller";
 
 export const init_dayjs = () => {
   dayjs.locale(i18n.language);
   dayjs.extend(relativeTime);
   dayjs.extend(calendar);
-
   dayjs.extend(updateLocale);
-  allLocales.map((l) => {
+  AllLocales.map((l) => {
     dayjs.updateLocale(l, {
       calendar: {
         sameDay: `[${i18n.t("dayjs.calendar.today_at")}] h:mm A`,

@@ -6,6 +6,7 @@ import { Spinner } from "./Spinner";
 export type ScrollViewLoadMoreProps = {
   scrollViewProps?: ScrollViewProps;
   shouldLoadMore: boolean;
+  canRefresh?: boolean;
   isLoading: boolean;
   isRefreshing: boolean;
   onLoadMore: () => void;
@@ -28,6 +29,7 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
   children,
   scrollViewProps,
   shouldLoadMore,
+  canRefresh,
   isLoading,
   isRefreshing,
   onLoadMore,
@@ -43,7 +45,9 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
         }
       }}
       refreshControl={
-        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        canRefresh ? (
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        ) : null
       }
     >
       {children}

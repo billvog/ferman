@@ -3,15 +3,7 @@ import { initReactI18next } from "react-i18next";
 import isDate from "lodash/isDate";
 import { __prod__ } from "../constants/env";
 import * as Localization from "expo-localization";
-
-const resources = {
-  en: {
-    translation: require("../../locales/en/translation.json"),
-  },
-  el: {
-    translation: require("../../locales/el/translation.json"),
-  },
-};
+import { i18nLocaleResources } from "../../../controller/dist";
 
 const DETECTION_OPTIONS = {
   order: ["localStorage", "navigator"],
@@ -52,28 +44,21 @@ function createDateFormatOptions(format: string): Intl.DateTimeFormatOptions {
 
 export const init_i18n = async () => {
   if (i18n.isInitialized) return;
-
-  await i18n
-    // pass the i18n instance to react-i18next.
-    .use(initReactI18next)
-    // init i18next
-    // see opts @ https://www.i18next.com/overview/configuration-options
-    .init({
-      resources,
-      detection: DETECTION_OPTIONS,
-      fallbackLng: "en",
-      lng: Localization.locale,
-      debug: true,
-      interpolation: {
-        escapeValue: false,
-        format: (value, format, lng) => {
-          return isDate(value) && format
-            ? new Intl.DateTimeFormat(lng, createDateFormatOptions(format))
-                .format(value)
-                .toString()
-            : value;
-        },
+  await i18n.use(initReactI18next).init({
+    resources: i18nLocaleResources,
+    detection: DETECTION_OPTIONS,
+    fallbackLng: "en",
+    lng: Localization.locale,
+    // debug: !__prod__,
+    interpolation: {
+      escapeValue: false,
+      format: (value, format, lng) => {
+        return isDate(value) && format
+          ? new Intl.DateTimeFormat(lng, createDateFormatOptions(format))
+              .format(value)
+              .toString()
+          : value;
       },
-      keySeparator: false,
-    });
+    },
+  });
 };

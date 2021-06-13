@@ -5,6 +5,7 @@ import { FeedStack } from "./Stacks/Feed";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../constants/style";
 import { ProfileStack } from "./Stacks/Profile";
+import { SearchStack } from "./Stacks/Search";
 
 const Tabs = createBottomTabNavigator<AppParamList>();
 
@@ -38,7 +39,7 @@ export const AppTabs: React.FC = ({}) => {
       }}
     >
       <Tabs.Screen name="Feed" component={FeedStack} />
-      <Tabs.Screen name="Search" component={FeedStack} />
+      <Tabs.Screen name="Search" component={SearchStack} />
       <Tabs.Screen name="Profile" component={ProfileStack} />
     </Tabs.Navigator>
   );

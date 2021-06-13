@@ -39,7 +39,6 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
       }) as any
     );
 
-    Alert.alert(t("common.error"), t("errors.oops"));
     if (!data || data.likePost.error) {
       Alert.alert(t("common.error"), t("errors.oops"));
     }
