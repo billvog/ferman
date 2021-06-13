@@ -1,17 +1,15 @@
 import React from "react";
 import { AuthStack } from "./AuthStack";
-import { MainStack } from "./MainStack";
 import { useContext } from "react";
 import { AuthContext } from "../modules/auth/AuthProvider";
+import { AppTabs } from "./AppTabs";
+import { NavigationContainer } from "@react-navigation/native";
 
-interface AuthSwitchProps {}
-
-export const AuthSwitch: React.FC<AuthSwitchProps> = ({}) => {
+export const AuthSwitch: React.FC = ({}) => {
   const { me } = useContext(AuthContext);
-
-  if (me) {
-    return <MainStack />;
-  }
-
-  return <AuthStack />;
+  return (
+    <NavigationContainer>
+      {me ? <AppTabs /> : <AuthStack />}
+    </NavigationContainer>
+  );
 };

@@ -1,6 +1,6 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
-export type MainParamList = {
+export type FeedParamList = {
   Feed: undefined;
   ViewPost: {
     postId: string;
@@ -10,7 +10,7 @@ export type MainParamList = {
   };
 };
 
-export type MainNavProps<T extends keyof MainParamList> = {
-  navigation: NavigationProp<MainParamList, T>;
-  route: RouteProp<MainParamList, T>;
+export type FeedNavProps<T extends keyof FeedParamList> = {
+  navigation: NavigationProp<FeedParamList, T>;
+  route: RouteProp<FeedParamList, T>;
 };

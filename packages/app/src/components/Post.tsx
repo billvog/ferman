@@ -6,19 +6,16 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { colors, fontSize } from "../constants/style";
 import dayjs from "dayjs";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  MainNavProps,
-  MainParamList,
-} from "src/navigation/MainStack/ParamList";
+import { useNavigation } from "@react-navigation/native";
+import { FeedNavProps } from "../navigation/AppTabs/Stacks/Feed/ParamList";
 
 interface PostProps {
   post: FullPostFragment;
 }
 
 export const Post: React.FC<PostProps> = ({ post }) => {
-  const { me } = useContext(AuthContext);
-  const navigation = useNavigation<MainNavProps<"Feed">["navigation"]>();
+  // const { me } = useContext(AuthContext);
+  const navigation = useNavigation<FeedNavProps<"Feed">["navigation"]>();
 
   return (
     <View>

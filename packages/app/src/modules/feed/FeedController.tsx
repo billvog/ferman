@@ -53,7 +53,7 @@ export const FeedController: React.FC = ({}) => {
     >
       {!postsData && postsLoading && !isRefreshing ? (
         <CenterSpinner />
-      ) : !postsError ? (
+      ) : !postsData && postsError ? (
         <View
           style={{
             flex: 1,
@@ -103,7 +103,7 @@ export const FeedController: React.FC = ({}) => {
               },
             }}
           >
-            {postsData.posts.count === 0 ? (
+            {postsData?.posts.count === 0 ? (
               <View
                 style={{
                   marginTop: 18,
