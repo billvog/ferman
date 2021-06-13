@@ -283,6 +283,15 @@ export class ChatResolver {
       };
     }
 
+    if (sender.id === reciever.id) {
+      return {
+        error: {
+          field: "reciever_uid",
+          message: "chat.create_chat.errors.cannot_with_yourself",
+        },
+      };
+    }
+
     if (
       await Chat.findOne({
         where: [

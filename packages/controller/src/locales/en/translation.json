@@ -227,6 +227,7 @@
     "create_chat": {
       "title": "Create Chat",
       "errors": {
+        "cannot_with_yourself": "You cannot create a chat with yourself",
         "reciever_404": "Reciever not found",
         "chat_already_exists": "A chat between you and this user already exists"
       },

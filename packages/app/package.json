@@ -14,7 +14,7 @@
     "@apollo/client": "^3.3.11",
     "@expo/vector-icons": "^12.0.0",
     "@ferman-pkgs/common": "^0.0.35",
-    "@ferman-pkgs/controller": "^0.0.48",
+    "@ferman-pkgs/controller": "^0.0.5",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/netinfo": "6.0.0",
     "@react-navigation/bottom-tabs": "^5.11.11",
