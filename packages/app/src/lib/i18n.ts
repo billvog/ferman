@@ -56,7 +56,6 @@ export const init_i18n = async () => {
       detection: DETECTION_OPTIONS,
       fallbackLng: "en",
       lng: Localization.locale,
-      debug: !__prod__,
       interpolation: {
         escapeValue: false,
         format: (value, format, lng) => {

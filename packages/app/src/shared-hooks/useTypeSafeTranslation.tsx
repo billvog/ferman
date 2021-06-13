@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Paths } from "../types/util-types";
-import translations from "../../locales/en/translation.json";
+import translations from "../../locales/template.json";
 
 type TranslationKeys = Paths<typeof translations>;
 
