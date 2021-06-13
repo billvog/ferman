@@ -8,7 +8,12 @@
   "description": "Client-side implementation of the Ferman API",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "gen": "graphql-codegen --config codegen.yml"
+    "gen": "graphql-codegen --config codegen.yml",
+    "gen:i18:keys": "ts-node --project scripts/tsconfig.json scripts/generateTranslationTypes.ts",
+    "gen:i18:locale_imports": "ts-node --project scripts/tsconfig.json scripts/genereteLocaleImports.ts",
+    "gen:i18:resources": "ts-node --project scripts/tsconfig.json scripts/generateResources.ts",
+    "sync:i18": "ts-node --project scripts/tsconfig.json scripts/syncTranslations.ts",
+    "i18": "yarn gen:i18:keys && yarn gen:i18:locale_imports && yarn gen:i18:resources && yarn sync:i18"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.3",
@@ -18,6 +23,7 @@
     "@types/graphql": "^14.5.0",
     "@types/node": "^14.14.37",
     "@types/react": "^17.0.3",
+    "prettier": "^2.3.1",
     "typescript": "^4.2.3"
   },
   "dependencies": {

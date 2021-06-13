@@ -1,24 +1,71 @@
-import React from "react";
-import { useContext } from "react";
-import { AuthContext } from "../modules/auth/AuthProvider";
-import { FullPostFragment } from "../../../controller/dist";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import { StyleSheet } from "react-native";
-import { colors, fontSize } from "../constants/style";
-import dayjs from "dayjs";
+import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
+import {
+  FullPostFragment,
+  likePostMutationOptions,
+  useLikePostMutation,
+} from "@ferman-pkgs/controller";
 import { useNavigation } from "@react-navigation/native";
+import dayjs from "dayjs";
+import React, { useContext } from "react";
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { colors, fontSize } from "../constants/style";
+import { AuthContext } from "../modules/auth/AuthProvider";
 import { FeedNavProps } from "../navigation/AppTabs/Stacks/Feed/ParamList";
+import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { Spinner } from "./Spinner";
 
 interface PostProps {
   post: FullPostFragment;
+  onDelete?: () => any;
 }
 
-export const Post: React.FC<PostProps> = ({ post }) => {
-  // const { me } = useContext(AuthContext);
+export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
+  const { me } = useContext(AuthContext);
+  const { t } = useTypeSafeTranslation();
   const navigation = useNavigation<FeedNavProps<"Feed">["navigation"]>();
 
+  const [likePost, { loading: likeLoading }] = useLikePostMutation();
+  const LikePostHandler = async () => {
+    const { data } = await likePost(
+      likePostMutationOptions({
+        id: post.id,
+      }) as any
+    );
+
+    Alert.alert(t("common.error"), t("errors.oops"));
+    if (!data || data.likePost.error) {
+      Alert.alert(t("common.error"), t("errors.oops"));
+    }
+  };
+
+  // const [deletePost, { loading: deletePostLoading }] = useDeletePostMutation();
+  // const DeletePostHandler = async () => {
+  //   const response = await deletePost(
+  //     deletePostMutationOptions({
+  //       id: post.id,
+  //     }) as any
+  //   );
+
+  //   if (response.errors || !response.data?.deletePost) {
+  //     return Alert.alert(t("common.error"), t("post.alert.cannot_delete"));
+  //   }
+
+  //   Alert.alert(t("common.success"), t("post.alert.deleted"));
+
+  //   if (typeof onDelete === "function") {
+  //     onDelete();
+  //   }
+  // };
+
   return (
-    <View>
+    <View style={styles.wrapper}>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.avatarContainer}
@@ -69,28 +116,58 @@ export const Post: React.FC<PostProps> = ({ post }) => {
                 </TouchableOpacity>
               </View>
             )}
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("ViewPost", {
-                  postId: post.id,
-                })
-              }
-            >
+            <View>
               <Text style={styles.textContainer}>{post.body}</Text>
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
+      </View>
+      <View style={styles.actionsContainer}>
+        <TouchableOpacity style={styles.actionItem} onPress={LikePostHandler}>
+          {likeLoading ? (
+            <Spinner size="s" color={colors.error} />
+          ) : (
+            <AntDesign
+              name={post.likeStatus ? "heart" : "hearto"}
+              size={14}
+              color={colors.error}
+            />
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={(styles.actionItem, styles.actionItemsNotFirst)}
+          onPress={() =>
+            navigation.navigate("ViewPost", {
+              postId: post.id,
+            })
+          }
+        >
+          <Ionicons name="chatbox" size={16} color={colors.secondary50} />
+        </TouchableOpacity>
+        {post.creator.id === me.id && (
+          <TouchableOpacity
+            style={(styles.actionItem, styles.actionItemsNotFirst)}
+          >
+            <Entypo
+              name="dots-three-horizontal"
+              size={14}
+              color={colors.accentWashedOut}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     padding: 14,
-    flexDirection: "row",
     borderBottomWidth: 1.5,
     borderBottomColor: colors.primary200,
+  },
+  container: {
+    flexDirection: "row",
   },
   avatarContainer: {
     marginRight: 10,
@@ -141,5 +218,18 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: fontSize.md,
     color: colors.primary700,
+  },
+  actionsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 14,
+  },
+  actionItem: {
+    justifyContent: "center",
+    alignContent: "center",
+  },
+  actionItemsNotFirst: {
+    marginLeft: 32,
   },
 });

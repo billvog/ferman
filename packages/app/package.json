@@ -27,7 +27,6 @@
     "expo-status-bar": "~1.0.4",
     "formik": "^2.2.9",
     "i18next": "^20.3.1",
-    "i18next-http-backend": "^1.2.6",
     "localstorage-polyfill": "^1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

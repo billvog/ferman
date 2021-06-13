@@ -25,3 +25,8 @@ export * from "./generated/graphql";
 
 // Apollo client
 export * from "./MyApolloClient";
+
+// Localization
+export * from "./generated/i18nResources";
+export * from "./generated/localeImports";
+export * from "./generated/translationKeys";

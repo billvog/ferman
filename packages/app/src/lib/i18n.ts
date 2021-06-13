@@ -1,9 +1,17 @@
 import i18n from "i18next";
-import Backend from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 import isDate from "lodash/isDate";
 import { __prod__ } from "../constants/env";
 import * as Localization from "expo-localization";
+
+const resources = {
+  en: {
+    translation: require("../../locales/en/translation.json"),
+  },
+  el: {
+    translation: require("../../locales/el/translation.json"),
+  },
+};
 
 const DETECTION_OPTIONS = {
   order: ["localStorage", "navigator"],
@@ -46,16 +54,16 @@ export const init_i18n = async () => {
   if (i18n.isInitialized) return;
 
   await i18n
-    // import & load translations from -> /locales
-    .use(Backend)
     // pass the i18n instance to react-i18next.
     .use(initReactI18next)
     // init i18next
     // see opts @ https://www.i18next.com/overview/configuration-options
     .init({
+      resources,
       detection: DETECTION_OPTIONS,
       fallbackLng: "en",
       lng: Localization.locale,
+      debug: true,
       interpolation: {
         escapeValue: false,
         format: (value, format, lng) => {
@@ -66,14 +74,6 @@ export const init_i18n = async () => {
             : value;
         },
       },
-      ns: "translation",
-      defaultNS: "translation",
-      initImmediate: false,
-      react: {
-        useSuspense: false, // fixes 'no fallback UI was specified' in react i18next when using hooks
-      },
-      backend: {
-        loadPath: "https://ferman.ga/locales/{{lng}}/{{ns}}.json",
-      },
+      keySeparator: false,
     });
 };

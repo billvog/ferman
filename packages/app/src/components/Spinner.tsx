@@ -4,9 +4,14 @@ import { colors } from "../constants/style";
 
 export type SpinnerProps = ViewProps & {
   size?: "s" | "m";
+  color?: string;
 };
 
-export const Spinner: React.FC<SpinnerProps> = ({ style, size = "m" }) => {
+export const Spinner: React.FC<SpinnerProps> = ({
+  style,
+  size = "m",
+  color = colors.primary600,
+}) => {
   let spinValue = new Animated.Value(0);
 
   // First set up animation
@@ -37,8 +42,8 @@ export const Spinner: React.FC<SpinnerProps> = ({ style, size = "m" }) => {
           borderColor: "transparent",
           height: isSmall ? 14 : 24,
           width: isSmall ? 14 : 24,
-          borderTopColor: colors.primary600,
-          borderLeftColor: colors.primary600,
+          borderTopColor: color,
+          borderLeftColor: color,
           transform: [{ rotate: spin }],
         },
       ]}
