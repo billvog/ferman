@@ -1,3 +1,4 @@
+import "localstorage-polyfill";
 import NetInfo from "@react-native-community/netinfo";
 import React, { useEffect, useState } from "react";
 import { CenterSpinner } from "./components/CenterSpinner";
@@ -6,18 +7,31 @@ import { init_i18n } from "./lib/i18n";
 import { OfflineError } from "./modules/error/OfflineError";
 import { AuthSwitch } from "./navigation/AuthSwitch";
 import { Providers } from "./Providers";
+import { useFonts } from "expo-font";
 
 export const App: React.FC = ({}) => {
   const [isOnline, setIsOnline] = useState<boolean | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isI18nReady, setIsI18nReady] = useState(false);
+
+  const [fontsLoaded] = useFonts({
+    "Roboot-Black": require("../assets/fonts/roboto/Black.ttf"),
+    "Roboot-Bold": require("../assets/fonts/roboto/Bold.ttf"),
+    "Roboot-Italic": require("../assets/fonts/roboto/Italic.ttf"),
+    "Roboot-Light": require("../assets/fonts/roboto/Light.ttf"),
+    "Roboot-Medium": require("../assets/fonts/roboto/Medium.ttf"),
+    "Roboot-Regular": require("../assets/fonts/roboto/Regular.ttf"),
+    "Roboot-Thin": require("../assets/fonts/roboto/Thin.ttf"),
+  });
 
   useEffect(() => {
+    // setup locales and dayjs
     (async () => {
       await init_i18n();
       init_dayjs();
-      setIsLoading(false);
+      setIsI18nReady(true);
     })();
 
+    // check if is online
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsOnline(state.isConnected);
     });
@@ -27,7 +41,7 @@ export const App: React.FC = ({}) => {
     };
   }, []);
 
-  if (isOnline === undefined || isLoading) {
+  if (!fontsLoaded || !isI18nReady || isOnline === undefined) {
     return <CenterSpinner />;
   } else if (!isOnline) {
     return <OfflineError />;

@@ -7,15 +7,15 @@ export const radius = {
 };
 
 export const fontFamily = {
-  black: "Inter-Black",
-  bold: "Inter-Bold",
-  extraBold: "Inter-ExtraBold",
-  extraLight: "Inter-ExtraLight",
-  light: "Inter-Light",
-  medium: "Inter-Medium",
-  regular: "Inter-Regular",
-  semiBold: "Inter-SemiBold",
-  thin: "Inter-Thin",
+  roboto: {
+    black: "Roboto-Black",
+    bold: "Roboto-Bold",
+    italic: "Roboto-Italic",
+    light: "Roboto-Light",
+    medium: "Roboto-Medium",
+    regular: "Roboto-Regular",
+    thin: "Roboto-Thin",
+  },
 };
 
 export const fontSize = {
@@ -60,12 +60,13 @@ export const colors = {
   accentHover: "#a52a2a",
   black: "#000",
   // status
-  success: "#5cb85c",
-  error: "#f84241",
+  success: "#34d399",
+  error: "#f87171",
+  info: "#3b82f6",
 };
 
 const textBase: TextStyle = {
-  fontFamily: fontFamily.regular,
+  fontFamily: fontFamily.roboto.regular,
   color: colors.text,
 };
 
