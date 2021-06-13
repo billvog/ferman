@@ -103,9 +103,9 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
               {t("search.search_posts_field_subtext")}
             </Text>
           </View>
-        ) : (
+        ) : postsData ? (
           <Text style={styles.fieldSubText}>
-            {postsData.posts.count === 1
+            {postsData?.posts.count === 1
               ? t("common.found_one_result").replace(
                   "%seconds%",
                   Number(postsData?.posts.executionTime / 1000).toString()
@@ -117,7 +117,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
                     Number(postsData?.posts.executionTime / 1000).toString()
                   )}
           </Text>
-        )}
+        ) : null}
       </View>
       {!postsData && postsLoading && !isRefreshing ? (
         <CenterSpinner />

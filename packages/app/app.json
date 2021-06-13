@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "ferman",
+    "name": "Ferman",
+    "description": "The modern saloon",
     "slug": "ferman",
     "version": "1.0.0",
     "orientation": "portrait",

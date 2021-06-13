@@ -123,15 +123,28 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
       </View>
       <View style={styles.actionsContainer}>
         <TouchableOpacity style={styles.actionItem} onPress={LikePostHandler}>
-          {likeLoading ? (
-            <Spinner size="s" color={colors.error} />
-          ) : (
-            <AntDesign
-              name={post.likeStatus ? "heart" : "hearto"}
-              size={14}
-              color={colors.error}
-            />
-          )}
+          <View style={styles.actionItemContentWrapper}>
+            {likeLoading ? (
+              <Spinner size="s" color={colors.error} />
+            ) : (
+              <AntDesign
+                name={post.likeStatus ? "heart" : "hearto"}
+                size={14}
+                color={colors.error}
+              />
+            )}
+            <Text
+              style={[
+                styles.actionItemText,
+                {
+                  color: colors.error,
+                  fontWeight: post.likeStatus ? "800" : "600",
+                },
+              ]}
+            >
+              {post.points}
+            </Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={(styles.actionItem, styles.actionItemsNotFirst)}
@@ -141,17 +154,35 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
             })
           }
         >
-          <Ionicons name="chatbox" size={16} color={colors.secondary50} />
+          <View style={styles.actionItemContentWrapper}>
+            {likeLoading ? (
+              <Spinner size="s" color={colors.error} />
+            ) : (
+              <Ionicons name="chatbox" size={16} color={colors.secondary50} />
+            )}
+            <Text
+              style={[
+                styles.actionItemText,
+                {
+                  color: colors.secondary100,
+                },
+              ]}
+            >
+              {post.repliesCount}
+            </Text>
+          </View>
         </TouchableOpacity>
         {post.creator.id === me.id && (
           <TouchableOpacity
             style={(styles.actionItem, styles.actionItemsNotFirst)}
           >
-            <Entypo
-              name="dots-three-horizontal"
-              size={14}
-              color={colors.accentWashedOut}
-            />
+            <View style={styles.actionItemContentWrapper}>
+              <Entypo
+                name="dots-three-horizontal"
+                size={14}
+                color={colors.accentWashedOut}
+              />
+            </View>
           </TouchableOpacity>
         )}
       </View>
@@ -227,6 +258,15 @@ const styles = StyleSheet.create({
   actionItem: {
     justifyContent: "center",
     alignContent: "center",
+  },
+  actionItemContentWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  actionItemText: {
+    marginLeft: 10,
+    fontSize: fontSize.md,
+    fontWeight: "600",
   },
   actionItemsNotFirst: {
     marginLeft: 32,
