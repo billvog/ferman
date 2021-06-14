@@ -62,7 +62,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
       <TouchableOpacity style={styles.avatarContainer} onPress={navigateToUser}>
         <Image
           source={{
-            uri: user.profile.avatarUrl,
+            uri: user.profile?.avatarUrl,
             width: 32,
             height: 32,
           }}
@@ -89,10 +89,10 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
               )}
             </View>
           </TouchableOpacity>
-          {me.id !== user.id && (
+          {me?.id !== user.id && (
             <View>
               <MyButton
-                title={undefined}
+                title=""
                 icon={FollowButtonIcon}
                 size="tiny"
                 isLoading={followLoading}
@@ -103,7 +103,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
             </View>
           )}
         </View>
-        {!!user.profile.bio && (
+        {!!user.profile?.bio && (
           <View style={styles.userProfileBioContainer}>
             <Text style={styles.userProfileBio}>{user.profile.bio}</Text>
           </View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   },
   uidText: {
     fontFamily: fontFamily.inter.medium,
-    fontSize: fontSize.md,
+    fontSize: fontSize.small,
     color: colors.primary700,
   },
   followsYouContainer: {
@@ -167,6 +167,6 @@ const styles = StyleSheet.create({
   userProfileBio: {
     fontFamily: fontFamily.inter.medium,
     fontSize: fontSize.small,
-    color: colors.primary600,
+    color: colors.primary500,
   },
 });

@@ -16,12 +16,12 @@ export const App: React.FC = ({}) => {
 
   const loadFonts = async () => {
     await Font.loadAsync({
+      Inter: require("../assets/fonts/inter/Regular.ttf"),
       "Inter-Black": require("../assets/fonts/inter/Black.ttf"),
       "Inter-Bold": require("../assets/fonts/inter/Bold.ttf"),
       "Inter-ExtraBold": require("../assets/fonts/inter/ExtraBold.ttf"),
       "Inter-Light": require("../assets/fonts/inter/Light.ttf"),
       "Inter-Medium": require("../assets/fonts/inter/Medium.ttf"),
-      "Inter-Regular": require("../assets/fonts/inter/Regular.ttf"),
       "Inter-Thin": require("../assets/fonts/inter/Thin.ttf"),
     });
 
@@ -41,7 +41,7 @@ export const App: React.FC = ({}) => {
 
     // check if is online
     const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsOnline(state.isConnected);
+      setIsOnline(state.isConnected || false);
     });
 
     return () => {

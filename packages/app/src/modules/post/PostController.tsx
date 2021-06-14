@@ -100,7 +100,15 @@ export const PostController: React.FC<any> = ({
                 ({postData.posts.count})
               </Text>
             </View>
-            <MyButton onPress={() => {}} title={t("post.reply")} size="tiny" />
+            <MyButton
+              onPress={() => {
+                navigation.navigate("ReplyPost", {
+                  parentPostId: postData.posts.parent?.id || "",
+                });
+              }}
+              title={t("post.reply")}
+              size="tiny"
+            />
           </View>
 
           {postData?.posts.count === 0 ? (

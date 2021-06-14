@@ -1,25 +1,46 @@
-import { LoginValidationSchema } from "@ferman-pkgs/common";
-import { ErrorMap, LoginFormValues, MyMessage } from "@ferman-pkgs/controller";
+import { PostValidationSchema } from "@ferman-pkgs/common";
+import {
+  CreatePostFormValues,
+  ErrorMap,
+  FullPostFragment,
+  MyMessage,
+} from "@ferman-pkgs/controller";
+import { useNavigation } from "@react-navigation/native";
 import { Field, FormikProps, withFormik } from "formik";
 import i18n from "i18next";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { View } from "react-native";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
-interface LoginViewProps {
-  submit: (values: LoginFormValues) => Promise<ErrorMap | null>;
+interface CreatePostViewProps {
+  isReply: boolean;
+  parentPost?: FullPostFragment | null | undefined;
+  submit: (values: CreatePostFormValues) => Promise<{
+    errors: ErrorMap | null;
+  }>;
   message: MyMessage | null;
 }
 
-const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
+const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
+  isReply,
+  parentPost,
   message,
   isSubmitting,
   submitForm,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    if (isReply === true) {
+      navigation.setOptions({
+        headerTitle: t("post.reply"),
+      });
+    }
+  }, [isReply]);
 
   return (
     <View
@@ -43,29 +64,20 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
         }}
       >
         <Field
-          name="email"
-          placeholder={t("form.placeholder.email")}
-          autoCapitalize="none"
-          autoCompleteType="email"
-          keyboardType="email-address"
+          name="body"
+          placeholder={`${t("common.body")}...`}
+          multiline={true}
+          numberOfLines={4}
           component={InputField}
         />
       </View>
       <View
         style={{
-          marginBottom: 12,
+          alignItems: "flex-start",
         }}
       >
-        <Field
-          name="password"
-          placeholder={t("form.placeholder.password")}
-          secureTextEntry={true}
-          component={InputField}
-        />
-      </View>
-      <View>
         <MyButton
-          title={t("login.sign_in")}
+          title={isReply ? t("post.reply") : t("post.post")}
           style="secondary"
           isLoading={isSubmitting}
           onPress={submitForm}
@@ -75,14 +87,17 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   );
 };
 
-export const LoginView = withFormik<LoginViewProps, LoginFormValues>({
-  validationSchema: LoginValidationSchema,
+export const CreatePostView = withFormik<
+  CreatePostViewProps,
+  CreatePostFormValues
+>({
+  validationSchema: PostValidationSchema,
   mapPropsToValues: () => ({
-    email: "",
-    password: "",
+    body: "",
   }),
-  handleSubmit: async (values, { setErrors, props }) => {
-    const errors = await props.submit(values);
+  handleSubmit: async (values, { setErrors, props, resetForm }) => {
+    const { errors } = await props.submit(values);
     if (errors) setErrors(errors);
+    else resetForm();
   },
 })(C);

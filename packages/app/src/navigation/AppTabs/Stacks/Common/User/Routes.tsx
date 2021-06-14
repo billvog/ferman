@@ -1,6 +1,7 @@
 import { StackNavigationState, TypedNavigator } from "@react-navigation/native";
 import React from "react";
 import { UserFollowersController } from "../../../../../modules/users/UserFollowersController";
+import { UserFollowingsController } from "../../../../../modules/users/UserFollowingsController";
 import { UserProfileController } from "../../../../../modules/users/UserProfileController";
 import { useTypeSafeTranslation } from "../../../../../shared-hooks/useTypeSafeTranslation";
 import { HomeParamList } from "../../Home/ParamList";
@@ -34,7 +35,7 @@ export const CommonUserRoutes = (
       />
       <Stack.Screen
         name="UserFollowings"
-        component={UserProfileController}
+        component={UserFollowingsController}
         options={{
           headerTitle: t("user.followings.raw"),
         }}

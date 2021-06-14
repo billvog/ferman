@@ -71,19 +71,19 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
         <ImageBackground
           resizeMode="cover"
           source={{
-            uri: user.profile.bannerUrl,
+            uri: user.profile?.bannerUrl,
           }}
           style={[
             styles.userBanner,
             {
-              backgroundColor: user.profile.bannerUrl,
+              backgroundColor: user.profile?.bannerUrl,
             },
           ]}
         >
           <View style={styles.avatarContainer}>
             <Image
               source={{
-                uri: user.profile.avatarUrl,
+                uri: user.profile?.avatarUrl,
                 width: 64,
                 height: 64,
               }}
@@ -109,7 +109,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                 )}
               </View>
             </TouchableOpacity>
-            {me.id !== user.id && (
+            {me?.id !== user.id && (
               <View>
                 <MyButton
                   title={FollowButtonText}
@@ -151,9 +151,9 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
           </View>
         </View>
       </View>
-      {!!user.profile.bio && (
+      {!!user.profile?.bio && (
         <View style={styles.userProfileBioContainer}>
-          <Text style={styles.userProfileBio}>{user.profile.bio}</Text>
+          <Text style={styles.userProfileBio}>{user.profile?.bio}</Text>
         </View>
       )}
       <View style={styles.additionalUserInfoContainer}>

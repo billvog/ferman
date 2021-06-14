@@ -8,12 +8,12 @@ export const radius = {
 
 export const fontFamily = {
   inter: {
+    regular: "Inter",
     black: "Inter-Black",
     bold: "Inter-Bold",
     extraBold: "Inter-ExtraBold",
     light: "Inter-Light",
     medium: "Inter-Medium",
-    regular: "Inter-Regular",
     thin: "Inter-Thin",
   },
 };
