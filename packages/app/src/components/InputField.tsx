@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { StyleProp, Text, TextInput, TextStyle, View } from "react-native";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { colors, fontSize, radius } from "../constants/style";
+import { Platform } from "react-native";
 
 type InputFieldProps = FieldProps<any> & {
   placeholder?: string;
@@ -20,7 +21,7 @@ export const fieldStyle: StyleProp<TextStyle> = {
   position: "relative",
   width: "100%",
   borderWidth: 0,
-  paddingHorizontal: 10,
+  paddingHorizontal: Platform.OS === "android" ? 13 : 10,
   paddingVertical: 8,
   backgroundColor: colors.primary200,
   borderRadius: radius.m,

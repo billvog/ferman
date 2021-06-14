@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { AppParamList } from "./ParamList";
-import { FeedStack } from "./Stacks/Feed";
+import { HomeStack } from "./Stacks/Home";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../constants/style";
 import { ProfileStack } from "./Stacks/Profile";
@@ -18,7 +18,7 @@ export const AppTabs: React.FC = ({}) => {
             Component: typeof Ionicons = Ionicons;
 
           switch (route.name) {
-            case "Feed":
+            case "Home":
               iconName = focused ? "home" : "home-outline";
               break;
             case "Search":
@@ -38,7 +38,7 @@ export const AppTabs: React.FC = ({}) => {
         inactiveTintColor: colors.primary450,
       }}
     >
-      <Tabs.Screen name="Feed" component={FeedStack} />
+      <Tabs.Screen name="Home" component={HomeStack} />
       <Tabs.Screen name="Search" component={SearchStack} />
       <Tabs.Screen name="Profile" component={ProfileStack} />
     </Tabs.Navigator>

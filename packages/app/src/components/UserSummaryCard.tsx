@@ -35,20 +35,17 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
     }
   };
 
-  const FollowButtonText = user.followingStatus
-    ? t("user.unfollow")
-    : t("user.follow");
   const FollowButtonIcon = user.followingStatus ? (
     <MaterialCommunityIcons
-      name="account-plus"
-      size={16}
-      color={colors.primary700}
+      name="account-minus"
+      size={18}
+      color={colors.error}
     />
   ) : (
     <MaterialCommunityIcons
       name="account-plus"
-      size={16}
-      color={colors.error}
+      size={18}
+      color={colors.primary700}
     />
   );
 
@@ -89,10 +86,12 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
           {me.id !== user.id && (
             <View>
               <MyButton
-                title={FollowButtonText}
+                title={undefined}
+                icon={FollowButtonIcon}
                 size="tiny"
                 isLoading={followLoading}
-                style={user.followingStatus ? "danger" : "primary"}
+                loadingColor={colors.primary700}
+                style="transparent"
                 onPress={followUserHandler}
               />
             </View>

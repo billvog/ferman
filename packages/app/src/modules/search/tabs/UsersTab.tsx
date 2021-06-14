@@ -8,6 +8,7 @@ import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";
 import { UserSummaryCard } from "../../../components/UserSummaryCard";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
+import { SearchTips } from "../SearchTips";
 import { searchTabStyles as tabStyles } from "./tabStyles";
 
 interface UsersTabProps {}
@@ -100,8 +101,9 @@ export const UsersTab: React.FC<UsersTabProps> = ({}) => {
         {!usersQueryCalled ? (
           <View style={tabStyles.searchTipContainer}>
             <Text style={tabStyles.searchTipText}>
-              {t("search.search_posts_field_subtext")}
+              {t("search.search_users_field_subtext")}
             </Text>
+            <SearchTips />
           </View>
         ) : usersData && usersData.users.count > 0 ? (
           <Text style={tabStyles.fieldSubText}>

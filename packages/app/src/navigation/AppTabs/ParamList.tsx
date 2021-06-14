@@ -1,7 +1,7 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 export type AppParamList = {
-  Feed: undefined;
+  Home: undefined;
   Search: undefined;
   Chat: undefined;
   Profile: undefined;

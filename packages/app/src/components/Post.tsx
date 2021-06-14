@@ -15,9 +15,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { colors, fontSize } from "../constants/style";
+import { colors, fontFamily, fontSize } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
-import { FeedNavProps } from "../navigation/AppTabs/Stacks/Feed/ParamList";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { Spinner } from "./Spinner";
 
@@ -29,7 +28,7 @@ interface PostProps {
 export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   const { me } = useContext(AuthContext);
   const { t } = useTypeSafeTranslation();
-  const navigation = useNavigation<FeedNavProps<"Feed">["navigation"]>();
+  const navigation = useNavigation();
 
   const [likePost, { loading: likeLoading }] = useLikePostMutation();
   const LikePostHandler = async () => {
@@ -63,25 +62,39 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   //   }
   // };
 
+  const navigateToCreator = () => {
+    navigation.navigate("ViewUserProfile", {
+      userId: post.creator.id,
+    });
+  };
+
+  const navigateToParentPostCreator = () => {
+    navigation.navigate("ViewUserProfile", {
+      userId: post.parentPost.creator.id,
+    });
+  };
+
+  const navigateToPost = () => {
+    navigation.navigate("ViewPost", {
+      postId: post.id,
+    });
+  };
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.avatarContainer}
-          onPress={() =>
-            navigation.navigate("ViewUserProfile", {
-              userId: post.creator.id,
-            })
-          }
+          onPress={navigateToCreator}
         >
           <Image
             source={{
               uri: post.creator.profile.avatarUrl,
-              width: 26,
-              height: 26,
+              width: 32,
+              height: 32,
             }}
             style={{
-              borderRadius: 8,
+              borderRadius: 12,
             }}
           />
         </TouchableOpacity>
@@ -89,11 +102,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
           <View style={styles.infoContainer}>
             <TouchableOpacity
               style={styles.creatorContainer}
-              onPress={() =>
-                navigation.navigate("ViewUserProfile", {
-                  userId: post.creator.id,
-                })
-              }
+              onPress={navigateToCreator}
             >
               <Text style={styles.creatorUsername}>
                 {post.creator.username}
@@ -108,7 +117,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
             {post.parentPost && (
               <View style={styles.parentPostContainer}>
                 <Text style={styles.replyingTo}>Replying to </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={navigateToParentPostCreator}>
                   <Text style={styles.replyingToUser}>
                     @{post.parentPost.creator.uid}
                   </Text>
@@ -148,18 +157,10 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={(styles.actionItem, styles.actionItemsNotFirst)}
-          onPress={() =>
-            navigation.navigate("ViewPost", {
-              postId: post.id,
-            })
-          }
+          onPress={navigateToPost}
         >
           <View style={styles.actionItemContentWrapper}>
-            {likeLoading ? (
-              <Spinner size="s" color={colors.error} />
-            ) : (
-              <Ionicons name="chatbox" size={16} color={colors.secondary50} />
-            )}
+            <Ionicons name="chatbox" size={16} color={colors.secondary50} />
             <Text
               style={[
                 styles.actionItemText,
@@ -216,13 +217,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   creatorUsername: {
+    fontFamily: fontFamily.inter.bold,
     fontSize: fontSize.paragraph,
-    color: colors.primary700,
-    fontWeight: "700",
+    color: colors.primary800,
   },
   creatorUid: {
-    fontSize: fontSize.small,
-    fontWeight: "500",
+    fontFamily: fontFamily.inter.medium,
+    fontSize: fontSize.md,
     color: colors.primary700,
   },
   createdAt: {

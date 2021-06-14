@@ -1,3 +1,4 @@
+import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { colors, fontFamily, fontSize } from "../../constants/style";
@@ -5,19 +6,31 @@ import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslatio
 
 export const SearchTips: React.FC = () => {
   const { t } = useTypeSafeTranslation();
+  const listDotIcon = (
+    <Entypo name="dot-single" size={18} color={colors.accentWashedOut} />
+  );
   return (
     <View style={styles.container}>
       <Text style={styles.headingText}>{t("search.search_tips.heading")}</Text>
       <View style={styles.tipsList}>
-        <Text style={styles.tipItemText}>
-          - {t("search.search_tips.tip_1")}
-        </Text>
-        <Text style={styles.tipItemText}>
-          - {t("search.search_tips.tip_2")}
-        </Text>
-        <Text style={styles.tipItemText}>
-          - {t("search.search_tips.tip_3")}
-        </Text>
+        <View style={styles.tipItem}>
+          {listDotIcon}
+          <Text style={styles.tipItemText}>
+            {t("search.search_tips.tip_1")}
+          </Text>
+        </View>
+        <View style={styles.tipItem}>
+          {listDotIcon}
+          <Text style={styles.tipItemText}>
+            {t("search.search_tips.tip_2")}
+          </Text>
+        </View>
+        <View style={styles.tipItem}>
+          {listDotIcon}
+          <Text style={styles.tipItemText}>
+            {t("search.search_tips.tip_3")}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -25,14 +38,13 @@ export const SearchTips: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
-    fontSize: fontSize.small,
+    marginTop: 13,
     color: colors.primary700,
     flexDirection: "column",
   },
   headingText: {
     fontFamily: fontFamily.inter.bold,
-    fontSize: fontSize.h6,
+    fontSize: fontSize.h5,
     color: colors.primary700,
     marginBottom: 6,
   },
@@ -40,9 +52,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
   },
+  tipItem: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   tipItemText: {
-    marginBottom: 3,
-    fontSize: fontSize.md,
+    fontSize: fontSize.paragraph,
     fontFamily: fontFamily.inter.medium,
     color: colors.primary600,
   },

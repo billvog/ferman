@@ -103,6 +103,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
             <Text style={tabStyles.searchTipText}>
               {t("search.search_posts_field_subtext")}
             </Text>
+            <SearchTips />
           </View>
         ) : postsData && postsData.posts.count > 0 ? (
           <Text style={tabStyles.fieldSubText}>
