@@ -1,14 +1,12 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { CommonParamList } from "../Common/CommonParamList";
 
 export type HomeParamList = {
   Feed: undefined;
-  ViewPost: {
-    postId: string;
-  };
   ViewUserProfile: {
     userId: number;
   };
-};
+} & CommonParamList;
 
 export type HomeNavProps<T extends keyof HomeParamList> = {
   navigation: NavigationProp<HomeParamList, T>;

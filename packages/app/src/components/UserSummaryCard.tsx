@@ -13,6 +13,7 @@ import { colors, fontFamily, fontSize, radius } from "../constants/style";
 import { Image } from "react-native";
 import { Text } from "react-native";
 import { MyButton } from "./MyButton";
+import { useNavigation } from "@react-navigation/native";
 
 interface UserSummaryCardProps {
   user: FullUserFragment;
@@ -21,6 +22,7 @@ interface UserSummaryCardProps {
 export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
   const { me } = useContext(AuthContext);
   const { t } = useTypeSafeTranslation();
+  const navigation = useNavigation();
 
   const [followUser, { loading: followLoading }] = useFollowMutation();
   const followUserHandler = async () => {
@@ -49,7 +51,11 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
     />
   );
 
-  const navigateToUser = () => {};
+  const navigateToUser = () => {
+    navigation.navigate("ViewUserProfile", {
+      userId: user.id,
+    });
+  };
 
   return (
     <View style={styles.container}>
