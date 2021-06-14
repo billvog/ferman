@@ -25,8 +25,8 @@ export const MyAlert: React.FC<MyAlertProps> = ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        paddingHorizontal: 10,
-        paddingVertical: 6,
+        paddingHorizontal: 12,
+        paddingVertical: 8.5,
         borderRadius: radius.m,
         ...(colorStyles[color] as any),
       }}

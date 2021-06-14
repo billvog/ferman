@@ -31,7 +31,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
       {!!message && i18n.exists(message.text) && (
         <View
           style={{
-            marginBottom: 12,
+            marginBottom: 14,
           }}
         >
           <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
@@ -39,7 +39,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
       )}
       <View
         style={{
-          marginBottom: 12,
+          marginBottom: 14,
         }}
       >
         <Field
@@ -53,7 +53,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
       </View>
       <View
         style={{
-          marginBottom: 12,
+          marginBottom: 14,
         }}
       >
         <Field

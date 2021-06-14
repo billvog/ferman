@@ -1,6 +1,6 @@
 import { FieldProps } from "formik";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 import { StyleProp, Text, TextInput, TextStyle, View } from "react-native";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { colors, fontSize, radius } from "../constants/style";
@@ -21,7 +21,7 @@ export const fieldStyle: StyleProp<TextStyle> = {
   position: "relative",
   width: "100%",
   borderWidth: 0,
-  paddingHorizontal: Platform.OS === "android" ? 16 : 10,
+  paddingHorizontal: Platform.OS === "android" ? 14.5 : 10,
   paddingVertical: 8,
   backgroundColor: colors.primary200,
   borderRadius: radius.m,
@@ -31,7 +31,6 @@ export const fieldStyle: StyleProp<TextStyle> = {
 };
 
 export const InputField: React.FC<InputFieldProps> = (props) => {
-  const { i18n } = useTranslation();
   const { t } = useTypeSafeTranslation();
 
   const { field, form, placeholder } = props;
