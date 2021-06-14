@@ -16,7 +16,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { colors, fontFamily, fontSize, radius } from "../constants/style";
+import {
+  colors,
+  fontFamily,
+  fontSize,
+  paragraph,
+  radius,
+} from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MyButton } from "./MyButton";
@@ -313,9 +319,8 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.primary200,
   },
   userProfileBio: {
-    fontFamily: fontFamily.inter.medium,
-    fontSize: fontSize.md,
     color: colors.primary600,
+    ...paragraph,
   },
   additionalUserInfoContainer: {
     padding: 14,

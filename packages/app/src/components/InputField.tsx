@@ -21,7 +21,7 @@ export const fieldStyle: StyleProp<TextStyle> = {
   position: "relative",
   width: "100%",
   borderWidth: 0,
-  paddingHorizontal: Platform.OS === "android" ? 13 : 10,
+  paddingHorizontal: Platform.OS === "android" ? 16 : 10,
   paddingVertical: 8,
   backgroundColor: colors.primary200,
   borderRadius: radius.m,

@@ -9,7 +9,13 @@ import { useContext } from "react";
 import { AuthContext } from "../modules/auth/AuthProvider";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { colors, fontFamily, fontSize, radius } from "../constants/style";
+import {
+  colors,
+  fontFamily,
+  fontSize,
+  radius,
+  small,
+} from "../constants/style";
 import { Image } from "react-native";
 import { Text } from "react-native";
 import { MyButton } from "./MyButton";
@@ -153,7 +159,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     backgroundColor: colors.primary300,
     borderRadius: radius.s,
-    paddingHorizontal: 4,
+    paddingHorizontal: 5,
     paddingVertical: 2,
   },
   followsYouText: {
@@ -165,8 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   userProfileBio: {
-    fontFamily: fontFamily.inter.medium,
-    fontSize: fontSize.small,
+    ...small,
     color: colors.primary500,
   },
 });

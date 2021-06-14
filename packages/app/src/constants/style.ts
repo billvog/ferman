@@ -69,7 +69,6 @@ export const colors = {
 
 const textBase: TextStyle = {
   fontFamily: fontFamily.inter.regular,
-  color: colors.text,
 };
 
 export const h1: TextStyle = {
@@ -104,7 +103,7 @@ export const paragraph: TextStyle = {
   ...textBase,
   fontWeight: "500",
   fontSize: fontSize.paragraph,
-  lineHeight: 22,
+  lineHeight: 20.5,
 };
 
 export const paragraphBold: TextStyle = {
@@ -116,7 +115,7 @@ export const small: TextStyle = {
   ...textBase,
   fontWeight: "500",
   fontSize: fontSize.small,
-  lineHeight: 22,
+  lineHeight: 17,
 };
 
 export const smallBold: TextStyle = {
@@ -128,7 +127,7 @@ export const xsmall: TextStyle = {
   ...textBase,
   fontWeight: "500",
   fontSize: fontSize.xs,
-  lineHeight: 16,
+  lineHeight: 15,
 };
 
 export const xsmallBold: TextStyle = {

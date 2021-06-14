@@ -67,7 +67,6 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
           name="body"
           placeholder={`${t("common.body")}...`}
           multiline={true}
-          numberOfLines={4}
           component={InputField}
         />
       </View>

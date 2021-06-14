@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { colors, fontFamily, fontSize } from "../constants/style";
+import { colors, fontFamily, fontSize, paragraph } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { Spinner } from "./Spinner";
@@ -70,7 +70,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
 
   const navigateToParentPostCreator = () => {
     navigation.navigate("UserProfile", {
-      userId: post.parentPost.creator.id,
+      userId: post.parentPost?.creator.id,
     });
   };
 
@@ -89,7 +89,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
         >
           <Image
             source={{
-              uri: post.creator.profile.avatarUrl,
+              uri: post.creator.profile?.avatarUrl,
               width: 32,
               height: 32,
             }}
@@ -173,7 +173,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
             </Text>
           </View>
         </TouchableOpacity>
-        {post.creator.id === me.id && (
+        {post.creator.id === me?.id && (
           <TouchableOpacity
             style={(styles.actionItem, styles.actionItemsNotFirst)}
           >
@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: fontSize.md,
     color: colors.primary700,
+    ...paragraph,
   },
   actionsContainer: {
     flexDirection: "row",
