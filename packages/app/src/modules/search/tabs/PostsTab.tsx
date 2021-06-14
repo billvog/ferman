@@ -172,8 +172,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
             {postsData?.posts.count === 0 ? (
               <View
                 style={{
-                  marginTop: 18,
-                  marginHorizontal: 18,
+                  padding: 14,
                 }}
               >
                 <Text style={tabStyles.foundNothingText}>

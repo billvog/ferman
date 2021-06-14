@@ -172,9 +172,7 @@ export const UsersTab: React.FC<UsersTabProps> = ({}) => {
             {usersData?.users.count === 0 ? (
               <View
                 style={{
-                  marginTop: 18,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  padding: 14,
                 }}
               >
                 <Text style={tabStyles.foundNothingText}>
