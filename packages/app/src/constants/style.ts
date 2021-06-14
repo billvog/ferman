@@ -7,14 +7,14 @@ export const radius = {
 };
 
 export const fontFamily = {
-  roboto: {
-    black: "Roboto-Black",
-    bold: "Roboto-Bold",
-    italic: "Roboto-Italic",
-    light: "Roboto-Light",
-    medium: "Roboto-Medium",
-    regular: "Roboto-Regular",
-    thin: "Roboto-Thin",
+  inter: {
+    black: "Inter-Black",
+    bold: "Inter-Bold",
+    extraBold: "Inter-ExtraBold",
+    light: "Inter-Light",
+    medium: "Inter-Medium",
+    regular: "Inter-Regular",
+    thin: "Inter-Thin",
   },
 };
 
@@ -24,6 +24,7 @@ export const fontSize = {
   h3: 28,
   h4: 20,
   h5: 16,
+  h6: 15,
   paragraph: 14,
   md: 13,
   small: 12,
@@ -67,7 +68,7 @@ export const colors = {
 };
 
 const textBase: TextStyle = {
-  fontFamily: fontFamily.roboto.regular,
+  fontFamily: fontFamily.inter.regular,
   color: colors.text,
 };
 

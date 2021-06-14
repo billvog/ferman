@@ -1,15 +1,16 @@
+import { usePostsLazyQuery } from "@ferman-pkgs/controller";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
-import { usePostsLazyQuery, useUsersLazyQuery } from "@ferman-pkgs/controller";
-import { Text } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import { CenterSpinner } from "../../../components/CenterSpinner";
+import { fieldStyle } from "../../../components/InputField";
+import { MyButton } from "../../../components/MyButton";
 import { Post } from "../../../components/Post";
 import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
-import { MyButton } from "../../../components/MyButton";
-import { CenterSpinner } from "../../../components/CenterSpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import { TextInput } from "react-native-gesture-handler";
-import { fieldStyle } from "../../../components/InputField";
+import { SearchTips } from "../SearchTips";
+import { searchTabStyles as tabStyles } from "./tabStyles";
 
 interface PostsTabProps {}
 export const PostsTab: React.FC<PostsTabProps> = ({}) => {
@@ -98,13 +99,13 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
           ]}
         />
         {!postsQueryCalled ? (
-          <View style={styles.searchTipContainer}>
-            <Text style={styles.searchTipText}>
+          <View style={tabStyles.searchTipContainer}>
+            <Text style={tabStyles.searchTipText}>
               {t("search.search_posts_field_subtext")}
             </Text>
           </View>
-        ) : postsData ? (
-          <Text style={styles.fieldSubText}>
+        ) : postsData && postsData.posts.count > 0 ? (
+          <Text style={tabStyles.fieldSubText}>
             {postsData?.posts.count === 1
               ? t("common.found_one_result").replace(
                   "%seconds%",
@@ -133,7 +134,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
             style={{
               color: colors.error,
               fontSize: fontSize.h5,
-              fontFamily: fontFamily.roboto.medium,
+              fontFamily: fontFamily.inter.medium,
               marginBottom: 16,
             }}
           >
@@ -147,7 +148,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
           />
         </View>
       ) : postsQueryCalled ? (
-        <View style={[styles.postsContainer, { flex: 1 }]}>
+        <View style={[tabStyles.resultsContainer, { flex: 1 }]}>
           <ScrollViewLoadMore
             isLoading={postsLoading && !isRefreshing}
             isRefreshing={isRefreshing}
@@ -161,7 +162,6 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
               });
             }}
             shouldLoadMore={postsData?.posts.hasMore}
-            canRefresh={postsQueryCalled}
             scrollViewProps={{
               style: {
                 flex: 1,
@@ -172,19 +172,13 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
               <View
                 style={{
                   marginTop: 18,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  marginHorizontal: 18,
                 }}
               >
-                <Text
-                  style={{
-                    color: colors.primary500,
-                    fontSize: fontSize.h5,
-                    fontFamily: fontFamily.roboto.medium,
-                  }}
-                >
+                <Text style={tabStyles.foundNothingText}>
                   {t("search.found_nothing")}
                 </Text>
+                <SearchTips />
               </View>
             ) : (
               <View
@@ -203,24 +197,3 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  postsContainer: {
-    borderTopWidth: 1.5,
-    borderTopColor: colors.primary200,
-  },
-  searchTipContainer: {
-    margin: 14,
-  },
-  searchTipText: {
-    fontFamily: fontFamily.roboto.medium,
-    fontSize: fontSize.paragraph,
-    color: colors.accentWashedOut,
-  },
-  fieldSubText: {
-    fontFamily: fontFamily.roboto.medium,
-    fontSize: fontSize.small,
-    color: colors.primary500,
-    margin: 10,
-  },
-});

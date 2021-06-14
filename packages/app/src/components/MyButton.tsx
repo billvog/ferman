@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import {
   ActivityIndicator,
   ButtonProps,
   Text,
   TouchableOpacity,
 } from "react-native";
-import { colors, fontSize, radius } from "../constants/style";
+import { colors, fontFamily, fontSize, radius } from "../constants/style";
+import { Spinner } from "./Spinner";
 
 type colorKeys = "primary" | "accent" | "secondary" | "danger" | "success";
 const colorStyles: {
@@ -31,19 +32,34 @@ const colorStyles: {
 
 type sizeKeys = "big" | "small" | "tiny";
 const sizeStyles: {
-  [key in sizeKeys]: StyleProp<ViewStyle>;
+  [key in sizeKeys]: { view: StyleProp<ViewStyle>; text: StyleProp<TextStyle> };
 } = {
   big: {
-    paddingHorizontal: 19,
-    paddingVertical: 12,
+    view: {
+      paddingHorizontal: 19,
+      paddingVertical: 12,
+    },
+    text: {
+      fontSize: fontSize.paragraph,
+    },
   },
   small: {
-    paddingHorizontal: 16,
-    paddingVertical: 9,
+    view: {
+      paddingHorizontal: 16,
+      paddingVertical: 9,
+    },
+    text: {
+      fontSize: fontSize.paragraph,
+    },
   },
   tiny: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    view: {
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+    },
+    text: {
+      fontSize: fontSize.small,
+    },
   },
 };
 
@@ -69,27 +85,25 @@ export const MyButton: React.FC<MyButtonProps> = ({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: radius.m,
-        ...(sizeStyles[size] as any),
+        ...(sizeStyles[size].view as any),
         ...(colorStyles[style] as any),
       }}
     >
       <Text
         style={{
           color: colors.text,
-          fontWeight: "700",
-          fontSize: fontSize.paragraph,
+          fontFamily: fontFamily.inter.bold,
           opacity: isLoading ? 0 : 100,
+          ...(sizeStyles[size].text as any),
         }}
       >
         {title}
       </Text>
       {isLoading && (
-        <ActivityIndicator
-          size="small"
+        <Spinner
+          size={size === "tiny" ? "vs" : "s"}
           color={colors.text}
-          style={{
-            position: "absolute",
-          }}
+          style={{ position: "absolute" }}
         />
       )}
     </TouchableOpacity>

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { usePostsLazyQuery, useUsersLazyQuery } from "@ferman-pkgs/controller";
+import React from "react";
+import { Text, useWindowDimensions } from "react-native";
+import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { colors, fontFamily, fontSize } from "../../constants/style";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { TextInput, useWindowDimensions, View, Text } from "react-native";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { PostsTab } from "./tabs/PostsTab";
 import { UsersTab } from "./tabs/UsersTab";
-import { colors, fontFamily, fontSize } from "../../constants/style";
 
 export const SearchController: React.FC = ({}) => {
   const layout = useWindowDimensions();
@@ -22,79 +21,6 @@ export const SearchController: React.FC = ({}) => {
     users: UsersTab,
   });
 
-  const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-
-  const [
-    runPostsQuery,
-    {
-      loading: postsLoading,
-      data: postsData,
-      error: postsError,
-      fetchMore: fetchMorePosts,
-      variables: postsVariables,
-      called: postsQueryCalled,
-    },
-  ] = usePostsLazyQuery({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      limit: 15,
-      skip: null,
-      query: null,
-    },
-  });
-
-  const [
-    runUsersQuery,
-    {
-      loading: usersLoading,
-      data: usersData,
-      error: usersError,
-      fetchMore: fetchMoreUsers,
-      variables: usersVariables,
-      called: usersQueryCalled,
-    },
-  ] = useUsersLazyQuery({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      limit: 15,
-      skip: null,
-      query: null,
-    },
-  });
-
-  useEffect(() => {
-    const handle = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 500);
-
-    return () => {
-      clearTimeout(handle);
-    };
-  }, [query]);
-
-  useEffect(() => {
-    if (debouncedQuery.length > 0) {
-      // if (tabState === 0) {
-      return runPostsQuery({
-        variables: {
-          ...postsVariables!,
-          query: debouncedQuery,
-          skip: null,
-        },
-      });
-      // } else if (tabState === 1) {
-      //   return runUsersQuery({
-      //     variables: {
-      //       ...usersVariables!,
-      //       query: debouncedQuery,
-      //       skip: null,
-      //     },
-      //   });
-      // }
-    }
-  }, [debouncedQuery]);
-
   return (
     <TabView
       navigationState={{ index, routes }}
@@ -108,9 +34,9 @@ export const SearchController: React.FC = ({}) => {
             <Text
               style={{
                 margin: 4,
-                fontFamily: fontFamily.roboto.medium,
+                fontFamily: fontFamily.inter.bold,
                 fontSize: fontSize.paragraph,
-                color: props.focused ? colors.primary700 : colors.primary500,
+                color: props.focused ? colors.primary600 : colors.primary500,
               }}
             >
               {props.route.title}

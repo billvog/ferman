@@ -16,13 +16,13 @@ export const App: React.FC = ({}) => {
 
   const loadFonts = async () => {
     await Font.loadAsync({
-      "Roboto-Black": require("../assets/fonts/roboto/Black.ttf"),
-      "Roboto-Bold": require("../assets/fonts/roboto/Bold.ttf"),
-      "Roboto-Italic": require("../assets/fonts/roboto/Italic.ttf"),
-      "Roboto-Light": require("../assets/fonts/roboto/Light.ttf"),
-      "Roboto-Medium": require("../assets/fonts/roboto/Medium.ttf"),
-      "Roboto-Regular": require("../assets/fonts/roboto/Regular.ttf"),
-      "Roboto-Thin": require("../assets/fonts/roboto/Thin.ttf"),
+      "Inter-Black": require("../assets/fonts/inter/Black.ttf"),
+      "Inter-Bold": require("../assets/fonts/inter/Bold.ttf"),
+      "Inter-ExtraBold": require("../assets/fonts/inter/ExtraBold.ttf"),
+      "Inter-Light": require("../assets/fonts/inter/Light.ttf"),
+      "Inter-Medium": require("../assets/fonts/inter/Medium.ttf"),
+      "Inter-Regular": require("../assets/fonts/inter/Regular.ttf"),
+      "Inter-Thin": require("../assets/fonts/inter/Thin.ttf"),
     });
 
     setFontsLoaded(true);

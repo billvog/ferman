@@ -65,7 +65,7 @@ export const FeedController: React.FC = ({}) => {
             style={{
               color: colors.error,
               fontSize: fontSize.h5,
-              fontFamily: fontFamily.roboto.medium,
+              fontFamily: fontFamily.inter.medium,
               marginBottom: 16,
             }}
           >
@@ -115,7 +115,7 @@ export const FeedController: React.FC = ({}) => {
                   style={{
                     color: colors.primary500,
                     fontSize: fontSize.h5,
-                    fontFamily: fontFamily.roboto.medium,
+                    fontFamily: fontFamily.inter.medium,
                   }}
                 >
                   {t("common.no_posts")}

@@ -1,10 +1,40 @@
 import React from "react";
-import { Animated, Easing, ViewProps } from "react-native";
+import {
+  Animated,
+  Easing,
+  StyleProp,
+  ViewProps,
+  ViewStyle,
+} from "react-native";
 import { colors } from "../constants/style";
 
+type sizeKeys = "vs" | "s" | "m";
 export type SpinnerProps = ViewProps & {
-  size?: "s" | "m";
+  size?: sizeKeys;
   color?: string;
+};
+
+const sizeOptions: {
+  [key in sizeKeys]: StyleProp<ViewStyle>;
+} = {
+  vs: {
+    borderWidth: 2,
+    borderRadius: 6,
+    height: 10,
+    width: 10,
+  },
+  s: {
+    borderWidth: 2,
+    borderRadius: 6,
+    height: 14,
+    width: 14,
+  },
+  m: {
+    borderWidth: 4,
+    borderRadius: 12,
+    height: 24,
+    width: 24,
+  },
 };
 
 export const Spinner: React.FC<SpinnerProps> = ({
@@ -14,37 +44,30 @@ export const Spinner: React.FC<SpinnerProps> = ({
 }) => {
   let spinValue = new Animated.Value(0);
 
-  // First set up animation
   Animated.loop(
     Animated.timing(spinValue, {
       toValue: 1,
       duration: 1000,
-      easing: Easing.linear, // Easing is an additional import from react-native
-      useNativeDriver: true, // To make use of native driver for performance
+      easing: Easing.linear,
+      useNativeDriver: true,
     })
   ).start();
 
-  // Next, interpolate beginning and end values (in this case 0 and 1)
   const spin = spinValue.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "360deg"],
   });
-
-  const isSmall = size === "s";
 
   return (
     <Animated.View
       style={[
         style,
         {
-          borderWidth: isSmall ? 2 : 4,
-          borderRadius: isSmall ? 6 : 12,
           borderColor: "transparent",
-          height: isSmall ? 14 : 24,
-          width: isSmall ? 14 : 24,
           borderTopColor: color,
           borderLeftColor: color,
           transform: [{ rotate: spin }],
+          ...(sizeOptions[size] as any),
         },
       ]}
     />

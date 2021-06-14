@@ -29,7 +29,7 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
   children,
   scrollViewProps,
   shouldLoadMore,
-  canRefresh,
+  canRefresh = true,
   isLoading,
   isRefreshing,
   onLoadMore,
@@ -45,7 +45,7 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
         }
       }}
       refreshControl={
-        canRefresh ? (
+        canRefresh == true ? (
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         ) : null
       }
