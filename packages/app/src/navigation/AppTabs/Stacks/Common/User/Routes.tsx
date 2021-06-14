@@ -1,6 +1,6 @@
 import { StackNavigationState, TypedNavigator } from "@react-navigation/native";
 import React from "react";
-import { PostController } from "../../../../../modules/post/PostController";
+import { UserProfileController } from "../../../../../modules/user/UserProfileController";
 import { HomeParamList } from "../../Home/ParamList";
 import { SearchParamList } from "../../Search/ParamList";
 
@@ -17,7 +17,7 @@ export const CommonUserRoutes = (
     <>
       <Stack.Screen
         name="ViewUserProfile"
-        component={PostController}
+        component={UserProfileController}
         options={{
           headerTitle: "User",
         }}
