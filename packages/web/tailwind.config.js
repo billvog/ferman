@@ -1,11 +1,11 @@
 module.exports = {
+  darkMode: false,
   purge: {
     content: ["./src/**/*.tsx", "./public/index.html"],
     options: {
-      safelist: ['whitespace-pre-wrap'],
+      safelist: ["h-8", "h-11", "whitespace-pre-wrap"],
     },
   },
-  darkMode: false,
   theme: {
     extend: {
       fontFamily: {

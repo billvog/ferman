@@ -23,12 +23,12 @@ export const ProfileController: React.FC = ({}) => {
           marginBottom: 12,
         }}
       >
-        Your are logged in as {me.uid}
+        Your are logged in as {me?.uid}
       </Text>
       <MyButton
         onPress={async () => {
           const { data } = await logout();
-          if (data.logout) {
+          if (data?.logout) {
             client.resetStore();
           }
         }}

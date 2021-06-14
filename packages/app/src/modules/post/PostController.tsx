@@ -12,9 +12,7 @@ import { colors, fontFamily } from "../../constants/style";
 import { MyButton } from "../../components/MyButton";
 import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
 
-interface PostControllerProps {}
-
-export const PostController: React.FC<PostControllerProps> = ({
+export const PostController: React.FC<any> = ({
   navigation,
   route,
 }: HomeNavProps<"ViewPost">) => {
@@ -60,7 +58,7 @@ export const PostController: React.FC<PostControllerProps> = ({
         <CenterSpinner />
       ) : !postData && postError ? (
         <ErrorText>{t("errors.500")}</ErrorText>
-      ) : !postData.posts.parent ? (
+      ) : !postData?.posts.parent ? (
         <ErrorText>{t("post.not_found")}</ErrorText>
       ) : (
         <ScrollViewLoadMore

@@ -41,7 +41,8 @@
   "errors": {
     "500": "Internal server error, please try again later",
     "404": "Not found",
-    "oops": "Oops... something went wrong!"
+    "oops": "Oops... something went wrong!",
+    "offline": "You're offline. Check your connection."
   },
   "common_sidebar": {
     "home": "Home",
@@ -114,7 +115,7 @@
     "search_field_placeholder": "Search terms",
     "search_posts_field_subtext": "Enter keywords, #hashtags or @mentions in the search field to get some results.",
     "search_users_field_subtext": "Enter a username or a uid in the search field to get some results.",
-    "found_nothing": "We found nothing matching the given terms",
+    "found_nothing": "Nothing found matching the given terms",
     "tabs": {
       "posts_tab": "Posts",
       "users_tab": "People"
@@ -127,6 +128,7 @@
     }
   },
   "user": {
+    "raw": "User",
     "not_found": "User could not be found",
     "title": "%user% on Ferman",
     "last_seen": "Active %time% ago",
@@ -139,11 +141,13 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": {
+      "raw": "Followers",
       "title": "People that follow %user% on Ferman",
       "header_title": "%user% / followers %count%",
       "no_users": "There are no users following %user%"
     },
     "followings": {
+      "raw": "Followings",
       "title": "People %user% follows on Ferman",
       "header_title": "%user% / followings %count%",
       "no_users": "There are no users followed by %user%"
@@ -159,7 +163,7 @@
     "no_liked_posts": "%user% hasn't liked any post"
   },
   "post": {
-    "title": "Post",
+    "raw": "Post",
     "post": "Post",
     "not_found": "Post could not be found",
     "replies": "Replies",

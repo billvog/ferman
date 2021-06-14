@@ -66,11 +66,11 @@ export const UsersTab: React.FC<UsersTabProps> = ({}) => {
     // update state
     setIsRefreshing(true);
     // clear cache from query
-    client.cache.evict({
+    client?.cache.evict({
       fieldName: "users",
     });
     // refetch
-    await refreshUsers({
+    await refreshUsers?.({
       ...usersVariables,
       skip: 0,
     });
@@ -79,7 +79,7 @@ export const UsersTab: React.FC<UsersTabProps> = ({}) => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
       }}
@@ -155,14 +155,14 @@ export const UsersTab: React.FC<UsersTabProps> = ({}) => {
             isRefreshing={isRefreshing}
             onRefresh={refreshUsersHandler}
             onLoadMore={() => {
-              loadMoreUsers({
+              loadMoreUsers?.({
                 variables: {
                   ...usersVariables,
-                  skip: usersData.users.users.length,
+                  skip: usersData?.users.users.length,
                 },
               });
             }}
-            shouldLoadMore={usersData?.users.hasMore}
+            shouldLoadMore={usersData?.users.hasMore || false}
             scrollViewProps={{
               style: {
                 flex: 1,
@@ -195,6 +195,6 @@ export const UsersTab: React.FC<UsersTabProps> = ({}) => {
           </ScrollViewLoadMore>
         </View>
       ) : null}
-    </SafeAreaView>
+    </View>
   );
 };

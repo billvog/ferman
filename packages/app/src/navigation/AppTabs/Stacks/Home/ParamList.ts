@@ -3,7 +3,7 @@ import { CommonParamList } from "../Common/CommonParamList";
 
 export type HomeParamList = {
   Feed: undefined;
-  ViewUserProfile: {
+  UserProfile: {
     userId: number;
   };
 } & CommonParamList;

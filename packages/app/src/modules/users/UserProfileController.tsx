@@ -8,11 +8,10 @@ import { UserCard } from "../../components/UserCard";
 import { HomeNavProps } from "../../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 
-interface UserProfileControllerProps {}
-export const UserProfileController: React.FC<UserProfileControllerProps> = ({
+export const UserProfileController: React.FC<any> = ({
   navigation,
   route,
-}: HomeNavProps<"ViewUserProfile">) => {
+}: HomeNavProps<"UserProfile">) => {
   const { t } = useTypeSafeTranslation();
 
   const {
@@ -35,7 +34,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
     setIsRefreshing(true);
     // clear cache from query
     client.cache.evict({
-      id: "User:" + userData.user.id,
+      id: "User:" + userData?.user?.id,
     });
     // refetch
     await refreshUser(userVariables);
@@ -44,12 +43,12 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
   };
 
   useLayoutEffect(() => {
-    if (userData?.user.uid) {
+    if (userData?.user?.uid) {
       navigation.setOptions({
         headerTitle: userData.user.username,
       });
     }
-  }, [userData?.user.uid]);
+  }, [userData?.user?.uid]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -57,7 +56,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
         <CenterSpinner />
       ) : !userData && userError ? (
         <ErrorText>{t("errors.oops")}</ErrorText>
-      ) : !userData.user ? (
+      ) : !userData?.user ? (
         <ErrorText>{t("user.not_found")}</ErrorText>
       ) : (
         <ScrollViewLoadMore

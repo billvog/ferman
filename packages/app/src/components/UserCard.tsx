@@ -48,7 +48,19 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
     : t("user.follow");
 
   const navigateToUser = () => {
-    navigation.navigate("ViewUserProfile", {
+    navigation.navigate("UserProfile", {
+      userId: user.id,
+    });
+  };
+
+  const navigateToFollowers = () => {
+    navigation.navigate("UserFollowers", {
+      userId: user.id,
+    });
+  };
+
+  const navigateToFollowings = () => {
+    navigation.navigate("UserFollowings", {
       userId: user.id,
     });
   };
@@ -110,7 +122,10 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
             )}
           </View>
           <View style={styles.userFollowInfoContainer}>
-            <TouchableOpacity style={styles.userFollowInfoItem}>
+            <TouchableOpacity
+              style={styles.userFollowInfoItem}
+              onPress={navigateToFollowers}
+            >
               <Text style={styles.userFollowInfoCount}>
                 {user.followersCount}
               </Text>
@@ -122,6 +137,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.userFollowInfoItem, { marginLeft: 18 }]}
+              onPress={navigateToFollowings}
             >
               <Text style={styles.userFollowInfoCount}>
                 {user.followingsCount}

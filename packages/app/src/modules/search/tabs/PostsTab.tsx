@@ -66,11 +66,11 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
     // update state
     setIsRefreshing(true);
     // clear cache from query
-    client.cache.evict({
+    client?.cache.evict({
       fieldName: "posts",
     });
     // refetch
-    await refreshPosts({
+    await refreshPosts?.({
       ...postsVariables,
       skip: 0,
     });
@@ -155,14 +155,14 @@ export const PostsTab: React.FC<PostsTabProps> = ({}) => {
             isRefreshing={isRefreshing}
             onRefresh={refreshPostsHandler}
             onLoadMore={() => {
-              loadMorePosts({
+              loadMorePosts?.({
                 variables: {
                   ...postsVariables,
-                  skip: postsData.posts.posts.length,
+                  skip: postsData?.posts.posts.length,
                 },
               });
             }}
-            shouldLoadMore={postsData?.posts.hasMore}
+            shouldLoadMore={postsData?.posts.hasMore || false}
             scrollViewProps={{
               style: {
                 flex: 1,

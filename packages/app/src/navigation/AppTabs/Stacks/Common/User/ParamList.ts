@@ -1,5 +1,11 @@
 export type UserParamList = {
-  ViewUserProfile: {
+  UserProfile: {
+    userId: number;
+  };
+  UserFollowers: {
+    userId: number;
+  };
+  UserFollowings: {
     userId: number;
   };
 };

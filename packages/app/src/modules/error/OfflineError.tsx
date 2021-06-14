@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { colors, fontSize } from "../../constants/style";
+import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 
 interface OfflineErrorProps {}
-
 export const OfflineError: React.FC<OfflineErrorProps> = ({}) => {
+  const { t } = useTypeSafeTranslation();
+
   return (
     <View
       style={{
@@ -20,7 +22,7 @@ export const OfflineError: React.FC<OfflineErrorProps> = ({}) => {
           fontSize: fontSize.paragraph,
         }}
       >
-        Your offline. Check your connection.
+        {t("errors.offline")}
       </Text>
     </View>
   );

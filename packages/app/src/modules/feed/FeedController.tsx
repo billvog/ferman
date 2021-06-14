@@ -1,6 +1,6 @@
 import { usePostsQuery } from "@ferman-pkgs/controller";
 import React, { useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { CenterSpinner } from "../../components/CenterSpinner";
 import { MyButton } from "../../components/MyButton";
 import { Post } from "../../components/Post";
@@ -46,7 +46,7 @@ export const FeedController: React.FC = ({}) => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
       }}
@@ -92,11 +92,11 @@ export const FeedController: React.FC = ({}) => {
               loadMorePosts({
                 variables: {
                   ...postsVariables,
-                  skip: postsData.posts.posts.length,
+                  skip: postsData?.posts.posts.length,
                 },
               });
             }}
-            shouldLoadMore={postsData?.posts.hasMore}
+            shouldLoadMore={postsData?.posts.hasMore || false}
             scrollViewProps={{
               style: {
                 flex: 1,
@@ -135,6 +135,6 @@ export const FeedController: React.FC = ({}) => {
           </ScrollViewLoadMore>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };

@@ -63,13 +63,13 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   // };
 
   const navigateToCreator = () => {
-    navigation.navigate("ViewUserProfile", {
+    navigation.navigate("UserProfile", {
       userId: post.creator.id,
     });
   };
 
   const navigateToParentPostCreator = () => {
-    navigation.navigate("ViewUserProfile", {
+    navigation.navigate("UserProfile", {
       userId: post.parentPost.creator.id,
     });
   };

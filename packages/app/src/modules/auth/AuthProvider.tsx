@@ -1,8 +1,8 @@
 import React from "react";
 import { FullUserFragment, useMeQuery } from "@ferman-pkgs/controller";
-import { View } from "react-native";
+import { CenterSpinner } from "../../components/CenterSpinner";
 
-type User = FullUserFragment;
+type User = FullUserFragment | null;
 
 export const AuthContext = React.createContext<{
   me: User;
@@ -15,7 +15,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { data, loading } = useMeQuery();
 
   if (loading) {
-    return <View />;
+    return <CenterSpinner />;
   }
 
   return (

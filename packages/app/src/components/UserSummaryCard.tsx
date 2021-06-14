@@ -52,7 +52,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
   );
 
   const navigateToUser = () => {
-    navigation.navigate("ViewUserProfile", {
+    navigation.navigate("UserProfile", {
       userId: user.id,
     });
   };
