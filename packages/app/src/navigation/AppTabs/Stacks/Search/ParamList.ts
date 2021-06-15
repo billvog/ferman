@@ -1,4 +1,5 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { SearchTabState } from "../../../../modules/search/tabs/State";
 import { CommonParamList } from "../Common/CommonParamList";
 
 export type SearchParamList = {

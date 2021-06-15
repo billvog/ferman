@@ -1,6 +1,7 @@
 export type UserParamList = {
   UserProfile: {
-    userId: number;
+    userId?: number;
+    userUid?: string;
   };
   UserFollowers: {
     userId: number;

@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import { colors, fontFamily, fontSize, paragraph } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { Spinner } from "./Spinner";
 
@@ -125,7 +126,9 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
               </View>
             )}
             <View>
-              <Text style={styles.textContainer}>{post.body}</Text>
+              <Text style={styles.textContainer}>
+                {useRichBodyText(post.body)}
+              </Text>
             </View>
           </View>
         </View>

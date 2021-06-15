@@ -25,6 +25,7 @@ export const UserProfileController: React.FC<any> = ({
     skip: typeof route.params === "undefined",
     variables: {
       id: route.params.userId,
+      uid: route.params.userUid,
     },
   });
 
@@ -34,7 +35,7 @@ export const UserProfileController: React.FC<any> = ({
     setIsRefreshing(true);
     // clear cache from query
     client.cache.evict({
-      id: "User:" + userData?.user?.id,
+      id: "User:" + userVariables?.id,
     });
     // refetch
     await refreshUser(userVariables);

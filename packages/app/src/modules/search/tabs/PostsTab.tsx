@@ -1,4 +1,5 @@
 import { usePostsLazyQuery } from "@ferman-pkgs/controller";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
@@ -8,12 +9,12 @@ import { MyButton } from "../../../components/MyButton";
 import { Post } from "../../../components/Post";
 import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
+import { SearchNavProps } from "../../../navigation/AppTabs/Stacks/Search/ParamList";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { SearchTips } from "../SearchTips";
 import { searchTabStyles as tabStyles } from "./tabStyles";
 
-interface PostsTabProps {}
-export const PostsTab: React.FC<PostsTabProps> = ({}) => {
+export const PostsTab: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");

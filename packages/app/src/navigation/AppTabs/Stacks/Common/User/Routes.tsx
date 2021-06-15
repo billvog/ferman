@@ -1,8 +1,8 @@
 import { StackNavigationState, TypedNavigator } from "@react-navigation/native";
 import React from "react";
-import { UserFollowersController } from "../../../../../modules/users/UserFollowersController";
-import { UserFollowingsController } from "../../../../../modules/users/UserFollowingsController";
-import { UserProfileController } from "../../../../../modules/users/UserProfileController";
+import { UserFollowersController } from "../../../../../modules/user/UserFollowersController";
+import { UserFollowingsController } from "../../../../../modules/user/UserFollowingsController";
+import { UserProfileController } from "../../../../../modules/user/UserProfileController";
 import { useTypeSafeTranslation } from "../../../../../shared-hooks/useTypeSafeTranslation";
 import { HomeParamList } from "../../Home/ParamList";
 import { SearchParamList } from "../../Search/ParamList";
