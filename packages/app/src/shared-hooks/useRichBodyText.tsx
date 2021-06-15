@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import * as WebBrowser from "expo-web-browser";
 import React from "react";
@@ -10,6 +9,7 @@ export const useRichBodyText = (body: string): any => {
   const navigation = useNavigation();
   const config = [
     {
+      // TODO: make a hashtag controller, that shows all posts that have the hashtag
       regex: /(\#[a-zA-Z]+\b)(?!;)/gm,
       fn: (key: any, result: any) => (
         <Text key={key} style={styles.hashtagText}>

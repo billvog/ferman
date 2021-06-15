@@ -23,7 +23,7 @@ export const fontSize = {
   h2: 40,
   h3: 28,
   h4: 20,
-  h5: 16,
+  h5: 17,
   h6: 15,
   paragraph: 14,
   md: 13,
@@ -57,13 +57,14 @@ export const colors = {
   secondary800: "#53290b",
   secondary900: "#381c08",
   // accent
-  accent: "#b75555",
+  accent: "#a52a2a",
   accentWashedOut: "#ae3f3f",
   accentHover: "#a52a2a",
   black: "#000",
   // status
   success: "#10B981",
   error: "#EF4444",
+  danger: "#DC2626",
   info: "#3b82f6",
   // other
   hashtag: "#6366f1",
@@ -98,6 +99,20 @@ export const h4: TextStyle = {
   ...textBase,
   lineHeight: 32,
   fontSize: fontSize.h4,
+  fontWeight: "700",
+};
+
+export const h5: TextStyle = {
+  ...textBase,
+  lineHeight: 28,
+  fontSize: fontSize.h5,
+  fontWeight: "700",
+};
+
+export const h6: TextStyle = {
+  ...textBase,
+  lineHeight: 26,
+  fontSize: fontSize.h6,
   fontWeight: "700",
 };
 

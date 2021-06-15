@@ -1,5 +1,4 @@
 import { useUsersLazyQuery } from "@ferman-pkgs/controller";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { CenterSpinner } from "../../../components/CenterSpinner";
@@ -8,7 +7,6 @@ import { MyButton } from "../../../components/MyButton";
 import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";
 import { UserSummaryCard } from "../../../components/UserSummaryCard";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
-import { SearchNavProps } from "../../../navigation/AppTabs/Stacks/Search/ParamList";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { SearchTips } from "../SearchTips";
 import { searchTabStyles as tabStyles } from "./tabStyles";

@@ -6,7 +6,13 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { colors, fontFamily, fontSize, radius } from "../constants/style";
+import {
+  colors,
+  fontFamily,
+  fontSize,
+  paragraphBold,
+  radius,
+} from "../constants/style";
 import { Spinner } from "./Spinner";
 
 type colorKeys =
@@ -32,7 +38,7 @@ const colorStyles: {
     backgroundColor: colors.secondary600,
   },
   danger: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.danger,
   },
   success: {
     backgroundColor: colors.success,

@@ -4,11 +4,12 @@ import { CreatePostConnector } from "../../../../../modules/post/create/CreatePo
 import { PostController } from "../../../../../modules/post/PostController";
 import { useTypeSafeTranslation } from "../../../../../shared-hooks/useTypeSafeTranslation";
 import { HomeParamList } from "../../Home/ParamList";
+import { ProfileParamList } from "../../Profile/ParamList";
 import { SearchParamList } from "../../Search/ParamList";
 
 export const CommonPostRoutes = (
   Stack: TypedNavigator<
-    HomeParamList | SearchParamList,
+    HomeParamList | SearchParamList | ProfileParamList,
     StackNavigationState<Record<string, object>>,
     any,
     any,

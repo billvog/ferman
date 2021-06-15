@@ -5,11 +5,12 @@ import { UserFollowingsController } from "../../../../../modules/user/UserFollow
 import { UserProfileController } from "../../../../../modules/user/UserProfileController";
 import { useTypeSafeTranslation } from "../../../../../shared-hooks/useTypeSafeTranslation";
 import { HomeParamList } from "../../Home/ParamList";
+import { ProfileParamList } from "../../Profile/ParamList";
 import { SearchParamList } from "../../Search/ParamList";
 
 export const CommonUserRoutes = (
   Stack: TypedNavigator<
-    HomeParamList | SearchParamList,
+    HomeParamList | SearchParamList | ProfileParamList,
     StackNavigationState<Record<string, object>>,
     any,
     any,
