@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { ErrorMap } from "../../types/ErrorMap";
 import {
   FullPostFragment,
   useCreatePostMutation,
   usePostQuery,
-} from "../../generated/graphql";
-import { MyMessage } from "../../types/MyMessage";
+} from "../../../generated/graphql";
+import { ErrorMap } from "../../../types/ErrorMap";
+import { MyMessage } from "../../../types/MyMessage";
 
 export interface CreatePostFormValues {
   body: string;

@@ -440,7 +440,7 @@ export type User = {
   followingStatus?: Maybe<Scalars['Boolean']>;
   followersCount: Scalars['Float'];
   followingsCount: Scalars['Float'];
-  profile?: Maybe<Profile>;
+  profile: Profile;
 };
 
 export type UserErrorResponse = {
@@ -464,10 +464,10 @@ export type BasicProfileFragment = (
 export type BasicUserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'uid' | 'username' | 'isOnline' | 'lastSeen'>
-  & { profile?: Maybe<(
+  & { profile: (
     { __typename?: 'Profile' }
     & BasicProfileFragment
-  )> }
+  ) }
 );
 
 export type ChatResponseFragment = (
@@ -539,10 +539,10 @@ export type FullProfileFragment = (
 export type FullUserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'isOnline' | 'lastSeen' | 'hasUnreadMessage' | 'followsYouStatus' | 'followingStatus' | 'followersCount' | 'followingsCount'>
-  & { profile?: Maybe<(
+  & { profile: (
     { __typename?: 'Profile' }
     & FullProfileFragment
-  )> }
+  ) }
 );
 
 export type MessageResponseFragment = (

@@ -3,7 +3,7 @@ import { MutationFunctionOptions } from "@apollo/react-common";
 import {
   FollowMutationVariables,
   FollowMutation,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export const followMutationOptions = (
   variables: FollowMutationVariables

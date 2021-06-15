@@ -3,7 +3,7 @@ import { MutationFunctionOptions } from "@apollo/react-common";
 import {
   DeletePostMutationVariables,
   DeletePostMutation,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export const deletePostMutationOptions = (
   variables: DeletePostMutationVariables

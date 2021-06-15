@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ErrorMap } from "../../types/ErrorMap";
-import { MyMessage } from "../../types/MyMessage";
-import { useCreateChatMutation } from "../../generated/graphql";
+import { ErrorMap } from "../../../types/ErrorMap";
+import { MyMessage } from "../../../types/MyMessage";
+import { useCreateChatMutation } from "../../../generated/graphql";
 
 export interface CreateChatFormValues {
   reciever_uid: string;

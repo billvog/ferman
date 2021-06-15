@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { ErrorMap } from "../../types/ErrorMap";
-import { MyMessage } from "../../types/MyMessage";
+import { ErrorMap } from "../../../types/ErrorMap";
+import { MyMessage } from "../../../types/MyMessage";
 import {
   useAccountDeletionRequestMutation,
   useValidateAccountDeletionTokenMutation,
   useValidateAccountDeletionTokenWithPasswordMutation,
   useFinishAccountDeletionMutation,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export type DeleteUserPhase = 0 | 1 | 2 | 3;
 export interface DeleteUserFormValues {
@@ -34,9 +34,8 @@ export const DeleteUserController: React.FC<DeleteUserControllerProps> = ({
 
   const [deleteRequest] = useAccountDeletionRequestMutation();
   const [validateToken] = useValidateAccountDeletionTokenMutation();
-  const [
-    validateTokenWithPassword,
-  ] = useValidateAccountDeletionTokenWithPasswordMutation();
+  const [validateTokenWithPassword] =
+    useValidateAccountDeletionTokenWithPasswordMutation();
   const [finishAccountDeletion] = useFinishAccountDeletionMutation();
 
   const submit = async (values: DeleteUserFormValues) => {

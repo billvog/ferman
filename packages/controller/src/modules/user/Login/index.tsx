@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { MeDocument, MeQuery, useLoginMutation } from "../../generated/graphql";
-import { ErrorMap } from "../../types/ErrorMap";
-import { MyMessage } from "../../types/MyMessage";
+import {
+  MeDocument,
+  MeQuery,
+  useLoginMutation,
+} from "../../../generated/graphql";
+import { ErrorMap } from "../../../types/ErrorMap";
+import { MyMessage } from "../../../types/MyMessage";
 
 export interface LoginFormValues {
   email: string;
@@ -57,14 +61,6 @@ export const LoginController: React.FC<LoginControllerProps> = ({
     }
 
     setMessage(null);
-
-    try {
-      // remove stored values of register multi-step form from localStorage
-      localStorage.removeItem("stored.InitialRegisterValues");
-      localStorage.removeItem("stored.InitialRegisterPhase");
-    } catch (e) {
-      console.log(e);
-    }
 
     onFinish();
     return null;

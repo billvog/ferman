@@ -1,7 +1,7 @@
 import {
   MessagesQuery,
   OnNewMessageSubscription,
-} from "../../generated/graphql";
+} from "../../../generated/graphql";
 
 export const onMessageUpdateCache = (
   prev: MessagesQuery,

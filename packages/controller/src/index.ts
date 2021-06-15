@@ -1,20 +1,19 @@
 // User Controller
-export * from "./controllers/user/RegisterController";
-export * from "./controllers/user/LoginController";
-export * from "./controllers/user/ForgotPasswordController";
-export * from "./controllers/user/ResetPasswordController";
-export * from "./controllers/user/UpdateProfileController";
-export * from "./controllers/user/DeleteUserController";
-export * from "./options/user/FollowUserOptions";
+export * from "./modules/user/Register";
+export * from "./modules/user/Login";
+export * from "./modules/user/ForgotPwd";
+export * from "./modules/user/ResetPwd";
+export * from "./modules/user/EditProfile";
+export * from "./modules/user/Delete";
+export * from "./modules/user/Follow/Options";
 
 // Post Controller
-export * from "./controllers/post/CreatePostController";
-export * from "./options/post/LikePostOptions";
-export * from "./options/post/DeletePostOptions";
+export * from "./modules/post/Create";
+export * from "./modules/post/Delete/Options";
 
 // Chat Controller
-export * from "./controllers/chat/CreateChatController";
-export * from "./options/chat/onMessageUpdateCache";
+export * from "./modules/chat/Create";
+export * from "./modules/chat/OnNewMessage/UpdateCache";
 
 // Custom Types
 export * from "./types/MyMessage";
