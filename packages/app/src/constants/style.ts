@@ -111,7 +111,7 @@ export const h5: TextStyle = {
 
 export const h6: TextStyle = {
   ...textBase,
-  lineHeight: 26,
+  lineHeight: 22,
   fontSize: fontSize.h6,
   fontWeight: "700",
 };

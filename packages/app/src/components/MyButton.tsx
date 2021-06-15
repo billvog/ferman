@@ -45,7 +45,7 @@ const colorStyles: {
   },
 };
 
-type sizeKeys = "big" | "small" | "tiny";
+type sizeKeys = "big" | "small" | "medium" | "tiny";
 const sizeStyles: {
   [key in sizeKeys]: { view: StyleProp<ViewStyle>; text: StyleProp<TextStyle> };
 } = {
@@ -65,6 +65,15 @@ const sizeStyles: {
     },
     text: {
       fontSize: fontSize.paragraph,
+    },
+  },
+  medium: {
+    view: {
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+    },
+    text: {
+      fontSize: fontSize.md,
     },
   },
   tiny: {

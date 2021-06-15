@@ -85,6 +85,7 @@ export const PostsTab: React.FC = () => {
     >
       <View>
         <TextInput
+          selectionColor={colors.accentWashedOut}
           placeholder={t("search.search_field_placeholder")}
           value={query}
           onChangeText={setQuery}

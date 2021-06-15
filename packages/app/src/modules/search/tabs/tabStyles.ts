@@ -11,7 +11,7 @@ export const searchTabStyles = StyleSheet.create({
   },
   searchTipText: {
     fontFamily: fontFamily.inter.medium,
-    fontSize: fontSize.paragraph,
+    fontSize: fontSize.small,
     color: colors.accentWashedOut,
   },
   fieldSubText: {

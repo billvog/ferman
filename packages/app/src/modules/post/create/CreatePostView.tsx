@@ -1,4 +1,4 @@
-import { PostValidationSchema } from "@ferman-pkgs/common";
+import { BodyMax, PostValidationSchema } from "@ferman-pkgs/common";
 import {
   CreatePostFormValues,
   ErrorMap,
@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Field, FormikProps, withFormik } from "formik";
 import i18n from "i18next";
 import React, { useLayoutEffect } from "react";
-import { View } from "react-native";
+import { KeyboardAvoidingView, View } from "react-native";
 import { FormSpacer } from "../../../components/FormSpacer";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
@@ -44,7 +44,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
   }, [isReply]);
 
   return (
-    <View
+    <KeyboardAvoidingView
       style={{
         marginHorizontal: 12,
         marginVertical: 14,
@@ -59,6 +59,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
         <Field
           name="body"
           placeholder={`${t("common.body")}...`}
+          maxLength={BodyMax}
           multiline={true}
           component={InputField}
         />
@@ -72,7 +73,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
           {isReply ? t("post.reply") : t("post.post")}
         </MyButton>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

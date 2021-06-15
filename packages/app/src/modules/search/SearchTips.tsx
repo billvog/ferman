@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   headingText: {
     fontFamily: fontFamily.inter.bold,
-    fontSize: fontSize.h5,
+    fontSize: fontSize.h6,
     color: colors.primary700,
     marginBottom: 6,
   },
@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
   },
   tipItem: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   tipItemText: {
-    fontSize: fontSize.paragraph,
+    fontSize: fontSize.small,
     fontFamily: fontFamily.inter.medium,
     color: colors.primary600,
   },

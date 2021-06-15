@@ -1,11 +1,12 @@
-import { useFollowingsQuery } from "@ferman-pkgs/controller";
+import { useFollowingsQuery, useUserQuery } from "@ferman-pkgs/controller";
 import React, { useLayoutEffect, useState } from "react";
 import { Text, View } from "react-native";
+import processString from "react-process-string";
 import { CenterSpinner } from "../../components/CenterSpinner";
 import { ErrorText } from "../../components/ErrorText";
 import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
-import { colors, fontFamily, fontSize } from "../../constants/style";
+import { colors, fontFamily, h6 } from "../../constants/style";
 import { HomeNavProps } from "../../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 
@@ -15,6 +16,13 @@ export const UserFollowingsController: React.FC<any> = ({
 }: HomeNavProps<"UserFollowings">) => {
   const { t } = useTypeSafeTranslation();
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const { data: userData, loading: userLoading } = useUserQuery({
+    skip: typeof route.params === "undefined",
+    variables: {
+      id: route.params.userId,
+    },
+  });
 
   const {
     data: followingsData,
@@ -61,9 +69,9 @@ export const UserFollowingsController: React.FC<any> = ({
 
   return (
     <View style={{ flex: 1 }}>
-      {!followingsData && followingsLoading ? (
+      {(!followingsData && followingsLoading) || userLoading ? (
         <CenterSpinner />
-      ) : !followingsData && followingsError ? (
+      ) : (!followingsData && followingsError) || !userData?.user ? (
         <ErrorText>{t("errors.oops")}</ErrorText>
       ) : (
         <ScrollViewLoadMore
@@ -86,23 +94,26 @@ export const UserFollowingsController: React.FC<any> = ({
           }}
         >
           {followingsData?.followings?.count === 0 ? (
-            <View
+            <Text
               style={{
-                marginTop: 18,
-                justifyContent: "center",
-                alignItems: "center",
+                padding: 16,
+                ...h6,
+                fontWeight: "600",
+                color: colors.error,
+                fontFamily: fontFamily.inter.medium,
               }}
             >
-              <Text
-                style={{
-                  color: colors.primary500,
-                  fontSize: fontSize.h5,
-                  fontFamily: fontFamily.inter.medium,
-                }}
-              >
-                {t("user.followers.no_users")}
-              </Text>
-            </View>
+              {processString([
+                {
+                  regex: /%user%/,
+                  fn: () => (
+                    <Text style={{ fontWeight: "700" }}>
+                      {userData.user?.username}
+                    </Text>
+                  ),
+                },
+              ])(t("user.followings.no_users"))}
+            </Text>
           ) : (
             <View
               style={{

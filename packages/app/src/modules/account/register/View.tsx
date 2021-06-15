@@ -3,6 +3,8 @@ import {
   RegisterOneValidationSchema,
   RegisterThreeValidationSchema,
   RegisterTwoValidationSchema,
+  UidMax,
+  UsernameMax,
 } from "@ferman-pkgs/common";
 import {
   ErrorMap,
@@ -103,6 +105,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     placeholder={t("form.placeholder.uid")}
                     autoCapitalize="none"
                     helperText={t("form.helper.uid")}
+                    maxLength={UidMax}
                     component={InputField}
                   />
                 </FormSpacer>
@@ -112,6 +115,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     placeholder={t("form.placeholder.username")}
                     autoCapitalize="none"
                     helperText={t("form.helper.username")}
+                    maxLength={UsernameMax}
                     component={InputField}
                   />
                 </FormSpacer>
@@ -164,6 +168,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     placeholder={t("form.placeholder.uid")}
                     autoCapitalize="none"
                     helperText={t("form.helper.uid")}
+                    maxLength={UidMax}
                     component={InputField}
                   />
                 </FormSpacer>
@@ -172,6 +177,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     name="username"
                     placeholder={t("form.placeholder.username")}
                     autoCapitalize="none"
+                    maxLength={UsernameMax}
                     helperText={t("form.helper.username")}
                     component={InputField}
                   />

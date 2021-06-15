@@ -2,7 +2,7 @@ import { useLogoutMutation } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import * as WebBrowser from "expo-web-browser";
 import React, { useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import processString from "react-process-string";
 import { MyButton } from "../../../components/MyButton";
 import { UserCard } from "../../../components/UserCard";
@@ -34,7 +34,7 @@ export const ProfileController: React.FC<any> = ({
 
   if (!me) return null;
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       <UserCard user={me} key={`myprofile:${me.id}`} />
       <View style={styles.userSection}>
         <Text style={styles.gravatarInfoText}>
@@ -59,6 +59,7 @@ export const ProfileController: React.FC<any> = ({
         </Text>
         <View style={styles.buttonsContainer}>
           <MyButton
+            size="medium"
             onPress={() =>
               navigation.navigate("UserProfile", {
                 userId: me.id,
@@ -69,15 +70,16 @@ export const ProfileController: React.FC<any> = ({
             {t("my_account.my_profile")}
           </MyButton>
           <View style={styles.buttonWrapperNotFirst}>
-            <MyButton onPress={() => {}} color="secondary">
+            <MyButton size="medium" onPress={() => {}} color="secondary">
               {t("my_account.settings")}
             </MyButton>
           </View>
           <View style={styles.buttonWrapperNotFirst}>
             <MyButton
+              size="medium"
+              color="primary"
               onPress={logoutHandler}
               isLoading={logoutLoading}
-              color="primary"
             >
               {t("my_account.sign_out")}
             </MyButton>
@@ -124,7 +126,7 @@ export const ProfileController: React.FC<any> = ({
       </View>
       <View style={styles.deleteAccountContainer}>
         <View style={styles.deleteAccButtonContainer}>
-          <MyButton onPress={() => {}} color="danger">
+          <MyButton size="medium" onPress={() => {}} color="danger">
             {t("my_account.delete_account")}
           </MyButton>
         </View>
@@ -132,7 +134,7 @@ export const ProfileController: React.FC<any> = ({
           {t("my_account.delete_account_subtext")}
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
   },
   gravatarInfoText: {
     color: colors.primary600,
-    fontSize: fontSize.md,
+    fontSize: fontSize.small,
     fontFamily: fontFamily.inter.medium,
   },
   gravatarLinkText: {
@@ -152,9 +154,10 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     marginTop: 14,
+    flexWrap: "wrap",
   },
   buttonWrapperNotFirst: {
-    marginLeft: 8,
+    marginLeft: 6,
   },
   privateInfoContainer: {
     borderTopWidth: 2,
@@ -178,6 +181,7 @@ const styles = StyleSheet.create({
   privActualInfoItem: {
     flexDirection: "row",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   privActualInfoItemLabel: {
     fontWeight: "bold",
@@ -197,7 +201,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   deleteAccText: {
-    ...paragraph,
+    ...small,
     color: colors.primary500,
   },
 });
