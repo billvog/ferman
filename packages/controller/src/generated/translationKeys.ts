@@ -168,6 +168,7 @@ export type TranslationKeys =
 	| "chat.you_have_no_chats"
 	| "chat.chat_with"
 	| "chat.no_messages"
+	| "chat.message_read"
 	| "chat.create_chat.title"
 	| "chat.create_chat.errors.cannot_with_yourself"
 	| "chat.create_chat.errors.reciever_404"

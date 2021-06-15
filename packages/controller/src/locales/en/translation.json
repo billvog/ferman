@@ -228,6 +228,7 @@
     "you_have_no_chats": "You have no chats yet",
     "chat_with": "Chat with %user1%",
     "no_messages": "There are no messages here yet...",
+    "message_read": "Read",
     "create_chat": {
       "title": "Create Chat",
       "errors": {

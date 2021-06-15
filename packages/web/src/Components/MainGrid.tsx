@@ -33,7 +33,7 @@ export const MainGrid: React.FC<MainGridProps> = ({
     >
       <div
         className={`relative w-full h-screen 2cols:w-auto fullscreen:h-auto divide-x ${
-          leftSidebar ? "1cols:border-l 1cols:border-r" : ""
+          !!leftSidebar ? "1cols:border-l 1cols:border-r" : ""
         } ${screenType === "1-cols" ? "flex-row" : ""}`}
         style={{
           display: screenType === "2-cols" ? "grid" : "flex",

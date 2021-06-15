@@ -52,7 +52,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
     );
 
     if (!data || data.likePost.error) {
-      return toast.error("Could not like post");
+      return toast.error(t("errors.oops"));
     }
   };
 
@@ -65,12 +65,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
     );
 
     if (response.errors || !response.data?.deletePost) {
-      return toast({
-        title: "Error",
-        description: t("post.alert.cannot_delete"),
-        status: "error",
-        duration: 5000,
-      });
+      return toast.error(t("errors.oops"));
     }
 
     setDelModalOpen(false);
@@ -92,7 +87,9 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
       <div className="flex justify-center items-center space-x-7 text-vs leading-none">
         <button
           title={post.likeStatus ? t("post.unlike") : t("post.like")}
-          className={`text-red-${canILike ? "500" : "300"} ${actionClassname}`}
+          className={`${
+            canILike ? "text-red-500" : "text-red-300"
+          } ${actionClassname}`}
           disabled={!canILike}
           onClick={LikePostHandler}
         >

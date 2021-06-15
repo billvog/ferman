@@ -16,22 +16,20 @@ const Page: React.FC = () => {
       <HeaderController title={t("index.title")} />
       <WaitAuth>
         {(user) => (
-          <>
-            <MainGrid
-              title={
-                typeof user === "undefined"
-                  ? ""
-                  : user
-                  ? t("index.feed")
-                  : t("index.recent_posts")
-              }
-              loggedUser={user}
-              bottomNav={<CommonBottomNav loggedUser={user} />}
-              leftSidebar={<CommonSidebar loggedUser={user} />}
-            >
-              <FeedController loggedUser={user} />
-            </MainGrid>
-          </>
+          <MainGrid
+            title={
+              typeof user === "undefined"
+                ? ""
+                : user
+                ? t("index.feed")
+                : t("index.recent_posts")
+            }
+            loggedUser={user}
+            bottomNav={<CommonBottomNav loggedUser={user} />}
+            leftSidebar={<CommonSidebar loggedUser={user} />}
+          >
+            <FeedController loggedUser={user} />
+          </MainGrid>
         )}
       </WaitAuth>
     </WaitI18>

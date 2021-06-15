@@ -1,12 +1,8 @@
 import { gql } from "@apollo/client";
 import { ChatMessageMax } from "@ferman-pkgs/common";
 import {
-  Chat,
-  ChatsQuery,
   FullChatFragment,
   MessagesDocument,
-  MessagesQuery,
-  MessagesQueryVariables,
   OnMessageDeletedDocument,
   OnMessageDeletedSubscription,
   OnMessageDeletedSubscriptionVariables,
@@ -24,7 +20,6 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { RiWechatFill } from "react-icons/ri";
 import { toast } from "react-toastify";
-import { Waypoint } from "react-waypoint";
 import { ChatMessage } from "../../../components/ChatMessage";
 import { ErrorText } from "../../../components/ErrorText";
 import { InputField } from "../../../components/InputField";
@@ -220,7 +215,9 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                       1800000 ||
                     isFirst
                   ) {
-                    label = dayjs(nextMessage?.createdAt).calendar();
+                    label = dayjs(nextMessage?.createdAt).format(
+                      "D MMMM YYYY, h:mm A"
+                    );
                   }
 
                   return (
