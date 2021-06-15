@@ -215,7 +215,6 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                 { color: colors.accentWashedOut },
               ]}
             >
-              {t("user.location")}:{" "}
               <Text style={styles.additionalInfoItemTextValue}>
                 {user.profile.location}
               </Text>

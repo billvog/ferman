@@ -47,6 +47,7 @@ export const InputField: React.FC<InputFieldProps> = (props) => {
         onChangeText={onChangeText}
         placeholder={placeholder}
         value={field.value}
+        selectionColor={colors.accentWashedOut}
       />
       {!!error &&
         (i18n.exists(`form.error.${error}`) || i18n.exists(error as any)) && (

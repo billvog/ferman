@@ -1,12 +1,14 @@
 import { LoginValidationSchema } from "@ferman-pkgs/common";
 import { ErrorMap, LoginFormValues, MyMessage } from "@ferman-pkgs/controller";
+import { useNavigation } from "@react-navigation/native";
 import { Field, FormikProps, withFormik } from "formik";
 import i18n from "i18next";
 import React from "react";
-import { View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { AuthNavProps } from "../../../navigation/AuthStack/ParamList";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface LoginViewProps {
@@ -20,6 +22,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
   submitForm,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const navigation = useNavigation<AuthNavProps<"Login">["navigation"]>();
 
   return (
     <View
@@ -70,6 +73,9 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
           isLoading={isSubmitting}
           onPress={submitForm}
         />
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text>register</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
