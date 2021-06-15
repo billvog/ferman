@@ -1,13 +1,4 @@
 import {
-  ErrorMap,
-  MyMessage,
-  RegisterFormValues,
-  RegisterPhase,
-} from "@ferman-pkgs/controller";
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import NextLink from "next/link";
-import {
   RegisterFourValidationSchema,
   RegisterOneValidationSchema,
   RegisterThreeValidationSchema,
@@ -15,11 +6,20 @@ import {
   UidMax,
   UsernameMax,
 } from "@ferman-pkgs/common";
+import {
+  ErrorMap,
+  MyMessage,
+  RegisterFormValues,
+  RegisterPhase,
+} from "@ferman-pkgs/controller";
+import { Form, Formik } from "formik";
+import i18n from "i18next";
+import NextLink from "next/link";
+import React, { useState } from "react";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import { useTranslation } from "react-i18next";
 
 interface RegisterViewProps {
   storedInitialValues?: RegisterFormValues;
@@ -36,7 +36,6 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   phase,
   done,
 }) => {
-  const { i18n } = useTranslation();
   const { t } = useTypeSafeTranslation();
 
   // toggle show/hide password
