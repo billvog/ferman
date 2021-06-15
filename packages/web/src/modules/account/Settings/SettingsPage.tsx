@@ -15,11 +15,11 @@ const Page: React.FC<SettingsPageProps> = ({}) => {
 
   return (
     <WaitI18>
-      <HeaderController title={t("settings.language.title")} />
+      <HeaderController title={t("settings.title")} />
       <WaitAuth RequireLoggedIn>
         {(user) => (
           <MainGrid
-            title={t("settings.language.title")}
+            title={t("settings.title")}
             bottomNav={<CommonBottomNav loggedUser={user} />}
             leftSidebar={<CommonSidebar loggedUser={user} />}
           >
