@@ -6,14 +6,12 @@ import { PageHeader } from "./PageHeader";
 
 interface MainGridProps {
   title?: string | JSX.Element;
-  loggedUser?: FullUserFragment | null | undefined;
   leftSidebar?: JSX.Element;
   bottomNav?: JSX.Element;
 }
 
 export const MainGrid: React.FC<MainGridProps> = ({
   title = "",
-  loggedUser = null,
   leftSidebar = null,
   bottomNav = null,
   children,
@@ -43,11 +41,7 @@ export const MainGrid: React.FC<MainGridProps> = ({
         {screenType !== "fullscreen" && leftSidebar}
         <div className="flex-1 flex flex-col">
           {!!title && (
-            <PageHeader
-              title={title}
-              showBackButton={route !== "/"}
-              loggedUser={loggedUser}
-            />
+            <PageHeader title={title} showBackButton={route !== "/"} />
           )}
           <div className="flex-1">{children}</div>
           {screenType === "fullscreen" && bottomNav}

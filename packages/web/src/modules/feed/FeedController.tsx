@@ -1,17 +1,16 @@
 import { usePostsQuery } from "@ferman-pkgs/controller";
-import React from "react";
+import React, { useContext } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../types/WithAuthProps";
+import { AuthContext } from "../auth/AuthProvider";
 
-interface FeedContollerProps extends WithAuthProps {}
-export const FeedController: React.FC<FeedContollerProps> = ({
-  loggedUser,
-}) => {
+interface FeedContollerProps {}
+export const FeedController: React.FC<FeedContollerProps> = ({}) => {
   const { t } = useTypeSafeTranslation();
+  const { me } = useContext(AuthContext);
 
   const {
     loading: postsLoading,
@@ -21,17 +20,17 @@ export const FeedController: React.FC<FeedContollerProps> = ({
     variables: postsVariables,
   } = usePostsQuery({
     notifyOnNetworkStatusChange: true,
-    skip: typeof loggedUser === "undefined",
+    skip: typeof me === "undefined",
     variables: {
       limit: 15,
-      fromFollowed: !!loggedUser,
+      fromFollowed: !!me,
       skip: 0,
     },
   });
 
   return (
     <div>
-      {(postsLoading && !postsData) || typeof loggedUser === "undefined" ? (
+      {(postsLoading && !postsData) || typeof me === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
@@ -42,7 +41,7 @@ export const FeedController: React.FC<FeedContollerProps> = ({
       ) : (
         <div className="divide-y border-b">
           {postsData.posts.posts.map((post) => (
-            <Post key={post.id} post={post} me={loggedUser} />
+            <Post key={post.id} post={post} me={me} />
           ))}
         </div>
       )}

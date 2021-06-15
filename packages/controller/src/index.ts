@@ -3,7 +3,7 @@ export * from "./modules/user/Register";
 export * from "./modules/user/Login";
 export * from "./modules/user/ForgotPwd";
 export * from "./modules/user/ResetPwd";
-export * from "./modules/user/EditProfile";
+export * from "./modules/user/UpdateProfile";
 export * from "./modules/user/Delete";
 export * from "./modules/user/Follow/Options";
 

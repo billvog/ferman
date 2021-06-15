@@ -3,37 +3,37 @@ import { ErrorText } from "../../components/ErrorText";
 import { useLogoutMutation } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import processString from "react-process-string";
 import { toast } from "react-toastify";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserCard } from "../../components/UserCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../types/WithAuthProps";
+import { AuthContext } from "../auth/AuthProvider";
 
-interface AccountControllerProps extends WithAuthProps {}
+interface AccountControllerProps {}
 
-export const AccountController: React.FC<AccountControllerProps> = ({
-  loggedUser,
-}) => {
+export const AccountController: React.FC<AccountControllerProps> = ({}) => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
   const apolloClient = useApolloClient();
   const [logout] = useLogoutMutation();
 
+  const { me } = useContext(AuthContext);
+
   return (
     <div>
-      {typeof loggedUser === "undefined" ? (
+      {typeof me === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
-      ) : !loggedUser ? (
+      ) : !me ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div className="divide-y-2 space-y-3">
           <div>
-            <UserCard me={loggedUser} user={loggedUser} />
+            <UserCard me={me} user={me} />
             <div className="p-3">
               <div className="text-primary-400 text-xs font-semibold mb-4">
                 {processString([
@@ -55,7 +55,7 @@ export const AccountController: React.FC<AccountControllerProps> = ({
               </div>
               <div className="flex flex-row space-x-2">
                 <MyButton
-                  onClick={() => router.push(`/user/${loggedUser.uid}`)}
+                  onClick={() => router.push(`/user/${me.uid}`)}
                   color="accent"
                 >
                   {t("my_account.my_profile")}
@@ -92,17 +92,17 @@ export const AccountController: React.FC<AccountControllerProps> = ({
             </div>
             <div className="text-primary-500 text-sm">
               <div>
-                <b>{t("my_account.email")}:</b> {loggedUser.email}
+                <b>{t("my_account.email")}:</b> {me.email}
               </div>
               <div>
                 <b>{t("my_account.date_of_birth")}:</b>{" "}
-                {dayjs(parseFloat(loggedUser.profile?.birthdate || "0")).format(
+                {dayjs(parseFloat(me.profile?.birthdate || "0")).format(
                   "MMM DD YYYY"
                 )}
               </div>
               <div>
                 <b>{t("my_account.created_date")}:</b>{" "}
-                {dayjs(parseFloat(loggedUser.createdAt)).format(
+                {dayjs(parseFloat(me.createdAt)).format(
                   "MMMM DD YYYY, h:mm:ss a"
                 )}
               </div>

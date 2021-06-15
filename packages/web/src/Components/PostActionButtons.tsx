@@ -8,7 +8,6 @@ import {
   deletePostMutationOptions,
   FullPostFragment,
   FullUserFragment,
-  likePostMutationOptions,
   useDeletePostMutation,
   useLikePostMutation,
 } from "@ferman-pkgs/controller";
@@ -45,11 +44,7 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
 
   const [likePost, { loading: likeLoading }] = useLikePostMutation();
   const LikePostHandler = async () => {
-    const { data } = await likePost(
-      likePostMutationOptions({
-        id: post.id,
-      }) as any
-    );
+    const { data } = await likePost({ variables: { id: post.id } });
 
     if (!data || data.likePost.error) {
       return toast.error(t("errors.oops"));
@@ -90,7 +85,6 @@ export const PostActionButtons: React.FC<PostActionButtonsProps> = ({
           className={`${
             canILike ? "text-red-500" : "text-red-300"
           } ${actionClassname}`}
-          disabled={!canILike}
           onClick={LikePostHandler}
         >
           <div

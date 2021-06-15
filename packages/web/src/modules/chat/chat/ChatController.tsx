@@ -17,7 +17,7 @@ import {
 } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RiWechatFill } from "react-icons/ri";
 import { toast } from "react-toastify";
 import { ChatMessage } from "../../../components/ChatMessage";
@@ -27,18 +27,17 @@ import { MyButton } from "../../../components/MyButton";
 import { MySpinner } from "../../../components/MySpinner";
 import { useScreenType } from "../../../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../../types/WithAuthProps";
+import { AuthContext } from "../../auth/AuthProvider";
 
-interface ChatControllerProps extends WithAuthProps {
+interface ChatControllerProps {
   chat: FullChatFragment | null | undefined;
 }
 
-export const ChatController: React.FC<ChatControllerProps> = ({
-  loggedUser,
-  chat,
-}) => {
+export const ChatController: React.FC<ChatControllerProps> = ({ chat }) => {
   const { t } = useTypeSafeTranslation();
   const screenType = useScreenType();
+
+  const { me } = useContext(AuthContext);
 
   const {
     data: messagesData,
@@ -167,12 +166,12 @@ export const ChatController: React.FC<ChatControllerProps> = ({
   useEffect(() => {
     if (!messagesData?.messages.messages) return;
     const lm = messagesData?.messages.messages[0];
-    if (lm.userId === loggedUser?.id && lm.read) setLatestRead(lm.id);
+    if (lm.userId === me?.id && lm.read) setLatestRead(lm.id);
   }, [messagesData?.messages.messages]);
 
   return (
     <>
-      {!loggedUser ||
+      {!me ||
       typeof chat === "undefined" ||
       (messagesLoading && !messagesData) ? (
         <div className="p-4">
@@ -228,7 +227,7 @@ export const ChatController: React.FC<ChatControllerProps> = ({
                       }`}
                     >
                       <ChatMessage
-                        me={loggedUser}
+                        me={me}
                         message={message}
                         showRead={latestRead === message.id}
                       />

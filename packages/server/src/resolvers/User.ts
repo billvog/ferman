@@ -128,7 +128,7 @@ export class UserResolver {
   }
 
   // PROFILE
-  @FieldResolver(() => Profile, { nullable: true })
+  @FieldResolver(() => Profile)
   profile(@Root() user: User): Promise<Profile | undefined> {
     return Profile.findOne({
       where: { userId: user.id },

@@ -17,15 +17,13 @@ const Page: React.FC<SettingsPageProps> = ({}) => {
     <WaitI18>
       <HeaderController title={t("settings.title")} />
       <WaitAuth RequireLoggedIn>
-        {(user) => (
-          <MainGrid
-            title={t("settings.title")}
-            bottomNav={<CommonBottomNav loggedUser={user} />}
-            leftSidebar={<CommonSidebar loggedUser={user} />}
-          >
-            <SettingsController loggedUser={user} />
-          </MainGrid>
-        )}
+        <MainGrid
+          title={t("settings.title")}
+          bottomNav={<CommonBottomNav />}
+          leftSidebar={<CommonSidebar />}
+        >
+          <SettingsController />
+        </MainGrid>
       </WaitAuth>
     </WaitI18>
   );

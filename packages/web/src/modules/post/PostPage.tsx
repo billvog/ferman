@@ -28,18 +28,13 @@ const Page: React.FC = () => {
           }
         />
         <WaitAuth>
-          {(user) => (
-            <>
-              <MainGrid
-                title={t("post.raw")}
-                loggedUser={user}
-                bottomNav={<CommonBottomNav loggedUser={user} />}
-                leftSidebar={<CommonSidebar loggedUser={user} />}
-              >
-                <PostController loggedUser={user} />
-              </MainGrid>
-            </>
-          )}
+          <MainGrid
+            title={t("post.raw")}
+            bottomNav={<CommonBottomNav />}
+            leftSidebar={<CommonSidebar />}
+          >
+            <PostController />
+          </MainGrid>
         </WaitAuth>
       </WaitI18>
     </PostOpenGraphPreview>

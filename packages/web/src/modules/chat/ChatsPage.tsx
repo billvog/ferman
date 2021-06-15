@@ -15,18 +15,13 @@ const Page: React.FC = () => {
     <WaitI18>
       <HeaderController title={t("chat.title")} />
       <WaitAuth RequireLoggedIn>
-        {(user) => (
-          <>
-            <MainGrid
-              title={t("chat.title")}
-              loggedUser={user}
-              bottomNav={<CommonBottomNav loggedUser={user} />}
-              leftSidebar={<CommonSidebar loggedUser={user} />}
-            >
-              <ChatsController loggedUser={user} />
-            </MainGrid>
-          </>
-        )}
+        <MainGrid
+          title={t("chat.title")}
+          bottomNav={<CommonBottomNav />}
+          leftSidebar={<CommonSidebar />}
+        >
+          <ChatsController />
+        </MainGrid>
       </WaitAuth>
     </WaitI18>
   );

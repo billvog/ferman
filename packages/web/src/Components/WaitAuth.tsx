@@ -1,17 +1,11 @@
-import {
-  FullUserFragment,
-  OnMyUserUpdateDocument,
-  OnMyUserUpdateSubscription,
-  useMeQuery,
-} from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../modules/auth/AuthProvider";
 import { MyCenterSpinner } from "./MyCenterSpinner";
 
 interface WaitAuthProps {
   RequireLoggedIn?: boolean;
   RequireNotLoggedIn?: boolean;
-  children: (user: FullUserFragment | null | undefined) => JSX.Element;
 }
 
 export const WaitAuth: React.FC<WaitAuthProps> = ({
@@ -25,30 +19,7 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
     RequireLoggedIn || RequireNotLoggedIn ? false : true
   );
 
-  const {
-    data: userData,
-    loading,
-    subscribeToMore,
-  } = useMeQuery({ ssr: false });
-
-  useEffect(() => {
-    if (!userData?.me) return;
-
-    const unsubscribe = subscribeToMore<OnMyUserUpdateSubscription>({
-      document: OnMyUserUpdateDocument,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData) return prev;
-        else
-          return {
-            me: subscriptionData.data.onMyUserUpdate,
-          };
-      },
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [userData?.me]);
+  const { me } = useContext(AuthContext);
 
   useEffect(() => {
     if (ok) {
@@ -56,25 +27,25 @@ export const WaitAuth: React.FC<WaitAuthProps> = ({
     }
 
     if (RequireLoggedIn) {
-      if (!loading && !userData?.me) {
+      if (!me) {
         router.replace("/account/login?next=" + router.asPath);
-      } else if (!loading && userData?.me) {
+      } else if (me) {
         setOk(true);
       }
     }
 
     if (RequireNotLoggedIn) {
-      if (!loading && userData?.me) {
+      if (me) {
         router.replace("/");
-      } else if (!loading && !userData?.me) {
+      } else if (!me) {
         setOk(true);
       }
     }
-  }, [userData, loading, router]);
+  }, [me, router]);
 
   return (
     <div className="w-screen h-screen">
-      {ok ? children(userData?.me) : <MyCenterSpinner />}
+      {ok ? children : <MyCenterSpinner />}
     </div>
   );
 };

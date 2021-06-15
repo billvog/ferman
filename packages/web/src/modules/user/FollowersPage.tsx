@@ -27,29 +27,26 @@ const Page: React.FC = () => {
         }
       />
       <WaitAuth>
-        {(user) => (
-          <MainGrid
-            title={
-              userData?.user?.username
-                ? t("user.followers.header_title")
-                    .replace("%user%", userData.user.username)
-                    .replace(
-                      "%count%",
-                      `${
-                        userData.user.followersCount > 1
-                          ? `(${userData.user.followersCount})`
-                          : ""
-                      }`
-                    )
-                : undefined
-            }
-            loggedUser={user}
-            bottomNav={<CommonBottomNav loggedUser={user} />}
-            leftSidebar={<CommonSidebar loggedUser={user} />}
-          >
-            <FollowersController user={userData?.user} loggedUser={user} />
-          </MainGrid>
-        )}
+        <MainGrid
+          title={
+            userData?.user?.username
+              ? t("user.followers.header_title")
+                  .replace("%user%", userData.user.username)
+                  .replace(
+                    "%count%",
+                    `${
+                      userData.user.followersCount > 1
+                        ? `(${userData.user.followersCount})`
+                        : ""
+                    }`
+                  )
+              : undefined
+          }
+          bottomNav={<CommonBottomNav />}
+          leftSidebar={<CommonSidebar />}
+        >
+          <FollowersController user={userData?.user} />
+        </MainGrid>
       </WaitAuth>
     </WaitI18>
   );

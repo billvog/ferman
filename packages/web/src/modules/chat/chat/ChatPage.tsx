@@ -12,7 +12,7 @@ import {
 } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CommonBottomNav } from "../../../components/CommonBottomNav";
 import { CommonSidebar } from "../../../components/CommonSidebar";
 import { MainGrid } from "../../../components/MainGrid";
@@ -22,6 +22,7 @@ import { WaitI18 } from "../../../components/WaitI18";
 import { useGetChatFromUrl } from "../../../shared-hooks/useGetChatFromUrl";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { withMyApollo } from "../../../utils/withMyApollo";
+import { AuthContext } from "../../auth/AuthProvider";
 import { HeaderController } from "../../display/HeaderController";
 import { ChatController } from "./ChatController";
 
@@ -29,10 +30,11 @@ const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
 
+  const { me } = useContext(AuthContext);
+
   const [otherUserId, setOtherUserId] = useState(-1);
 
   const { data: chatData } = useGetChatFromUrl();
-  const { data: meData } = useMeQuery();
   const {
     data: userData,
     variables: userVariables,
@@ -46,14 +48,14 @@ const Page: React.FC = () => {
   });
 
   useEffect(() => {
-    if (meData?.me?.id && chatData?.chat.chat) {
+    if (me?.id && chatData?.chat.chat) {
       setOtherUserId(
-        meData.me.id === chatData.chat.chat.senderId
+        me.id === chatData.chat.chat.senderId
           ? chatData.chat.chat.recieverId
           : chatData.chat.chat.senderId
       );
     }
-  }, [chatData, meData]);
+  }, [chatData, me]);
 
   useEffect(() => {
     if (otherUserId === -1) return;
@@ -100,83 +102,74 @@ const Page: React.FC = () => {
   return (
     <WaitI18>
       <WaitAuth RequireLoggedIn>
-        {(user) => {
-          return (
-            <>
-              <HeaderController
-                title={
-                  user && chatData?.chat.chat
-                    ? t("chat.chat_with").replace(
-                        "%user1%",
-                        userData?.user?.username || ""
-                      )
-                    : undefined
-                }
-              />
-              <MainGrid
-                title={
-                  <div>
-                    {userData?.user ? (
-                      <div
-                        className="ml-2 flex flex-row items-center cursor-pointer group"
-                        onClick={() =>
-                          router.push(`/user/${userData.user?.uid}`)
-                        }
-                      >
-                        <div className="mr-2.5">
-                          <div className="relative">
-                            <img
-                              src={userData.user.profile?.avatarUrl}
-                              className="w-7 h-7 rounded-35"
-                            />
-                            <div className="absolute -bottom-0.5 -right-0.5">
-                              <div
-                                className={`w-2 h-2 rounded-full ring-2 ring-primary-100 ${
-                                  userData.user.isOnline
-                                    ? "bg-green-500"
-                                    : "bg-yellow-400"
-                                }`}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex flex-col items-start">
-                          <div className="text-md text-primary-500 font-semibold group-hover:underline">
-                            {userData.user.uid}
-                          </div>
-                          <div className="text-xs leading-none">
-                            {userData.user.isOnline
-                              ? t("user.active_now")
-                              : t("user.last_seen").replace(
-                                  "%time%",
-                                  dayjs(
-                                    parseFloat(userData.user.lastSeen)
-                                  ).fromNow(true)
-                                )}
-                          </div>
-                        </div>
+        <HeaderController
+          title={
+            me && chatData?.chat.chat
+              ? t("chat.chat_with").replace(
+                  "%user1%",
+                  userData?.user?.username || ""
+                )
+              : undefined
+          }
+        />
+        <MainGrid
+          title={
+            <div>
+              {userData?.user ? (
+                <div
+                  className="ml-2 flex flex-row items-center cursor-pointer group"
+                  onClick={() => router.push(`/user/${userData.user?.uid}`)}
+                >
+                  <div className="mr-2.5">
+                    <div className="relative">
+                      <img
+                        src={userData.user.profile?.avatarUrl}
+                        className="w-7 h-7 rounded-35"
+                      />
+                      <div className="absolute -bottom-0.5 -right-0.5">
+                        <div
+                          className={`w-2 h-2 rounded-full ring-2 ring-primary-100 ${
+                            userData.user.isOnline
+                              ? "bg-green-500"
+                              : "bg-yellow-400"
+                          }`}
+                        />
                       </div>
-                    ) : (
-                      <div
-                        className="pl-4 flex items-center"
-                        style={{
-                          height: "33px",
-                        }}
-                      >
-                        <MySpinner size="tiny" />
-                      </div>
-                    )}
+                    </div>
                   </div>
-                }
-                loggedUser={user}
-                bottomNav={<CommonBottomNav loggedUser={user} />}
-                leftSidebar={<CommonSidebar loggedUser={user} />}
-              >
-                <ChatController chat={chatData?.chat.chat} loggedUser={user} />
-              </MainGrid>
-            </>
-          );
-        }}
+                  <div className="flex flex-col items-start">
+                    <div className="text-md text-primary-500 font-semibold group-hover:underline">
+                      {userData.user.uid}
+                    </div>
+                    <div className="text-xs leading-none">
+                      {userData.user.isOnline
+                        ? t("user.active_now")
+                        : t("user.last_seen").replace(
+                            "%time%",
+                            dayjs(parseFloat(userData.user.lastSeen)).fromNow(
+                              true
+                            )
+                          )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className="pl-4 flex items-center"
+                  style={{
+                    height: "33px",
+                  }}
+                >
+                  <MySpinner size="tiny" />
+                </div>
+              )}
+            </div>
+          }
+          bottomNav={<CommonBottomNav />}
+          leftSidebar={<CommonSidebar />}
+        >
+          <ChatController chat={chatData?.chat.chat} />
+        </MainGrid>
       </WaitAuth>
     </WaitI18>
   );

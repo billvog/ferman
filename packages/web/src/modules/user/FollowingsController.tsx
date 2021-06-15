@@ -1,22 +1,22 @@
 import { FullUserFragment, useFollowingsQuery } from "@ferman-pkgs/controller";
-import React from "react";
+import React, { useContext } from "react";
 import processString from "react-process-string";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../types/WithAuthProps";
+import { AuthContext } from "../auth/AuthProvider";
 
-interface FollowingsControllerProps extends WithAuthProps {
+interface FollowingsControllerProps {
   user: FullUserFragment | null | undefined;
 }
 
 export const FollowingsController: React.FC<FollowingsControllerProps> = ({
-  loggedUser,
   user,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const { me } = useContext(AuthContext);
 
   const {
     data: followingsData,
@@ -37,7 +37,7 @@ export const FollowingsController: React.FC<FollowingsControllerProps> = ({
     <div>
       {typeof user === "undefined" ||
       (!followingsData && followingsLoading) ||
-      typeof loggedUser === "undefined" ? (
+      typeof me === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
@@ -59,11 +59,7 @@ export const FollowingsController: React.FC<FollowingsControllerProps> = ({
           ) : (
             <div className="divide-y border-b">
               {followingsData.followings?.users.map((follow) => (
-                <UserSummaryCard
-                  key={follow.id}
-                  me={loggedUser}
-                  user={follow}
-                />
+                <UserSummaryCard key={follow.id} me={me} user={follow} />
               ))}
             </div>
           )}

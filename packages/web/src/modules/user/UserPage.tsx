@@ -28,27 +28,19 @@ const Page: React.FC = () => {
           }
         />
         <WaitAuth>
-          {(user) => (
-            <>
-              <MainGrid
-                title={
-                  userData?.user
-                    ? userData?.user?.username
-                    : !userLoading
-                    ? t("common.error")
-                    : undefined
-                }
-                loggedUser={user}
-                // bottomNav={<CommonBottomNav loggedUser={user} />}
-                leftSidebar={<CommonSidebar loggedUser={user} />}
-              >
-                <UserProfileController
-                  user={userData?.user}
-                  loggedUser={user}
-                />
-              </MainGrid>
-            </>
-          )}
+          <MainGrid
+            title={
+              userData?.user
+                ? userData?.user?.username
+                : !userLoading
+                ? t("common.error")
+                : undefined
+            }
+            bottomNav={<CommonBottomNav />}
+            leftSidebar={<CommonSidebar />}
+          >
+            <UserProfileController user={userData?.user} />
+          </MainGrid>
         </WaitAuth>
       </WaitI18>
     </UserOpenGraphPreview>

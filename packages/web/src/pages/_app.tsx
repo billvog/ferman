@@ -5,6 +5,7 @@ import { init_dayjs } from "../lib/dayjs";
 import { init_i18n } from "../lib/i18n";
 import { GlobalModals } from "../modules/display/GlobalModals";
 import { isServer } from "../utils/isServer";
+import { Providers } from "../modules/Providers";
 
 if (!isServer()) {
   (async () => {
@@ -26,10 +27,10 @@ function MyApp({ Component, pageProps }: any) {
   });
 
   return (
-    <>
+    <Providers>
       <Component {...pageProps} />
       <GlobalModals />
-    </>
+    </Providers>
   );
 }
 

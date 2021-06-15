@@ -1,8 +1,9 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { BiUserCircle } from "react-icons/bi";
+import { AuthContext } from "../modules/auth/AuthProvider";
 import { useNavIcons } from "../shared-hooks/useNavIcons";
 import { useScreenType } from "../shared-hooks/useScreenType";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
@@ -46,15 +47,15 @@ const UserAction: React.FC<UserActionProps> = (props) => {
   );
 };
 
-interface CommonSidebarProps {
-  loggedUser: FullUserFragment | null | undefined;
-}
+interface CommonSidebarProps {}
 
-export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
+export const CommonSidebar: React.FC<CommonSidebarProps> = ({}) => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
   const screenType = useScreenType();
   const NavIcons = useNavIcons();
+
+  const { me } = useContext(AuthContext);
 
   return (
     <div className="flex sticky top-0 flex-col justify-between items-start space-y-6 h-screen divide-y">
@@ -83,7 +84,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
           text={t("common_sidebar.search")}
           key="search-item"
         />
-        {loggedUser && (
+        {me && (
           <>
             <SidebarItem
               onClick={() => {
@@ -109,14 +110,14 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
         )}
       </div>
       <div className="w-full divide-y">
-        {typeof loggedUser !== "undefined" && loggedUser && (
+        {typeof me !== "undefined" && me && (
           <div className="flex 2cols:flex-row flex-col divide-y 2cols:divide-y-0 2cols:space-x-2 justify-center">
             <UserAction
               icon={
                 <div className="relative">
                   <div className="relative p-0.5">
                     <NavIcons.ChatIcon size="20px" />
-                    {loggedUser.hasUnreadMessage && (
+                    {me.hasUnreadMessage && (
                       <div className="absolute bottom-0 right-0">
                         <div className="w-2 h-2 rounded-full bg-primary-600 ring-2 ring-primary-50" />
                       </div>
@@ -132,12 +133,12 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
         <div
           className="flex flex-col items-center space-y-6 w-full p-4 group hover:bg-primary-100 transition-colors duration-150 cursor-pointer"
           onClick={() =>
-            loggedUser ? router.push("/account") : router.push("/account/login")
+            me ? router.push("/account") : router.push("/account/login")
           }
         >
-          {typeof loggedUser === "undefined" ? (
+          {typeof me === "undefined" ? (
             <MySpinner />
-          ) : loggedUser ? (
+          ) : me ? (
             <>
               <div className="flex flex-row justify-center 2cols:justify-between items-center w-full">
                 {screenType === "2-cols" ? (
@@ -145,16 +146,16 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                     <div className="flex flex-row items-center">
                       <div className="mr-2.5">
                         <img
-                          src={loggedUser.profile?.avatarUrl}
+                          src={me.profile.avatarUrl}
                           className="w-10 h-10 rounded-35"
                         />
                       </div>
                       <div className="flex flex-col">
                         <span className="font-bold text-base leading-none text-primary-600 group-hover:underline">
-                          {loggedUser.username}
+                          {me.username}
                         </span>
                         <span className="text-sm font-semibold text-primary-450">
-                          @{loggedUser.uid}
+                          @{me.uid}
                         </span>
                       </div>
                     </div>
@@ -167,7 +168,7 @@ export const CommonSidebar: React.FC<CommonSidebarProps> = ({ loggedUser }) => {
                 ) : (
                   <div>
                     <img
-                      src={loggedUser.profile?.avatarUrl}
+                      src={me.profile?.avatarUrl}
                       className="w-10 h-10 rounded-35"
                     />
                   </div>

@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { GrRadialSelected } from "react-icons/gr";
 import { useTranslation } from "react-i18next";
 import { MySpinner } from "../../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../../../types/WithAuthProps";
 import dayjs from "dayjs";
+import { AuthContext } from "../../../auth/AuthProvider";
 
-interface LanguageControllerProps extends WithAuthProps {}
-export const LanguageController: React.FC<LanguageControllerProps> = ({
-  loggedUser,
-}) => {
-  const options = [
-    { value: "en", flag: "🇬🇧", label: "English" },
-    { value: "el", flag: "🇬🇷", label: "Ελληνικά" },
-  ];
+interface LanguageControllerProps {}
+export const LanguageController: React.FC<LanguageControllerProps> = ({}) => {
+  const { me } = useContext(AuthContext);
 
   const { t } = useTypeSafeTranslation();
   const { i18n } = useTranslation();
 
   const [query, setQuery] = useState("");
 
+  const options = [
+    { value: "en", flag: "🇬🇧", label: "English" },
+    { value: "el", flag: "🇬🇷", label: "Ελληνικά" },
+  ];
+
   return (
     <div>
-      {!loggedUser ? (
+      {!me ? (
         <div className="p-4">
           <MySpinner />
         </div>

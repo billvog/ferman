@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { HiChevronRight } from "react-icons/hi";
 import { IoIosGlobe } from "react-icons/io";
 import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../../types/WithAuthProps";
+import { AuthContext } from "../../auth/AuthProvider";
 
 interface ListItemProps {
   icon: JSX.Element;
@@ -31,16 +31,16 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   );
 };
 
-interface SettingsControllerProps extends WithAuthProps {}
-export const SettingsController: React.FC<SettingsControllerProps> = ({
-  loggedUser,
-}) => {
+interface SettingsControllerProps {}
+export const SettingsController: React.FC<SettingsControllerProps> = ({}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
 
+  const { me } = useContext(AuthContext);
+
   return (
     <div>
-      {!loggedUser ? (
+      {!me ? (
         <div className="p-4">
           <MySpinner />
         </div>

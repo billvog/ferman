@@ -37,22 +37,19 @@ const Page: React.FC = () => {
     <WaitI18>
       <HeaderController title={t("post.post")} />
       <WaitAuth RequireLoggedIn>
-        {(user) =>
-          screenType === "fullscreen" ? (
-            <MainGrid
-              title={<div className="text-sm">{title}</div>}
-              loggedUser={user}
-              bottomNav={<CommonBottomNav loggedUser={user} />}
-              leftSidebar={<CommonSidebar loggedUser={user} />}
-            >
-              <div className="px-3">
-                <CreatePostConnector setModalTitle={setModalTitle} />
-              </div>
-            </MainGrid>
-          ) : (
-            <MyCenterSpinner />
-          )
-        }
+        {screenType === "fullscreen" ? (
+          <MainGrid
+            title={<div className="text-sm">{title}</div>}
+            bottomNav={<CommonBottomNav />}
+            leftSidebar={<CommonSidebar />}
+          >
+            <div className="px-3">
+              <CreatePostConnector setModalTitle={setModalTitle} />
+            </div>
+          </MainGrid>
+        ) : (
+          <MyCenterSpinner />
+        )}
       </WaitAuth>
     </WaitI18>
   );

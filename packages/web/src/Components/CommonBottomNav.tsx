@@ -1,6 +1,7 @@
 import { FullUserFragment } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../modules/auth/AuthProvider";
 import { useNavIcons } from "../shared-hooks/useNavIcons";
 
 interface NavbarItemProps {
@@ -19,15 +20,13 @@ const NavbarItem: React.FC<NavbarItemProps> = (props) => {
   );
 };
 
-interface CommonBottomNavProps {
-  loggedUser: FullUserFragment | null | undefined;
-}
+interface CommonBottomNavProps {}
 
-export const CommonBottomNav: React.FC<CommonBottomNavProps> = ({
-  loggedUser,
-}) => {
+export const CommonBottomNav: React.FC<CommonBottomNavProps> = ({}) => {
   const router = useRouter();
   const NavIcons = useNavIcons();
+
+  const { me } = useContext(AuthContext);
 
   return (
     <div className="sticky z-20 bottom-0 px-5 py-4 bg-accent-transparent backdrop-filter backdrop-blur w-full">
@@ -40,7 +39,7 @@ export const CommonBottomNav: React.FC<CommonBottomNavProps> = ({
           onClick={() => router.push("/search")}
           icon={<NavIcons.SearchIcon size="24px" />}
         />
-        {loggedUser ? (
+        {me ? (
           <>
             <NavbarItem
               onClick={() => router.push("/post")}

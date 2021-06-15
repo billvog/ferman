@@ -1,19 +1,19 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { useGetPostFromUrl } from "../../shared-hooks/useGetPostFromUrl";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../types/WithAuthProps";
+import { AuthContext } from "../auth/AuthProvider";
 
-interface PostControllerProps extends WithAuthProps {}
-export const PostController: React.FC<PostControllerProps> = ({
-  loggedUser,
-}) => {
+interface PostControllerProps {}
+export const PostController: React.FC<PostControllerProps> = ({}) => {
   const router = useRouter();
   const { t } = useTypeSafeTranslation();
+
+  const { me } = useContext(AuthContext);
 
   const {
     data: postsData,
@@ -27,7 +27,7 @@ export const PostController: React.FC<PostControllerProps> = ({
 
   return (
     <div>
-      {(postsLoading && !postsData) || typeof loggedUser === "undefined" ? (
+      {(postsLoading && !postsData) || typeof me === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
@@ -42,7 +42,7 @@ export const PostController: React.FC<PostControllerProps> = ({
               <Post
                 key={postsData.posts.parent.id}
                 post={postsData.posts.parent}
-                me={loggedUser}
+                me={me}
                 onDelete={() => router.back()}
               />
             </div>
@@ -54,7 +54,7 @@ export const PostController: React.FC<PostControllerProps> = ({
                 {!!postsData.posts.parent.repliesCount &&
                   `(${postsData.posts.parent.repliesCount})`}
               </div>
-              {loggedUser && (
+              {me && (
                 <MyButton
                   onClick={() =>
                     router.push(
@@ -78,7 +78,7 @@ export const PostController: React.FC<PostControllerProps> = ({
               ) : (
                 <div className="divide-y border-t border-b mt-3">
                   {postsData.posts.posts.map((post) => (
-                    <Post key={post.id} post={post} me={loggedUser} />
+                    <Post key={post.id} post={post} me={me} />
                   ))}
                 </div>
               )}

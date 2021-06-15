@@ -1,38 +1,37 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
-import { CreatePostModal } from "./CreatePostModal";
+import React, { useContext, useEffect } from "react";
 import { useScreenType } from "../../../shared-hooks/useScreenType";
-import { WithAuthProps } from "../../../types/WithAuthProps";
+import { AuthContext } from "../../auth/AuthProvider";
+import { CreatePostModal } from "./CreatePostModal";
 
-interface CreatePostGlobalModalProps extends WithAuthProps {}
-export const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> = ({
-  loggedUser,
-}) => {
-  const router = useRouter();
-  const screenType = useScreenType();
+interface CreatePostGlobalModalProps {}
+export const CreatePostGlobalModal: React.FC<CreatePostGlobalModalProps> =
+  ({}) => {
+    const router = useRouter();
+    const screenType = useScreenType();
 
-  useEffect(() => {
-    if (router.asPath === "/post" && !loggedUser) {
-      router.replace("/", undefined, { shallow: true });
-    } else if (router.asPath === "/post" && screenType === "fullscreen") {
-      router.replace(
-        {
-          pathname: "/post",
-          query: router.query,
-        },
-        "/post",
-        { shallow: true }
-      );
-    }
-  }, [router.asPath, screenType, loggedUser]);
+    const { me } = useContext(AuthContext);
 
-  return (
-    <>
-      {loggedUser &&
-      router.asPath === "/post" &&
-      router.pathname !== "/post" ? (
-        <CreatePostModal isOpen={true} onClose={router.back} />
-      ) : null}
-    </>
-  );
-};
+    useEffect(() => {
+      if (router.asPath === "/post" && !me) {
+        router.replace("/", undefined, { shallow: true });
+      } else if (router.asPath === "/post" && screenType === "fullscreen") {
+        router.replace(
+          {
+            pathname: "/post",
+            query: router.query,
+          },
+          "/post",
+          { shallow: true }
+        );
+      }
+    }, [router.asPath, screenType, me]);
+
+    return (
+      <>
+        {me && router.asPath === "/post" && router.pathname !== "/post" ? (
+          <CreatePostModal isOpen={true} onClose={router.back} />
+        ) : null}
+      </>
+    );
+  };

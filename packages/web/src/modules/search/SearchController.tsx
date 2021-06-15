@@ -1,22 +1,22 @@
 import { usePostsLazyQuery, useUsersLazyQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { UserSummaryCard } from "../../components/UserSummaryCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../types/WithAuthProps";
+import { AuthContext } from "../auth/AuthProvider";
 import { TabItem, TabState } from "./SearchTabs";
 import { SearchTips } from "./SearchTips";
 
-interface SearchControllerProps extends WithAuthProps {}
-export const SearchController: React.FC<SearchControllerProps> = ({
-  loggedUser,
-}) => {
+interface SearchControllerProps {}
+export const SearchController: React.FC<SearchControllerProps> = ({}) => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
+
+  const { me } = useContext(AuthContext);
 
   const [tabState, setTabState] = useState<TabState>(0);
 
@@ -125,7 +125,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
     }
   }, [debouncedQuery, tabState]);
 
-  return typeof loggedUser === "undefined" ? (
+  return typeof me === "undefined" ? (
     <div className="p-4">
       <MySpinner />
     </div>
@@ -239,7 +239,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
               <>
                 <div className="divide-y border-b">
                   {postsData.posts.posts.map((post) => (
-                    <Post key={post.id} post={post} me={loggedUser} />
+                    <Post key={post.id} post={post} me={me} />
                   ))}
                 </div>
                 {postsData.posts.hasMore && (
@@ -286,11 +286,7 @@ export const SearchController: React.FC<SearchControllerProps> = ({
               <>
                 <div className="divide-y border-b">
                   {usersData.users.users.map((user) => (
-                    <UserSummaryCard
-                      key={user.id}
-                      user={user}
-                      me={loggedUser}
-                    />
+                    <UserSummaryCard key={user.id} user={user} me={me} />
                   ))}
                 </div>
                 {usersData.users.hasMore && (

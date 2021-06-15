@@ -9,7 +9,6 @@ import {
   MyMessage,
   UpdateProfileFormValues,
 } from "@ferman-pkgs/controller";
-import dayjs from "dayjs";
 import { Form, FormikProps, withFormik } from "formik";
 import { NextRouter, withRouter } from "next/router";
 import React from "react";
@@ -22,13 +21,13 @@ import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTransla
 
 type EditProfileViewProps = {
   submit: (values: UpdateProfileFormValues) => Promise<ErrorMap | null>;
-  myInitialValues: UpdateProfileFormValues & { birthdate: string };
+  initialValues: UpdateProfileFormValues;
   message: MyMessage | null;
   router: NextRouter;
 };
 
 const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
-  ({ myInitialValues, message, isSubmitting, router }) => {
+  ({ initialValues, message, isSubmitting }) => {
     const { i18n } = useTranslation();
     const { t } = useTypeSafeTranslation();
 
@@ -61,19 +60,10 @@ const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
           placeholder={t("form.placeholder.location")}
           maxLength={LocationMax}
         />
-        <InputField
-          label={t("form.label.date_of_birth")}
-          name="birthdate"
-          type="text"
-          value={dayjs(parseFloat(myInitialValues.birthdate)).format(
-            "MMMM DD YYYY"
-          )}
-          disabled={true}
-        />
         <MyCheckbox
           label={t("edit_profile.show_birthday_to_everybody")}
           name="showBirthdate"
-          defaultChecked={myInitialValues.showBirthdate}
+          defaultChecked={initialValues.showBirthdate}
         />
         <div className="mt-4">
           <MyButton type="submit" isLoading={isSubmitting}>
@@ -87,11 +77,11 @@ const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
 export const EditProfileView = withRouter(
   withFormik<EditProfileViewProps, UpdateProfileFormValues>({
     validationSchema: UpdateProfileValidationSchema,
-    mapPropsToValues: ({ myInitialValues }) => ({
-      username: myInitialValues.username,
-      bio: myInitialValues.bio,
-      location: myInitialValues.location,
-      showBirthdate: myInitialValues.showBirthdate,
+    mapPropsToValues: ({ initialValues }) => ({
+      username: initialValues.username,
+      bio: initialValues.bio,
+      location: initialValues.location,
+      showBirthdate: initialValues.showBirthdate,
     }),
     handleSubmit: async (values, { setErrors, props }) => {
       const errors = await props.submit(values);

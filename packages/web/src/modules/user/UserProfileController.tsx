@@ -1,26 +1,26 @@
 import { FullUserFragment, usePostsLazyQuery } from "@ferman-pkgs/controller";
-import { Router, useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { Router } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { Post } from "../../components/Post";
 import { UserCard } from "../../components/UserCard";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../types/WithAuthProps";
+import { AuthContext } from "../auth/AuthProvider";
 import { TabItem, TabState } from "./UserProfileTabs";
 
 const ItemsPerTabLimit = 15;
 
-interface UserProfileControllerProps extends WithAuthProps {
+interface UserProfileControllerProps {
   user: FullUserFragment | null | undefined;
 }
 
 export const UserProfileController: React.FC<UserProfileControllerProps> = ({
-  loggedUser,
   user,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const { me } = useContext(AuthContext);
 
   const [
     runPostsQuery,
@@ -75,7 +75,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
 
   return (
     <div>
-      {typeof user === "undefined" || typeof loggedUser === "undefined" ? (
+      {typeof user === "undefined" || typeof me === "undefined" ? (
         <div className="p-4">
           <MySpinner />
         </div>
@@ -84,7 +84,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
       ) : (
         <div className="relative flex flex-col">
           <div className="w-full">
-            <UserCard user={user} me={loggedUser} />
+            <UserCard user={user} me={me} />
           </div>
           <div className="w-full">
             <div className="flex w-screen fullscreen:w-auto overflow-x-auto overflow-y-hidden">
@@ -157,7 +157,7 @@ export const UserProfileController: React.FC<UserProfileControllerProps> = ({
                       ) : (
                         <div className="divide-y border-b">
                           {postsData.posts.posts.map((post) => (
-                            <Post key={post.id} post={post} me={loggedUser} />
+                            <Post key={post.id} post={post} me={me} />
                           ))}
                         </div>
                       )}

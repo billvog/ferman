@@ -1,2 +1,2 @@
-import { ResetPasswordPage } from "../../../modules/account/ForgotPwd/ResetPasswordPage";
+import { ResetPasswordPage } from "../../../modules/account/ResetPwd/ResetPasswordPage";
 export default ResetPasswordPage;

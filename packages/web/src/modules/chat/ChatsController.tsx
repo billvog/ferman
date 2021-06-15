@@ -1,25 +1,25 @@
+import { gql } from "@apollo/client";
 import {
   OnNewMessageDocument,
   OnNewMessageSubscription,
   OnNewMessageSubscriptionVariables,
   useChatsQuery,
 } from "@ferman-pkgs/controller";
-import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Chat } from "../../components/Chat";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
 import { MySpinner } from "../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { WithAuthProps } from "../../types/WithAuthProps";
+import { AuthContext } from "../auth/AuthProvider";
 
-interface ChatsControllerProps extends WithAuthProps {}
-export const ChatsController: React.FC<ChatsControllerProps> = ({
-  loggedUser,
-}) => {
+interface ChatsControllerProps {}
+export const ChatsController: React.FC<ChatsControllerProps> = ({}) => {
   const { t } = useTypeSafeTranslation();
   const router = useRouter();
+
+  const { me } = useContext(AuthContext);
 
   const {
     data: chatsData,
@@ -76,11 +76,11 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
 
   return (
     <div>
-      {typeof loggedUser === "undefined" || (chatsLoading && !chatsData) ? (
+      {typeof me === "undefined" || (chatsLoading && !chatsData) ? (
         <div className="p-4">
           <MySpinner />
         </div>
-      ) : !loggedUser ? (
+      ) : !me ? (
         <ErrorText>{t("errors.500")}</ErrorText>
       ) : (
         <div>
@@ -101,12 +101,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({
               </div>
             ) : (
               chatsData?.chats.chats.map((chat, i) => (
-                <Chat
-                  key={chat.id}
-                  chat={chat}
-                  me={loggedUser}
-                  isOdd={i % 2 === 1}
-                />
+                <Chat key={chat.id} chat={chat} me={me} isOdd={i % 2 === 1} />
               ))
             )}
           </div>
