@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { AuthParamList } from "./ParamList";
-import { LoginConnector } from "../../modules/account/login/LoginConnector";
+import { LoginConnector } from "../../modules/account/login/Connector";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { headerOptions } from "../../styles/header";
 import { RegisterConnector } from "../../modules/account/register/Connector";

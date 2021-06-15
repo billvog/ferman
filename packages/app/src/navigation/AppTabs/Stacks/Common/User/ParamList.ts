@@ -1,4 +1,5 @@
 export type UserParamList = {
+  EditProfile: undefined;
   UserProfile: {
     userId?: number;
     userUid?: string;

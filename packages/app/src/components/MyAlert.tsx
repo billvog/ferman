@@ -35,7 +35,7 @@ export const MyAlert: React.FC<MyAlertProps> = ({
         style={{
           ...paragraph,
           color: colors.text,
-          fontWeight: "700",
+          fontWeight: "800",
         }}
       >
         {children as any}

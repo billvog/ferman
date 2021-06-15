@@ -1,5 +1,6 @@
 import { StackNavigationState, TypedNavigator } from "@react-navigation/native";
 import React from "react";
+import { EditProfileConnector } from "../../../../../modules/account/edit/Connector";
 import { UserFollowersController } from "../../../../../modules/user/UserFollowersController";
 import { UserFollowingsController } from "../../../../../modules/user/UserFollowingsController";
 import { UserProfileController } from "../../../../../modules/user/UserProfileController";
@@ -20,6 +21,13 @@ export const CommonUserRoutes = (
   const { t } = useTypeSafeTranslation();
   return (
     <>
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileConnector}
+        options={{
+          headerTitle: t("edit_profile.title"),
+        }}
+      />
       <Stack.Screen
         name="UserProfile"
         component={UserProfileController}

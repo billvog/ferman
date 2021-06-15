@@ -71,7 +71,7 @@ export const colors = {
 };
 
 const textBase: TextStyle = {
-  fontFamily: fontFamily.inter.regular,
+  fontFamily: fontFamily.inter.medium,
 };
 
 export const h1: TextStyle = {

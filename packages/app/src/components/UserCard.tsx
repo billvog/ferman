@@ -24,6 +24,7 @@ import {
   radius,
 } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MyButton } from "./MyButton";
 
@@ -53,23 +54,19 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
     ? t("user.unfollow")
     : t("user.follow");
 
-  const navigateToUser = () => {
+  const navigateToEditUser = () => navigation.navigate("EditProfile");
+  const navigateToUser = () =>
     navigation.navigate("UserProfile", {
       userId: user.id,
     });
-  };
-
-  const navigateToFollowers = () => {
+  const navigateToFollowers = () =>
     navigation.navigate("UserFollowers", {
       userId: user.id,
     });
-  };
-
-  const navigateToFollowings = () => {
+  const navigateToFollowings = () =>
     navigation.navigate("UserFollowings", {
       userId: user.id,
     });
-  };
 
   return (
     <View style={styles.container}>
@@ -115,17 +112,26 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                 )}
               </View>
             </TouchableOpacity>
-            {me?.id !== user.id && (
-              <View>
+            <View>
+              {me?.id === user.id ? (
                 <MyButton
-                  title={FollowButtonText}
+                  size="tiny"
+                  color="secondary"
+                  onPress={navigateToEditUser}
+                >
+                  {t("button.edit")}
+                </MyButton>
+              ) : (
+                <MyButton
                   size="tiny"
                   isLoading={followLoading}
-                  style={user.followingStatus ? "danger" : "primary"}
+                  color={user.followingStatus ? "danger" : "primary"}
                   onPress={followUserHandler}
-                />
-              </View>
-            )}
+                >
+                  {FollowButtonText}
+                </MyButton>
+              )}
+            </View>
           </View>
           <View style={styles.userFollowInfoContainer}>
             <TouchableOpacity
@@ -159,7 +165,9 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
       </View>
       {!!user.profile?.bio && (
         <View style={styles.userProfileBioContainer}>
-          <Text style={styles.userProfileBio}>{user.profile?.bio}</Text>
+          <Text style={styles.userProfileBio}>
+            {useRichBodyText(user.profile?.bio)}
+          </Text>
         </View>
       )}
       <View style={styles.additionalUserInfoContainer}>

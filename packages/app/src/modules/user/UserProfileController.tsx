@@ -33,10 +33,6 @@ export const UserProfileController: React.FC<any> = ({
   const refreshUserHandler = async () => {
     // update state
     setIsRefreshing(true);
-    // clear cache from query
-    client.cache.evict({
-      id: "User:" + userVariables?.id,
-    });
     // refetch
     await refreshUser(userVariables);
     // update state

@@ -16,14 +16,14 @@ import { useNavigation } from "@react-navigation/native";
 import { Field, Formik } from "formik";
 import i18n from "i18next";
 import React, { useEffect } from "react";
-import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { DatePickerField } from "../../../components/DatePickerField";
+import { FormContainer } from "../../../components/FormContainer";
 import { FormSpacer } from "../../../components/FormSpacer";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import { fieldStyles } from "./fieldStyles";
 
 interface RegisterViewProps {
   storedInitialValues?: RegisterFormValues;
@@ -59,12 +59,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
   }, [phase]);
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        marginHorizontal: 12,
-        marginVertical: 14,
-      }}
-    >
+    <FormContainer>
       <Formik
         validationSchema={() =>
           phase === 0
@@ -93,9 +88,9 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
         {({ submitForm, isSubmitting }) => (
           <>
             {!!message && i18n.exists(message.text) && (
-              <View style={fieldStyles.fieldSeperator}>
+              <FormSpacer>
                 <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
-              </View>
+              </FormSpacer>
             )}
             {phase === 0 ? (
               <>
@@ -219,7 +214,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           </>
         )}
       </Formik>
-    </KeyboardAvoidingView>
+    </FormContainer>
   );
 };
 

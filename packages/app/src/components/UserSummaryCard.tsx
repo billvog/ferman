@@ -20,6 +20,7 @@ import { Image } from "react-native";
 import { Text } from "react-native";
 import { MyButton } from "./MyButton";
 import { useNavigation } from "@react-navigation/native";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 
 interface UserSummaryCardProps {
   user: FullUserFragment;
@@ -98,20 +99,22 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
           {me?.id !== user.id && (
             <View>
               <MyButton
-                title=""
-                icon={FollowButtonIcon}
                 size="tiny"
                 isLoading={followLoading}
                 loadingColor={colors.primary700}
-                style="transparent"
+                color="transparent"
                 onPress={followUserHandler}
-              />
+              >
+                {FollowButtonIcon}
+              </MyButton>
             </View>
           )}
         </View>
         {!!user.profile?.bio && (
           <View style={styles.userProfileBioContainer}>
-            <Text style={styles.userProfileBio}>{user.profile.bio}</Text>
+            <Text style={styles.userProfileBio}>
+              {useRichBodyText(user.profile.bio)}
+            </Text>
           </View>
         )}
       </View>
