@@ -140,11 +140,12 @@ export const UsersTab: React.FC = () => {
             {t("errors.500")}
           </Text>
           <MyButton
-            style="danger"
+            color="danger"
             onPress={refreshUsersHandler}
-            title="Retry"
             isLoading={usersLoading}
-          />
+          >
+            Retry
+          </MyButton>
         </View>
       ) : usersQueryCalled ? (
         <View style={[tabStyles.resultsContainer, { flex: 1 }]}>

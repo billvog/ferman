@@ -59,28 +59,28 @@ export const ProfileController: React.FC<any> = ({
         </Text>
         <View style={styles.buttonsContainer}>
           <MyButton
-            title={t("my_account.my_profile")}
             onPress={() =>
               navigation.navigate("UserProfile", {
                 userId: me.id,
               })
             }
-            style="accent"
-          />
+            color="accent"
+          >
+            {t("my_account.my_profile")}
+          </MyButton>
           <View style={styles.buttonWrapperNotFirst}>
-            <MyButton
-              title={t("my_account.settings")}
-              onPress={() => {}}
-              style="secondary"
-            />
+            <MyButton onPress={() => {}} color="secondary">
+              {t("my_account.settings")}
+            </MyButton>
           </View>
           <View style={styles.buttonWrapperNotFirst}>
             <MyButton
-              title={t("my_account.sign_out")}
               onPress={logoutHandler}
               isLoading={logoutLoading}
-              style="primary"
-            />
+              color="primary"
+            >
+              {t("my_account.sign_out")}
+            </MyButton>
           </View>
         </View>
       </View>
@@ -124,11 +124,9 @@ export const ProfileController: React.FC<any> = ({
       </View>
       <View style={styles.deleteAccountContainer}>
         <View style={styles.deleteAccButtonContainer}>
-          <MyButton
-            title={t("my_account.delete_account")}
-            onPress={() => {}}
-            style="danger"
-          />
+          <MyButton onPress={() => {}} color="danger">
+            {t("my_account.delete_account")}
+          </MyButton>
         </View>
         <Text style={styles.deleteAccText}>
           {t("my_account.delete_account_subtext")}

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleProp, View, ViewStyle, Text } from "react-native";
-import { colors, fontSize, radius } from "../constants/style";
+import { colors, fontSize, paragraph, radius } from "../constants/style";
 
 const colorStyles = {
   success: {
@@ -33,9 +33,9 @@ export const MyAlert: React.FC<MyAlertProps> = ({
     >
       <Text
         style={{
+          ...paragraph,
           color: colors.text,
           fontWeight: "700",
-          fontSize: fontSize.paragraph,
         }}
       >
         {children as any}

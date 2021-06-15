@@ -10,6 +10,7 @@ import { Field, FormikProps, withFormik } from "formik";
 import i18n from "i18next";
 import React, { useLayoutEffect } from "react";
 import { View } from "react-native";
+import { FormSpacer } from "../../../components/FormSpacer";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
@@ -50,37 +51,26 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
       }}
     >
       {!!message && i18n.exists(message.text) && (
-        <View
-          style={{
-            marginBottom: 12,
-          }}
-        >
+        <FormSpacer>
           <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
-        </View>
+        </FormSpacer>
       )}
-      <View
-        style={{
-          marginBottom: 12,
-        }}
-      >
+      <FormSpacer>
         <Field
           name="body"
           placeholder={`${t("common.body")}...`}
           multiline={true}
           component={InputField}
         />
-      </View>
+      </FormSpacer>
       <View
         style={{
           alignItems: "flex-start",
         }}
       >
-        <MyButton
-          title={isReply ? t("post.reply") : t("post.post")}
-          style="secondary"
-          isLoading={isSubmitting}
-          onPress={submitForm}
-        />
+        <MyButton isLoading={isSubmitting} onPress={submitForm}>
+          {isReply ? t("post.reply") : t("post.post")}
+        </MyButton>
       </View>
     </View>
   );

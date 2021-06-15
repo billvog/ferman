@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { Text, useWindowDimensions } from "react-native";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { colors, fontFamily, fontSize } from "../../constants/style";

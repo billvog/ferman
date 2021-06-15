@@ -5,9 +5,11 @@ import { Field, FormikProps, withFormik } from "formik";
 import i18n from "i18next";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { FormSpacer } from "../../../components/FormSpacer";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { colors, fontFamily, fontSize } from "../../../constants/style";
 import { AuthNavProps } from "../../../navigation/AuthStack/ParamList";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
@@ -29,6 +31,8 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
       style={{
         marginHorizontal: 12,
         marginVertical: 14,
+        flex: 1,
+        position: "relative",
       }}
     >
       {!!message && i18n.exists(message.text) && (
@@ -40,11 +44,7 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
           <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
         </View>
       )}
-      <View
-        style={{
-          marginBottom: 14,
-        }}
-      >
+      <FormSpacer>
         <Field
           name="email"
           placeholder={t("form.placeholder.email")}
@@ -53,30 +53,44 @@ const C: React.FC<LoginViewProps & FormikProps<LoginFormValues>> = ({
           keyboardType="email-address"
           component={InputField}
         />
-      </View>
-      <View
-        style={{
-          marginBottom: 14,
-        }}
-      >
+      </FormSpacer>
+      <FormSpacer>
         <Field
           name="password"
           placeholder={t("form.placeholder.password")}
           secureTextEntry={true}
           component={InputField}
         />
-      </View>
+      </FormSpacer>
       <View>
         <MyButton
-          title={t("login.sign_in")}
-          style="secondary"
+          color="secondary"
           isLoading={isSubmitting}
           onPress={submitForm}
-        />
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text>register</Text>
-        </TouchableOpacity>
+        >
+          {t("login.sign_in")}
+        </MyButton>
       </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Register")}
+        style={{
+          position: "absolute",
+          bottom: 6,
+          right: 100 / 2,
+          left: 100 / 2,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: fontSize.h6,
+            fontFamily: fontFamily.inter.bold,
+            color: colors.primary500,
+            textAlign: "center",
+          }}
+        >
+          {t("login.or_sign_up")}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,6 +1,6 @@
 import { usePostsLazyQuery } from "@ferman-pkgs/controller";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { CenterSpinner } from "../../../components/CenterSpinner";
 import { fieldStyle } from "../../../components/InputField";
@@ -141,11 +141,12 @@ export const PostsTab: React.FC = () => {
             {t("errors.500")}
           </Text>
           <MyButton
-            style="danger"
+            color="danger"
             onPress={refreshPostsHandler}
-            title="Retry"
             isLoading={postsLoading}
-          />
+          >
+            Retry
+          </MyButton>
         </View>
       ) : postsQueryCalled ? (
         <View style={[tabStyles.resultsContainer, { flex: 1 }]}>

@@ -106,9 +106,10 @@ export const PostController: React.FC<any> = ({
                   parentPostId: postData.posts.parent?.id || "",
                 });
               }}
-              title={t("post.reply")}
               size="tiny"
-            />
+            >
+              {t("post.reply")}
+            </MyButton>
           </View>
 
           {postData?.posts.count === 0 ? (

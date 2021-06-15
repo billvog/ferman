@@ -11,16 +11,15 @@ import {
   RegisterPhase,
 } from "@ferman-pkgs/controller";
 import { useNavigation } from "@react-navigation/native";
-import dayjs from "dayjs";
 import { Field, Formik } from "formik";
 import i18n from "i18next";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { MyDatePicker } from "../../../components/DatePicker";
+import React, { useEffect } from "react";
+import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import { DatePickerField } from "../../../components/DatePickerField";
+import { FormSpacer } from "../../../components/FormSpacer";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
-import { colors, fontFamily, radius, xsmall } from "../../../constants/style";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { fieldStyles } from "./fieldStyles";
 
@@ -44,7 +43,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
 
   useEffect(() => {
     navigation.setOptions({
-      headertTitle:
+      headerTitle:
         phase === 0
           ? t("register.phase.sign_up")
           : phase === 1
@@ -57,13 +56,8 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
     });
   }, [phase]);
 
-  const [datePickerIsOpen, setDatePickerIsOpen] = useState(false);
-  const onDatePickerFieldClick = () => {
-    setDatePickerIsOpen(!datePickerIsOpen);
-  };
-
   return (
-    <View
+    <KeyboardAvoidingView
       style={{
         marginHorizontal: 12,
         marginVertical: 14,
@@ -94,7 +88,7 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
           if (errors) setErrors(errors);
         }}
       >
-        {({ submitForm, isSubmitting, setFieldValue, values }) => (
+        {({ submitForm, isSubmitting }) => (
           <>
             {!!message && i18n.exists(message.text) && (
               <View style={fieldStyles.fieldSeperator}>
@@ -103,27 +97,25 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
             )}
             {phase === 0 ? (
               <>
-                <View style={fieldStyles.fieldSeperator}>
+                <FormSpacer>
                   <Field
                     name="uid"
                     placeholder={t("form.placeholder.uid")}
                     autoCapitalize="none"
+                    helperText={t("form.helper.uid")}
                     component={InputField}
                   />
-                  <Text style={styles.helperText}>{t("form.helper.uid")}</Text>
-                </View>
-                <View style={fieldStyles.fieldSeperator}>
+                </FormSpacer>
+                <FormSpacer>
                   <Field
                     name="username"
                     placeholder={t("form.placeholder.username")}
                     autoCapitalize="none"
+                    helperText={t("form.helper.username")}
                     component={InputField}
                   />
-                  <Text style={styles.helperText}>
-                    {t("form.helper.username")}
-                  </Text>
-                </View>
-                <View style={fieldStyles.fieldSeperator}>
+                </FormSpacer>
+                <FormSpacer>
                   <Field
                     name="email"
                     placeholder={t("form.placeholder.email")}
@@ -132,166 +124,101 @@ export const RegisterView: React.FC<RegisterViewProps> = ({
                     keyboardType="email-address"
                     component={InputField}
                   />
-                </View>
-                <View style={fieldStyles.fieldSeperator}>
-                  <TouchableOpacity
-                    onPress={onDatePickerFieldClick}
-                    style={styles.birthdateField}
-                  >
-                    <Text style={styles.birthdateFieldLabel}>
-                      {t("user.birthday")}:
-                    </Text>
-                    <Text style={styles.birthdateFieldValue}>
-                      {dayjs(values.birthdate || 0).format("MMM DD YYYY")}
-                    </Text>
-                  </TouchableOpacity>
-                  <Text style={styles.helperText}>
-                    {t("form.helper.date_of_birth")}
-                  </Text>
-                  {datePickerIsOpen && (
-                    <View style={{ marginTop: 20 }}>
-                      <MyDatePicker
-                        value={new Date(values.birthdate || 0)}
-                        onChange={(date) => {
-                          setFieldValue("birthdate", date);
-                        }}
-                      />
-                    </View>
-                  )}
-                </View>
+                </FormSpacer>
+                <FormSpacer>
+                  <DatePickerField
+                    label={t("user.birthday")}
+                    name="birthdate"
+                  />
+                </FormSpacer>
               </>
             ) : phase === 1 ? (
               <>
-                <View style={fieldStyles.fieldSeperator}>
+                <FormSpacer>
                   <Field
                     name="code"
                     placeholder={t("form.placeholder.six_digit")}
                     autoCapitalize="none"
-                    autoCompleteType="none"
+                    autoCompleteType="off"
+                    helperText={t("form.helper.six_digit")}
                     component={InputField}
                   />
-                  <Text style={styles.helperText}>
-                    {t("form.helper.six_digit")}
-                  </Text>
-                </View>
+                </FormSpacer>
               </>
             ) : phase === 2 ? (
               <>
-                <View style={fieldStyles.fieldSeperator}>
+                <FormSpacer>
                   <Field
                     name="password"
                     placeholder={t("form.placeholder.password")}
                     secureTextEntry={true}
                     component={InputField}
                   />
-                </View>
+                </FormSpacer>
               </>
             ) : phase === 3 ? (
               <>
-                <View style={fieldStyles.fieldSeperator}>
+                <FormSpacer>
                   <Field
                     name="uid"
                     placeholder={t("form.placeholder.uid")}
                     autoCapitalize="none"
+                    helperText={t("form.helper.uid")}
                     component={InputField}
                   />
-                  <Text style={styles.helperText}>{t("form.helper.uid")}</Text>
-                </View>
-                <View style={fieldStyles.fieldSeperator}>
+                </FormSpacer>
+                <FormSpacer>
                   <Field
                     name="username"
                     placeholder={t("form.placeholder.username")}
                     autoCapitalize="none"
+                    helperText={t("form.helper.username")}
                     component={InputField}
                   />
-                  <Text style={styles.helperText}>
-                    {t("form.helper.username")}
-                  </Text>
-                </View>
-                <View style={fieldStyles.fieldSeperator}>
+                </FormSpacer>
+                <FormSpacer>
                   <Field
                     name="email"
                     placeholder={t("form.placeholder.email")}
                     editable={false}
+                    helperText={t("form.helper.cannot_change")}
                     component={InputField}
                   />
-                </View>
-                <View style={fieldStyles.fieldSeperator}>
-                  <TouchableOpacity
-                    onPress={onDatePickerFieldClick}
-                    style={styles.birthdateField}
-                  >
-                    <Text style={styles.birthdateFieldLabel}>
-                      {t("user.birthday")}:
-                    </Text>
-                    <Text style={styles.birthdateFieldValue}>
-                      {dayjs(values.birthdate || 0).format("MMM DD YYYY")}
-                    </Text>
-                  </TouchableOpacity>
-                  <Text style={styles.helperText}>
-                    {t("form.helper.date_of_birth")}
-                  </Text>
-                  {datePickerIsOpen && (
-                    <View style={{ marginTop: 20 }}>
-                      <MyDatePicker
-                        value={new Date(values.birthdate || 0)}
-                        onChange={(date) => {
-                          setFieldValue("birthdate", date);
-                        }}
-                      />
-                    </View>
-                  )}
-                </View>
-                <View style={fieldStyles.fieldSeperator}>
+                </FormSpacer>
+                <FormSpacer>
+                  <DatePickerField
+                    label={t("user.birthday")}
+                    name="birthdate"
+                  />
+                </FormSpacer>
+                <FormSpacer>
                   <Field
                     name="password"
                     placeholder={t("form.placeholder.password")}
                     secureTextEntry={true}
                     component={InputField}
                   />
-                </View>
+                </FormSpacer>
               </>
             ) : null}
             <View style={styles.submitSection}>
               <MyButton
-                title={phase >= 3 ? t("button.finish") : t("button.continue")}
-                style="secondary"
+                color="primary"
                 isLoading={isSubmitting}
                 onPress={submitForm}
-              />
+              >
+                {phase >= 3 ? t("button.finish") : t("button.continue")}
+              </MyButton>
             </View>
           </>
         )}
       </Formik>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   submitSection: {
     alignItems: "flex-start",
-    marginTop: 3,
-  },
-  helperText: {
-    ...xsmall,
-    marginTop: 5,
-    marginHorizontal: 1,
-    color: colors.primary450,
-    fontFamily: fontFamily.inter.medium,
-  },
-  birthdateField: {
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    flexDirection: "row",
-    backgroundColor: colors.primary200,
-    borderRadius: radius.m,
-  },
-  birthdateFieldLabel: {
-    fontWeight: "700",
-    color: colors.primary700,
-    marginRight: 6,
-  },
-  birthdateFieldValue: {
-    color: colors.primary600,
   },
 });

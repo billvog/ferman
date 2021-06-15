@@ -72,11 +72,12 @@ export const FeedController: React.FC = ({}) => {
             {t("errors.500")}
           </Text>
           <MyButton
-            style="danger"
+            color="danger"
             onPress={refreshPostsHandler}
-            title="Retry"
             isLoading={postsLoading}
-          />
+          >
+            Retry
+          </MyButton>
         </View>
       ) : (
         <View

@@ -78,23 +78,21 @@ const sizeStyles: {
   },
 };
 
-type MyButtonProps = ButtonProps & {
-  title?: string;
-  icon?: JSX.Element;
+type MyButtonProps = {
+  onPress: () => any;
   isLoading?: boolean;
   loadingColor?: string;
-  style?: colorKeys;
+  color?: colorKeys;
   size?: sizeKeys;
 };
 
 export const MyButton: React.FC<MyButtonProps> = ({
   isLoading,
   onPress,
-  style = "secondary",
+  color = "secondary",
   size = "small",
   loadingColor = colors.text,
-  title = null,
-  icon = null,
+  children,
 }) => {
   return (
     <TouchableOpacity
@@ -104,9 +102,9 @@ export const MyButton: React.FC<MyButtonProps> = ({
         position: "relative",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: !!icon ? 12 : radius.m,
+        borderRadius: radius.m,
         ...(sizeStyles[size].view as any),
-        ...(colorStyles[style] as any),
+        ...(colorStyles[color] as any),
       }}
     >
       <View
@@ -114,7 +112,8 @@ export const MyButton: React.FC<MyButtonProps> = ({
           opacity: isLoading ? 0 : 100,
         }}
       >
-        {!icon ? (
+        {typeof children === "string" ||
+        (Array.isArray(children) && typeof children[0] === "string") ? (
           <Text
             style={{
               color: colors.text,
@@ -122,16 +121,10 @@ export const MyButton: React.FC<MyButtonProps> = ({
               ...(sizeStyles[size].text as any),
             }}
           >
-            {title}
+            {children}
           </Text>
         ) : (
-          <View
-            style={{
-              paddingVertical: 4,
-            }}
-          >
-            {icon}
-          </View>
+          children
         )}
       </View>
       {isLoading && (

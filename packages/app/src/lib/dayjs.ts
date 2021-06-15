@@ -7,7 +7,7 @@ import "@ferman-pkgs/controller/dist/generated/localeImports";
 import { AllLocales } from "@ferman-pkgs/controller";
 
 export const init_dayjs = () => {
-  dayjs.locale(i18n.language);
+  dayjs.locale(i18n.language.substr(0, 1));
   dayjs.extend(relativeTime);
   dayjs.extend(calendar);
   dayjs.extend(updateLocale);
