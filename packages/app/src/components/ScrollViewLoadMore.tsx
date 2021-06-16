@@ -1,15 +1,18 @@
 import React from "react";
+import { useRef } from "react";
 import { RefreshControl, ScrollViewProps, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Spinner } from "./Spinner";
 
 export type ScrollViewLoadMoreProps = {
+  isReversed?: boolean;
+  keepScrollToBottom?: boolean;
   scrollViewProps?: ScrollViewProps;
   shouldLoadMore: boolean;
   isLoading: boolean;
-  isRefreshing: boolean;
+  isRefreshing?: boolean;
   onLoadMore: () => void;
-  onRefresh: () => void;
+  onRefresh?: () => void;
 };
 
 const isCloseToBottom = ({
@@ -24,8 +27,14 @@ const isCloseToBottom = ({
   );
 };
 
+const isCloseToTop = ({ _, contentOffset, __ }: any) => {
+  return contentOffset.y === 0;
+};
+
 export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
   children,
+  keepScrollToBottom = false,
+  isReversed = false,
   scrollViewProps,
   shouldLoadMore,
   isLoading,
@@ -33,20 +42,38 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
   onLoadMore,
   onRefresh,
 }) => {
+  const scrollViewRef = useRef<any>();
   return (
     <ScrollView
       {...scrollViewProps}
+      ref={scrollViewRef}
+      onContentSizeChange={
+        keepScrollToBottom
+          ? () => scrollViewRef.current?.scrollToEnd({ animated: true })
+          : undefined
+      }
       scrollEventThrottle={400}
       onScroll={({ nativeEvent }) => {
-        if (isCloseToBottom(nativeEvent) && shouldLoadMore) {
+        if (isReversed && isCloseToTop(nativeEvent) && shouldLoadMore) {
+          onLoadMore();
+        } else if (
+          !isReversed &&
+          isCloseToBottom(nativeEvent) &&
+          shouldLoadMore
+        ) {
           onLoadMore();
         }
       }}
       refreshControl={
-        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        typeof onRefresh === "function" ? (
+          <RefreshControl
+            refreshing={isRefreshing || false}
+            onRefresh={onRefresh}
+          />
+        ) : undefined
       }
     >
-      {children}
+      {!isReversed ? children : null}
       {isLoading && (
         <View
           style={{
@@ -58,6 +85,7 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
           children={<Spinner size="s" />}
         />
       )}
+      {isReversed ? children : null}
     </ScrollView>
   );
 };

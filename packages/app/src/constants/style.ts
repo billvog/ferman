@@ -65,6 +65,7 @@ export const colors = {
   success: "#10B981",
   error: "#EF4444",
   danger: "#DC2626",
+  warning: "#FBBF24",
   info: "#3b82f6",
   // other
   hashtag: "#6366f1",

@@ -8,6 +8,7 @@ import { FieldHelper } from "../components/FieldHelper";
 type InputFieldProps = FieldProps<any> & {
   placeholder?: string;
   helperText?: string | JSX.Element;
+  extraStyles?: StyleProp<TextStyle>;
 };
 
 export const fieldStyle: StyleProp<TextStyle> = {
@@ -34,7 +35,7 @@ export const InputField: React.FC<InputFieldProps> = (props) => {
     <View>
       <TextInput
         {...props}
-        style={fieldStyle}
+        style={[fieldStyle, props.extraStyles]}
         onChangeText={onChangeText}
         placeholder={placeholder}
         value={field.value}

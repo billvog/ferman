@@ -14,7 +14,7 @@ interface ChatProps {
 
 export const Chat: React.FC<ChatProps> = ({ chat }) => {
   const { t } = useTypeSafeTranslation();
-  const naviation = useNavigation<HomeNavProps<"Chats">["navigation"]>();
+  const navigation = useNavigation<HomeNavProps<"Chats">["navigation"]>();
   const { me } = useContext(AuthContext);
   if (!me) return null;
 
@@ -24,7 +24,7 @@ export const Chat: React.FC<ChatProps> = ({ chat }) => {
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        naviation.navigate("Chatroom", {
+        navigation.navigate("Chatroom", {
           chatId: chat.id,
         })
       }
@@ -33,16 +33,23 @@ export const Chat: React.FC<ChatProps> = ({ chat }) => {
         <Image
           source={{
             uri: otherUser.profile.avatarUrl,
-            width: 32,
-            height: 32,
+            width: 34,
+            height: 34,
           }}
           style={styles.userAvatar}
         />
-        {otherUser.isOnline && (
-          <View style={styles.userOnlineIndicatorContainer}>
-            <View style={styles.userOnlineIndicator} />
-          </View>
-        )}
+        <View style={styles.userStatusIndicatorContainer}>
+          <View
+            style={[
+              styles.userStatusIndicator,
+              {
+                backgroundColor: otherUser.isOnline
+                  ? colors.success
+                  : colors.warning,
+              },
+            ]}
+          />
+        </View>
       </View>
       <View style={styles.mainSection}>
         <View style={styles.usernameContainer}>
@@ -87,17 +94,16 @@ const styles = StyleSheet.create({
   userAvatar: {
     borderRadius: 11,
   },
-  userOnlineIndicatorContainer: {
+  userStatusIndicatorContainer: {
     position: "absolute",
     bottom: 0,
     right: 0,
   },
-  userOnlineIndicator: {
+  userStatusIndicator: {
     width: 13,
     height: 13,
     borderRadius: 100 / 2,
-    backgroundColor: colors.success,
-    borderWidth: 2.5,
+    borderWidth: 2,
     borderColor: colors.primary100,
   },
   mainSection: {
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     color: colors.primary600,
-    fontFamily: fontFamily.inter.medium,
+    fontFamily: fontFamily.inter.bold,
   },
   unreadMsgIndicator: {
     marginLeft: 8,
@@ -126,8 +132,8 @@ const styles = StyleSheet.create({
   },
   latestMessageText: {
     ...small,
-    fontFamily: fontFamily.inter.regular,
-    color: colors.primary700,
+    fontFamily: fontFamily.inter.medium,
+    color: colors.primary600,
   },
   latestMessageDateText: {
     ...xsmall,

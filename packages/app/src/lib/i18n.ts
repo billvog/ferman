@@ -44,7 +44,7 @@ export const init_i18n = async () => {
 
   let lng = await AsyncStorage.getItem("language");
   if (lng === null) {
-    lng = Localization.locale;
+    lng = Localization.locale.substring(0, 2);
   }
 
   await i18n.use(initReactI18next).init({

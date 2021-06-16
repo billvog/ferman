@@ -1,8 +1,7 @@
 import { StackNavigationState, TypedNavigator } from "@react-navigation/native";
 import { StackNavigationOptions } from "@react-navigation/stack";
 import React from "react";
-import { Text } from "react-native";
-import { TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { colors, fontFamily } from "../../../../../constants/style";
 import { EditProfileConnector } from "../../../../../modules/account/edit/Connector";
 import { UserFollowersController } from "../../../../../modules/user/UserFollowersController";
@@ -32,7 +31,9 @@ export const CommonUserRoutes = (
           headerTitle: t("edit_profile.title"),
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => route.params.submitForm?.()}
+              onPress={() => {
+                route.params.submitForm?.();
+              }}
               style={{
                 marginRight: 14,
               }}
