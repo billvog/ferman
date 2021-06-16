@@ -2,8 +2,8 @@ import React from "react";
 import { useField } from "formik";
 import { View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { FieldError } from "./FieldError";
-import { MyButton } from "./MyButton";
+import { FieldError } from "../components/FieldError";
+import { MyButton } from "../components/MyButton";
 import i18next from "i18next";
 import dayjs from "dayjs";
 

@@ -12,10 +12,10 @@ import {
 import { Field, FormikProps, withFormik } from "formik";
 import i18next from "i18next";
 import React from "react";
-import { CheckboxWithLabel } from "../../../components/CheckboxWithLabel";
+import { CheckboxWithLabel } from "../../../form-fields/CheckboxWithLabel";
 import { FormContainer } from "../../../components/FormContainer";
 import { FormSpacer } from "../../../components/FormSpacer";
-import { InputField } from "../../../components/InputField";
+import { InputField } from "../../../form-fields/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";

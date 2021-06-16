@@ -1514,6 +1514,18 @@
     workbox-webpack-plugin "^3.6.3"
     worker-loader "^2.0.0"
 
+"@ferman-pkgs/controller@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@ferman-pkgs/controller/-/controller-0.0.5.tgz#0b847e40f67e021977ccfb6a4e0dce248488092e"
+  integrity sha512-cSWXTEKAEXBC9vE53poKyLK4MD29J9QK/wOotFiMpXE/8e4ZUGS0cJrVaQURGOYTfKkTPk/hasFUekeuD4/S4g==
+  dependencies:
+    "@apollo/client" "^3.3.19"
+    "@apollo/react-common" "^3.1.4"
+    graphql "^15.5.0"
+    react "^17.0.1"
+    react-dom "^17.0.1"
+    subscriptions-transport-ws "^0.9.18"
+
 "@fullhuman/postcss-purgecss@^3.1.3":
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/@fullhuman/postcss-purgecss/-/postcss-purgecss-3.1.3.tgz#47af7b87c9bfb3de4bc94a38f875b928fffdf339"
@@ -3268,6 +3280,13 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
+
+"@react-native-async-storage/async-storage@^1.13.0":
+  version "1.15.5"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.5.tgz#0d221a5ef1cd7a6494a42fcaad43136d68379afb"
+  integrity sha512-4AYehLH39B9a8UXCMf3ieOK+G61wGMP72ikx6/XSMA0DUnvx0PgaeaT2Wyt06kTrDTy8edewKnbrbeqwaM50TQ==
+  dependencies:
+    deep-assign "^3.0.0"
 
 "@react-native-community/cli-debugger-ui@^4.13.1":
   version "4.13.1"

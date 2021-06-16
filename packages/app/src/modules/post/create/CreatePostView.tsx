@@ -11,7 +11,7 @@ import i18n from "i18next";
 import React, { useLayoutEffect } from "react";
 import { KeyboardAvoidingView, View } from "react-native";
 import { FormSpacer } from "../../../components/FormSpacer";
-import { InputField } from "../../../components/InputField";
+import { InputField } from "../../../form-fields/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";

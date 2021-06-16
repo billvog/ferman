@@ -2,8 +2,8 @@ import { FieldProps } from "formik";
 import React from "react";
 import { Platform, StyleProp, TextInput, TextStyle, View } from "react-native";
 import { colors, fontSize, radius } from "../constants/style";
-import { FieldError } from "./FieldError";
-import { FieldHelper } from "./FieldHelper";
+import { FieldError } from "../components/FieldError";
+import { FieldHelper } from "../components/FieldHelper";
 
 type InputFieldProps = FieldProps<any> & {
   placeholder?: string;

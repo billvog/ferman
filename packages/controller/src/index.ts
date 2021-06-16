@@ -29,3 +29,4 @@ export * from "./MyApolloClient";
 export * from "./generated/i18nResources";
 export * from "./generated/localeImports";
 export * from "./generated/translationKeys";
+export * from "./modules/locales/index";

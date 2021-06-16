@@ -2,7 +2,7 @@ import { useField } from "formik";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 import { colors, fontFamily } from "../constants/style";
-import { Checkbox } from "./Checkbox";
+import { Checkbox } from "../components/Checkbox";
 
 interface MyCheckboxProps {
   name: string;

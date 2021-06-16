@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { CenterSpinner } from "../../../components/CenterSpinner";
-import { fieldStyle } from "../../../components/InputField";
+import { fieldStyle } from "../../../form-fields/InputField";
 import { MyButton } from "../../../components/MyButton";
 import { Post } from "../../../components/Post";
 import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";

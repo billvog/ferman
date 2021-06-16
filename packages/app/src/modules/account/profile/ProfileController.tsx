@@ -70,7 +70,11 @@ export const ProfileController: React.FC<any> = ({
             {t("my_account.my_profile")}
           </MyButton>
           <View style={styles.buttonWrapperNotFirst}>
-            <MyButton size="medium" onPress={() => {}} color="secondary">
+            <MyButton
+              size="medium"
+              onPress={() => navigation.navigate("Settings")}
+              color="secondary"
+            >
               {t("my_account.settings")}
             </MyButton>
           </View>

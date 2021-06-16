@@ -2,7 +2,7 @@ import { useUsersLazyQuery } from "@ferman-pkgs/controller";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { CenterSpinner } from "../../../components/CenterSpinner";
-import { fieldStyle } from "../../../components/InputField";
+import { fieldStyle } from "../../../form-fields/InputField";
 import { MyButton } from "../../../components/MyButton";
 import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";
 import { UserSummaryCard } from "../../../components/UserSummaryCard";

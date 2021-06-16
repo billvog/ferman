@@ -58,8 +58,8 @@ export const colors = {
   secondary900: "#381c08",
   // accent
   accent: "#a52a2a",
-  accentWashedOut: "#ae3f3f",
-  accentHover: "#a52a2a",
+  accentHover: "#ae3f3f",
+  accentWashedOut: "#b75555",
   black: "#000",
   // status
   success: "#10B981",

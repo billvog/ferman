@@ -4,10 +4,7 @@ import isDate from "lodash/isDate";
 import { __prod__ } from "../constants/env";
 import * as Localization from "expo-localization";
 import { i18nLocaleResources } from "../../../controller/dist";
-
-const DETECTION_OPTIONS = {
-  order: ["localStorage", "navigator"],
-};
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function createDateFormatOptions(format: string): Intl.DateTimeFormatOptions {
   switch (format) {
@@ -44,11 +41,16 @@ function createDateFormatOptions(format: string): Intl.DateTimeFormatOptions {
 
 export const init_i18n = async () => {
   if (i18n.isInitialized) return;
+
+  let lng = await AsyncStorage.getItem("language");
+  if (lng === null) {
+    lng = Localization.locale;
+  }
+
   await i18n.use(initReactI18next).init({
     resources: i18nLocaleResources,
-    detection: DETECTION_OPTIONS,
     fallbackLng: "en",
-    lng: Localization.locale,
+    lng,
     // debug: !__prod__,
     interpolation: {
       escapeValue: false,

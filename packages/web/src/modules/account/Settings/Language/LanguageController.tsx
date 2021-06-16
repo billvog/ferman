@@ -5,6 +5,7 @@ import { MySpinner } from "../../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
 import dayjs from "dayjs";
 import { AuthContext } from "../../../auth/AuthProvider";
+import { localeOptions } from "@ferman-pkgs/controller";
 
 interface LanguageControllerProps {}
 export const LanguageController: React.FC<LanguageControllerProps> = ({}) => {
@@ -14,11 +15,6 @@ export const LanguageController: React.FC<LanguageControllerProps> = ({}) => {
   const { i18n } = useTranslation();
 
   const [query, setQuery] = useState("");
-
-  const options = [
-    { value: "en", flag: "🇬🇧", label: "English" },
-    { value: "el", flag: "🇬🇷", label: "Ελληνικά" },
-  ];
 
   return (
     <div>
@@ -38,7 +34,7 @@ export const LanguageController: React.FC<LanguageControllerProps> = ({}) => {
             />
           </div>
           <div className="divide-y border-t border-b">
-            {options.map((option) =>
+            {localeOptions.map((option) =>
               query.length === 0 ||
               option.value.toLowerCase().includes(query.toLowerCase()) ||
               option.label.toLowerCase().includes(query.toLowerCase()) ? (

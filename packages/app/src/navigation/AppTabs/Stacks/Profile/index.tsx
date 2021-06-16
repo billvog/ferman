@@ -4,6 +4,7 @@ import { ProfileController } from "../../../../modules/account/profile/ProfileCo
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
 import { headerOptions } from "../../../../styles/header";
 import { CommonRoutes } from "../Common/CommonRoutes";
+import { SettingsRoutes } from "../Settings";
 import { ProfileParamList } from "./ParamList";
 
 const Stack = createStackNavigator<ProfileParamList>();
@@ -13,6 +14,7 @@ export const ProfileStack: React.FC = ({}) => {
   return (
     <Stack.Navigator screenOptions={headerOptions} initialRouteName="Profile">
       {CommonRoutes(Stack as any)}
+      {SettingsRoutes(Stack as any)}
       <Stack.Screen
         name="Profile"
         component={ProfileController}

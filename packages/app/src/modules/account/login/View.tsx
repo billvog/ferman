@@ -7,7 +7,7 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { FormContainer } from "../../../components/FormContainer";
 import { FormSpacer } from "../../../components/FormSpacer";
-import { InputField } from "../../../components/InputField";
+import { InputField } from "../../../form-fields/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
