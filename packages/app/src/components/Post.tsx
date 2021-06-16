@@ -117,7 +117,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
           <View>
             {post.parentPost && (
               <View style={styles.parentPostContainer}>
-                <Text style={styles.replyingTo}>Replying to </Text>
+                <Text style={styles.replyingTo}>{t("post.replying_to")}</Text>
                 <TouchableOpacity onPress={navigateToParentPostCreator}>
                   <Text style={styles.replyingToUser}>
                     @{post.parentPost.creator.uid}
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
     color: colors.primary500,
     fontSize: fontSize.md,
     fontWeight: "600",
+    marginRight: 3,
   },
   replyingToUser: {
     color: colors.accentWashedOut,

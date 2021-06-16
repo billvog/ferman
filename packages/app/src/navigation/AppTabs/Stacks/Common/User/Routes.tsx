@@ -1,5 +1,9 @@
 import { StackNavigationState, TypedNavigator } from "@react-navigation/native";
+import { StackNavigationOptions } from "@react-navigation/stack";
 import React from "react";
+import { Text } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { colors, fontFamily } from "../../../../../constants/style";
 import { EditProfileConnector } from "../../../../../modules/account/edit/Connector";
 import { UserFollowersController } from "../../../../../modules/user/UserFollowersController";
 import { UserFollowingsController } from "../../../../../modules/user/UserFollowingsController";
@@ -13,7 +17,7 @@ export const CommonUserRoutes = (
   Stack: TypedNavigator<
     HomeParamList | SearchParamList | ProfileParamList,
     StackNavigationState<Record<string, object>>,
-    any,
+    StackNavigationOptions,
     any,
     any
   >
@@ -24,9 +28,26 @@ export const CommonUserRoutes = (
       <Stack.Screen
         name="EditProfile"
         component={EditProfileConnector}
-        options={{
+        options={({ route }) => ({
           headerTitle: t("edit_profile.title"),
-        }}
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => route.params.submitForm?.()}
+              style={{
+                marginRight: 14,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: fontFamily.inter.medium,
+                  color: colors.primary600,
+                }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
+          ),
+        })}
       />
       <Stack.Screen
         name="UserProfile"

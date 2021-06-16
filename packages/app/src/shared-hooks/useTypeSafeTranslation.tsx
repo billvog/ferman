@@ -1,8 +1,5 @@
+import { TranslationKeys } from "@ferman-pkgs/controller";
 import { useTranslation } from "react-i18next";
-import { Paths } from "../types/util-types";
-import translations from "@ferman-pkgs/controller/dist/locales/en/translation.json";
-
-type TranslationKeys = Paths<typeof translations>;
 
 interface DateTranslationType {
   time?: Date;

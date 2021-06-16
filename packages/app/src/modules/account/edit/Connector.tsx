@@ -1,20 +1,19 @@
 import { UpdateProfileController } from "@ferman-pkgs/controller";
-import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { HomeNavProps } from "../../../navigation/AppTabs/Stacks/Home/ParamList";
 import { AuthContext } from "../../auth/AuthProvider";
 import { EditProfileView } from "./View";
 
-interface EditProfileConnectorProps {}
-export const EditProfileConnector: React.FC<EditProfileConnectorProps> = () => {
-  const navigation = useNavigation();
+export const EditProfileConnector: React.FC<any> = ({
+  navigation,
+}: HomeNavProps<"EditProfile">) => {
+  const { me } = useContext(AuthContext);
+
   const finished = () => {
     navigation.goBack();
   };
 
-  const { me } = useContext(AuthContext);
   if (!me) return null;
-
   return (
     <UpdateProfileController onFinish={finished}>
       {(props) => (

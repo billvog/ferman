@@ -1,5 +1,7 @@
 export type UserParamList = {
-  EditProfile: undefined;
+  EditProfile: {
+    submitForm?: (() => Promise<void>) & (() => Promise<any>);
+  };
   UserProfile: {
     userId?: number;
     userUid?: string;

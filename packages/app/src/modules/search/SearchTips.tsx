@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
     fontSize: fontSize.small,
     fontFamily: fontFamily.inter.medium,
     color: colors.primary600,
+    flexShrink: 1,
   },
 });

@@ -9,15 +9,15 @@ import {
   MyMessage,
   UpdateProfileFormValues,
 } from "@ferman-pkgs/controller";
+import { useNavigation } from "@react-navigation/native";
 import { Field, FormikProps, withFormik } from "formik";
 import i18next from "i18next";
-import React from "react";
-import { CheckboxWithLabel } from "../../../form-fields/CheckboxWithLabel";
+import React, { useEffect } from "react";
 import { FormContainer } from "../../../components/FormContainer";
 import { FormSpacer } from "../../../components/FormSpacer";
-import { InputField } from "../../../form-fields/InputField";
 import { MyAlert } from "../../../components/MyAlert";
-import { MyButton } from "../../../components/MyButton";
+import { CheckboxWithLabel } from "../../../form-fields/CheckboxWithLabel";
+import { InputField } from "../../../form-fields/InputField";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface EditProfileViewProps {
@@ -27,8 +27,14 @@ interface EditProfileViewProps {
 }
 
 const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
-  ({ message, submitForm, isSubmitting }) => {
+  ({ message, submitForm }) => {
     const { t } = useTypeSafeTranslation();
+    const navigation = useNavigation();
+
+    useEffect(() => {
+      navigation.setParams({ submitForm });
+    }, []);
+
     return (
       <FormContainer>
         {!!message && i18next.exists(message.text) && (
@@ -69,9 +75,6 @@ const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
             label={t("edit_profile.show_birthday_to_everybody")}
           />
         </FormSpacer>
-        <MyButton onPress={() => submitForm()} isLoading={isSubmitting}>
-          {t("button.update")}
-        </MyButton>
       </FormContainer>
     );
   };

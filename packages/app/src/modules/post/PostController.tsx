@@ -1,16 +1,14 @@
+import { usePostsQuery } from "@ferman-pkgs/controller";
 import React, { useState } from "react";
-import { StyleSheet, Text } from "react-native";
-import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { usePostQuery, usePostsQuery } from "@ferman-pkgs/controller";
+import { StyleSheet, Text, View } from "react-native";
 import { CenterSpinner } from "../../components/CenterSpinner";
+import { ErrorText } from "../../components/ErrorText";
+import { MyButton } from "../../components/MyButton";
+import { Post } from "../../components/Post";
+import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
+import { colors, fontFamily } from "../../constants/style";
 import { HomeNavProps } from "../../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { Post } from "../../components/Post";
-import { ErrorText } from "../../components/ErrorText";
-import { colors, fontFamily } from "../../constants/style";
-import { MyButton } from "../../components/MyButton";
-import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
 
 export const PostController: React.FC<any> = ({
   navigation,
@@ -114,8 +112,10 @@ export const PostController: React.FC<any> = ({
 
           {postData?.posts.count === 0 ? (
             <View
-              children={<ErrorText>{t("post.no_replies")}</ErrorText>}
-              style={{ marginTop: 18 }}
+              children={
+                <ErrorText size="small">{t("post.no_replies")}</ErrorText>
+              }
+              style={{ marginTop: 20 }}
             />
           ) : (
             <View

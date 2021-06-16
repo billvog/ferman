@@ -1514,18 +1514,6 @@
     workbox-webpack-plugin "^3.6.3"
     worker-loader "^2.0.0"
 
-"@ferman-pkgs/controller@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@ferman-pkgs/controller/-/controller-0.0.5.tgz#0b847e40f67e021977ccfb6a4e0dce248488092e"
-  integrity sha512-cSWXTEKAEXBC9vE53poKyLK4MD29J9QK/wOotFiMpXE/8e4ZUGS0cJrVaQURGOYTfKkTPk/hasFUekeuD4/S4g==
-  dependencies:
-    "@apollo/client" "^3.3.19"
-    "@apollo/react-common" "^3.1.4"
-    graphql "^15.5.0"
-    react "^17.0.1"
-    react-dom "^17.0.1"
-    subscriptions-transport-ws "^0.9.18"
-
 "@fullhuman/postcss-purgecss@^3.1.3":
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/@fullhuman/postcss-purgecss/-/postcss-purgecss-3.1.3.tgz#47af7b87c9bfb3de4bc94a38f875b928fffdf339"
