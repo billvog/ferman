@@ -2,7 +2,6 @@ import { FullChatFragment, FullUserFragment } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React from "react";
-import { useTrancatedText } from "../shared-hooks/useTruncatedText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 interface ChatProps {

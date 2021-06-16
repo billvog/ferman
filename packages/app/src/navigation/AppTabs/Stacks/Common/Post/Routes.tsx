@@ -1,4 +1,5 @@
 import { StackNavigationState, TypedNavigator } from "@react-navigation/native";
+import { StackNavigationOptions } from "@react-navigation/stack";
 import React from "react";
 import { CreatePostConnector } from "../../../../../modules/post/create/CreatePostConnector";
 import { PostController } from "../../../../../modules/post/PostController";
@@ -11,7 +12,7 @@ export const CommonPostRoutes = (
   Stack: TypedNavigator<
     HomeParamList | SearchParamList | ProfileParamList,
     StackNavigationState<Record<string, object>>,
-    any,
+    StackNavigationOptions,
     any,
     any
   >

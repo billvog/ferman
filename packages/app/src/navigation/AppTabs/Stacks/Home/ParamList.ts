@@ -1,4 +1,5 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { ChatParamList } from "../Chat/ParamList";
 import { CommonParamList } from "../Common/CommonParamList";
 
 export type HomeParamList = {
@@ -6,7 +7,8 @@ export type HomeParamList = {
   UserProfile: {
     userId: number;
   };
-} & CommonParamList;
+} & CommonParamList &
+  ChatParamList;
 
 export type HomeNavProps<T extends keyof HomeParamList> = {
   navigation: NavigationProp<HomeParamList, T>;
