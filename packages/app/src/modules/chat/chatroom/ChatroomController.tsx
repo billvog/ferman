@@ -22,6 +22,7 @@ import { Field, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import {
   Alert,
+  FlatList,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -33,6 +34,7 @@ import { ChatMessage } from "../../../components/ChatMessage";
 import { ErrorText } from "../../../components/ErrorText";
 import { MyButton } from "../../../components/MyButton";
 import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";
+import { Spinner } from "../../../components/Spinner";
 import { colors, paragraph, radius } from "../../../constants/style";
 import { InputField } from "../../../form-fields/InputField";
 import { HomeNavProps } from "../../../navigation/AppTabs/Stacks/Home/ParamList";
@@ -46,12 +48,9 @@ export const ChatroomController: React.FC<any> = ({
 }: HomeNavProps<"Chatroom">) => {
   const { t } = useTypeSafeTranslation();
   const { me } = useContext(AuthContext);
+  if (!me) return null;
 
-  const {
-    data: chatData,
-    loading: chatLoading,
-    error: chatError,
-  } = useChatQuery({
+  const { data: chatData, loading: chatLoading } = useChatQuery({
     skip: typeof route.params.chatId === "undefined",
     variables: {
       chatId: route.params.chatId,
@@ -60,7 +59,6 @@ export const ChatroomController: React.FC<any> = ({
 
   const {
     data: messagesData,
-    error: messagesError,
     loading: messagesLoading,
     fetchMore: loadMoreMessages,
     variables: messagesVariables,
@@ -203,20 +201,19 @@ export const ChatroomController: React.FC<any> = ({
   }, [chatData?.chat.chat]);
 
   const [sendMessage] = useSendMessageMutation();
-
   const [latestRead, setLatestRead] = useState(-1);
+
   useEffect(() => {
     if (!messagesData?.messages.messages) return;
     const lm = messagesData?.messages.messages[0];
     if (lm.userId === me?.id && lm.read) setLatestRead(lm.id);
   }, [messagesData?.messages.messages]);
 
-  if (!me) return null;
   return (
     <View style={{ flex: 1 }}>
       {chatLoading || (messagesLoading && !messagesData) ? (
         <CenterSpinner />
-      ) : (!chatData && chatData) || (!messagesData && messagesError) ? (
+      ) : !chatData || !messagesData ? (
         <ErrorText>{t("errors.oops")}</ErrorText>
       ) : (
         <View style={styles.container}>
@@ -248,17 +245,19 @@ export const ChatroomController: React.FC<any> = ({
               </Text>
             </View>
           ) : (
-            <View
+            <KeyboardAvoidingView
               style={{
                 flex: 1,
                 flexDirection: "column",
               }}
             >
-              <ScrollViewLoadMore
-                isReversed
-                keepScrollToBottom
-                isLoading={messagesLoading}
-                onLoadMore={() => {
+              <FlatList
+                inverted
+                style={{
+                  paddingHorizontal: 12,
+                }}
+                onEndReachedThreshold={0}
+                onEndReached={() =>
                   loadMoreMessages({
                     variables: {
                       ...messagesVariables,
@@ -275,76 +274,44 @@ export const ChatroomController: React.FC<any> = ({
                         },
                       };
                     },
-                  });
-                }}
-                shouldLoadMore={messagesData?.messages.hasMore || false}
-                scrollViewProps={{
-                  style: {
-                    flex: 1,
-                  },
-                }}
-              >
-                <KeyboardAvoidingView
-                  behavior={Platform.OS === "ios" ? "padding" : "height"}
-                  style={{
-                    flex: 1,
-                  }}
-                >
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: "column-reverse",
-                      padding: 12,
-                    }}
-                  >
-                    {messagesData?.messages.messages.map((m, i) => {
-                      const nextMessage =
-                        messagesData.messages.messages[i > 0 ? i - 1 : i];
+                  })
+                }
+                data={messagesData?.messages.messages}
+                keyExtractor={(item) =>
+                  `chat:${item.chatId}-message:${item.id}`
+                }
+                renderItem={({ item: m, index: i }) => {
+                  const nextMessage =
+                    messagesData.messages.messages[i > 0 ? i - 1 : i];
 
-                      const isFirst =
-                        i === messagesData.messages.messages.length - 1;
+                  const isFirst =
+                    i === messagesData.messages.messages.length - 1;
 
-                      let label = "";
-                      if (
-                        new Date(nextMessage?.createdAt).valueOf() -
-                          new Date(m.createdAt).valueOf() >
-                          1800000 ||
-                        isFirst
-                      ) {
-                        label = dayjs(nextMessage?.createdAt).format(
-                          "D MMMM YYYY, h:mm A"
-                        );
-                      }
+                  let label = "";
+                  if (
+                    new Date(nextMessage?.createdAt).valueOf() -
+                      new Date(m.createdAt).valueOf() >
+                      1800000 ||
+                    isFirst
+                  ) {
+                    label = dayjs(nextMessage?.createdAt).format(
+                      "D MMMM YYYY, h:mm A"
+                    );
+                  }
 
-                      return (
-                        <View
-                          key={`chat:${m.chatId}-message:${m.id}`}
-                          style={{
-                            paddingVertical: 6,
-                          }}
-                        >
-                          <ChatMessage
-                            showRead={latestRead === m.id}
-                            message={m}
-                          />
-                          {!!label && (
-                            <View style={styles.dateGroupLabelContainer}>
-                              <Text style={styles.dateGroupLabelText}>
-                                {label}
-                              </Text>
-                            </View>
-                          )}
+                  return (
+                    <View style={styles.messageGroupContainer}>
+                      <ChatMessage showRead={latestRead === m.id} message={m} />
+                      {!!label && (
+                        <View style={styles.dateGroupLabelContainer}>
+                          <Text style={styles.dateGroupLabelText}>{label}</Text>
                         </View>
-                      );
-                    })}
-                  </View>
-                </KeyboardAvoidingView>
-              </ScrollViewLoadMore>
-              <View
-                style={{
-                  width: "100%",
+                      )}
+                    </View>
+                  );
                 }}
-              >
+              />
+              <View style={styles.sendMessageFormWrapper}>
                 <Formik
                   initialValues={{
                     text: "",
@@ -368,15 +335,8 @@ export const ChatroomController: React.FC<any> = ({
                   }}
                 >
                   {({ submitForm }) => (
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        padding: 20,
-                        backgroundColor: colors.primary100,
-                      }}
-                    >
-                      <View style={{ flex: 1, marginRight: 8 }}>
+                    <View style={styles.sendMessageFormContainer}>
+                      <View style={{ flex: 1 }}>
                         <Field
                           name="text"
                           placeholder={"Message..."}
@@ -391,7 +351,7 @@ export const ChatroomController: React.FC<any> = ({
                   )}
                 </Formik>
               </View>
-            </View>
+            </KeyboardAvoidingView>
           )}
         </View>
       )}
@@ -403,11 +363,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  messageGroupContainer: {
+    paddingVertical: 6,
+  },
   dateGroupLabelContainer: {
     paddingVertical: 24,
   },
   dateGroupLabelText: {
     textAlign: "center",
     color: colors.primary450,
+  },
+  sendMessageFormWrapper: {
+    width: "100%",
+  },
+  sendMessageFormContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: colors.primary100,
   },
 });

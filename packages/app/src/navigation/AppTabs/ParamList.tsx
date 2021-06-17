@@ -4,6 +4,7 @@ export type AppParamList = {
   Home: undefined;
   Search: undefined;
   CreatePost: undefined;
+  Chat: undefined;
   Profile: undefined;
 };
 

@@ -72,7 +72,8 @@
       "password": "Enter password",
       "six_digit": "Enter 6-digit code",
       "bio": "Enter bio...",
-      "location": "Enter Location"
+      "location": "Enter Location",
+      "message": "Message..."
     },
     "helper": {
       "uid": "How others will search you. Choose it carefully, because you won't have the abillity to change it after is set.",

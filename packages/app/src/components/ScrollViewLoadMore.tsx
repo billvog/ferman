@@ -1,12 +1,9 @@
 import React from "react";
-import { useRef } from "react";
 import { RefreshControl, ScrollViewProps, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Spinner } from "./Spinner";
 
 export type ScrollViewLoadMoreProps = {
-  isReversed?: boolean;
-  keepScrollToBottom?: boolean;
   scrollViewProps?: ScrollViewProps;
   shouldLoadMore: boolean;
   isLoading: boolean;
@@ -27,14 +24,8 @@ const isCloseToBottom = ({
   );
 };
 
-const isCloseToTop = ({ _, contentOffset, __ }: any) => {
-  return contentOffset.y === 0;
-};
-
 export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
   children,
-  keepScrollToBottom = false,
-  isReversed = false,
   scrollViewProps,
   shouldLoadMore,
   isLoading,
@@ -42,25 +33,12 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
   onLoadMore,
   onRefresh,
 }) => {
-  const scrollViewRef = useRef<any>();
   return (
     <ScrollView
       {...scrollViewProps}
-      ref={scrollViewRef}
-      onContentSizeChange={
-        keepScrollToBottom
-          ? () => scrollViewRef.current?.scrollToEnd({ animated: true })
-          : undefined
-      }
       scrollEventThrottle={400}
       onScroll={({ nativeEvent }) => {
-        if (isReversed && isCloseToTop(nativeEvent) && shouldLoadMore) {
-          onLoadMore();
-        } else if (
-          !isReversed &&
-          isCloseToBottom(nativeEvent) &&
-          shouldLoadMore
-        ) {
+        if (isCloseToBottom(nativeEvent) && shouldLoadMore) {
           onLoadMore();
         }
       }}
@@ -73,7 +51,7 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
         ) : undefined
       }
     >
-      {!isReversed ? children : null}
+      {children}
       {isLoading && (
         <View
           style={{
@@ -85,7 +63,6 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
           children={<Spinner size="s" />}
         />
       )}
-      {isReversed ? children : null}
     </ScrollView>
   );
 };

@@ -56,6 +56,7 @@ export type TranslationKeys =
 	| "form.placeholder.six_digit"
 	| "form.placeholder.bio"
 	| "form.placeholder.location"
+	| "form.placeholder.message"
 	| "form.helper.uid"
 	| "form.helper.username"
 	| "form.helper.date_of_birth"

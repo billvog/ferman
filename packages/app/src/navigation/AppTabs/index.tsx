@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { colors } from "../../constants/style";
 import { AppParamList } from "./ParamList";
+import { ChatStack } from "./Stacks/Chat";
 import { CreatePostScreen } from "./Stacks/CreatePost";
 import { HomeStack } from "./Stacks/Home";
 import { ProfileStack } from "./Stacks/Profile";
@@ -33,6 +34,12 @@ export const AppTabs: React.FC = ({}) => {
               Component = AntDesign as any;
               iconName = focused ? "pluscircle" : "pluscircleo";
               break;
+            case "Chat":
+              Component = Ionicons as any;
+              iconName = focused
+                ? "ios-chatbubble-ellipses"
+                : "ios-chatbubble-ellipses-outline";
+              break;
             case "Profile":
               Component = MaterialCommunityIcons as any;
               iconName = focused ? "account" : "account-outline";
@@ -51,6 +58,7 @@ export const AppTabs: React.FC = ({}) => {
       <Tabs.Screen name="Home" component={HomeStack} />
       <Tabs.Screen name="Search" component={SearchStack} />
       <Tabs.Screen name="CreatePost" component={CreatePostScreen} />
+      <Tabs.Screen name="Chat" component={ChatStack} />
       <Tabs.Screen name="Profile" component={ProfileStack} />
     </Tabs.Navigator>
   );
