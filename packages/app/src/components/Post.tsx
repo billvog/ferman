@@ -1,12 +1,13 @@
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import {
+  deletePostMutationOptions,
   FullPostFragment,
-  likePostMutationOptions,
+  useDeletePostMutation,
   useLikePostMutation,
 } from "@ferman-pkgs/controller";
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Alert,
   Image,
@@ -19,6 +20,7 @@ import { colors, fontFamily, fontSize, paragraph } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { PostActionsModal } from "./PostActionsModal";
 import { Spinner } from "./Spinner";
 
 interface PostProps {
@@ -31,37 +33,37 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   const { t } = useTypeSafeTranslation();
   const navigation = useNavigation();
 
+  const [isModalOpen, setModalOpen] = useState(false);
+
   const [likePost, { loading: likeLoading }] = useLikePostMutation();
   const LikePostHandler = async () => {
-    const { data } = await likePost(
-      likePostMutationOptions({
-        id: post.id,
-      }) as any
-    );
+    const { data } = await likePost({
+      variables: { id: post.id },
+    });
 
     if (!data || data.likePost.error) {
       Alert.alert(t("common.error"), t("errors.oops"));
     }
   };
 
-  // const [deletePost, { loading: deletePostLoading }] = useDeletePostMutation();
-  // const DeletePostHandler = async () => {
-  //   const response = await deletePost(
-  //     deletePostMutationOptions({
-  //       id: post.id,
-  //     }) as any
-  //   );
+  const [deletePost] = useDeletePostMutation();
+  const DeletePostHandler = async () => {
+    const { errors, data } = await deletePost(
+      deletePostMutationOptions({
+        id: post.id,
+      }) as any
+    );
 
-  //   if (response.errors || !response.data?.deletePost) {
-  //     return Alert.alert(t("common.error"), t("post.alert.cannot_delete"));
-  //   }
+    if (errors || data?.deletePost.error) {
+      return Alert.alert(t("common.error"), t("post.alert.cannot_delete"));
+    }
 
-  //   Alert.alert(t("common.success"), t("post.alert.deleted"));
+    Alert.alert(t("common.success"), t("post.alert.deleted"));
 
-  //   if (typeof onDelete === "function") {
-  //     onDelete();
-  //   }
-  // };
+    if (typeof onDelete === "function") {
+      onDelete();
+    }
+  };
 
   const navigateToCreator = () => {
     navigation.navigate("UserProfile", {
@@ -82,7 +84,10 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <TouchableOpacity
+      style={styles.wrapper}
+      onLongPress={() => setModalOpen(true)}
+    >
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.avatarContainer}
@@ -190,7 +195,14 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
           </TouchableOpacity>
         )}
       </View>
-    </View>
+      {post.creator.id === me?.id && (
+        <PostActionsModal
+          isModalOpen={isModalOpen}
+          closeModal={() => setModalOpen(false)}
+          onDelete={DeletePostHandler}
+        />
+      )}
+    </TouchableOpacity>
   );
 };
 

@@ -1,8 +1,8 @@
 import { ApolloCache, ApolloQueryResult } from "@apollo/client";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import {
-  DeletePostMutationVariables,
   DeletePostMutation,
+  DeletePostMutationVariables,
 } from "../../../generated/graphql";
 
 export const deletePostMutationOptions = (
@@ -16,9 +16,9 @@ export const deletePostMutationOptions = (
     ) => {
       if (result.data.deletePost.error) return;
       cache.evict({ id: "Post:" + result.data.deletePost.postId });
-
-      if (result.data.deletePost.parentPostId)
-        cache.evict({ id: "Post:" + result.data.deletePost.parentPostId });
+      if (result.data.deletePost.parentPostId) {
+        cache.evict({ fieldName: "posts" });
+      }
     },
   };
 };

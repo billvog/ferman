@@ -81,7 +81,7 @@ export const ChatroomController: React.FC<ChatroomControllerProps> = ({
           client.cache.writeFragment({
             id: "Chat:" + m.chatId,
             fragment: gql`
-              fragment _ on Chat {
+              fragment __ on Chat {
                 latestMessage
               }
             `,
@@ -117,7 +117,7 @@ export const ChatroomController: React.FC<ChatroomControllerProps> = ({
           client.cache.writeFragment({
             id: "Chat:" + m.chatId,
             fragment: gql`
-              fragment _ on Chat {
+              fragment ___ on Chat {
                 latestMessage
               }
             `,

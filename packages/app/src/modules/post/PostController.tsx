@@ -63,14 +63,14 @@ export const PostController: React.FC<any> = ({
           isLoading={postLoading && !isRefreshing}
           isRefreshing={isRefreshing}
           onRefresh={refreshPostsHandler}
-          onLoadMore={() => {
+          onLoadMore={() =>
             loadMoreReplies({
               variables: {
                 ...postVariables,
                 skip: postData.posts.posts.length,
               },
-            });
-          }}
+            })
+          }
           shouldLoadMore={postData?.posts.hasMore}
           scrollViewProps={{
             style: {
@@ -109,7 +109,6 @@ export const PostController: React.FC<any> = ({
               {t("post.reply")}
             </MyButton>
           </View>
-
           {postData?.posts.count === 0 ? (
             <View
               children={
