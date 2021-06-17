@@ -56,7 +56,7 @@ export const Chat: React.FC<ChatProps> = ({ chat }) => {
           <Text style={styles.usernameText}>{otherUser.username}</Text>
           {chat.hasUnreadMessage && <View style={styles.unreadMsgIndicator} />}
         </View>
-        {chat.latestMessage && chat.latestMessage.text.length < 50 ? (
+        {chat.latestMessage && chat.latestMessage.text.length < 25 ? (
           <View style={styles.latestMessageContainer}>
             <Text style={styles.latestMessageText}>
               {chat.latestMessage.userId === me.id && (
@@ -71,7 +71,14 @@ export const Chat: React.FC<ChatProps> = ({ chat }) => {
             </Text>
           </View>
         ) : (
-          <Text></Text>
+          <Text style={styles.userLastSeenText}>
+            {otherUser.isOnline
+              ? t("user.active_now")
+              : t("user.last_seen").replace(
+                  "%time%",
+                  dayjs(parseFloat(otherUser.lastSeen)).fromNow(true)
+                )}
+          </Text>
         )}
       </View>
     </TouchableOpacity>
@@ -138,5 +145,10 @@ const styles = StyleSheet.create({
   latestMessageDateText: {
     ...xsmall,
     color: colors.primary450,
+  },
+  userLastSeenText: {
+    ...small,
+    fontFamily: fontFamily.inter.regular,
+    color: colors.primary600,
   },
 });

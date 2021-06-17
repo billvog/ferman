@@ -183,7 +183,8 @@ export const ChatroomController: React.FC<ChatroomControllerProps> = ({
     return null;
   };
 
-  const loadMoreHandler = () =>
+  const loadMoreHandler = () => {
+    if (!messagesData?.messages.hasMore) return;
     fetchMoreMessages({
       variables: {
         ...messagesVariables,
@@ -201,6 +202,7 @@ export const ChatroomController: React.FC<ChatroomControllerProps> = ({
         };
       },
     });
+  };
 
   return children({
     isLoading: messagesLoading || chatLoading,

@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { ChatroomController } from "../../../../modules/chat/chatroom/ChatroomController";
+import { ChatroomConnector } from "../../../../modules/chat/chatroom/ChatroomConnector";
 import { ChatsController } from "../../../../modules/chat/ChatsController";
 import { useTypeSafeTranslation } from "../../../../shared-hooks/useTypeSafeTranslation";
 import { headerOptions } from "../../../../styles/header";
@@ -20,7 +20,7 @@ export const ChatStack: React.FC<any> = () => {
       />
       <Stack.Screen
         name="Chatroom"
-        component={ChatroomController}
+        component={ChatroomConnector}
         options={{
           headerTitle: t("chat.title"),
         }}
