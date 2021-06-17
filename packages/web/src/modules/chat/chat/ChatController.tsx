@@ -161,8 +161,8 @@ export const ChatController: React.FC<ChatControllerProps> = ({ chat }) => {
   }, [chat?.id]);
 
   const [sendMessage] = useSendMessageMutation();
-
   const [latestRead, setLatestRead] = useState(-1);
+
   useEffect(() => {
     if (!messagesData?.messages.messages) return;
     const lm = messagesData?.messages.messages[0];
@@ -297,12 +297,12 @@ export const ChatController: React.FC<ChatControllerProps> = ({ chat }) => {
                   <InputField
                     name="text"
                     type="text"
-                    placeholder="Message..."
+                    placeholder={t("form.placeholder.message")}
                     maxLength={ChatMessageMax}
                     disabled={isSubmitting}
                   />
                   <MyButton isLoading={isSubmitting} type="submit">
-                    Send
+                    {t("button.send")}
                   </MyButton>
                 </Form>
               )}

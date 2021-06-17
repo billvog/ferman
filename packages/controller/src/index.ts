@@ -12,6 +12,7 @@ export * from "./modules/post/Create";
 export * from "./modules/post/Delete/Options";
 
 // Chat Controller
+export * from "./modules/chat/Chatroom/Controller";
 export * from "./modules/chat/Create";
 export * from "./modules/chat/OnNewMessage/UpdateCache";
 

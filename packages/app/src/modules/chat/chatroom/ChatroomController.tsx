@@ -68,8 +68,7 @@ export const ChatroomController: React.FC<any> = ({
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,
-    skip:
-      typeof chatData?.chat.chat === "undefined" || !chatData?.chat.chat?.id,
+    skip: !chatData?.chat.chat?.id,
     variables: {
       chatId: chatData?.chat.chat?.id || "",
       limit: 30,
@@ -256,12 +255,26 @@ export const ChatroomController: React.FC<any> = ({
                 style={{
                   paddingHorizontal: 12,
                 }}
-                onEndReachedThreshold={0}
-                onEndReached={() =>
+                ListHeaderComponent={null}
+                ListFooterComponent={() =>
+                  messagesLoading ? (
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        margin: 24,
+                      }}
+                      children={<Spinner size="s" />}
+                    />
+                  ) : null
+                }
+                onEndReachedThreshold={0.15}
+                onEndReached={() => {
                   loadMoreMessages({
                     variables: {
                       ...messagesVariables,
-                      skip: messagesData?.messages.messages.length,
+                      skip: messagesData.messages.messages.length,
                     },
                     updateQuery: (prev: any, { fetchMoreResult }) => {
                       return {
@@ -274,8 +287,8 @@ export const ChatroomController: React.FC<any> = ({
                         },
                       };
                     },
-                  })
-                }
+                  });
+                }}
                 data={messagesData?.messages.messages}
                 keyExtractor={(item) =>
                   `chat:${item.chatId}-message:${item.id}`

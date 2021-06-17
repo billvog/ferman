@@ -4,7 +4,6 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import {
   PaginatedUsers,
   PaginatedPosts,
-  PaginatedMessages,
   PaginatedChats,
 } from "./generated/graphql";
 import { isServer } from "./utils/isServer";

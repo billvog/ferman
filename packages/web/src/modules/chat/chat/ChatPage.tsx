@@ -2,12 +2,7 @@ import { gql } from "@apollo/client";
 import {
   OnUserStatusUpdateDocument,
   OnUserStatusUpdateSubscription,
-  OnUserStatusUpdateSubscriptionVariables,
-  useMeQuery,
   UserDocument,
-  UserQuery,
-  UsersDocument,
-  UserStatus,
   useUserQuery,
 } from "@ferman-pkgs/controller";
 import dayjs from "dayjs";
@@ -24,7 +19,7 @@ import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTransla
 import { withMyApollo } from "../../../utils/withMyApollo";
 import { AuthContext } from "../../auth/AuthProvider";
 import { HeaderController } from "../../display/HeaderController";
-import { ChatController } from "./ChatController";
+import { ChatroomConnector } from "./ChatroomConnector";
 
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
@@ -37,6 +32,7 @@ const Page: React.FC = () => {
   const { data: chatData } = useGetChatFromUrl();
   const {
     data: userData,
+    loading: userLoading,
     variables: userVariables,
     subscribeToMore,
     client,
@@ -153,6 +149,15 @@ const Page: React.FC = () => {
                     </div>
                   </div>
                 </div>
+              ) : !userLoading && userData ? (
+                <div
+                  className="pl-2 flex items-center"
+                  style={{
+                    height: "33px",
+                  }}
+                >
+                  {t("common.error")}
+                </div>
               ) : (
                 <div
                   className="pl-4 flex items-center"
@@ -168,7 +173,7 @@ const Page: React.FC = () => {
           bottomNav={<CommonBottomNav />}
           leftSidebar={<CommonSidebar />}
         >
-          <ChatController chat={chatData?.chat.chat} />
+          <ChatroomConnector />
         </MainGrid>
       </WaitAuth>
     </WaitI18>
