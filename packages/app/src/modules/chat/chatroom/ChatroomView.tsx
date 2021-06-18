@@ -52,28 +52,33 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
 
   const otherUser = chat?.senderId === me?.id ? chat?.reciever : chat?.sender;
 
+  const onFocus = () => {
+    navigation.dangerouslyGetParent()?.setOptions({
+      tabBarVisible: false,
+    } as BottomTabNavigationOptions);
+
+    navigation.setOptions({
+      header: () => <ChatroomHeader chat={chat!} otherUser={otherUser!} />,
+    } as StackNavigationOptions);
+  };
+
+  const onBlur = () => {
+    navigation.dangerouslyGetParent()?.setOptions({
+      tabBarVisible: true,
+    } as BottomTabNavigationOptions);
+
+    navigation.setOptions({
+      header: undefined,
+    } as StackNavigationOptions);
+  };
+
   useEffect(() => {
     if (!chat?.id || !otherUser) return;
 
-    const unsubscribeFromFocusEvent = navigation.addListener("focus", (e) => {
-      navigation.dangerouslyGetParent()?.setOptions({
-        tabBarVisible: false,
-      } as BottomTabNavigationOptions);
+    onFocus();
 
-      navigation.setOptions({
-        header: () => <ChatroomHeader chat={chat} otherUser={otherUser} />,
-      } as StackNavigationOptions);
-    });
-
-    const unsubscribeFromBlurEvent = navigation.addListener("blur", () => {
-      navigation.dangerouslyGetParent()?.setOptions({
-        tabBarVisible: true,
-      } as BottomTabNavigationOptions);
-
-      navigation.setOptions({
-        header: undefined,
-      } as StackNavigationOptions);
-    });
+    const unsubscribeFromFocusEvent = navigation.addListener("focus", onFocus);
+    const unsubscribeFromBlurEvent = navigation.addListener("blur", onBlur);
 
     return () => {
       unsubscribeFromFocusEvent();

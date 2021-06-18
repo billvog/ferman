@@ -8,7 +8,13 @@ import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
 import { colors, fontFamily, fontSize } from "../../constants/style";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 
-export const FeedController: React.FC = ({}) => {
+interface FeedControllerProps {
+  isFeed?: boolean;
+}
+
+export const FeedController: React.FC<FeedControllerProps> = ({
+  isFeed = true,
+}) => {
   const { t } = useTypeSafeTranslation();
 
   const {
@@ -24,7 +30,7 @@ export const FeedController: React.FC = ({}) => {
     variables: {
       limit: 15,
       skip: 0,
-      fromFollowed: true,
+      fromFollowed: isFeed,
     },
   });
 

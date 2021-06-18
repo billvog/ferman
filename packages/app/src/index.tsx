@@ -8,6 +8,12 @@ import { OfflineError } from "./modules/error/OfflineError";
 import { AuthSwitch } from "./navigation/AuthSwitch";
 import { Providers } from "./Providers";
 import * as Font from "expo-font";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+  "Looks like you're passing an inline function for 'component' prop for the screen",
+  "The updateQuery callback for fetchMore is deprecated",
+]);
 
 export const App: React.FC = ({}) => {
   const [isOnline, setIsOnline] = useState<boolean | undefined>(undefined);

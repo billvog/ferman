@@ -35,6 +35,7 @@ export const SearchPostsController: React.FC<any> = ({
   const {
     loading: postsLoading,
     data: postsData,
+    error: postsError,
     fetchMore: loadMorePosts,
     variables: postsVariables,
     called: postsQueryCalled,
@@ -74,7 +75,7 @@ export const SearchPostsController: React.FC<any> = ({
     >
       {!postsData && postsLoading && !isRefreshing ? (
         <CenterSpinner />
-      ) : !postsData ? (
+      ) : !postsData && postsError ? (
         <View
           style={{
             flex: 1,
@@ -165,11 +166,11 @@ export const SearchPostsController: React.FC<any> = ({
                           ).toString()
                         )
                       : t("common.found_x_results")
-                          .replace("%count%", postsData?.posts.count.toString())
+                          .replace("%count%", postsData!.posts.count.toString())
                           .replace(
                             "%seconds%",
                             Number(
-                              postsData?.posts.executionTime / 1000
+                              postsData!.posts.executionTime / 1000
                             ).toString()
                           )}
                   </Text>

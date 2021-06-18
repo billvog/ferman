@@ -5,7 +5,7 @@ import {
   useDeletePostMutation,
   useLikePostMutation,
 } from "@ferman-pkgs/controller";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import * as Haptics from "expo-haptics";
@@ -34,7 +34,9 @@ interface PostProps {
 export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   const { me } = useContext(AuthContext);
   const { t } = useTypeSafeTranslation();
+
   const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
+  const route = useRoute<RouteProp<HomeParamList, "ViewPost">>();
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -81,6 +83,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   };
 
   const navigateToPost = () => {
+    if (route.params?.postId === post.id) return;
     navigation.push("ViewPost", {
       postId: post.id,
     });

@@ -4,6 +4,7 @@ import { CommonParamList } from "../Common/CommonParamList";
 
 export type HomeParamList = {
   Feed: undefined;
+  Explore: undefined;
 } & CommonParamList;
 
 export type HomeNavProps<T extends keyof HomeParamList> = {
