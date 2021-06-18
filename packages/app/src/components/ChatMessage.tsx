@@ -6,13 +6,12 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
-import React, { useContext } from "react";
-import { useState } from "react";
+import * as Haptics from "expo-haptics";
+import React, { useContext, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, fontSize, paragraph, radius, small } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
 import { ChatParamList } from "../navigation/AppTabs/Stacks/Chat/ParamList";
-import { HomeNavProps } from "../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { ChatMessageActionsModal } from "./ChatMessageActionsModal";
 
@@ -92,7 +91,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            onLongPress={() => isMe && setActionsModalOpen(true)}
+            onLongPress={() => {
+              if (isMe) {
+                Haptics.impactAsync();
+                setActionsModalOpen(true);
+              }
+            }}
             style={[
               styles.messageContainer,
               {

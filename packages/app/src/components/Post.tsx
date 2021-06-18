@@ -1,4 +1,4 @@
-import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import {
   deletePostMutationOptions,
   FullPostFragment,
@@ -8,6 +8,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
+import * as Haptics from "expo-haptics";
 import React, { useContext, useState } from "react";
 import {
   Alert,
@@ -89,7 +90,12 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
     <TouchableOpacity
       style={styles.wrapper}
       onPress={navigateToPost}
-      onLongPress={() => setModalOpen(true)}
+      onLongPress={() => {
+        if (post.creator.id === me?.id) {
+          Haptics.impactAsync();
+          setModalOpen(true);
+        }
+      }}
     >
       <View style={styles.container}>
         <TouchableOpacity
@@ -184,19 +190,6 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
             </Text>
           </View>
         </TouchableOpacity>
-        {post.creator.id === me?.id && (
-          <TouchableOpacity
-            style={(styles.actionItem, styles.actionItemsNotFirst)}
-          >
-            <View style={styles.actionItemContentWrapper}>
-              <Entypo
-                name="dots-three-horizontal"
-                size={14}
-                color={colors.accentWashedOut}
-              />
-            </View>
-          </TouchableOpacity>
-        )}
       </View>
       {post.creator.id === me?.id && (
         <PostActionsModal
@@ -238,11 +231,13 @@ const styles = StyleSheet.create({
     fontFamily: fontFamily.inter.bold,
     fontSize: fontSize.paragraph,
     color: colors.primary800,
+    lineHeight: 20,
   },
   creatorUid: {
     fontFamily: fontFamily.inter.medium,
     fontSize: fontSize.md,
     color: colors.primary700,
+    lineHeight: 15.8,
   },
   createdAt: {
     fontWeight: "500",

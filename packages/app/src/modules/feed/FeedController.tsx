@@ -10,7 +10,6 @@ import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslatio
 
 export const FeedController: React.FC = ({}) => {
   const { t } = useTypeSafeTranslation();
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const {
     data: postsData,
@@ -29,6 +28,7 @@ export const FeedController: React.FC = ({}) => {
     },
   });
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const refreshPostsHandler = async () => {
     // update state
     setIsRefreshing(true);

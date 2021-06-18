@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     padding: 18,
     alignItems: "center",
     flexDirection: "row",
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: colors.primary200,
   },
   avatarContainer: {},

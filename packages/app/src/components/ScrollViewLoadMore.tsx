@@ -43,12 +43,11 @@ export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
         }
       }}
       refreshControl={
-        typeof onRefresh === "function" ? (
-          <RefreshControl
-            refreshing={isRefreshing || false}
-            onRefresh={onRefresh}
-          />
-        ) : undefined
+        <RefreshControl
+          enabled={typeof onRefresh === "function"}
+          refreshing={isRefreshing || false}
+          onRefresh={onRefresh}
+        />
       }
     >
       {children}
