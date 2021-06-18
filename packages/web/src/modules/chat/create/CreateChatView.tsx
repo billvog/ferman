@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { InputField } from "../../../components/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { MySpinner } from "../../../components/MySpinner";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreateChatViewProps {
@@ -43,7 +44,7 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
   ] = useUsersLazyQuery({
     notifyOnNetworkStatusChange: true,
     variables: {
-      limit: 4,
+      limit: 8,
       skip: null,
       query: null,
       notMe: true,
@@ -90,29 +91,29 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
           {t("chat.new_chat")}
         </MyButton>
       </Form>
-      {debouncedQuery.length > 0 &&
-        !!usersData?.users?.users?.length &&
-        usersData?.users.users[0].uid !== values.reciever_uid && (
-          <Popover className="relative mt-3">
-            <Popover.Panel
-              static
-              className="block z-10 border border-r-0 border-l-0 bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden"
-            >
-              <div className="text-vs p-2 text-primary-450 border-b">
-                {usersData.users.count !== 1
-                  ? t("common.found_x_results")
-                      .replace("%count%", usersData.users.count.toString())
-                      .replace(
-                        "%seconds%",
-                        Number(usersData.users.executionTime / 1000).toString()
-                      )
-                  : t("common.found_one_result").replace(
+      <div className="mt-3 block">
+        {usersLoading && !usersData?.users ? (
+          <div className="p-4">
+            <MySpinner />
+          </div>
+        ) : usersData ? (
+          <div className="border border-r-0 border-l-0 bg-primary-50 w-full max-h-32 overflow-y-auto overflow-x-hidden">
+            <div className="text-vs p-2 text-primary-450 border-b">
+              {usersData.users.count !== 1
+                ? t("common.found_x_results")
+                    .replace("%count%", usersData.users.count.toString())
+                    .replace(
                       "%seconds%",
                       Number(usersData.users.executionTime / 1000).toString()
-                    )}
-              </div>
-              <div className="divide-y-2 divide-primary-200">
-                {usersData?.users.users.map((user) => (
+                    )
+                : t("common.found_one_result").replace(
+                    "%seconds%",
+                    Number(usersData.users.executionTime / 1000).toString()
+                  )}
+            </div>
+            <div className="divide-y-2 divide-primary-200">
+              {usersData.users.count > 0 ? (
+                usersData?.users.users.map((user) => (
                   <div
                     key={user.id}
                     className="p-3 flex items-center group cursor-pointer bg-white hover:bg-primary-50"
@@ -131,29 +132,34 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
                       </div>
                     </div>
                   </div>
-                ))}
-                {usersData?.users.hasMore && (
-                  <div className="p-2 w-full flex justify-center">
-                    <MyButton
-                      size="small"
-                      isLoading={usersLoading}
-                      onClick={() => {
-                        fetchMoreUsers!({
-                          variables: {
-                            ...usersVariables,
-                            skip: usersData.users.users.length,
-                          },
-                        });
-                      }}
-                    >
-                      {t("common.load_more")}
-                    </MyButton>
-                  </div>
-                )}
-              </div>
-            </Popover.Panel>
-          </Popover>
-        )}
+                ))
+              ) : (
+                <div className="text-red-500 text-md text-center p-2">
+                  {t("search.found_nothing")}
+                </div>
+              )}
+              {usersData?.users.hasMore && (
+                <div className="p-2 w-full flex justify-center">
+                  <MyButton
+                    size="small"
+                    isLoading={usersLoading}
+                    onClick={() => {
+                      fetchMoreUsers!({
+                        variables: {
+                          ...usersVariables,
+                          skip: usersData.users.users.length,
+                        },
+                      });
+                    }}
+                  >
+                    {t("common.load_more")}
+                  </MyButton>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
