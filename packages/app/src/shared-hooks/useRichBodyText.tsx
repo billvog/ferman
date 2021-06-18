@@ -1,18 +1,30 @@
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import * as WebBrowser from "expo-web-browser";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 import processString from "react-process-string";
 import { colors, fontFamily } from "../constants/style";
+import { AppParamList } from "../navigation/AppTabs/ParamList";
+import { HomeParamList } from "../navigation/AppTabs/Stacks/Home/ParamList";
 
 export const useRichBodyText = (body: string): any => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
+
   const config = [
     {
       // TODO: make a hashtag controller, that shows all posts that have the hashtag
       regex: /(\#[a-zA-Z]+\b)(?!;)/gm,
       fn: (key: any, result: any) => (
-        <Text key={key} style={styles.hashtagText}>
+        <Text
+          key={key}
+          style={styles.hashtagText}
+          onPress={() =>
+            navigation.push("SearchPosts", {
+              query: result[0],
+            })
+          }
+        >
           {result[0]}
         </Text>
       ),
@@ -24,7 +36,7 @@ export const useRichBodyText = (body: string): any => {
           key={key}
           style={styles.mentionText}
           onPress={() =>
-            navigation.navigate("UserProfile", {
+            navigation.push("UserProfile", {
               userUid: (result[0] as string).substr(1),
             })
           }

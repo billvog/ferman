@@ -3,6 +3,7 @@ import { StackNavigationOptions } from "@react-navigation/stack";
 import React from "react";
 import { CreatePostConnector } from "../../../../../modules/post/create/CreatePostConnector";
 import { PostController } from "../../../../../modules/post/PostController";
+import { SearchPostsController } from "../../../../../modules/post/search/SearchPostsController";
 import { useTypeSafeTranslation } from "../../../../../shared-hooks/useTypeSafeTranslation";
 import { ChatParamList } from "../../Chat/ParamList";
 import { HomeParamList } from "../../Home/ParamList";
@@ -21,6 +22,13 @@ export const CommonPostRoutes = (
   const { t } = useTypeSafeTranslation();
   return (
     <>
+      <Stack.Screen
+        name="SearchPosts"
+        component={SearchPostsController}
+        options={{
+          headerTitle: t("common.loading"),
+        }}
+      />
       <Stack.Screen
         name="ViewPost"
         component={PostController}

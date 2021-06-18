@@ -1,16 +1,12 @@
 import React from "react";
-import { useEffect } from "react";
 import { Text, useWindowDimensions } from "react-native";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { colors, fontFamily, fontSize } from "../../constants/style";
-import { SearchNavProps } from "../../navigation/AppTabs/Stacks/Search/ParamList";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 import { PostsTab } from "./tabs/PostsTab";
 import { UsersTab } from "./tabs/UsersTab";
 
-export const SearchController: React.FC<any> = ({
-  route,
-}: SearchNavProps<"Search">) => {
+export const SearchController: React.FC<any> = () => {
   const layout = useWindowDimensions();
   const { t } = useTypeSafeTranslation();
 
