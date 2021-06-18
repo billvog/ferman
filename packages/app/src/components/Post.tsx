@@ -86,6 +86,7 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   return (
     <TouchableOpacity
       style={styles.wrapper}
+      onPress={navigateToPost}
       onLongPress={() => setModalOpen(true)}
     >
       <View style={styles.container}>

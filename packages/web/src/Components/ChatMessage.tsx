@@ -4,11 +4,9 @@ import {
   useDeleteMessageMutation,
   useMarkMessageReadMutation,
 } from "@ferman-pkgs/controller";
-import { Menu, Transition } from "@headlessui/react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import React, { Fragment } from "react";
-import { FiMoreHorizontal } from "react-icons/fi";
+import React from "react";
 import { HiTrash } from "react-icons/hi";
 import { Waypoint } from "react-waypoint";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";

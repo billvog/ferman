@@ -121,7 +121,7 @@ export const paragraph: TextStyle = {
   ...textBase,
   fontWeight: "500",
   fontSize: fontSize.paragraph,
-  lineHeight: 20,
+  lineHeight: 21.5,
 };
 
 export const paragraphBold: TextStyle = {

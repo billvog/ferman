@@ -6,11 +6,13 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
 import React, { useContext } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, fontSize, paragraph, radius, small } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
 import { HomeNavProps } from "../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { ChatMessageActionsModal } from "./ChatMessageActionsModal";
 
 interface ChatMessageProps {
   message: FullMessageFragment;
@@ -32,7 +34,13 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   const [deleteMessage] = useDeleteMessageMutation();
 
   // TODO: https://www.npmjs.com/package/react-native-component-inview
-  // TODO: delete menu
+
+  const [actionsModalOpen, setActionsModalOpen] = useState(false);
+
+  const navigationToOtherUser = () =>
+    navigation.navigate("UserProfile", {
+      userId: message.userId,
+    });
 
   return (
     <View
@@ -43,6 +51,20 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
         },
       ]}
     >
+      {isMe && (
+        <ChatMessageActionsModal
+          isModalOpen={actionsModalOpen}
+          closeModal={() => setActionsModalOpen(false)}
+          onDelete={() =>
+            deleteMessage({
+              variables: {
+                chatId: message.chatId,
+                messageId: message.id,
+              },
+            })
+          }
+        />
+      )}
       <View
         style={[
           styles.innerContainer,
@@ -53,7 +75,10 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
       >
         <View style={styles.mainSection}>
           {!isMe && (
-            <View style={styles.avatarContainer}>
+            <TouchableOpacity
+              style={styles.avatarContainer}
+              onPress={navigationToOtherUser}
+            >
               <Image
                 source={{
                   uri: message.user.profile.avatarUrl,
@@ -62,9 +87,10 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                 }}
                 style={styles.userAvatar}
               />
-            </View>
+            </TouchableOpacity>
           )}
-          <View
+          <TouchableOpacity
+            onLongPress={() => isMe && setActionsModalOpen(true)}
             style={[
               styles.messageContainer,
               {
@@ -74,7 +100,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             ]}
           >
             <Text style={styles.messageText}>{message.text}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View
           style={[

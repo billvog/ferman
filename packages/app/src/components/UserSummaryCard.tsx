@@ -65,8 +65,8 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.avatarContainer} onPress={navigateToUser}>
+    <TouchableOpacity style={styles.container} onPress={navigateToUser}>
+      <View style={styles.avatarContainer}>
         <Image
           source={{
             uri: user.profile?.avatarUrl,
@@ -77,13 +77,10 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
             borderRadius: 12,
           }}
         />
-      </TouchableOpacity>
+      </View>
       <View style={styles.userContainer}>
         <View style={styles.userContainerTopSection}>
-          <TouchableOpacity
-            style={styles.userNameContainer}
-            onPress={navigateToUser}
-          >
+          <View style={styles.userNameContainer}>
             <Text style={styles.usernameText}>{user.username}</Text>
             <View style={styles.uidContainer}>
               <Text style={styles.uidText}>@{user.uid}</Text>
@@ -95,7 +92,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
                 </View>
               )}
             </View>
-          </TouchableOpacity>
+          </View>
           {me?.id !== user.id && (
             <View>
               <MyButton
@@ -118,7 +115,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
           </View>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

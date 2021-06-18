@@ -1,9 +1,10 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
-import { colors, paragraphBold } from "../constants/style";
+import { colors } from "../constants/style";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
+import { actionModalStyles } from "../styles/actionModalStyles";
 
 interface PostActionsModalProps {
   isModalOpen: boolean;
@@ -17,7 +18,6 @@ export const PostActionsModal: React.FC<PostActionsModalProps> = ({
   onDelete,
 }) => {
   const { t } = useTypeSafeTranslation();
-
   return (
     <Modal
       isVisible={isModalOpen}
@@ -28,9 +28,9 @@ export const PostActionsModal: React.FC<PostActionsModalProps> = ({
         margin: 0,
       }}
     >
-      <View style={styles.container}>
+      <View style={actionModalStyles.container}>
         <TouchableOpacity
-          style={styles.actionItem}
+          style={actionModalStyles.actionItem}
           onPress={() => {
             Alert.alert(
               t("post.delete_dialog.title"),
@@ -52,10 +52,12 @@ export const PostActionsModal: React.FC<PostActionsModalProps> = ({
             );
           }}
         >
-          <View style={styles.actionItemIcon}>
+          <View style={actionModalStyles.actionItemIcon}>
             <FontAwesome5 name="trash-alt" size={14} color={colors.error} />
           </View>
-          <Text style={[styles.actionItemText, { color: colors.error }]}>
+          <Text
+            style={[actionModalStyles.actionItemText, { color: colors.error }]}
+          >
             {t("button.delete")}...
           </Text>
         </TouchableOpacity>
@@ -63,21 +65,3 @@ export const PostActionsModal: React.FC<PostActionsModalProps> = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    paddingVertical: 18,
-  },
-  actionItem: {
-    padding: 20,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  actionItemIcon: {
-    marginRight: 12,
-  },
-  actionItemText: {
-    ...paragraphBold,
-  },
-});
