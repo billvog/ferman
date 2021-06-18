@@ -30,7 +30,6 @@ const C: React.FC<CreateChatViewProps & FormikProps<CreateChatFormValues>> = ({
   setFieldValue,
 }) => {
   const { t } = useTypeSafeTranslation();
-
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
   const [
@@ -166,7 +165,7 @@ export const CreateChatView = withRouter(
       reciever_uid: "",
     }),
     handleSubmit: async (values, { setErrors, props }) => {
-      const { errors, chatId } = await props.submit(values);
+      const { errors } = await props.submit(values);
       if (errors) setErrors(errors);
     },
   })(C)

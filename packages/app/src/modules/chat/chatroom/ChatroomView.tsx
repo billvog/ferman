@@ -45,35 +45,45 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
   sendMessage,
 }) => {
   const { t } = useTypeSafeTranslation();
+  const navigation = useNavigation<ChatNavProps<"Chatroom">["navigation"]>();
+
   const { me } = useContext(AuthContext);
   if (!me) return null;
-  const navigation = useNavigation<ChatNavProps<"Chatroom">["navigation"]>();
 
   const otherUser = chat?.senderId === me?.id ? chat?.reciever : chat?.sender;
 
   useEffect(() => {
     if (!chat?.id || !otherUser) return;
 
-    // hide bottom nav
-    navigation.dangerouslyGetParent()?.setOptions({
-      tabBarVisible: false,
-    } as BottomTabNavigationOptions);
+    const unsubscribeFromFocusEvent = navigation.addListener("focus", (e) => {
+      navigation.dangerouslyGetParent()?.setOptions({
+        tabBarVisible: false,
+      } as BottomTabNavigationOptions);
 
-    // custom header
-    navigation.setOptions({
-      header: () => <ChatroomHeader chat={chat} otherUser={otherUser} />,
-    } as StackNavigationOptions);
+      navigation.setOptions({
+        header: () => <ChatroomHeader chat={chat} otherUser={otherUser} />,
+      } as StackNavigationOptions);
+    });
 
-    return () => {
+    const unsubscribeFromBlurEvent = navigation.addListener("blur", () => {
       navigation.dangerouslyGetParent()?.setOptions({
         tabBarVisible: true,
       } as BottomTabNavigationOptions);
+
+      navigation.setOptions({
+        header: undefined,
+      } as StackNavigationOptions);
+    });
+
+    return () => {
+      unsubscribeFromFocusEvent();
+      unsubscribeFromBlurEvent();
     };
-  }, [chat]);
+  }, [chat, navigation]);
 
   const [latestRead, setLatestRead] = useState(-1);
   useEffect(() => {
-    if (!messages?.messages) return;
+    if (!messages?.messages || messages.messages.length <= 0) return;
     const lm = messages.messages[0];
     if (lm.userId === me?.id && lm.read) setLatestRead(lm.id);
   }, [messages?.messages]);
@@ -86,40 +96,40 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
         <ErrorText>{t("errors.oops")}</ErrorText>
       ) : (
         <View style={styles.container}>
-          {messages.count === 0 ? (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+          <KeyboardAvoidingView
+            style={{
+              flex: 1,
+              flexDirection: "column",
+            }}
+          >
+            {messages.messages.length === 0 ? (
               <View
-                style={{ marginBottom: 24 }}
-                children={
-                  <AntDesign
-                    name="wechat"
-                    size={100}
-                    color={colors.accentWashedOut}
-                  />
-                }
-              />
-              <Text
                 style={{
-                  ...paragraph,
-                  color: colors.primary600,
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                {t("chat.no_messages")}
-              </Text>
-            </View>
-          ) : (
-            <KeyboardAvoidingView
-              style={{
-                flex: 1,
-                flexDirection: "column",
-              }}
-            >
+                <View
+                  style={{ marginBottom: 24 }}
+                  children={
+                    <AntDesign
+                      name="wechat"
+                      size={100}
+                      color={colors.accentWashedOut}
+                    />
+                  }
+                />
+                <Text
+                  style={{
+                    ...paragraph,
+                    color: colors.primary600,
+                  }}
+                >
+                  {t("chat.no_messages")}
+                </Text>
+              </View>
+            ) : (
               <FlatList
                 inverted
                 style={{
@@ -167,47 +177,47 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
 
                   return (
                     <View style={styles.messageGroupContainer}>
-                      <ChatMessage showRead={latestRead === m.id} message={m} />
                       {!!label && (
                         <View style={styles.dateGroupLabelContainer}>
                           <Text style={styles.dateGroupLabelText}>{label}</Text>
                         </View>
                       )}
+                      <ChatMessage showRead={latestRead === m.id} message={m} />
                     </View>
                   );
                 }}
               />
-              <View style={styles.sendMessageFormWrapper}>
-                <Formik
-                  initialValues={{
-                    text: "",
-                  }}
-                  onSubmit={async (values, { setFieldValue }) => {
-                    const error = await sendMessage(values);
-                    if (error) {
-                      return Alert.prompt(t("common.error"), t(error as any));
-                    } else setFieldValue("text", "");
-                  }}
-                >
-                  {({ submitForm }) => (
-                    <View style={styles.sendMessageFormContainer}>
-                      <View style={{ flex: 1 }}>
-                        <Field
-                          name="text"
-                          placeholder={"Message..."}
-                          component={InputField}
-                          onSubmitEditing={submitForm}
-                          extraStyles={{
-                            borderRadius: radius.l,
-                          }}
-                        />
-                      </View>
+            )}
+            <View style={styles.sendMessageFormWrapper}>
+              <Formik
+                initialValues={{
+                  text: "",
+                }}
+                onSubmit={async (values, { setFieldValue }) => {
+                  const error = await sendMessage(values);
+                  if (error) {
+                    return Alert.prompt(t("common.error"), t(error as any));
+                  } else setFieldValue("text", "");
+                }}
+              >
+                {({ submitForm }) => (
+                  <View style={styles.sendMessageFormContainer}>
+                    <View style={{ flex: 1 }}>
+                      <Field
+                        name="text"
+                        placeholder={t("form.placeholder.message")}
+                        component={InputField}
+                        onSubmitEditing={submitForm}
+                        extraStyles={{
+                          borderRadius: radius.l,
+                        }}
+                      />
                     </View>
-                  )}
-                </Formik>
-              </View>
-            </KeyboardAvoidingView>
-          )}
+                  </View>
+                )}
+              </Formik>
+            </View>
+          </KeyboardAvoidingView>
         </View>
       )}
     </View>

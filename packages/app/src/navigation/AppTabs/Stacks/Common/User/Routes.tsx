@@ -8,13 +8,14 @@ import { UserFollowersController } from "../../../../../modules/user/UserFollowe
 import { UserFollowingsController } from "../../../../../modules/user/UserFollowingsController";
 import { UserProfileController } from "../../../../../modules/user/UserProfileController";
 import { useTypeSafeTranslation } from "../../../../../shared-hooks/useTypeSafeTranslation";
+import { ChatParamList } from "../../Chat/ParamList";
 import { HomeParamList } from "../../Home/ParamList";
 import { ProfileParamList } from "../../Profile/ParamList";
 import { SearchParamList } from "../../Search/ParamList";
 
 export const CommonUserRoutes = (
   Stack: TypedNavigator<
-    HomeParamList | SearchParamList | ProfileParamList,
+    HomeParamList | SearchParamList | ChatParamList | ProfileParamList,
     StackNavigationState<Record<string, object>>,
     StackNavigationOptions,
     any,
