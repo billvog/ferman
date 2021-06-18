@@ -21,6 +21,8 @@ import { Text } from "react-native";
 import { MyButton } from "./MyButton";
 import { useNavigation } from "@react-navigation/native";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { HomeParamList } from "../navigation/AppTabs/Stacks/Home/ParamList";
 
 interface UserSummaryCardProps {
   user: FullUserFragment;
@@ -29,7 +31,7 @@ interface UserSummaryCardProps {
 export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
   const { me } = useContext(AuthContext);
   const { t } = useTypeSafeTranslation();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
 
   const [followUser, { loading: followLoading }] = useFollowMutation();
   const followUserHandler = async () => {
@@ -59,7 +61,7 @@ export const UserSummaryCard: React.FC<UserSummaryCardProps> = ({ user }) => {
   );
 
   const navigateToUser = () => {
-    navigation.navigate("UserProfile", {
+    navigation.push("UserProfile", {
       userId: user.id,
     });
   };

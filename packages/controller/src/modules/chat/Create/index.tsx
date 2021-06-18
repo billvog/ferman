@@ -30,7 +30,7 @@ export const CreateChatController: React.FC<CreateChatControllerProps> = ({
         reciever_uid: values.reciever_uid,
       },
       update: (cache) => {
-        cache.evict({ fieldName: "Chats" });
+        cache.evict({ fieldName: "chats" });
       },
     });
 

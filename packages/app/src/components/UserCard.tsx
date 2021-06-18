@@ -5,6 +5,7 @@ import {
   useFollowMutation,
 } from "@ferman-pkgs/controller";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import React, { useContext } from "react";
 import {
@@ -24,6 +25,7 @@ import {
   radius,
 } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
+import { HomeParamList } from "../navigation/AppTabs/Stacks/Home/ParamList";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { MyButton } from "./MyButton";
@@ -35,7 +37,7 @@ interface UserCardProps {
 export const UserCard: React.FC<UserCardProps> = ({ user }) => {
   const { me } = useContext(AuthContext);
   const { t } = useTypeSafeTranslation();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
 
   const [followUser, { loading: followLoading }] = useFollowMutation();
   const followUserHandler = async () => {
@@ -54,17 +56,20 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
     ? t("user.unfollow")
     : t("user.follow");
 
-  const navigateToEditUser = () => navigation.navigate("EditProfile");
+  const navigateToEditUser = () =>
+    navigation.navigate("EditProfile", {
+      submitForm: undefined,
+    });
   const navigateToUser = () =>
-    navigation.navigate("UserProfile", {
+    navigation.push("UserProfile", {
       userId: user.id,
     });
   const navigateToFollowers = () =>
-    navigation.navigate("UserFollowers", {
+    navigation.push("UserFollowers", {
       userId: user.id,
     });
   const navigateToFollowings = () =>
-    navigation.navigate("UserFollowings", {
+    navigation.push("UserFollowings", {
       userId: user.id,
     });
 

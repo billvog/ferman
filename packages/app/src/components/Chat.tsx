@@ -1,10 +1,12 @@
 import { FullChatFragment } from "@ferman-pkgs/controller";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import React, { useContext } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, fontFamily, small, xsmall } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
+import { ChatParamList } from "../navigation/AppTabs/Stacks/Chat/ParamList";
 import { HomeNavProps } from "../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
@@ -14,7 +16,7 @@ interface ChatProps {
 
 export const Chat: React.FC<ChatProps> = ({ chat }) => {
   const { t } = useTypeSafeTranslation();
-  const navigation = useNavigation<HomeNavProps<"Chats">["navigation"]>();
+  const navigation = useNavigation<StackNavigationProp<ChatParamList>>();
   const { me } = useContext(AuthContext);
   if (!me) return null;
 

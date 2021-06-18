@@ -1,15 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
 import { BasicUserFragment, FullChatFragment } from "@ferman-pkgs/controller";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
-import React, { useContext } from "react";
-import { Platform, Text } from "react-native";
-import { Image, TouchableOpacity } from "react-native";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import React from "react";
+import {
+  Image,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
-import { HomeNavProps } from "../../../navigation/AppTabs/Stacks/Home/ParamList";
+import { ChatParamList } from "../../../navigation/AppTabs/Stacks/Chat/ParamList";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
-import { AuthContext } from "../../auth/AuthProvider";
 
 interface ChatroomHeaderProps {
   otherUser: BasicUserFragment;
@@ -18,11 +24,9 @@ interface ChatroomHeaderProps {
 
 export const ChatroomHeader: React.FC<ChatroomHeaderProps> = ({
   otherUser,
-  chat,
 }) => {
   const { t } = useTypeSafeTranslation();
-  const { me } = useContext(AuthContext);
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<ChatParamList>>();
 
   return (
     <SafeAreaView style={styles.base}>
@@ -49,7 +53,7 @@ export const ChatroomHeader: React.FC<ChatroomHeaderProps> = ({
           <TouchableOpacity
             style={styles.userAvatarSection}
             onPress={() =>
-              navigation.navigate("UserProfile", { userId: otherUser.id })
+              navigation.push("UserProfile", { userId: otherUser.id })
             }
           >
             <Image

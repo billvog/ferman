@@ -6,6 +6,7 @@ import {
   useLikePostMutation,
 } from "@ferman-pkgs/controller";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import React, { useContext, useState } from "react";
 import {
@@ -18,6 +19,7 @@ import {
 } from "react-native";
 import { colors, fontFamily, fontSize, paragraph } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
+import { HomeParamList } from "../navigation/AppTabs/Stacks/Home/ParamList";
 import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { PostActionsModal } from "./PostActionsModal";
@@ -31,7 +33,7 @@ interface PostProps {
 export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   const { me } = useContext(AuthContext);
   const { t } = useTypeSafeTranslation();
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -66,19 +68,19 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
   };
 
   const navigateToCreator = () => {
-    navigation.navigate("UserProfile", {
+    navigation.push("UserProfile", {
       userId: post.creator.id,
     });
   };
 
   const navigateToParentPostCreator = () => {
-    navigation.navigate("UserProfile", {
-      userId: post.parentPost?.creator.id,
+    navigation.push("UserProfile", {
+      userId: post.parentPost?.creator.id || -1,
     });
   };
 
   const navigateToPost = () => {
-    navigation.navigate("ViewPost", {
+    navigation.push("ViewPost", {
       postId: post.id,
     });
   };
