@@ -1,4 +1,4 @@
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import {
   FullChatFragment,
   PaginatedMessages,
@@ -7,7 +7,6 @@ import {
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationOptions } from "@react-navigation/stack";
-import dayjs from "dayjs";
 import { Field, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -16,6 +15,7 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { CenterSpinner } from "../../../components/CenterSpinner";
@@ -94,7 +94,7 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
   }, [messages?.messages]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.primary100 }}>
       {isLoading && !messages ? (
         <CenterSpinner />
       ) : !chat || !messages ? (
@@ -163,34 +163,14 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
                 keyExtractor={(item) =>
                   `chat:${item.chatId}-message:${item.id}`
                 }
-                renderItem={({ item: m, index: i }) => {
-                  const nextMessage = messages.messages[i > 0 ? i - 1 : i];
-
-                  const isFirst = i === messages.messages.length - 1;
-
-                  let label = "";
-                  if (
-                    new Date(nextMessage?.createdAt).valueOf() -
-                      new Date(m.createdAt).valueOf() >
-                      1800000 ||
-                    isFirst
-                  ) {
-                    label = dayjs(nextMessage?.createdAt).format(
-                      "D MMMM YYYY, h:mm A"
-                    );
-                  }
-
-                  return (
-                    <View style={styles.messageGroupContainer}>
-                      {!!label && (
-                        <View style={styles.dateGroupLabelContainer}>
-                          <Text style={styles.dateGroupLabelText}>{label}</Text>
-                        </View>
-                      )}
+                renderItem={({ item: m, index: i }) => (
+                  <View
+                    style={{ marginVertical: 4 }}
+                    children={
                       <ChatMessage showRead={latestRead === m.id} message={m} />
-                    </View>
-                  );
-                }}
+                    }
+                  />
+                )}
               />
             )}
             <View style={styles.sendMessageFormWrapper}>
@@ -201,23 +181,50 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
                 onSubmit={async (values, { setFieldValue }) => {
                   const error = await sendMessage(values);
                   if (error) {
-                    return Alert.prompt(t("common.error"), t(error as any));
+                    return Alert.alert(t("common.error"), t(error as any));
                   } else setFieldValue("text", "");
                 }}
               >
-                {({ submitForm }) => (
+                {({ submitForm, isSubmitting }) => (
                   <View style={styles.sendMessageFormContainer}>
                     <View style={{ flex: 1 }}>
                       <Field
                         name="text"
                         placeholder={t("form.placeholder.message")}
                         component={InputField}
-                        onSubmitEditing={submitForm}
+                        multiline={true}
                         extraStyles={{
                           borderRadius: radius.l,
                         }}
                       />
                     </View>
+                    <TouchableOpacity
+                      onPress={submitForm}
+                      style={{
+                        position: "relative",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        paddingLeft: 12,
+                      }}
+                    >
+                      <Feather
+                        name="send"
+                        size={19}
+                        color={colors.accentHover}
+                        style={{
+                          opacity: isSubmitting ? 0 : 100,
+                        }}
+                      />
+                      {isSubmitting && (
+                        <Spinner
+                          size="s"
+                          style={{
+                            position: "absolute",
+                            left: 16,
+                          }}
+                        />
+                      )}
+                    </TouchableOpacity>
                   </View>
                 )}
               </Formik>
@@ -233,22 +240,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  messageGroupContainer: {
-    paddingVertical: 6,
-  },
-  dateGroupLabelContainer: {
-    paddingVertical: 24,
-  },
-  dateGroupLabelText: {
-    textAlign: "center",
-    color: colors.primary450,
-  },
   sendMessageFormWrapper: {
     width: "100%",
   },
   sendMessageFormContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     padding: 20,
     backgroundColor: colors.primary100,
   },

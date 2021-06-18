@@ -14,6 +14,7 @@ import { AuthContext } from "../modules/auth/AuthProvider";
 import { ChatParamList } from "../navigation/AppTabs/Stacks/Chat/ParamList";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { ChatMessageActionsModal } from "./ChatMessageActionsModal";
+import InView from "react-native-component-inview";
 
 interface ChatMessageProps {
   message: FullMessageFragment;
@@ -34,8 +35,6 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   const [markRead] = useMarkMessageReadMutation();
   const [deleteMessage] = useDeleteMessageMutation();
 
-  // TODO: https://www.npmjs.com/package/react-native-component-inview
-
   const [actionsModalOpen, setActionsModalOpen] = useState(false);
 
   const navigationToOtherUser = () =>
@@ -44,85 +43,101 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     });
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          flexDirection: isMe ? "row-reverse" : "row",
-        },
-      ]}
+    <InView
+      onChange={(isVisible: boolean) => {
+        if (isVisible && message.userId !== me.id && !message.read) {
+          markRead({
+            variables: {
+              chatId: message.chatId,
+              messageId: message.id,
+            },
+          });
+        }
+      }}
     >
-      {isMe && (
-        <ChatMessageActionsModal
-          isModalOpen={actionsModalOpen}
-          closeModal={() => setActionsModalOpen(false)}
-          onDelete={() =>
-            deleteMessage({
-              variables: {
-                chatId: message.chatId,
-                messageId: message.id,
-              },
-            })
-          }
-        />
-      )}
       <View
         style={[
-          styles.innerContainer,
+          styles.container,
           {
-            alignItems: isMe ? "flex-end" : "flex-start",
+            flexDirection: isMe ? "row-reverse" : "row",
           },
         ]}
       >
-        <View style={styles.mainSection}>
-          {!isMe && (
-            <TouchableOpacity
-              style={styles.avatarContainer}
-              onPress={navigationToOtherUser}
-            >
-              <Image
-                source={{
-                  uri: message.user.profile.avatarUrl,
-                  width: 32,
-                  height: 32,
-                }}
-                style={styles.userAvatar}
-              />
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity
-            onLongPress={() => {
-              if (isMe) {
-                Haptics.impactAsync();
-                setActionsModalOpen(true);
-              }
-            }}
-            style={[
-              styles.messageContainer,
-              {
-                borderBottomRightRadius: isMe ? 0 : undefined,
-                borderBottomLeftRadius: isMe ? undefined : 0,
-              },
-            ]}
-          >
-            <Text style={styles.messageText}>{message.text}</Text>
-          </TouchableOpacity>
-        </View>
+        {isMe && (
+          <ChatMessageActionsModal
+            isModalOpen={actionsModalOpen}
+            closeModal={() => setActionsModalOpen(false)}
+            onDelete={() =>
+              deleteMessage({
+                variables: {
+                  chatId: message.chatId,
+                  messageId: message.id,
+                },
+              })
+            }
+          />
+        )}
         <View
           style={[
-            styles.messageInfoContainer,
+            styles.innerContainer,
             {
-              marginLeft: isMe ? 0 : 44,
+              alignItems: isMe ? "flex-end" : "flex-start",
             },
           ]}
         >
-          <Text style={styles.messageInfoText}>
-            {dayjs(message.createdAt).fromNow()}
-            {showRead && isMe && message.read && ", " + t("chat.message_read")}
-          </Text>
+          <View style={styles.mainSection}>
+            {!isMe && (
+              <TouchableOpacity
+                style={styles.avatarContainer}
+                onPress={navigationToOtherUser}
+              >
+                <Image
+                  source={{
+                    uri: message.user.profile.avatarUrl,
+                    width: 32,
+                    height: 32,
+                  }}
+                  style={styles.userAvatar}
+                />
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              onLongPress={() => {
+                if (isMe) {
+                  Haptics.impactAsync();
+                  setActionsModalOpen(true);
+                }
+              }}
+              style={[
+                styles.messageContainer,
+                {
+                  borderBottomRightRadius: isMe ? 0 : undefined,
+                  borderBottomLeftRadius: isMe ? undefined : 0,
+                },
+              ]}
+            >
+              <Text style={styles.messageText}>{message.text}</Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={[
+              styles.messageInfoContainer,
+              {
+                marginLeft: isMe ? 0 : 44,
+              },
+            ]}
+          >
+            <Text style={styles.messageInfoText}>
+              {dayjs(message.createdAt).fromNow()}
+              {showRead &&
+                isMe &&
+                message.read &&
+                ", " + t("chat.message_read")}
+            </Text>
+          </View>
         </View>
       </View>
-    </View>
+    </InView>
   );
 };
 

@@ -1,23 +1,14 @@
-import { gql } from "@apollo/client";
-import {
-  OnNewMessageDocument,
-  OnNewMessageSubscription,
-  OnNewMessageSubscriptionVariables,
-  useChatsQuery,
-} from "@ferman-pkgs/controller";
-import React, { useEffect, useState } from "react";
+import { useChatsQuery } from "@ferman-pkgs/controller";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { CenterSpinner } from "../../components/CenterSpinner";
 import { Chat } from "../../components/Chat";
 import { MyButton } from "../../components/MyButton";
 import { ScrollViewLoadMore } from "../../components/ScrollViewLoadMore";
 import { colors, fontFamily, fontSize } from "../../constants/style";
-import { HomeNavProps } from "../../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
 
-export const ChatsController: React.FC<any> = ({
-  navigation,
-}: HomeNavProps<"Chats">) => {
+export const ChatsController: React.FC<any> = () => {
   const { t } = useTypeSafeTranslation();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -28,53 +19,16 @@ export const ChatsController: React.FC<any> = ({
     refetch: refreshChats,
     fetchMore: loadMoreChats,
     variables: chatsVariables,
-    subscribeToMore,
     client,
   } = useChatsQuery({
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
       skip: 0,
     },
   });
-
-  useEffect(() => {
-    const unsubFromNewChatMessage = subscribeToMore<
-      OnNewMessageSubscription,
-      OnNewMessageSubscriptionVariables
-    >({
-      document: OnNewMessageDocument,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (subscriptionData.data.onNewMessage) {
-          const m = subscriptionData.data.onNewMessage;
-          client.cache.writeFragment({
-            id: "Chat:" + m.chatId,
-            fragment: gql`
-              fragment _ on Chat {
-                hasUnreadMessage
-                latestMessage
-              }
-            `,
-            data: {
-              hasUnreadMessage: true,
-              latestMessage: m,
-            },
-          });
-        }
-
-        return {
-          chats: {
-            ...prev.chats,
-            chats: [],
-          },
-        };
-      },
-    });
-
-    return () => {
-      unsubFromNewChatMessage();
-    };
-  }, []);
 
   const refreshChatsHandler = async () => {
     // update state
