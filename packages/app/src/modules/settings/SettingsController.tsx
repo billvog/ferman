@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
   ScrollView,
@@ -10,6 +10,7 @@ import {
 import { colors, fontSize } from "../../constants/style";
 import { ProfileNavProps } from "../../navigation/AppTabs/Stacks/Profile/ParamList";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
+import { Setting } from "./Setting";
 
 export const SettingsController: React.FC<any> = ({
   navigation,
@@ -18,21 +19,24 @@ export const SettingsController: React.FC<any> = ({
   return (
     <ScrollView>
       <View style={styles.settingsContainer}>
-        <TouchableOpacity
-          style={styles.settingsItem}
-          onPress={() => navigation.navigate("ChangeLanguage")}
-        >
-          <View style={styles.settingsItemIcon}>
+        <Setting
+          icon={
             <Ionicons
               name="globe-outline"
               size={18}
               color={colors.primary600}
             />
-          </View>
-          <Text style={styles.settingsItemText}>
-            {t("settings.language.text")}
-          </Text>
-        </TouchableOpacity>
+          }
+          label={t("settings.language.text")}
+          onPress={() => navigation.navigate("ChangeLanguage")}
+        />
+        <Setting
+          icon={
+            <FontAwesome5 name="bell" size={18} color={colors.primary600} />
+          }
+          label={t("settings.notifications.text")}
+          onPress={() => navigation.navigate("Notifications")}
+        />
       </View>
     </ScrollView>
   );
@@ -41,20 +45,5 @@ export const SettingsController: React.FC<any> = ({
 const styles = StyleSheet.create({
   settingsContainer: {
     flexDirection: "column",
-  },
-  settingsItem: {
-    padding: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderBottomColor: colors.primary200,
-  },
-  settingsItemIcon: {
-    marginRight: 9,
-  },
-  settingsItemText: {
-    fontSize: fontSize.paragraph,
-    fontWeight: "600",
-    color: colors.primary600,
   },
 });

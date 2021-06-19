@@ -220,6 +220,11 @@
       "text": "Language",
       "search_placeholder": "Search...",
       "selected_language": "Selected language"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "text": "Notifications",
+      "allow_notifications": "Allow this app to send push notifications"
     }
   },
   "chat": {

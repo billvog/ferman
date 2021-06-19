@@ -11,6 +11,7 @@ fragment FullUser on User {
   followingStatus
   followersCount
   followingsCount
+  hasPushToken
   profile {
     ...FullProfile
   }

@@ -17,17 +17,24 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "notification": {
+      "icon": "./assets/favicon.png",
+      "color": "#FFFFFF",
+      "androidMode": "collapse"
+    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ferman.app",
+      "bundleIdentifier": "ga.ferman.app",
       "buildNumber": "1.0.0"
     },
     "android": {
+      "permissions": [],
+      "useNextNotificationsApi": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.ferman.app",
+      "package": "ga.ferman.app",
       "versionCode": 1
     },
     "web": {

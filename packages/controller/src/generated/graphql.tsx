@@ -115,6 +115,7 @@ export type Mutation = {
   deletePost: MinimalPostIdResponse;
   updateProfile: ProfileResponse;
   follow: MinimalUsersResponse;
+  updatePushToken: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   login: UserErrorResponse;
   register?: Maybe<FieldError>;
@@ -175,6 +176,11 @@ export type MutationUpdateProfileArgs = {
 
 export type MutationFollowArgs = {
   userId: Scalars['Int'];
+};
+
+
+export type MutationUpdatePushTokenArgs = {
+  pushToken?: Maybe<Scalars['String']>;
 };
 
 
@@ -435,6 +441,7 @@ export type User = {
   lastSeen: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  hasPushToken: Scalars['Boolean'];
   hasUnreadMessage: Scalars['Boolean'];
   followsYouStatus?: Maybe<Scalars['Boolean']>;
   followingStatus?: Maybe<Scalars['Boolean']>;
@@ -538,7 +545,7 @@ export type FullProfileFragment = (
 
 export type FullUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'isOnline' | 'lastSeen' | 'hasUnreadMessage' | 'followsYouStatus' | 'followingStatus' | 'followersCount' | 'followingsCount'>
+  & Pick<User, 'id' | 'uid' | 'username' | 'email' | 'createdAt' | 'isOnline' | 'lastSeen' | 'hasUnreadMessage' | 'followsYouStatus' | 'followingStatus' | 'followersCount' | 'followingsCount' | 'hasPushToken'>
   & { profile: (
     { __typename?: 'Profile' }
     & FullProfileFragment
@@ -903,6 +910,16 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 export type LogoutMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'logout'>
+);
+
+export type UpdatePushTokenMutationVariables = Exact<{
+  pushToken?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdatePushTokenMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updatePushToken'>
 );
 
 export type ChatQueryVariables = Exact<{
@@ -1312,6 +1329,7 @@ export const FullUserFragmentDoc = gql`
   followingStatus
   followersCount
   followingsCount
+  hasPushToken
   profile {
     ...FullProfile
   }
@@ -2014,6 +2032,37 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const UpdatePushTokenDocument = gql`
+    mutation UpdatePushToken($pushToken: String) {
+  updatePushToken(pushToken: $pushToken)
+}
+    `;
+export type UpdatePushTokenMutationFn = Apollo.MutationFunction<UpdatePushTokenMutation, UpdatePushTokenMutationVariables>;
+
+/**
+ * __useUpdatePushTokenMutation__
+ *
+ * To run a mutation, you first call `useUpdatePushTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePushTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePushTokenMutation, { data, loading, error }] = useUpdatePushTokenMutation({
+ *   variables: {
+ *      pushToken: // value for 'pushToken'
+ *   },
+ * });
+ */
+export function useUpdatePushTokenMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePushTokenMutation, UpdatePushTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePushTokenMutation, UpdatePushTokenMutationVariables>(UpdatePushTokenDocument, options);
+      }
+export type UpdatePushTokenMutationHookResult = ReturnType<typeof useUpdatePushTokenMutation>;
+export type UpdatePushTokenMutationResult = Apollo.MutationResult<UpdatePushTokenMutation>;
+export type UpdatePushTokenMutationOptions = Apollo.BaseMutationOptions<UpdatePushTokenMutation, UpdatePushTokenMutationVariables>;
 export const ChatDocument = gql`
     query Chat($chatId: String!) {
   chat(chatId: $chatId) {

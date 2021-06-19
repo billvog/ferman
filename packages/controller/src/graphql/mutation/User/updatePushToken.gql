@@ -1,0 +1,3 @@
+mutation UpdatePushToken($pushToken: String) {
+  updatePushToken(pushToken: $pushToken)
+}

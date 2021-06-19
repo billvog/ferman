@@ -296,6 +296,11 @@
       "text": "Γλώσσα",
       "search_placeholder": "Ψάξτε...",
       "selected_language": "Επιλεγμένη γλώσσα"
+    },
+    "notifications": {
+      "title": "Ειδοποιήσεις",
+      "text": "Ειδοποιήσεις",
+      "allow_notifications": "Επιτρέψτε σε αυτή την εφαρμογή να στέλνει ειδοποιήσεις"
     }
   },
   "chat": {

@@ -59,6 +59,9 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Field()
+  hasPushToken: boolean;
+
   @Column("text", { nullable: true })
   pushToken: string;
 

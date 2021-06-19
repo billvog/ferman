@@ -16,12 +16,14 @@ export const CheckboxWithLabel: React.FC<MyCheckboxProps> = ({
   const [field, _, form] = useField({ name });
   return (
     <TouchableOpacity
-      style={{ flexDirection: "row", alignItems: "center" }}
+      style={{ flexDirection: "row", alignItems: "flex-start" }}
       onPress={() => form.setValue(!field.value)}
     >
       <Checkbox selected={field.value} />
       <Text
         style={{
+          flex: 1,
+          flexWrap: "wrap",
           marginLeft: 6,
           fontFamily: fontFamily.inter.medium,
           color: colors.primary700,

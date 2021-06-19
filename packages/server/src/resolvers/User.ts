@@ -487,10 +487,21 @@ export class UserResolver {
     return (await User.findOne(req.session.userId)) || null;
   }
 
+  // HAS PUSH TOKEN
+  @UseMiddleware(isAuth)
+  @FieldResolver(() => Boolean)
+  async hasPushToken(
+    @Root() user: User,
+    @Ctx() { req }: MyContext
+  ): Promise<boolean> {
+    if (user.id !== req.session.userId) return false;
+    return !!user.pushToken;
+  }
+
   // UPDATE PUSH TOKEN
   @Mutation(() => Boolean)
   async updatePushToken(
-    @Arg("pushToken", () => String) pushToken: string,
+    @Arg("pushToken", () => String, { nullable: true }) pushToken: string,
     @Ctx() { req }: MyContext
   ): Promise<boolean> {
     const user = await User.findOne(req.session.userId);
