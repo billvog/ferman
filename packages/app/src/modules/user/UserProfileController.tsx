@@ -1,16 +1,15 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Text, useWindowDimensions, View } from "react-native";
+import { SceneMap, TabBar } from "react-native-tab-view";
+import { CollapsibleHeaderTabView } from "react-native-tab-view-collapsible-header";
 import { useUserQuery } from "../../../../controller/dist";
 import { CenterSpinner } from "../../components/CenterSpinner";
 import { ErrorText } from "../../components/ErrorText";
 import { UserCard } from "../../components/UserCard";
+import { colors, fontFamily, fontSize } from "../../constants/style";
 import { HomeNavProps } from "../../navigation/AppTabs/Stacks/Home/ParamList";
 import { useTypeSafeTranslation } from "../../shared-hooks/useTypeSafeTranslation";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-import { fontFamily, fontSize, colors } from "../../constants/style";
 import { PostsTab } from "./profileTabs/PostsTab";
-import { CollapsibleHeaderTabView } from "react-native-tab-view-collapsible-header";
-import { useEffect } from "react";
 
 export const UserProfileController: React.FC<any> = ({
   navigation,
@@ -125,6 +124,7 @@ export const UserProfileController: React.FC<any> = ({
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
+          scrollEnabled={true}
           initialLayout={{ width: layout.width }}
           renderTabBar={(props) => (
             <TabBar

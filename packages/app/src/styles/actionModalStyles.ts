@@ -3,7 +3,7 @@ import { colors, paragraphBold } from "../constants/style";
 export const actionModalStyles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    paddingVertical: 10,
+    paddingVertical: 12,
   },
   actionItem: {
     backgroundColor: colors.primary100,

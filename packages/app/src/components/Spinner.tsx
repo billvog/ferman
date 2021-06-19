@@ -1,7 +1,6 @@
 import React from "react";
 import {
-  Animated,
-  Easing,
+  ActivityIndicator,
   StyleProp,
   ViewProps,
   ViewStyle,
@@ -19,19 +18,16 @@ const sizeOptions: {
 } = {
   vs: {
     borderWidth: 2,
-    borderRadius: 6,
     height: 10,
     width: 10,
   },
   s: {
     borderWidth: 2,
-    borderRadius: 6,
     height: 14,
     width: 14,
   },
   m: {
     borderWidth: 4,
-    borderRadius: 12,
     height: 24,
     width: 24,
   },
@@ -42,34 +38,43 @@ export const Spinner: React.FC<SpinnerProps> = ({
   size = "m",
   color = colors.primary600,
 }) => {
-  let spinValue = new Animated.Value(0);
-
-  Animated.loop(
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 1000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    })
-  ).start();
-
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "360deg"],
-  });
-
   return (
-    <Animated.View
-      style={[
-        style,
-        {
-          borderColor: "transparent",
-          borderTopColor: color,
-          borderLeftColor: color,
-          transform: [{ rotate: spin }],
-          ...(sizeOptions[size] as any),
-        },
-      ]}
+    <ActivityIndicator
+      style={style}
+      color={color}
+      size={size === "vs" ? 12 : size === "s" ? 18 : 32}
     />
   );
+
+  // let spinValue = new Animated.Value(0.01);
+
+  // Animated.loop(
+  //   Animated.timing(spinValue, {
+  //     toValue: 1,
+  //     duration: 1000,
+  //     easing: Easing.linear,
+  //     useNativeDriver: true,
+  //   })
+  // ).start();
+
+  // const spin = spinValue.interpolate({
+  //   inputRange: [0, 1],
+  //   outputRange: ["0deg", "360deg"],
+  // });
+
+  // return (
+  //   <Animated.View
+  //     style={[
+  //       style,
+  //       {
+  //         borderRadius: 100 / 2,
+  //         borderColor: "transparent",
+  //         borderTopColor: color,
+  //         borderLeftColor: color,
+  //         transform: [{ rotate: spin }],
+  //         ...(sizeOptions[size] as any),
+  //       },
+  //     ]}
+  //   />
+  // );
 };

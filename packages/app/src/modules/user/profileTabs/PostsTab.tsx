@@ -1,16 +1,14 @@
 import { FullUserFragment, usePostsQuery } from "@ferman-pkgs/controller";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { CenterSpinner } from "../../../components/CenterSpinner";
 import { MyButton } from "../../../components/MyButton";
 import { Post } from "../../../components/Post";
-import { ScrollViewLoadMore } from "../../../components/ScrollViewLoadMore";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { userProfileTabStyles } from "./tabStyles";
-import { HScrollView } from "react-native-head-tab-view";
-import { useEffect } from "react";
-import { isCloseToBottom } from "../../../utils/ScrollView";
+import { HFlatList } from "react-native-head-tab-view";
+import { Spinner } from "../../../components/Spinner";
 
 interface PostsTabProps {
   index: number;
@@ -80,18 +78,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({
   }, [tabIsRefreshing]);
 
   return (
-    <HScrollView
-      index={index}
-      // onScroll={({ nativeEvent }) => {
-      //   if (isCloseToBottom(nativeEvent) && postsData?.posts.hasMore) {
-      //     loadMorePosts?.({
-      //       variables: {
-      //         ...postsVariables,
-      //         skip: postsData?.posts.posts.length,
-      //       },
-      //     });
-      //   }
-      // }}
+    <View
       style={{
         flex: 1,
       }}
@@ -137,18 +124,42 @@ export const PostsTab: React.FC<PostsTabProps> = ({
               </Text>
             </View>
           ) : (
-            <View
-              style={{
-                flexDirection: "column",
+            <HFlatList
+              index={index}
+              data={postsData?.posts.posts}
+              renderItem={({ item: p }) => <Post post={p} />}
+              keyExtractor={(item) => `user-profile:${item.id}`}
+              ListHeaderComponent={() => null}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: 32,
+                  }}
+                  children={
+                    <Spinner
+                      style={{ opacity: postsData?.posts.hasMore ? 100 : 0 }}
+                    />
+                  }
+                />
+              )}
+              onEndReachedThreshold={0.15}
+              onEndReached={() => {
+                if (postsData?.posts.hasMore) {
+                  loadMorePosts?.({
+                    variables: {
+                      ...postsVariables,
+                      skip: postsData?.posts.posts.length,
+                    },
+                  });
+                }
               }}
-            >
-              {postsData?.posts.posts.map((p) => (
-                <Post key={`search:${p.id}`} post={p} />
-              ))}
-            </View>
+            />
           )}
         </View>
       ) : null}
-    </HScrollView>
+    </View>
   );
 };
