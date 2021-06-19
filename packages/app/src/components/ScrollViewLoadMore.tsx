@@ -5,6 +5,7 @@ import {
   ScrollViewProps,
   View,
 } from "react-native";
+import { isCloseToBottom } from "../utils/ScrollView";
 import { Spinner } from "./Spinner";
 
 export type ScrollViewLoadMoreProps = {
@@ -14,18 +15,6 @@ export type ScrollViewLoadMoreProps = {
   isRefreshing?: boolean;
   onLoadMore: () => void;
   onRefresh?: () => void;
-};
-
-const isCloseToBottom = ({
-  layoutMeasurement,
-  contentOffset,
-  contentSize,
-}: any) => {
-  const paddingToBottom = 20;
-  return (
-    layoutMeasurement.height + contentOffset.y >=
-    contentSize.height - paddingToBottom
-  );
 };
 
 export const ScrollViewLoadMore: React.FC<ScrollViewLoadMoreProps> = ({
