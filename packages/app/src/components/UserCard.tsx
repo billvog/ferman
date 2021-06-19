@@ -63,7 +63,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
       submitForm: undefined,
     });
   const navigateToUser = () => {
-    if (route.params.userId === user.id || route.params.userUid === user.uid)
+    if (route.params?.userId === user.id || route.params?.userUid === user.uid)
       return;
     navigation.push("UserProfile", {
       userId: user.id,

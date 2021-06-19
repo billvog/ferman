@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Field, FormikProps, withFormik } from "formik";
 import i18next from "i18next";
 import React, { useEffect } from "react";
+import { CenterSpinner } from "../../../components/CenterSpinner";
 import { FormContainer } from "../../../components/FormContainer";
 import { FormSpacer } from "../../../components/FormSpacer";
 import { MyAlert } from "../../../components/MyAlert";
@@ -27,13 +28,17 @@ interface EditProfileViewProps {
 }
 
 const C: React.FC<EditProfileViewProps & FormikProps<UpdateProfileFormValues>> =
-  ({ message, submitForm }) => {
+  ({ message, submitForm, isSubmitting }) => {
     const { t } = useTypeSafeTranslation();
     const navigation = useNavigation();
 
     useEffect(() => {
       navigation.setParams({ submitForm });
     }, []);
+
+    if (isSubmitting) {
+      return <CenterSpinner />;
+    }
 
     return (
       <FormContainer>

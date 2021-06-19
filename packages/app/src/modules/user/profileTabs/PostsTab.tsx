@@ -1,14 +1,14 @@
 import { FullUserFragment, usePostsQuery } from "@ferman-pkgs/controller";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { HFlatList } from "react-native-head-tab-view";
 import { CenterSpinner } from "../../../components/CenterSpinner";
 import { MyButton } from "../../../components/MyButton";
 import { Post } from "../../../components/Post";
+import { Spinner } from "../../../components/Spinner";
 import { colors, fontFamily, fontSize } from "../../../constants/style";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 import { userProfileTabStyles } from "./tabStyles";
-import { HFlatList } from "react-native-head-tab-view";
-import { Spinner } from "../../../components/Spinner";
 
 interface PostsTabProps {
   index: number;
@@ -44,7 +44,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({
   } = usePostsQuery({
     notifyOnNetworkStatusChange: true,
     variables: {
-      limit: 3,
+      limit: 10,
       skip: 0,
       isReply: tab === "replies",
       likedBy: tab === "likes" ? user.id : undefined,
