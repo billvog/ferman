@@ -59,6 +59,9 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @Column("text", { nullable: true })
+  pushToken: string;
+
   @OneToMany(() => Post, (post) => post.creator)
   posts: Post[];
 

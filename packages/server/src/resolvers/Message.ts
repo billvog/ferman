@@ -33,6 +33,7 @@ import {
 } from "./Chat";
 import { FieldError } from "./FieldError";
 import { onMyUserUpdatePayload } from "./User";
+import { queuePushNotifToSend } from "../utils/pushNotifications";
 
 @ObjectType()
 class PaginatedMessages {
@@ -161,12 +162,22 @@ export class MessageResolver {
       (async () => {
         const chat = await Chat.findOne(chatId);
         if (!chat) return;
+
         const user = await User.findOne(
           chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
         );
+        if (!user) return;
+
         pubsub.publish(UPDATE_MY_USER_KEY, {
           onMyUserUpdate: user,
         } as onMyUserUpdatePayload);
+
+        queuePushNotifToSend({
+          idToSendTo: user.id,
+          otherId: req.session.userId,
+          type: "message",
+          text: message.text.slice(0, 100),
+        });
       })();
     } catch (error) {
       return {

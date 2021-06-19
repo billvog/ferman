@@ -487,6 +487,26 @@ export class UserResolver {
     return (await User.findOne(req.session.userId)) || null;
   }
 
+  // UPDATE PUSH TOKEN
+  @Mutation(() => Boolean)
+  async updatePushToken(
+    @Arg("pushToken", () => String) pushToken: string,
+    @Ctx() { req }: MyContext
+  ): Promise<boolean> {
+    const user = await User.findOne(req.session.userId);
+    if (!user) return false;
+
+    user.pushToken = pushToken;
+
+    try {
+      await user.save();
+    } catch (_) {
+      return false;
+    }
+
+    return true;
+  }
+
   // LOGOUT
   @Mutation(() => Boolean)
   async logout(@Ctx() { req, res }: MyContext) {

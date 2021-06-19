@@ -6,5 +6,6 @@ declare namespace NodeJS {
     CORS_ORIGIN: string;
     SESSION_SECRET: string;
     SENDGRID_APIKEY: string;
+    EXPO_ACCESS_TOKEN: string;
   }
 }

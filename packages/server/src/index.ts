@@ -21,6 +21,7 @@ import { Profile } from "./entity/Profile";
 import { User } from "./entity/User";
 import { MySchema } from "./MySchema";
 import { MyContext } from "./types/MyContext";
+import { startPushNotificationRunner } from "./utils/pushNotifications";
 import { UpdateUserStatus } from "./utils/updateUserStatus";
 require("dotenv-safe").config();
 
@@ -80,6 +81,9 @@ require("dotenv-safe").config();
   if (__prod__) {
     await conn.runMigrations();
   }
+
+  // setup push notications
+  startPushNotificationRunner();
 
   // setup apollo
   const apolloServer = new ApolloServer({
