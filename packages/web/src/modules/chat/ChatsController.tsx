@@ -1,12 +1,6 @@
-import { gql } from "@apollo/client";
-import {
-  OnNewMessageDocument,
-  OnNewMessageSubscription,
-  OnNewMessageSubscriptionVariables,
-  useChatsQuery,
-} from "@ferman-pkgs/controller";
+import { useChatsQuery } from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Chat } from "../../components/Chat";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
@@ -26,53 +20,15 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({}) => {
     loading: chatsLoading,
     fetchMore: fetchMoreChats,
     variables: chatsVariables,
-    subscribeToMore,
-    client,
   } = useChatsQuery({
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,
       skip: 0,
     },
   });
-
-  useEffect(() => {
-    const unsubFromNewChatMessage = subscribeToMore<
-      OnNewMessageSubscription,
-      OnNewMessageSubscriptionVariables
-    >({
-      document: OnNewMessageDocument,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (subscriptionData.data.onNewMessage) {
-          const m = subscriptionData.data.onNewMessage;
-          client.cache.writeFragment({
-            id: "Chat:" + m.chatId,
-            fragment: gql`
-              fragment _ on Chat {
-                hasUnreadMessage
-                latestMessage
-              }
-            `,
-            data: {
-              hasUnreadMessage: true,
-              latestMessage: m,
-            },
-          });
-        }
-
-        return {
-          chats: {
-            ...prev.chats,
-            chats: [],
-          },
-        };
-      },
-    });
-
-    return () => {
-      unsubFromNewChatMessage();
-    };
-  }, []);
 
   return (
     <div>

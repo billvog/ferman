@@ -1,6 +1,10 @@
 import React from "react";
-import { RefreshControl, ScrollViewProps, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  RefreshControl,
+  ScrollView,
+  ScrollViewProps,
+  View,
+} from "react-native";
 import { Spinner } from "./Spinner";
 
 export type ScrollViewLoadMoreProps = {

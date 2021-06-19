@@ -20,9 +20,9 @@ export const UserProfileController: React.FC<any> = ({
     loading: userLoading,
     refetch: refreshUser,
     variables: userVariables,
-    client,
   } = useUserQuery({
     skip: typeof route.params === "undefined",
+    notifyOnNetworkStatusChange: true,
     variables: {
       id: route.params.userId,
       uid: route.params.userUid,

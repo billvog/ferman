@@ -9,11 +9,13 @@ import { useNavigation } from "@react-navigation/native";
 import { Field, FormikProps, withFormik } from "formik";
 import i18n from "i18next";
 import React, { useLayoutEffect } from "react";
-import { KeyboardAvoidingView, View } from "react-native";
+import { useEffect } from "react";
+import { View } from "react-native";
+import { FormContainer } from "../../../components/FormContainer";
 import { FormSpacer } from "../../../components/FormSpacer";
-import { InputField } from "../../../form-fields/InputField";
 import { MyAlert } from "../../../components/MyAlert";
 import { MyButton } from "../../../components/MyButton";
+import { InputField } from "../../../form-fields/InputField";
 import { useTypeSafeTranslation } from "../../../shared-hooks/useTypeSafeTranslation";
 
 interface CreatePostViewProps {
@@ -30,6 +32,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
   parentPost,
   message,
   isSubmitting,
+  resetForm,
   submitForm,
 }) => {
   const { t } = useTypeSafeTranslation();
@@ -43,13 +46,14 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
     }
   }, [isReply]);
 
+  useEffect(() => {
+    return navigation.addListener("focus", () => {
+      resetForm();
+    });
+  }, [navigation]);
+
   return (
-    <KeyboardAvoidingView
-      style={{
-        marginHorizontal: 12,
-        marginVertical: 14,
-      }}
-    >
+    <FormContainer>
       {!!message && i18n.exists(message.text) && (
         <FormSpacer>
           <MyAlert color={message.type}>{t(message.text as any)}</MyAlert>
@@ -73,7 +77,7 @@ const C: React.FC<CreatePostViewProps & FormikProps<CreatePostFormValues>> = ({
           {isReply ? t("post.reply") : t("post.post")}
         </MyButton>
       </View>
-    </KeyboardAvoidingView>
+    </FormContainer>
   );
 };
 

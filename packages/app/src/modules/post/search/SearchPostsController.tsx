@@ -147,7 +147,7 @@ export const SearchPostsController: React.FC<any> = ({
               >
                 <View
                   style={{
-                    padding: 14,
+                    padding: 10,
                     borderBottomWidth: 1,
                     borderBottomColor: colors.primary200,
                   }}
@@ -155,22 +155,28 @@ export const SearchPostsController: React.FC<any> = ({
                   <Text
                     style={{
                       ...smallBold,
-                      color: colors.primary500,
+                      fontSize: fontSize.md,
+                      color: colors.primary450,
                     }}
                   >
-                    {postsData?.posts.count === 1
+                    {!postsData
+                      ? t("common.loading")
+                      : postsData.posts.count === 1
                       ? t("common.found_one_result").replace(
                           "%seconds%",
                           Number(
-                            postsData?.posts.executionTime / 1000
+                            postsData.posts.executionTime / 1000
                           ).toString()
                         )
                       : t("common.found_x_results")
-                          .replace("%count%", postsData!.posts.count.toString())
+                          .replace(
+                            "%count%",
+                            postsData.posts.count.toString() || "0"
+                          )
                           .replace(
                             "%seconds%",
                             Number(
-                              postsData!.posts.executionTime / 1000
+                              postsData.posts.executionTime / 1000
                             ).toString()
                           )}
                   </Text>

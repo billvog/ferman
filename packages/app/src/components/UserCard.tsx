@@ -4,7 +4,7 @@ import {
   FullUserFragment,
   useFollowMutation,
 } from "@ferman-pkgs/controller";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import dayjs from "dayjs";
 import React, { useContext } from "react";
@@ -37,7 +37,9 @@ interface UserCardProps {
 export const UserCard: React.FC<UserCardProps> = ({ user }) => {
   const { me } = useContext(AuthContext);
   const { t } = useTypeSafeTranslation();
+
   const navigation = useNavigation<StackNavigationProp<HomeParamList>>();
+  const route = useRoute<RouteProp<HomeParamList, "UserProfile">>();
 
   const [followUser, { loading: followLoading }] = useFollowMutation();
   const followUserHandler = async () => {
@@ -60,10 +62,13 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
     navigation.navigate("EditProfile", {
       submitForm: undefined,
     });
-  const navigateToUser = () =>
+  const navigateToUser = () => {
+    if (route.params.userId === user.id || route.params.userUid === user.uid)
+      return;
     navigation.push("UserProfile", {
       userId: user.id,
     });
+  };
   const navigateToFollowers = () =>
     navigation.push("UserFollowers", {
       userId: user.id,

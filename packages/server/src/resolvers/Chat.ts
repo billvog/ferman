@@ -82,17 +82,18 @@ const ChatFilterFn = async (payload: any, args: any, context: MyContext) => {
           context.connection?.context.req.session.userId)
     )
       return true;
-  } else {
-    const chatFromPayload = await Chat.findOne(payload.chatId);
-    if (
-      chatFromPayload &&
-      (chatFromPayload.senderId ===
-        context.connection?.context.req.session.userId ||
-        chatFromPayload.recieverId ===
-          context.connection?.context.req.session.userId)
-    )
-      return true;
   }
+  // else {
+  //   const chatFromPayload = await Chat.findOne(payload.chatId);
+  //   if (
+  //     chatFromPayload &&
+  //     (chatFromPayload.senderId ===
+  //       context.connection?.context.req.session.userId ||
+  //       chatFromPayload.recieverId ===
+  //         context.connection?.context.req.session.userId)
+  //   )
+  //     return true;
+  // }
 
   return false;
 };

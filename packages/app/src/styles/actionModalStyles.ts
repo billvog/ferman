@@ -1,12 +1,13 @@
 import { StyleSheet } from "react-native";
-import { paragraphBold } from "../constants/style";
+import { colors, paragraphBold } from "../constants/style";
 export const actionModalStyles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    paddingVertical: 18,
+    paddingVertical: 10,
   },
   actionItem: {
-    padding: 14,
+    backgroundColor: colors.primary100,
+    paddingVertical: 12,
     paddingHorizontal: 18,
     flexDirection: "row",
     alignItems: "center",
