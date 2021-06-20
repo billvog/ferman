@@ -294,12 +294,9 @@ export class MessageResolver {
       const chat = await Chat.findOne(chatId);
       if (!chat) return;
 
-      const user = await User.findOne(
-        chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
-      );
+      const user = await User.findOne(req.session.userId);
       if (!user) return;
 
-      // update my user
       pubsub.publish(UPDATE_MY_USER_KEY, {
         onMyUserUpdate: user,
       } as onMyUserUpdatePayload);

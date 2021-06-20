@@ -66,7 +66,13 @@ export const AppTabs: React.FC = ({}) => {
         name="Chat"
         component={ChatStack}
         options={{
-          tabBarBadge: me?.hasUnreadMessage ? "1" : undefined,
+          tabBarBadge: me?.hasUnreadMessage ? 1 : undefined,
+          tabBarBadgeStyle: {
+            fontSize: 10,
+            fontWeight: "700",
+            backgroundColor: colors.warning,
+            color: colors.primary600,
+          },
         }}
       />
       <Tabs.Screen name="Profile" component={ProfileStack} />

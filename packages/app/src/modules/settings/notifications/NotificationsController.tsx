@@ -1,9 +1,6 @@
 import { gql } from "@apollo/client";
-import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
-import React from "react";
-import { useEffect } from "react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { useUpdatePushTokenMutation } from "../../../../../controller/dist";
 import { FormContainer } from "../../../components/FormContainer";
@@ -81,7 +78,11 @@ export const NotificationsController: React.FC<any> = ({}) => {
               />
             </FormSpacer>
             <View style={{ alignItems: "flex-start" }}>
-              <MyButton isLoading={isSubmitting} onPress={submitForm}>
+              <MyButton
+                isLoading={isSubmitting}
+                onPress={submitForm}
+                size="medium"
+              >
                 {t("button.update")}
               </MyButton>
             </View>

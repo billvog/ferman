@@ -22,7 +22,7 @@ import {
   Subscription,
   UseMiddleware,
 } from "type-graphql";
-import { createConnection, getConnection, In, Not } from "typeorm";
+import { Brackets, createConnection, getConnection, In, Not } from "typeorm";
 import uniqid from "uniqid";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -145,10 +145,16 @@ export class UserResolver {
       .getRepository(Message)
       .createQueryBuilder("m")
       .innerJoin("m.chat", "c")
-      .where('c."senderId" = :userId', { userId })
-      .orWhere('c."recieverId" = :userId', { userId })
-      .andWhere('m."userId" != :userId', { userId })
+      .where('m."userId" != :userId', { userId })
       .andWhere("m.read = false")
+      .andWhere(
+        new Brackets((qb) => {
+          qb.where('c."senderId" = :userId', { userId }).orWhere(
+            'c."recieverId" = :userId',
+            { userId }
+          );
+        })
+      )
       .getCount();
 
     return unreadCount > 0;

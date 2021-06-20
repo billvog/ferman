@@ -13,6 +13,7 @@ import { LogBox } from "react-native";
 LogBox.ignoreLogs([
   "Looks like you're passing an inline function for 'component' prop for the screen",
   "The updateQuery callback for fetchMore is deprecated",
+  "Non-serializable values were found in the navigation state.",
 ]);
 
 export const App: React.FC = ({}) => {

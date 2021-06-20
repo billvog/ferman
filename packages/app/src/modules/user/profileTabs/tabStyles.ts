@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, fontFamily, fontSize } from "../../../constants/style";
+import { colors, h6 } from "../../../constants/style";
 
 export const userProfileTabStyles = StyleSheet.create({
   resultsContainer: {
@@ -7,8 +7,9 @@ export const userProfileTabStyles = StyleSheet.create({
     borderTopColor: colors.primary200,
   },
   foundHereText: {
+    ...h6,
+    padding: 14,
+    textAlign: "center",
     color: colors.error,
-    fontSize: fontSize.h6,
-    fontFamily: fontFamily.inter.bold,
   },
 });

@@ -1,7 +1,7 @@
 import { FullUserFragment, usePostsQuery } from "@ferman-pkgs/controller";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import { HFlatList } from "react-native-head-tab-view";
+import { HFlatList, HScrollView } from "react-native-head-tab-view";
 import { CenterSpinner } from "../../../components/CenterSpinner";
 import { MyButton } from "../../../components/MyButton";
 import { Post } from "../../../components/Post";
@@ -38,7 +38,6 @@ export const PostsTab: React.FC<PostsTabProps> = ({
     error: postsError,
     fetchMore: loadMorePosts,
     variables: postsVariables,
-    called: postsQueryCalled,
     refetch: refreshPosts,
     client,
   } = usePostsQuery({
@@ -111,18 +110,20 @@ export const PostsTab: React.FC<PostsTabProps> = ({
             Retry
           </MyButton>
         </View>
-      ) : postsQueryCalled ? (
+      ) : (
         <View style={[userProfileTabStyles.resultsContainer, { flex: 1 }]}>
           {postsData?.posts.count === 0 ? (
-            <View
-              style={{
-                padding: 14,
-              }}
-            >
+            <HScrollView index={index}>
               <Text style={userProfileTabStyles.foundHereText}>
-                {t("search.found_nothing")}
+                {t(
+                  tab === "posts"
+                    ? "user.no_posts"
+                    : tab === "replies"
+                    ? "user.no_replies"
+                    : "user.no_liked_posts"
+                ).replace("%user%", user.username)}
               </Text>
-            </View>
+            </HScrollView>
           ) : (
             <HFlatList
               index={index}
@@ -159,7 +160,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({
             />
           )}
         </View>
-      ) : null}
+      )}
     </View>
   );
 };
