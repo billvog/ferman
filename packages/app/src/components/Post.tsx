@@ -17,6 +17,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Clipboard,
 } from "react-native";
 import { colors, fontFamily, fontSize, paragraph } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
@@ -70,6 +71,11 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
     }
   };
 
+  const SharePostHandler = async () => {
+    Clipboard.setString(`https://ferman.ga/post/${post.id}`);
+    Alert.alert(t("common.success"), t("post.link_copied_to_clipboard"));
+  };
+
   const navigateToCreator = () => {
     navigation.push("UserProfile", {
       userId: post.creator.id,
@@ -94,10 +100,8 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
       style={styles.wrapper}
       onPress={navigateToPost}
       onLongPress={() => {
-        if (post.creator.id === me?.id) {
-          Haptics.impactAsync();
-          setModalOpen(true);
-        }
+        Haptics.impactAsync();
+        setModalOpen(true);
       }}
     >
       <View style={styles.container}>
@@ -194,13 +198,13 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
           </View>
         </TouchableOpacity>
       </View>
-      {post.creator.id === me?.id && (
-        <PostActionsModal
-          isModalOpen={isModalOpen}
-          closeModal={() => setModalOpen(false)}
-          onDelete={DeletePostHandler}
-        />
-      )}
+      <PostActionsModal
+        isMine={post.creator.id === me?.id}
+        isModalOpen={isModalOpen}
+        closeModal={() => setModalOpen(false)}
+        onShare={SharePostHandler}
+        onDelete={DeletePostHandler}
+      />
     </TouchableOpacity>
   );
 };
