@@ -134,6 +134,8 @@ export type TranslationKeys =
 	| "post.like"
 	| "post.unlike"
 	| "post.comments"
+	| "post.share"
+	| "post.link_copied_to_clipboard"
 	| "post.delete_dialog.title"
 	| "post.delete_dialog.text"
 	| "post.alert.created.text"

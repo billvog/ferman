@@ -174,6 +174,8 @@
     "like": "Like",
     "unlike": "Unlike",
     "comments": "View comments",
+    "share": "Share",
+    "link_copied_to_clipboard": "Post link copied to your clipboard",
     "delete_dialog": {
       "title": "Are you sure?",
       "text": "Clicking \"Delete\" button, all likes and replies of this post will be deleted. Any further action will not be able to be undone."
