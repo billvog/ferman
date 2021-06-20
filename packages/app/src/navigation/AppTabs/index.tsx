@@ -5,7 +5,9 @@ import {
 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
+import { useContext } from "react";
 import { colors } from "../../constants/style";
+import { AuthContext } from "../../modules/auth/AuthProvider";
 import { AppParamList } from "./ParamList";
 import { ChatStack } from "./Stacks/Chat";
 import { CreatePostScreen } from "./Stacks/CreatePost";
@@ -16,6 +18,8 @@ import { SearchStack } from "./Stacks/Search";
 const Tabs = createBottomTabNavigator<AppParamList>();
 
 export const AppTabs: React.FC = ({}) => {
+  const { me } = useContext(AuthContext);
+
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
@@ -58,7 +62,13 @@ export const AppTabs: React.FC = ({}) => {
       <Tabs.Screen name="Home" component={HomeStack} />
       <Tabs.Screen name="Search" component={SearchStack} />
       <Tabs.Screen name="CreatePost" component={CreatePostScreen} />
-      <Tabs.Screen name="Chat" component={ChatStack} />
+      <Tabs.Screen
+        name="Chat"
+        component={ChatStack}
+        options={{
+          tabBarBadge: me?.hasUnreadMessage ? "1" : undefined,
+        }}
+      />
       <Tabs.Screen name="Profile" component={ProfileStack} />
     </Tabs.Navigator>
   );
