@@ -18,6 +18,7 @@ import { getConnection, Not } from "typeorm";
 import {
   DELETE_CHAT_MESSAGE_KEY,
   NEW_CHAT_MESSAGE_KEY,
+  ON_CHAT_UDPATED_KEY,
   UPDATE_CHAT_MESSAGE_KEY,
 } from "../constants";
 import { Chat } from "../entity/Chat";
@@ -56,6 +57,10 @@ export class PaginatedChats {
   executionTime: number;
 }
 
+export type ChatUpdatedPayload = {
+  onChatUpdated: Chat;
+};
+
 export type NewMessagePayload = {
   chatId: string;
   onNewMessage: Message;
@@ -83,17 +88,6 @@ const ChatFilterFn = async (payload: any, args: any, context: MyContext) => {
     )
       return true;
   }
-  // else {
-  //   const chatFromPayload = await Chat.findOne(payload.chatId);
-  //   if (
-  //     chatFromPayload &&
-  //     (chatFromPayload.senderId ===
-  //       context.connection?.context.req.session.userId ||
-  //       chatFromPayload.recieverId ===
-  //         context.connection?.context.req.session.userId)
-  //   )
-  //     return true;
-  // }
 
   return false;
 };
@@ -141,6 +135,28 @@ export class ChatResolver {
     });
 
     return m.length > 0;
+  }
+
+  // ON CHAT UPDATED
+  @Subscription(() => Chat, {
+    nullable: true,
+    subscribe: withFilter(
+      () => pubsub.asyncIterator(ON_CHAT_UDPATED_KEY),
+      async (payload: ChatUpdatedPayload, _, context: MyContext) => {
+        const { userId } = context.connection?.context.req.session;
+        if (
+          payload.onChatUpdated.senderId === userId ||
+          payload.onChatUpdated.recieverId === userId
+        ) {
+          return true;
+        }
+
+        return false;
+      }
+    ),
+  })
+  onChatUpdated(@Root() payload: ChatUpdatedPayload): Chat | null {
+    return payload.onChatUpdated;
   }
 
   // ON NEW MESSAGE

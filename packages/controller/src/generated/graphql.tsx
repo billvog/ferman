@@ -404,6 +404,7 @@ export type RegisterInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
+  onChatUpdated?: Maybe<Chat>;
   onNewMessage?: Maybe<Message>;
   onMessageUpdated?: Maybe<Message>;
   onMessageDeleted?: Maybe<Scalars['Int']>;
@@ -1067,6 +1068,17 @@ export type UsersQuery = (
     { __typename?: 'PaginatedUsers' }
     & PaginatedUsersFragment
   ) }
+);
+
+export type OnChatUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnChatUpdatedSubscription = (
+  { __typename?: 'Subscription' }
+  & { onChatUpdated?: Maybe<(
+    { __typename?: 'Chat' }
+    & FullChatFragment
+  )> }
 );
 
 export type OnMessageDeletedSubscriptionVariables = Exact<{
@@ -2446,6 +2458,35 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export const OnChatUpdatedDocument = gql`
+    subscription onChatUpdated {
+  onChatUpdated {
+    ...FullChat
+  }
+}
+    ${FullChatFragmentDoc}`;
+
+/**
+ * __useOnChatUpdatedSubscription__
+ *
+ * To run a query within a React component, call `useOnChatUpdatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnChatUpdatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnChatUpdatedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOnChatUpdatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<OnChatUpdatedSubscription, OnChatUpdatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<OnChatUpdatedSubscription, OnChatUpdatedSubscriptionVariables>(OnChatUpdatedDocument, options);
+      }
+export type OnChatUpdatedSubscriptionHookResult = ReturnType<typeof useOnChatUpdatedSubscription>;
+export type OnChatUpdatedSubscriptionResult = Apollo.SubscriptionResult<OnChatUpdatedSubscription>;
 export const OnMessageDeletedDocument = gql`
     subscription onMessageDeleted($chatId: String!) {
   onMessageDeleted(chatId: $chatId)

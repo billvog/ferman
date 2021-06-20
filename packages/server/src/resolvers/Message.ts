@@ -18,6 +18,7 @@ import { getConnection } from "typeorm";
 import {
   DELETE_CHAT_MESSAGE_KEY,
   NEW_CHAT_MESSAGE_KEY,
+  ON_CHAT_UDPATED_KEY,
   UPDATE_CHAT_MESSAGE_KEY,
   UPDATE_MY_USER_KEY,
 } from "../constants";
@@ -27,6 +28,7 @@ import { chatAuth } from "../middleware/chatAuth";
 import { pubsub } from "../MyPubsub";
 import { MyContext } from "../types/MyContext";
 import {
+  ChatUpdatedPayload,
   NewMessagePayload,
   OnMessageDeletedPayload,
   OnMessageUpdatedPayload,
@@ -168,10 +170,17 @@ export class MessageResolver {
         );
         if (!user) return;
 
+        // update my user
         pubsub.publish(UPDATE_MY_USER_KEY, {
           onMyUserUpdate: user,
         } as onMyUserUpdatePayload);
 
+        // update chats
+        pubsub.publish(ON_CHAT_UDPATED_KEY, {
+          onChatUpdated: chat,
+        } as ChatUpdatedPayload);
+
+        // send push notification
         queuePushNotifToSend({
           idToSendTo: user.id,
           otherId: req.session.userId,
@@ -225,12 +234,21 @@ export class MessageResolver {
       (async () => {
         const chat = await Chat.findOne(chatId);
         if (!chat) return;
+
         const user = await User.findOne(
           chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
         );
+        if (!user) return;
+
+        // update my user
         pubsub.publish(UPDATE_MY_USER_KEY, {
           onMyUserUpdate: user,
         } as onMyUserUpdatePayload);
+
+        // update chats
+        pubsub.publish(ON_CHAT_UDPATED_KEY, {
+          onChatUpdated: chat,
+        } as ChatUpdatedPayload);
       })();
     } catch (e) {
       console.log(e);
@@ -273,10 +291,23 @@ export class MessageResolver {
     } as OnMessageUpdatedPayload);
 
     (async () => {
-      const user = await User.findOne(req.session.userId);
+      const chat = await Chat.findOne(chatId);
+      if (!chat) return;
+
+      const user = await User.findOne(
+        chat.senderId === req.session.userId ? chat.recieverId : chat.senderId
+      );
+      if (!user) return;
+
+      // update my user
       pubsub.publish(UPDATE_MY_USER_KEY, {
         onMyUserUpdate: user,
       } as onMyUserUpdatePayload);
+
+      // update chats
+      pubsub.publish(ON_CHAT_UDPATED_KEY, {
+        onChatUpdated: chat,
+      } as ChatUpdatedPayload);
     })();
 
     return {

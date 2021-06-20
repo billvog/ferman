@@ -1,5 +1,11 @@
-import { useChatsQuery } from "@ferman-pkgs/controller";
+import { gql } from "@apollo/client";
+import {
+  OnChatUpdatedDocument,
+  OnChatUpdatedSubscription,
+  useChatsQuery,
+} from "@ferman-pkgs/controller";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Text, View } from "react-native";
 import { CenterSpinner } from "../../components/CenterSpinner";
 import { Chat } from "../../components/Chat";
@@ -19,6 +25,7 @@ export const ChatsController: React.FC<any> = () => {
     refetch: refreshChats,
     fetchMore: loadMoreChats,
     variables: chatsVariables,
+    subscribeToMore,
     client,
   } = useChatsQuery({
     fetchPolicy: "network-only",
@@ -29,6 +36,43 @@ export const ChatsController: React.FC<any> = () => {
       skip: 0,
     },
   });
+
+  useEffect(() => {
+    const unsubscribeFromChatUpdated =
+      subscribeToMore<OnChatUpdatedSubscription>({
+        document: OnChatUpdatedDocument,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (subscriptionData) {
+            client.cache.writeFragment({
+              id: "Chat:" + subscriptionData.data.onChatUpdated?.id,
+              fragment: gql`
+                fragment _ on Chat {
+                  hasUnreadMessage
+                  latestMessage
+                }
+              `,
+              data: {
+                hasUnreadMessage:
+                  subscriptionData.data.onChatUpdated?.hasUnreadMessage,
+                latestMessage:
+                  subscriptionData.data.onChatUpdated?.latestMessage,
+              },
+            });
+          }
+
+          return {
+            chats: {
+              ...prev.chats,
+              chats: [],
+            },
+          };
+        },
+      });
+
+    return () => {
+      unsubscribeFromChatUpdated();
+    };
+  }, []);
 
   const refreshChatsHandler = async () => {
     // update state
