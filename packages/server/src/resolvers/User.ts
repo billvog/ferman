@@ -22,7 +22,7 @@ import {
   Subscription,
   UseMiddleware,
 } from "type-graphql";
-import { getConnection, Not } from "typeorm";
+import { createConnection, getConnection, In, Not } from "typeorm";
 import uniqid from "uniqid";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -141,21 +141,17 @@ export class UserResolver {
     const { userId } = req.session;
     if (user.id !== userId) return false;
 
-    const c = await Chat.findOne({
-      where: [{ senderId: user.id }, { recieverId: user.id }],
-    });
+    const unreadCount = await getConnection()
+      .getRepository(Message)
+      .createQueryBuilder("m")
+      .innerJoin("m.chat", "c")
+      .where('c."senderId" = :userId', { userId })
+      .orWhere('c."recieverId" = :userId', { userId })
+      .andWhere('m."userId" != :userId', { userId })
+      .andWhere("m.read = false")
+      .getCount();
 
-    if (!c) return false;
-
-    const m = await Message.find({
-      where: {
-        chatId: c.id,
-        userId: Not(user.id),
-        read: false,
-      },
-    });
-
-    return m.length > 0;
+    return unreadCount > 0;
   }
 
   @UseMiddleware(isAuth)
