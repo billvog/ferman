@@ -46,12 +46,12 @@ export const App: React.FC = ({}) => {
     })();
 
     // check if is online
-    const unsubscribe = NetInfo.addEventListener((state) => {
+    const unsubscribeFromNetworkChecks = NetInfo.addEventListener((state) => {
       setIsOnline(state.isConnected || false);
     });
 
     return () => {
-      unsubscribe();
+      unsubscribeFromNetworkChecks();
     };
   }, []);
 

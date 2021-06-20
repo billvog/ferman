@@ -69,11 +69,6 @@ export const startPushNotificationRunner = () => {
               console.error(x);
             }
           });
-          // @todo
-          // NOTE: If a ticket contains an error code in ticket.details.error, you
-          // must handle it appropriately. The error codes are listed in the Expo
-          // documentation:
-          // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
         } catch (error) {
           console.error(error);
         }

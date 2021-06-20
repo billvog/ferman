@@ -1,14 +1,16 @@
 import { AntDesign, Feather } from "@expo/vector-icons";
 import {
   FullChatFragment,
+  FullMessageFragment,
   PaginatedMessages,
   SendMessageFormValues,
+  useMarkMessageReadMutation,
 } from "@ferman-pkgs/controller";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationOptions } from "@react-navigation/stack";
 import { Field, Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -17,6 +19,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ViewToken,
 } from "react-native";
 import { CenterSpinner } from "../../../components/CenterSpinner";
 import { ChatMessage } from "../../../components/ChatMessage";
@@ -49,6 +52,8 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
 
   const { me } = useContext(AuthContext);
   if (!me) return null;
+
+  const [markRead] = useMarkMessageReadMutation();
 
   const otherUser = chat?.senderId === me?.id ? chat?.reciever : chat?.sender;
 
@@ -92,6 +97,30 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
     const lm = messages.messages[0];
     if (lm.userId === me?.id && lm.read) setLatestRead(lm.id);
   }, [messages?.messages]);
+
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 50,
+    waitForInteraction: true,
+    minimumViewTime: 5,
+  });
+
+  const onViewableItemsChanged = React.useRef(
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+      if (viewableItems && viewableItems.length > 0) {
+        viewableItems.map((viewToken) => {
+          const m = viewToken.item as FullMessageFragment;
+          if (viewToken.isViewable && m.userId !== me.id && !m.read) {
+            markRead({
+              variables: {
+                chatId: m.chatId,
+                messageId: m.id,
+              },
+            });
+          }
+        });
+      }
+    }
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.primary100 }}>
@@ -157,6 +186,8 @@ export const ChatroomView: React.FC<ChatroomViewProps> = ({
                     }
                   />
                 )}
+                onViewableItemsChanged={onViewableItemsChanged.current}
+                viewabilityConfig={viewabilityConfig.current}
                 onEndReachedThreshold={0.15}
                 onEndReached={loadMoreMessages}
                 data={messages.messages}

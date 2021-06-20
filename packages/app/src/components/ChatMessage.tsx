@@ -14,7 +14,6 @@ import { AuthContext } from "../modules/auth/AuthProvider";
 import { ChatParamList } from "../navigation/AppTabs/Stacks/Chat/ParamList";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { ChatMessageActionsModal } from "./ChatMessageActionsModal";
-import InView from "react-native-component-inview";
 
 interface ChatMessageProps {
   message: FullMessageFragment;
@@ -43,101 +42,85 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     });
 
   return (
-    <InView
-      onChange={(isVisible: boolean) => {
-        if (isVisible && message.userId !== me.id && !message.read) {
-          markRead({
-            variables: {
-              chatId: message.chatId,
-              messageId: message.id,
-            },
-          });
-        }
-      }}
+    <View
+      style={[
+        styles.container,
+        {
+          flexDirection: isMe ? "row-reverse" : "row",
+        },
+      ]}
     >
+      {isMe && (
+        <ChatMessageActionsModal
+          isModalOpen={actionsModalOpen}
+          closeModal={() => setActionsModalOpen(false)}
+          onDelete={() =>
+            deleteMessage({
+              variables: {
+                chatId: message.chatId,
+                messageId: message.id,
+              },
+            })
+          }
+        />
+      )}
       <View
         style={[
-          styles.container,
+          styles.innerContainer,
           {
-            flexDirection: isMe ? "row-reverse" : "row",
+            alignItems: isMe ? "flex-end" : "flex-start",
           },
         ]}
       >
-        {isMe && (
-          <ChatMessageActionsModal
-            isModalOpen={actionsModalOpen}
-            closeModal={() => setActionsModalOpen(false)}
-            onDelete={() =>
-              deleteMessage({
-                variables: {
-                  chatId: message.chatId,
-                  messageId: message.id,
-                },
-              })
-            }
-          />
-        )}
-        <View
-          style={[
-            styles.innerContainer,
-            {
-              alignItems: isMe ? "flex-end" : "flex-start",
-            },
-          ]}
-        >
-          <View style={styles.mainSection}>
-            {!isMe && (
-              <TouchableOpacity
-                style={styles.avatarContainer}
-                onPress={navigationToOtherUser}
-              >
-                <Image
-                  source={{
-                    uri: message.user.profile.avatarUrl,
-                    width: 32,
-                    height: 32,
-                  }}
-                  style={styles.userAvatar}
-                />
-              </TouchableOpacity>
-            )}
+        <View style={styles.mainSection}>
+          {!isMe && (
             <TouchableOpacity
-              onLongPress={() => {
-                if (isMe) {
-                  Haptics.impactAsync();
-                  setActionsModalOpen(true);
-                }
-              }}
-              style={[
-                styles.messageContainer,
-                {
-                  borderBottomRightRadius: isMe ? 0 : undefined,
-                  borderBottomLeftRadius: isMe ? undefined : 0,
-                },
-              ]}
+              style={styles.avatarContainer}
+              onPress={navigationToOtherUser}
             >
-              <Text style={styles.messageText}>{message.text}</Text>
+              <Image
+                source={{
+                  uri: message.user.profile.avatarUrl,
+                  width: 32,
+                  height: 32,
+                }}
+                style={styles.userAvatar}
+              />
             </TouchableOpacity>
-          </View>
-          <View
+          )}
+          <TouchableOpacity
+            onLongPress={() => {
+              if (isMe) {
+                Haptics.impactAsync();
+                setActionsModalOpen(true);
+              }
+            }}
             style={[
-              styles.messageInfoContainer,
+              styles.messageContainer,
               {
-                marginLeft: isMe ? 0 : 44,
+                borderBottomRightRadius: isMe ? 0 : undefined,
+                borderBottomLeftRadius: isMe ? undefined : 0,
               },
             ]}
           >
-            <Text style={styles.messageInfoText}>
-              {dayjs(message.createdAt).fromNow()}
-              {showRead &&
-                isMe &&
-                message.read &&
-                ", " + t("chat.message_read")}
-            </Text>
-          </View>
+            <Text style={styles.messageText}>{message.text}</Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={[
+            styles.messageInfoContainer,
+            {
+              marginLeft: isMe ? 0 : 44,
+            },
+          ]}
+        >
+          <Text style={styles.messageInfoText}>
+            {dayjs(message.createdAt).fromNow()}
+            {showRead && isMe && message.read && ", " + t("chat.message_read")}
+          </Text>
         </View>
       </View>
-    </InView>
+    </View>
   );
 };
 
