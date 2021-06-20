@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { HiTrash } from "react-icons/hi";
 import { Waypoint } from "react-waypoint";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 
 interface ChatMessageProps {
@@ -86,7 +87,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                     isMe ? "rounded-br-none" : "rounded-bl-none"
                   } px-4 py-2.5 rounded-3xl table table-fixed whitespace-pre-wrap break-word`}
                 >
-                  {message.text}
+                  {useRichBodyText(message.text)}
                 </div>
               </div>
             </div>

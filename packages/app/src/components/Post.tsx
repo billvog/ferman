@@ -155,17 +155,31 @@ export const Post: React.FC<PostProps> = ({ post, onDelete }) => {
         </View>
       </View>
       <View style={styles.actionsContainer}>
-        <TouchableOpacity style={styles.actionItem} onPress={LikePostHandler}>
+        <TouchableOpacity
+          style={styles.actionItem}
+          disabled={post.creator.id === me?.id}
+          onPress={LikePostHandler}
+        >
           <View style={styles.actionItemContentWrapper}>
-            {likeLoading ? (
-              <Spinner size="s" color={colors.error} />
-            ) : (
-              <AntDesign
-                name={post.likeStatus ? "heart" : "hearto"}
-                size={14}
-                color={colors.error}
-              />
-            )}
+            <View
+              style={{
+                position: "absolute",
+                opacity: likeLoading ? 100 : 0,
+              }}
+              children={<Spinner size="s" color={colors.error} />}
+            />
+            <View
+              style={{
+                opacity: likeLoading ? 0 : 100,
+              }}
+              children={
+                <AntDesign
+                  name={post.likeStatus ? "heart" : "hearto"}
+                  size={14}
+                  color={colors.error}
+                />
+              }
+            />
             <Text
               style={[
                 styles.actionItemText,
@@ -283,6 +297,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   actionItemContentWrapper: {
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
   },

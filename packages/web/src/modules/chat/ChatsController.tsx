@@ -1,6 +1,10 @@
-import { useChatsQuery } from "@ferman-pkgs/controller";
+import {
+  OnChatUpdatedDocument,
+  OnChatUpdatedSubscription,
+  useChatsQuery,
+} from "@ferman-pkgs/controller";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Chat } from "../../components/Chat";
 import { ErrorText } from "../../components/ErrorText";
 import { MyButton } from "../../components/MyButton";
@@ -20,6 +24,7 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({}) => {
     loading: chatsLoading,
     fetchMore: fetchMoreChats,
     variables: chatsVariables,
+    subscribeToMore,
   } = useChatsQuery({
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-first",
@@ -29,6 +34,17 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({}) => {
       skip: 0,
     },
   });
+
+  useEffect(() => {
+    const unsubscribeFromChatUpdated =
+      subscribeToMore<OnChatUpdatedSubscription>({
+        document: OnChatUpdatedDocument,
+      });
+
+    return () => {
+      unsubscribeFromChatUpdated();
+    };
+  }, []);
 
   return (
     <div>

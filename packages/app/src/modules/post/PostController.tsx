@@ -89,11 +89,7 @@ export const PostController: React.FC<any> = ({
           />
           <View style={styles.repliesCountContainer}>
             <View style={styles.repliesCountWrapper}>
-              <Text style={styles.repliesCountText}>
-                {postData.posts.count === 1
-                  ? t("post.reply")
-                  : t("post.replies")}{" "}
-              </Text>
+              <Text style={styles.repliesCountText}>{t("post.replies")} </Text>
               <Text style={styles.repliesCountIndicator}>
                 ({postData.posts.count})
               </Text>

@@ -12,6 +12,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, fontSize, paragraph, radius, small } from "../constants/style";
 import { AuthContext } from "../modules/auth/AuthProvider";
 import { ChatParamList } from "../navigation/AppTabs/Stacks/Chat/ParamList";
+import { useRichBodyText } from "../shared-hooks/useRichBodyText";
 import { useTypeSafeTranslation } from "../shared-hooks/useTypeSafeTranslation";
 import { ChatMessageActionsModal } from "./ChatMessageActionsModal";
 
@@ -103,7 +104,9 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
               },
             ]}
           >
-            <Text style={styles.messageText}>{message.text}</Text>
+            <Text style={styles.messageText}>
+              {useRichBodyText(message.text)}
+            </Text>
           </TouchableOpacity>
         </View>
         <View
