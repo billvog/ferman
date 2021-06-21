@@ -23,17 +23,15 @@ import { ChatroomConnector } from "./ChatroomConnector";
 
 const Page: React.FC = () => {
   const { t } = useTypeSafeTranslation();
+  const { me } = useContext(AuthContext);
   const router = useRouter();
 
-  const { me } = useContext(AuthContext);
-
   const [otherUserId, setOtherUserId] = useState(-1);
-
   const { data: chatData } = useGetChatFromUrl();
   const {
-    data: userData,
-    loading: userLoading,
-    variables: userVariables,
+    data: otherUserData,
+    loading: otherUserLoading,
+    variables: otherUserVariables,
     subscribeToMore,
     client,
   } = useUserQuery({
@@ -81,7 +79,7 @@ const Page: React.FC = () => {
           return (
             client.cache.readQuery({
               query: UserDocument,
-              variables: userVariables,
+              variables: otherUserVariables,
             }) || prev
           );
         }
@@ -103,7 +101,7 @@ const Page: React.FC = () => {
             me && chatData?.chat.chat
               ? t("chat.chat_with").replace(
                   "%user1%",
-                  userData?.user?.username || ""
+                  otherUserData?.user?.username || ""
                 )
               : undefined
           }
@@ -111,21 +109,23 @@ const Page: React.FC = () => {
         <MainGrid
           title={
             <div>
-              {userData?.user ? (
+              {otherUserData?.user ? (
                 <div
                   className="ml-2 flex flex-row items-center cursor-pointer group"
-                  onClick={() => router.push(`/user/${userData.user?.uid}`)}
+                  onClick={() =>
+                    router.push(`/user/${otherUserData.user?.uid}`)
+                  }
                 >
                   <div className="mr-2.5">
                     <div className="relative">
                       <img
-                        src={userData.user.profile?.avatarUrl}
+                        src={otherUserData.user.profile?.avatarUrl}
                         className="w-7 h-7 rounded-35"
                       />
                       <div className="absolute -bottom-0.5 -right-0.5">
                         <div
                           className={`w-2 h-2 rounded-full ring-2 ring-primary-100 ${
-                            userData.user.isOnline
+                            otherUserData.user.isOnline
                               ? "bg-green-500"
                               : "bg-yellow-400"
                           }`}
@@ -135,21 +135,21 @@ const Page: React.FC = () => {
                   </div>
                   <div className="flex flex-col items-start">
                     <div className="text-md text-primary-500 font-semibold group-hover:underline">
-                      {userData.user.uid}
+                      {otherUserData.user.uid}
                     </div>
                     <div className="text-xs leading-none">
-                      {userData.user.isOnline
+                      {otherUserData.user.isOnline
                         ? t("user.active_now")
                         : t("user.last_seen").replace(
                             "%time%",
-                            dayjs(parseFloat(userData.user.lastSeen)).fromNow(
-                              true
-                            )
+                            dayjs(
+                              parseFloat(otherUserData.user.lastSeen)
+                            ).fromNow(true)
                           )}
                     </div>
                   </div>
                 </div>
-              ) : !userLoading && userData ? (
+              ) : !otherUserLoading && otherUserData ? (
                 <div
                   className="pl-2 flex items-center"
                   style={{

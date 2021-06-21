@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import {
   FullUserFragment,
   OnMyUserUpdateDocument,
   OnMyUserUpdateSubscription,
   useMeQuery,
 } from "@ferman-pkgs/controller";
+import React, { useEffect } from "react";
 import { MyCenterSpinner } from "../../components/MyCenterSpinner";
 import { withMyApollo } from "../../utils/withMyApollo";
 
@@ -23,6 +23,7 @@ const C: React.FC<AuthProviderProps> = ({ children }) => {
   // subscribe for realtime changes
   useEffect(() => {
     if (!data?.me) return;
+
     const unsubscribe = subscribeToMore<OnMyUserUpdateSubscription>({
       document: OnMyUserUpdateDocument,
       updateQuery: (prev, { subscriptionData }) => {

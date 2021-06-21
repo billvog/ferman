@@ -26,8 +26,6 @@ export const ChatsController: React.FC<ChatsControllerProps> = ({}) => {
     variables: chatsVariables,
     subscribeToMore,
   } = useChatsQuery({
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-first",
     notifyOnNetworkStatusChange: true,
     variables: {
       limit: 15,

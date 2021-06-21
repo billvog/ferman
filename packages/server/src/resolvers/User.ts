@@ -7,6 +7,7 @@ import {
   ResetPasswordValidationSchema,
 } from "@ferman-pkgs/common";
 import { hash, verify } from "argon2";
+import { withFilter } from "graphql-subscriptions";
 import {
   Arg,
   Ctx,
@@ -22,7 +23,7 @@ import {
   Subscription,
   UseMiddleware,
 } from "type-graphql";
-import { Brackets, createConnection, getConnection, In, Not } from "typeorm";
+import { Brackets, getConnection } from "typeorm";
 import uniqid from "uniqid";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -34,6 +35,7 @@ import {
   UPDATE_MY_USER_KEY,
   UPDATE_USER_STATUS_KEY,
 } from "../constants";
+import { Chat } from "../entity/Chat";
 import { Follow } from "../entity/Follow";
 import { Like } from "../entity/Like";
 import { Message } from "../entity/Message";
@@ -41,13 +43,11 @@ import { Post } from "../entity/Post";
 import { Profile } from "../entity/Profile";
 import { User } from "../entity/User";
 import { isAuth, isNotAuth } from "../middleware/isAuth";
+import { pubsub } from "../MyPubsub";
 import { MyContext } from "../types/MyContext";
 import { sendEmail } from "../utils/sendEmail";
-import { FieldError } from "./FieldError";
-import { pubsub } from "../MyPubsub";
-import { withFilter } from "graphql-subscriptions";
 import { UpdateUserStatus } from "../utils/updateUserStatus";
-import { Chat } from "../entity/Chat";
+import { FieldError } from "./FieldError";
 
 @ObjectType()
 class UserErrorResponse {
